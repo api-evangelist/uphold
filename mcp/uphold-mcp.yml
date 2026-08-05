@@ -1,0 +1,81 @@
+generated: '2026-08-05'
+method: searched
+status: published
+source: https://developer.uphold.com/.well-known/mcp.json
+docs: https://developer.uphold.com/get-started/build-with-ai
+server:
+  name: Uphold
+  version: 1.0.0
+  transport: http
+  url: https://developer.uphold.com/mcp
+  upstream_url: https://uphold-d4756e17.main-kill-isr.mintlify.me/mcp
+  authentication: none
+  protocol_version: '2025-06-18'
+  platform: Mintlify documentation MCP
+  discovery:
+    well_known: /.well-known/mcp.json
+    file: well-known/uphold-mcp.json
+capabilities:
+  tools:
+    list_changed: true
+  resources:
+    list_changed: true
+scope: >-
+  Read-only and scoped to published Uphold documentation. The server states it does not mutate state or
+  reach anything beyond published site content, with the single exception of submit_feedback, which files
+  a documentation issue. It is a DOCS server — it does not proxy the Uphold Enterprise REST API, so an
+  agent cannot move money through it.
+tools:
+- name: search_uphold
+  title: Search documentation
+  description: >-
+    Search across the Uphold knowledge base to find relevant information, code examples, API references
+    and guides.
+  input_schema:
+    query: string
+  source: live tools/list
+- name: query_docs_filesystem_uphold
+  title: Query docs filesystem
+  description: >-
+    Run a read-only shell-like query against a virtualized, in-memory filesystem rooted at `/` containing
+    only the Uphold documentation pages.
+  input_schema:
+    command: string
+  source: live tools/list
+- name: submit_feedback
+  title: Submit documentation feedback
+  description: >-
+    Report a problem with the documentation site (incorrect, outdated, confusing or incomplete page) so
+    the docs team can fix it.
+  input_schema:
+    path: string
+    feedback: string
+  source: live tools/list
+resources:
+- uri: mintlify://skills/enterprise
+  name: enterprise
+  mime_type: text/markdown
+  description: >-
+    Packaged agent skill for building financial applications on Uphold — user onboarding, money movement
+    across banks/cards/crypto, transactions, portfolio management and compliance workflows.
+  local_copy: skills/uphold-enterprise-skill.md
+x-evidence:
+  fetched: '2026-08-05'
+  well_known:
+    url: https://developer.uphold.com/.well-known/mcp.json
+    http_status: 200
+    content_type: application/json
+  initialize:
+    url: https://developer.uphold.com/mcp
+    http_status: 200
+    content_type: text/event-stream
+    server_info: 'Uphold 1.0.0'
+  tools_list:
+    url: https://developer.uphold.com/mcp
+    http_status: 200
+    tools_returned: 3
+    gated: false
+  resources_list:
+    url: https://developer.uphold.com/mcp
+    http_status: 200
+    resources_returned: 1

@@ -1,0 +1,133 @@
+generated: '2026-08-05'
+method: searched
+source: >-
+  https://developer.uphold.com/rest-apis/headers, /rest-apis/errors, /rest-apis/pagination,
+  /rest-apis/rate-limits, /rest-apis/versioning, /rest-apis/authentication, /rest-apis/entity-metadata,
+  /rest-apis/webhooks — cross-checked against openapi/*.json
+docs: https://developer.uphold.com/rest-apis/introduction
+authentication:
+  style: oauth2-client-credentials
+  header: 'Authorization: Bearer {accessToken}'
+  token_operation: core.create-oauth2-token
+  token_path: /core/oauth2/token
+  api_keys: false
+  api_keys_note: >-
+    "API keys are another widely used way to authenticate requests, but they are not supported at this
+    time." — https://developer.uphold.com/rest-apis/authentication
+  subjects:
+  - client
+  - user:individual
+  - user:business
+  act_on_behalf_of:
+    header: 'X-On-Behalf-Of: user {userId}'
+    required_scope: core.users:act-on-behalf-of
+    applies_to: organization-wide clients
+  scopes: scopes/uphold-scopes.yml
+  insufficient_scope: 403 with code token_insufficient_scopes
+  detail: authentication/uphold-authentication.yml
+idempotency:
+  supported: false
+  evidence: >-
+    Zero occurrences of "idempoten" across the full published documentation dump
+    (https://developer.uphold.com/llms-full.txt, 1.17 MB, fetched 2026-08-05) and zero across all five
+    published OpenAPI 3.1 specs. No Idempotency-Key header, no request-id-based dedupe, no replay
+    semantics are documented on any endpoint — including the money-moving POST /core/transactions.
+  consequence: >-
+    A timed-out or retried write is NOT safe by contract. Clients must reconcile by reading
+    (core.list-transactions / core.get-transaction) before retrying. No `Idempotency` pointer is emitted
+    in apis.yml because the capability does not exist.
+pagination:
+  styles: [page-based, cursor-based]
+  migration: offset/page-based today, being migrated to cursor-based
+  request_params: [page, perPage]
+  response_object: pagination
+  response_fields: [first, next, previous]
+  guidance: >-
+    Follow the URLs returned in the `pagination` object rather than constructing them, so the client does
+    not break as endpoints migrate to cursor-based paging. Omitted fields signal edges (no `next` on the
+    last page, no `previous` on the first).
+  legacy_v0: >-
+    The legacy api.uphold.com/v0 API paginates with HTTP Range / Content-Range headers instead, and
+    returns 206 Partial Content on list endpoints.
+request_context:
+  note: >-
+    The REST APIs are backend-to-backend, so Uphold cannot see the end user. Certain APIs REQUIRE this
+    context to function correctly; send it on every call made on behalf of an end user.
+  headers:
+  - name: X-Uphold-User-Ip
+    description: End user's IP address.
+  - name: X-Uphold-User-Agent
+    description: End user's device user agent string.
+  - name: X-Uphold-User-Origin
+    description: Original Origin header when the request came from a browser.
+  - name: X-Uphold-User-Country
+    description: ISO 3166 two-letter country code of the end user's geolocation.
+  - name: X-Uphold-User-Subdivision
+    description: ISO 3166 subdivision code of the end user's geolocation.
+  - name: X-Uphold-User-City
+    description: City of the end user's geolocation.
+tracing:
+  response_header: X-Uphold-Request-Id
+  example: 9d71b4edeb46c8f9-MAD
+  usage: Quote this identifier to Uphold support when troubleshooting a specific request.
+versioning:
+  scheme: not-yet-versioned
+  current: none in the URL path — endpoints are namespaced by product (/core, /widgets, /market-pulse,
+    /kyc-connector, /topper) rather than by version
+  policy: >-
+    "The REST APIs will be versioned to ensure backward compatibility... For the time being, Uphold is
+    committed to maintaining compatibility and avoiding breaking changes. Should any become necessary,
+    you will receive reasonable notice in advance."
+  docs: https://developer.uphold.com/rest-apis/versioning
+  sunset_header: false
+  legacy_v0: URI-path versioned (api.uphold.com/v0)
+error_envelope:
+  format: custom-json
+  rfc9457: false
+  content_type: application/json
+  fields: [code, message, details, reasons]
+  branch_on: code
+  catalog: errors/uphold-problem-types.yml
+  docs: https://developer.uphold.com/rest-apis/errors
+rate_limits:
+  types: [global, per-endpoint, per-user]
+  status: 429
+  retry_header: Reset-After
+  retry_header_units: seconds
+  published_numbers: false
+  published_numbers_note: >-
+    "The exact limits may vary per partner and contract. You will receive detailed rate limit
+    information for your integration during onboarding." No numeric limits are published.
+  docs: https://developer.uphold.com/rest-apis/rate-limits
+metadata:
+  supported: true
+  entities: users, accounts, transactions (and other Uphold entities)
+  operations: [core.get-metadata, core.set-metadata, core.update-metadata, core.delete-metadata]
+  concurrency:
+    header: If-Match
+    failure: 412 precondition_failed
+  patch:
+    format: JSON Patch
+    failure: 422 json_patch_failed
+  size_limit_failure: 413 content_too_large
+  docs: https://developer.uphold.com/rest-apis/entity-metadata
+field_expansion:
+  supported: false
+  note: No expand/sparse-fieldset parameter is documented or present in the specs.
+bulk_reads:
+  convention: _mget
+  operations: [core.get-many-assets, core.get-portfolio-many-assets-performance,
+    core.get-portfolio-many-accounts-performance]
+  note: POST-based multi-get endpoints, used where a GET query string would not carry the id list.
+events:
+  webhooks: asyncapi/uphold-core-webhooks.yml
+  provider: Svix
+  signature_headers: [Webhook-Id, Webhook-Timestamp, Webhook-Signature]
+cross_links:
+  authentication: authentication/uphold-authentication.yml
+  scopes: scopes/uphold-scopes.yml
+  errors: errors/uphold-problem-types.yml
+  lifecycle: lifecycle/uphold-lifecycle.yml
+  sandbox: sandbox/uphold-sandbox.yml
+  webhooks: asyncapi/uphold-core-webhooks.yml
+  data_model: data-model/uphold-data-model.yml

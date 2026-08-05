@@ -1,0 +1,95 @@
+generated: '2026-08-05'
+method: searched
+source: >-
+  npm registry lookups, https://github.com/uphold, https://developer.uphold.com/widgets/,
+  https://developer.uphold.com/rest-apis/introduction
+note: >-
+  Uphold ships no server-side REST client SDK for the Enterprise API Suite — the published integration
+  path is the OpenAPI specs plus the public Postman workspace. The first-party packages that do exist
+  are BROWSER SDKs for the embeddable widgets, plus the legacy JavaScript SDK for the older
+  api.uphold.com/v0 API and the Topper onramp web SDK. Registries probed with no first-party result:
+  PyPI, Maven Central, NuGet, pkg.go.dev, RubyGems, Packagist, crates.io.
+packages:
+- language: javascript
+  registry: npm
+  name: '@uphold/enterprise-payment-widget-web-sdk'
+  version: 0.15.0
+  url: https://www.npmjs.com/package/@uphold/enterprise-payment-widget-web-sdk
+  install: npm install @uphold/enterprise-payment-widget-web-sdk
+  repository: https://github.com/uphold/enterprise-widget-sdk
+  docs: https://developer.uphold.com/widgets/payment/sdk-reference
+  kind: browser-widget
+  official: true
+- language: javascript
+  registry: npm
+  name: '@uphold/enterprise-kyc-widget-web-sdk'
+  version: 0.3.0
+  url: https://www.npmjs.com/package/@uphold/enterprise-kyc-widget-web-sdk
+  install: npm install @uphold/enterprise-kyc-widget-web-sdk
+  repository: https://github.com/uphold/enterprise-widget-sdk
+  docs: https://developer.uphold.com/widgets/kyc/sdk-reference
+  kind: browser-widget
+  official: true
+- language: javascript
+  registry: npm
+  name: '@uphold/enterprise-travel-rule-widget-web-sdk'
+  version: 0.8.0
+  url: https://www.npmjs.com/package/@uphold/enterprise-travel-rule-widget-web-sdk
+  install: npm install @uphold/enterprise-travel-rule-widget-web-sdk
+  repository: https://github.com/uphold/enterprise-widget-sdk
+  docs: https://developer.uphold.com/widgets/travel-rule/sdk-reference
+  kind: browser-widget
+  official: true
+- language: javascript
+  registry: npm
+  name: '@uphold/topper-web-sdk'
+  version: 1.0.0
+  url: https://www.npmjs.com/package/@uphold/topper-web-sdk
+  install: npm install @uphold/topper-web-sdk
+  repository: https://github.com/uphold/topper-web-sdk
+  kind: browser-widget
+  description: Seamless integration of Topper on web applications.
+  official: true
+- language: javascript
+  registry: npm
+  name: '@uphold/uphold-sdk-javascript'
+  version: 2.4.0
+  url: https://www.npmjs.com/package/@uphold/uphold-sdk-javascript
+  install: npm install @uphold/uphold-sdk-javascript
+  repository: https://github.com/uphold/uphold-sdk-javascript
+  kind: rest-client
+  targets: Uphold Public API (v0)
+  official: true
+- language: javascript
+  registry: github
+  name: topper-react-native-sdk
+  url: https://github.com/uphold/topper-react-native-sdk
+  repository: https://github.com/uphold/topper-react-native-sdk
+  kind: mobile-widget
+  note: Published as a GitHub repository; no npm package found under the @uphold scope.
+  official: true
+- language: swift
+  registry: github
+  name: uphold-sdk-ios
+  url: https://github.com/uphold/uphold-sdk-ios
+  kind: rest-client
+  targets: Uphold Public API (v0)
+  official: true
+  maintenance: last updated 2025-04-23
+- language: java
+  registry: github
+  name: uphold-sdk-android
+  url: https://github.com/uphold/uphold-sdk-android
+  kind: rest-client
+  targets: Uphold Public API (v0)
+  official: true
+  maintenance: last updated 2025-04-23
+examples:
+- name: rest-api-examples
+  url: https://github.com/uphold/rest-api-examples
+  description: JavaScript samples for integrating with Uphold's REST API.
+  official: true
+gaps:
+- No first-party SDK for the Enterprise API Suite in any language.
+- No Python, Go, Java, .NET, Ruby, PHP or Rust client published in any registry.
+- No first-party CLI — cli/ is deliberately absent.

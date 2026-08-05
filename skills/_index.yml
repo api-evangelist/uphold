@@ -1,0 +1,49 @@
+generated: '2026-08-05'
+method: searched
+source: >-
+  https://developer.uphold.com/.well-known/agent-skills/enterprise/skill.md (provider-published,
+  saved verbatim) plus skills generated from openapi/uphold-core-api-openapi.json and
+  openapi/uphold-kyc-connector-api-openapi.json
+skills:
+- file: uphold-enterprise-skill.md
+  name: Enterprise
+  method: searched
+  source: https://developer.uphold.com/.well-known/agent-skills/enterprise/skill.md
+  http_status: 200
+  api: openapi/uphold-core-api-openapi.json
+  description: >-
+    Uphold's own packaged agent skill, served from its documentation host at a /.well-known/agent-skills/
+    path and also exposed as the MCP resource mintlify://skills/enterprise. Saved verbatim.
+  note: >-
+    Verbatim. Note that some paths quoted in the provider's skill do not match the published OpenAPI —
+    e.g. it writes `POST /core/authentication/oauth2/token` and `POST /core/transactions/quotes` where
+    the spec declares `POST /core/oauth2/token` and `POST /core/transactions/quote`, and it writes
+    `GET /core/kyc/{userId}/overview` and `GET /core/users/{userId}/capabilities` where the spec
+    declares subject-scoped `GET /core/kyc` and `GET /core/capabilities`. Ground agent behaviour in the
+    OpenAPI, not in the skill's prose.
+- file: uphold-onboard-and-verify-user.md
+  name: Onboard and verify an Uphold user
+  method: generated
+  api: openapi/uphold-core-api-openapi.json
+  operations: [core.create-oauth2-token, core.list-countries, core.list-terms-of-service,
+    core.accept-terms-of-service, core.create-user, core.get-kyc-overview, core.update-kyc-profile,
+    core.update-kyc-identity, core.update-kyc-proof-of-address, core.update-kyc-customer-due-diligence,
+    core.list-capabilities]
+- file: uphold-quote-and-execute-transaction.md
+  name: Quote and execute an Uphold transaction
+  method: generated
+  api: openapi/uphold-core-api-openapi.json
+  operations: [core.create-oauth2-token, core.list-accounts, core.create-account,
+    core.list-default-accounts, core.get-account-deposit-method, core.setup-account-deposit-method,
+    core.create-external-account, core.list-external-accounts, core.create-quote,
+    core.create-transaction, core.get-transaction, core.list-transactions,
+    core.list-transaction-requests-for-information, core.update-transaction-request-for-information]
+- file: uphold-ingest-third-party-kyc.md
+  name: Reuse a third-party KYC verification on Uphold
+  method: generated
+  api: openapi/uphold-kyc-connector-api-openapi.json
+  operations: [kyc-connector.set-veriff-config, kyc-connector.get-veriff-config,
+    kyc-connector.create-sumsub-ingestion, kyc-connector.list-sumsub-ingestions,
+    kyc-connector.get-sumsub-ingestion, kyc-connector.create-veriff-ingestion,
+    kyc-connector.list-veriff-ingestions, kyc-connector.get-veriff-ingestion, core.get-kyc-overview,
+    core.list-capabilities]

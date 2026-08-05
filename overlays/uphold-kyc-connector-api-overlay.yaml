@@ -1,0 +1,41 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Uphold KYC Connectors API
+  version: 1.0.0
+extends: openapi/uphold-kyc-connector-api-openapi.json
+x-apievangelist:
+  generated: '2026-08-05'
+  method: generated
+  source: >-
+    Derived from the Uphold-published OpenAPI 3.1 document harvested verbatim from
+    https://developer.uphold.com/_media/specs/kyc-connector-openapi.public.json, plus the
+    artifacts in this repository. The harvested spec is never mutated — these are our additions only.
+actions:
+  - target: $.info
+    update:
+      x-apievangelist-provider: uphold
+      x-apievangelist-api: KYC Connectors API
+      x-apievangelist-operations: 8
+      x-apievangelist-webhook-events: 4
+      x-apievangelist-documentation: https://developer.uphold.com/rest-apis/kyc-connector-api/introduction
+      x-apievangelist-artifacts:
+        authentication: authentication/uphold-authentication.yml
+        scopes: scopes/uphold-scopes.yml
+        conventions: conventions/uphold-conventions.yml
+        errors: errors/uphold-problem-types.yml
+        data-model: data-model/uphold-data-model.yml
+        lifecycle: lifecycle/uphold-lifecycle.yml
+        sandbox: sandbox/uphold-sandbox.yml
+        webhooks: asyncapi/uphold-core-webhooks.yml
+        skills: skills/_index.yml
+      x-apievangelist-conventions:
+        error_envelope: 'custom-json {code, message, details} — not RFC 9457'
+        idempotency: not-supported
+        pagination: pagination object with first/next/previous plus perPage
+        rate_limit_header: Reset-After
+        request_id_header: X-Uphold-Request-Id
+  - target: $.servers
+    update:
+      x-apievangelist-note: >-
+        Environment separation is by host only — there are no test-vs-live credential prefixes, so an
+        integration must be explicitly environment-aware.

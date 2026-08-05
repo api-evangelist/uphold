@@ -1,0 +1,422 @@
+generated: '2026-08-05'
+method: derived
+source: openapi/uphold-core-api-openapi.json, openapi/uphold-kyc-connector-api-openapi.json, openapi/uphold-market-pulse-api-openapi.json, openapi/uphold-topper-api-openapi.json, openapi/uphold-widgets-api-openapi.json
+docs: https://developer.uphold.com/rest-apis/errors
+format: custom-json
+note: >-
+  Uphold does not use RFC 9457 application/problem+json. Every error response is a plain
+  application/json object with a machine-readable `code`, a developer-readable `message`, and an
+  optional `details` object naming the offending context/property. The HTTP status is coarse; the
+  docs are explicit that the `code` field is the field to branch on. All 49 codes below were
+  derived from the response examples enumerated in the published OpenAPI 3.1 specs.
+envelope:
+  fields:
+  - name: code
+    description: Machine-readable code identifying the error. Branch on this, not the HTTP status.
+  - name: message
+    description: Developer-readable message describing the error.
+  - name: details
+    description: 'Optional object with additional context, e.g. {context: body, property: address.country}.'
+  - name: reasons
+    description: Optional array of reason slugs on some 409 responses (e.g. [user-blocked]).
+status_codes:
+- status: 400
+  description: Bad Request — malformed or failed OpenAPI schema validation.
+- status: 401
+  description: Unauthorized — missing or invalid credentials.
+- status: 403
+  description: Forbidden — authenticated but the token lacks the required scopes.
+- status: 404
+  description: Not Found — the requested resource does not exist.
+- status: 409
+  description: Conflict — business logic error.
+- status: 412
+  description: Precondition Failed — If-Match did not match current state.
+- status: 413
+  description: Content Too Large — payload above the size limit.
+- status: 422
+  description: Unprocessable Content — the patch document could not be applied.
+- status: 429
+  description: Too Many Requests — rate limited; honor the Reset-After header.
+problems:
+- code: account_has_balance
+  status: [409]
+  messages:
+  - "The account has balance and cannot be archived"
+  operations: [core.archive-account]
+  occurrences: 1
+- code: account_has_pending_transactions
+  status: [409]
+  messages:
+  - "The account has pending transactions and cannot be archived"
+  operations: [core.archive-account]
+  occurrences: 1
+- code: asset_feature_not_available
+  status: [409]
+  messages:
+  - "The 'buy' feature is not available for the account asset"
+  - "The 'buy' feature is not available for the destination asset"
+  - "The 'sell' feature is not available for the origin asset"
+  - "The 'transfer' feature is not available for the account asset"
+  operations: [core.create-quote, core.get-account-deposit-method, core.setup-account-deposit-method]
+  occurrences: 3
+- code: asset_not_supported
+  status: [409]
+  messages:
+  - "The asset is not supported"
+  - "The denomination asset is not supported"
+  operations: [core.create-account, core.get-asset-historical-rates, core.get-portfolio-account-historical-balance, core.get-portfolio-account-performance, core.get-portfolio-asset-historical-balance, core.get-portfolio-asset-performance, core.get-portfolio-historical-balance, core.get-portfolio-many-accounts-performance]
+  occurrences: 14
+- code: asset_pair_not_supported
+  status: [409]
+  messages:
+  - "Rates are not available for the requested asset pair"
+  operations: [core.get-asset-rates]
+  occurrences: 1
+- code: card_type_not_allowed
+  status: [409]
+  messages:
+  - "The card type is not allowed"
+  operations: [core.create-external-account]
+  occurrences: 1
+- code: certification_signature_mismatch
+  status: [409]
+  messages:
+  - "The signature does not match the user's full name"
+  operations: [core.update-kyc-tax-details]
+  occurrences: 1
+- code: content_too_large
+  status: [413]
+  messages:
+  - "The entity metadata size is greater than maximum size limit"
+  operations: [core.set-metadata, core.update-metadata]
+  occurrences: 2
+- code: country_not_supported
+  status: [409]
+  messages:
+  - "The country is not supported"
+  operations: [core.create-external-account, core.create-user, core.update-kyc-identity, core.update-kyc-phone, core.update-kyc-profile, core.update-kyc-proof-of-address, core.update-kyc-tax-details, topper.identify-kyc-sharing-user]
+  occurrences: 8
+- code: crypto_address_invalid
+  status: [409]
+  messages:
+  - "The crypto address is invalid"
+  - "The crypto address reference is invalid"
+  - "The crypto address reference is missing"
+  - "The number of addresses must be less than or equal to 1"
+  operations: [core.create-quote, core.simulate-crypto-deposit]
+  occurrences: 2
+- code: date_invalid
+  status: [409]
+  messages:
+  - "The date must be at least now"
+  - "The date must be in the future"
+  - "The date must be in the past"
+  - "The date must be newer than or equal to 100 years from now"
+  - "The date must be older than or equal to 18 years ago"
+  - "The statement period is not yet complete"
+  - "The statement period predates the user creation date"
+  operations: [core.create-external-account, core.create-user, core.get-portfolio-statement, core.get-transactions-statement, core.update-kyc-crypto-risk-assessment, core.update-kyc-customer-due-diligence, core.update-kyc-email, core.update-kyc-enhanced-due-diligence]
+  occurrences: 13
+- code: document_number_invalid
+  status: [409]
+  messages:
+  - "The provided document number is invalid"
+  operations: [core.update-kyc-tax-details]
+  occurrences: 1
+- code: document_reason_not_supported
+  status: [409]
+  messages:
+  - "The provided document reason is not supported"
+  operations: [core.update-kyc-tax-details]
+  occurrences: 1
+- code: duplicate
+  status: [409]
+  messages:
+  - "The bank account is already registered"
+  - "The card is already registered"
+  - "The entity metadata already exists"
+  operations: [core.create-external-account, core.set-metadata]
+  occurrences: 2
+- code: email_already_exists
+  status: [409]
+  messages:
+  - "The provided email is already in use by another user"
+  operations: [core.create-user, core.update-kyc-email]
+  occurrences: 2
+- code: email_incorrect_or_disallowed
+  status: [409]
+  messages:
+  - "The email is incorrect or disallowed"
+  operations: [core.create-user, core.update-kyc-email, topper.identify-kyc-sharing-user]
+  occurrences: 3
+- code: entity_not_found
+  status: [404]
+  messages:
+  - "A deposit method for the specified type, asset and network cannot be found"
+  - "A file specified in the media array cannot be found"
+  - "A rail for the specified destination asset and network cannot be found"
+  - "A rail for the specified type, asset and network cannot be found"
+  - "The <entity> cannot be found"
+  - "The account cannot be found"
+  - "The account deposit method cannot be found"
+  - "The asset cannot be found"
+  - "The asset information cannot be found"
+  - "The asset statistics cannot be found"
+  - "The country cannot be found"
+  - "The denomination asset cannot be found"
+  - "The destination cannot be found"
+  - "The entity metadata cannot be found"
+  - "The external account cannot be found"
+  - "The file cannot be found"
+  - "The form cannot be found or has already been completed"
+  - "The ingestion cannot be found"
+  - "The network cannot be found"
+  - "The origin cannot be found"
+  - "The provider config cannot be found"
+  - "The quote cannot be found"
+  - "The request for information cannot be found"
+  - "The transaction cannot be found"
+  - "The user cannot be found"
+  operations: [core.archive-account, core.create-account, core.create-external-account, core.create-quote, core.create-transaction, core.delete-external-account, core.delete-metadata, core.get-account]
+  occurrences: 52
+- code: file_content_type_not_allowed
+  status: [409]
+  messages:
+  - "The file content type is not allowed for the specified category"
+  operations: [core.create-file]
+  occurrences: 1
+- code: file_invalid
+  status: [409]
+  messages:
+  - "A file specified in the media array has not been uploaded"
+  operations: [core.update-kyc-enhanced-due-diligence, core.update-kyc-identity, core.update-kyc-proof-of-address]
+  occurrences: 3
+- code: insufficient_balance
+  status: [409]
+  messages:
+  - "The origin does not have enough balance to perform the transaction"
+  operations: [core.create-transaction]
+  occurrences: 1
+- code: invalid_characters
+  status: [409]
+  messages:
+  - "The request has invalid characters"
+  operations: [core.create-user, core.update-kyc-identity, core.update-kyc-profile, core.update-kyc-proof-of-address]
+  occurrences: 4
+- code: invalid_number
+  status: [409]
+  messages:
+  - "The remitter IBAN is invalid"
+  operations: [core.simulate-bank-deposit]
+  occurrences: 1
+- code: json_patch_failed
+  status: [422]
+  messages:
+  - "The entity metadata patch operation failed to apply"
+  operations: [core.update-metadata]
+  occurrences: 1
+- code: locale_invalid
+  status: [409]
+  messages:
+  - "The locale is invalid"
+  operations: [core.get-kyc-overview, core.update-kyc-crypto-risk-assessment, core.update-kyc-customer-due-diligence, core.update-kyc-self-categorization-statement]
+  occurrences: 4
+- code: max_files_limit_exceeded
+  status: [409]
+  messages:
+  - "The maximum number of allowed files has been exceeded"
+  operations: [core.create-file]
+  occurrences: 1
+- code: number_invalid
+  status: [409]
+  messages:
+  - "The card number is invalid"
+  - "The number must be greater than or equal to 18000"
+  - "The routing number is invalid"
+  operations: [core.create-external-account, core.create-quote]
+  occurrences: 2
+- code: operation_not_allowed
+  status: [409]
+  messages:
+  - "Changing the ttl is not allowed for your organization"
+  - "Destination node type 'crypto-address' is not configured for your organization"
+  - "Each session must reference a unique session ID"
+  - "Email already verified"
+  - "External account type 'card' is not configured for your organization"
+  - "KYC Sharing is not configured for your organization"
+  - "Network must be a crypto network"
+  - "Partner-verified 'proof-of-address' is required to update subdivision"
+  - "Phone already verified"
+  - "Process \"identity\" is not covered by any session in the ingestion parameters"
+  - "Request not allowed due to missing user context"
+  - "Session specifies processes that are not supported by the integration configuration: \"proof-of-address\""
+  - "Subdivision update is restricted by residence country"
+  - "The KYC connector is not configured for this organization"
+  - "The KYC widget is not enabled for your organization"
+  - "The card issuer country does not match the user country of residence"
+  - "The card was declined"
+  - "The card was permanently declined"
+  - "The current status of the process does not allow updates"
+  - "The current status of the request for information does not allow updates"
+  - "The external account cannot be updated"
+  - "The form has already been completed"
+  - "The payment widget is not enabled for your organization"
+  - "The process is not required for this user"
+  - "The quote does not require travel rule"
+  - "The submission type 'electronic-verification' is not allowed for your organization"
+  - "The terms of service cannot be accepted because they do not apply to the user country of residence"
+  - "The terms of service cannot be accepted by users of type 'business'"
+  - "The terms of service have already been accepted"
+  - "Transaction not allowed due to a duplicate withdrawal"
+  - "Transaction not allowed due to a missing return URL"
+  - "Transaction not allowed due to a processing failure"
+  - "Transaction not allowed due to an unspecified error"
+  - "Uphold-verified 'identity' is required to perform this operation"
+  - "Uphold-verified 'identity' updates are not allowed"
+  - "Uphold-verified 'proof-of-address' updates are not allowed"
+  - "User cannot submit 'identity' due to incomplete process dependencies"
+  - "User cannot submit identity due to incomplete declared information"
+  - "User cannot submit proof-of-address due to incomplete declared information"
+  - "User cannot submit tax details due to incomplete declared information"
+  operations: [core.accept-terms-of-service, core.create-external-account, core.create-quote, core.create-transaction, core.create-user, core.update-external-account, core.update-kyc-address, core.update-kyc-crypto-risk-assessment]
+  occurrences: 24
+- code: phone_already_exists
+  status: [409]
+  messages:
+  - "The provided phone is already in use by another user"
+  operations: [core.create-user, core.update-kyc-phone]
+  occurrences: 2
+- code: phone_invalid
+  status: [409]
+  messages:
+  - "The phone number is invalid"
+  operations: [core.create-user, core.update-kyc-phone]
+  occurrences: 2
+- code: po_boxes_not_allowed
+  status: [409]
+  messages:
+  - "PO boxes are not allowed"
+  operations: [core.create-user, core.update-kyc-address, core.update-kyc-profile]
+  occurrences: 3
+- code: postal_code_invalid
+  status: [409]
+  messages:
+  - "The postal code is invalid"
+  operations: [core.create-external-account, core.create-user, core.update-kyc-address, core.update-kyc-profile, core.update-kyc-tax-details]
+  occurrences: 5
+- code: precondition_failed
+  status: [412]
+  messages:
+  - "The If-Match header value does not match the current metadata"
+  operations: [core.delete-metadata, core.set-metadata, core.update-metadata]
+  occurrences: 3
+- code: rail_constraint_violated
+  status: [409]
+  messages:
+  - "Deposits for this rail are only available to the default account"
+  operations: [core.get-account-deposit-method, core.setup-account-deposit-method]
+  occurrences: 2
+- code: rail_feature_not_available
+  status: [409]
+  messages:
+  - "The 'deposit' feature is not available for the rail"
+  - "The rail for the specified type, asset and network does not have any available features"
+  operations: [core.create-external-account, core.get-account-deposit-method, core.setup-account-deposit-method, core.simulate-crypto-deposit]
+  occurrences: 4
+- code: remitter_and_recipient_cannot_match
+  status: [409]
+  messages:
+  - "The remitter and recipient cannot match"
+  operations: [core.simulate-bank-deposit, core.simulate-crypto-deposit]
+  occurrences: 2
+- code: request_invalid
+  status: [400]
+  messages:
+  - "The provider config has invalid parameters"
+  - "The request has missing or invalid parameters"
+  operations: [core.accept-terms-of-service, core.archive-account, core.create-account, core.create-external-account, core.create-file, core.create-quote, core.create-transaction, core.create-user]
+  occurrences: 52
+- code: subdivision_not_supported
+  status: [409]
+  messages:
+  - "The subdivision is not supported"
+  operations: [core.create-external-account, core.create-user, core.update-kyc-address, core.update-kyc-identity, core.update-kyc-profile, core.update-kyc-proof-of-address, core.update-kyc-tax-details]
+  occurrences: 7
+- code: subdivision_required
+  status: [409]
+  messages:
+  - "The subdivision is required for the selected country"
+  operations: [core.create-user]
+  occurrences: 1
+- code: terms_of_service_mismatch
+  status: [409]
+  messages:
+  - "The terms of service passed in the request does not match the one that should have been accepted"
+  operations: [core.create-user]
+  occurrences: 1
+- code: token_expired
+  status: [401]
+  messages:
+  - "The access token has expired"
+  operations: [core.accept-terms-of-service, core.archive-account, core.create-account, core.create-external-account, core.create-file, core.create-quote, core.create-transaction, core.create-user]
+  occurrences: 91
+- code: token_insufficient_scopes
+  status: [403]
+  messages:
+  - "Authorization failed due to insufficient scopes"
+  operations: [core.accept-terms-of-service, core.archive-account, core.create-account, core.create-external-account, core.create-file, core.create-quote, core.create-transaction, core.create-user]
+  occurrences: 80
+- code: token_invalid
+  status: [401]
+  messages:
+  - "The access token is invalid"
+  operations: [core.accept-terms-of-service, core.archive-account, core.create-account, core.create-external-account, core.create-file, core.create-quote, core.create-transaction, core.create-user]
+  occurrences: 91
+- code: token_revoked
+  status: [401]
+  messages:
+  - "The access token has been revoked"
+  operations: [core.accept-terms-of-service, core.archive-account, core.create-account, core.create-external-account, core.create-file, core.create-quote, core.create-transaction, core.create-user]
+  occurrences: 91
+- code: too_many_requests
+  status: [429]
+  messages:
+  - "Try again later"
+  operations: [core.accept-terms-of-service, core.archive-account, core.create-account, core.create-external-account, core.create-file, core.create-oauth2-token, core.create-quote, core.create-transaction]
+  occurrences: 92
+- code: transaction_amount_invalid
+  status: [409]
+  messages:
+  - "The amount exceeds the daily limit"
+  - "The amount is invalid due to unsettled funds"
+  - "The amount maximum limit was exceeded"
+  - "The amount minimum limit was not met"
+  operations: [core.create-quote, core.create-transaction, core.simulate-bank-deposit, core.simulate-crypto-deposit]
+  occurrences: 4
+- code: transaction_node_invalid
+  status: [409]
+  messages:
+  - "The destination external account does not support the specified network"
+  - "The destination external account lacks 'withdraw' feature"
+  - "The origin node is invalid"
+  operations: [core.create-quote]
+  occurrences: 1
+- code: user_capability_failure
+  status: [409]
+  messages:
+  - "The user has capability constraints"
+  operations: [core.create-external-account, core.create-quote, core.create-transaction, core.get-account-deposit-method, core.setup-account-deposit-method]
+  occurrences: 5
+- code: user_has_balance
+  status: [409]
+  messages:
+  - "The user has balance and cannot be deleted"
+  operations: [core.delete-user]
+  occurrences: 1
+- code: user_has_pending_transactions
+  status: [409]
+  messages:
+  - "The user has pending transactions and cannot be deleted"
+  operations: [core.delete-user]
+  occurrences: 1

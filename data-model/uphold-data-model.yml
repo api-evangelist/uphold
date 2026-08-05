@@ -1,0 +1,179 @@
+generated: '2026-08-05'
+method: derived
+source: openapi/uphold-core-api-openapi.json (184 component schemas) + openapi/uphold-kyc-connector-api-openapi.json
+docs: https://developer.uphold.com/rest-apis/core-api/concepts
+note: >-
+  Derived from the published OpenAPI 3.1 component schemas and the operation paths that link them.
+  Uphold's core model is small and unusually clean: an ORGANIZATION contains USERS; a USER has KYC
+  PROCESSES that unlock CAPABILITIES; a USER holds ACCOUNTS, one per ASSET; value moves between NODES
+  (an account, an external account, a crypto address or an APM) through a QUOTE that is committed into a
+  TRANSACTION. Everything else hangs off that spine.
+id_style:
+  format: uuid
+  prefixes: none
+  note: >-
+    Uphold does not use typed id prefixes. Ids are bare UUIDs, so an id is not self-describing — the
+    entity type must come from context. Assets, countries, networks, rails, capabilities and terms of
+    service are addressed by short CODES rather than ids (e.g. asset `BTC`, country `US`).
+entities:
+- name: user
+  description: An individual or business actor within an organization. Subject of nearly every call.
+  schema: user
+  variants: [user-type-individual, user-type-business]
+  key: id (uuid)
+  operations: [core.create-user, core.get-user, core.delete-user]
+- name: kyc-overview
+  description: >-
+    The user's compliance state — a set of named processes (profile, email, phone, identity,
+    proof-of-address, customer-due-diligence, enhanced-due-diligence, crypto-risk-assessment,
+    self-categorization-statement, tax-details) plus screening and risk, each with a status.
+  schema: kyc-overview
+  key: user
+  operations: [core.get-kyc-overview]
+- name: capability
+  description: An action or feature the user is permitted to perform (deposits, trades, withdrawals, …).
+  schema: capability
+  key: code
+  operations: [core.list-capabilities, core.get-capability]
+- name: account
+  description: Holds the balance of exactly one asset for one user. Container for the user's funds.
+  schema: account
+  key: id (uuid)
+  operations: [core.list-accounts, core.create-account, core.get-account, core.update-account,
+    core.archive-account, core.list-default-accounts]
+- name: account-deposit-method
+  description: >-
+    How value arrives into an account from outside — bank routing details (ACH/FedNow/RTP/Wire, FPS,
+    SEPA) or a generated crypto network address.
+  schema: account-deposit-method
+  key: account
+  operations: [core.get-account-deposit-method, core.setup-account-deposit-method]
+- name: external-account
+  description: >-
+    A user-owned account outside Uphold — a bank account, a debit/credit card or an authorized APM
+    (PayPal, Apple Pay) — usable as a transaction origin or destination.
+  schema: external-account
+  variants: [external-account-details-bank-ach, external-account-details-bank-fps,
+    external-account-details-bank-sepa, external-account-details-card, external-account-details-apm]
+  key: id (uuid)
+  operations: [core.create-external-account, core.list-external-accounts, core.get-external-account,
+    core.update-external-account, core.delete-external-account]
+- name: quote
+  description: >-
+    A priced, expiring offer to move value between an origin node and a destination node, carrying rate,
+    fees and any outstanding requirements. Precedes every transaction.
+  schema: quote
+  key: id (uuid)
+  operations: [core.create-quote]
+- name: transaction
+  description: >-
+    A committed movement of value, defined by origin node, destination node and direction, with a
+    lifecycle of statuses.
+  schema: transaction
+  key: id (uuid)
+  operations: [core.create-transaction, core.get-transaction, core.list-transactions,
+    core.list-account-transactions]
+- name: request-for-information
+  description: A compliance question attached to an on-hold transaction that must be answered to resume it.
+  schema: request-for-information
+  key: id (uuid), scoped to a transaction
+  operations: [core.list-transaction-requests-for-information,
+    core.get-transaction-request-for-information, core.update-transaction-request-for-information]
+- name: asset
+  description: A currency, cryptocurrency or metal supported by the platform, with per-asset features.
+  schema: asset
+  key: code
+  operations: [core.list-assets, core.get-asset, core.get-many-assets, core.get-asset-rates,
+    core.get-asset-historical-rates]
+- name: network
+  description: A transfer network for an asset — crypto chain, bank network, card network or APM.
+  schema: network
+  variants: [network-crypto, network-bank, network-card, network-apm]
+  key: code
+  operations: [core.list-networks, core.get-network, core.validate-network-address]
+- name: rail
+  description: A concrete movement rail on a network, with its own methods, constraints and features.
+  schema: rail
+  variants: [rail-crypto, rail-bank, rail-card, rail-apm]
+  key: code
+  operations: [core.list-rails]
+- name: country
+  description: A supported country, with its asset availability and KYC requirements.
+  schema: country
+  key: code
+  operations: [core.list-countries, core.get-country]
+- name: terms-of-service
+  description: A versioned agreement the user must accept before transacting, addressed by code.
+  schema: terms-of-service
+  key: code
+  operations: [core.list-terms-of-service, core.get-terms-of-service, core.accept-terms-of-service]
+- name: file
+  description: An uploaded document (identity, proof of address) referenced by KYC processes.
+  schema: file
+  key: id (uuid)
+  operations: [core.create-file, core.get-file, core.list-files-settings]
+- name: metadata
+  description: Arbitrary partner JSON attached to any entity, with If-Match concurrency and JSON Patch.
+  schema: metadata
+  key: entity + entityId
+  operations: [core.get-metadata, core.set-metadata, core.update-metadata, core.delete-metadata]
+- name: portfolio
+  description: Aggregated financial position across a user's accounts — holdings, performance, history.
+  schema: portfolio-overview
+  key: user
+  operations: [core.get-portfolio-overview, core.get-portfolio-performance,
+    core.get-portfolio-historical-balance, core.get-portfolio-asset-performance,
+    core.get-portfolio-account-performance]
+- name: statement
+  description: A period statement of the portfolio or of transactions.
+  schema: portfolio-statement, transactions-statement
+  key: period
+  operations: [core.get-portfolio-statement, core.get-transactions-statement]
+- name: webhook-event
+  description: The delivered event envelope — id, type, createdAt, data.
+  schema: webhook-event
+  variants: [user-webhook-event, kyc-webhook-event, account-webhook-event,
+    external-account-webhook-event, transaction-webhook-event, assets-cooldown-webhook-event]
+  catalog: asyncapi/uphold-core-webhooks.yml
+- name: ingestion
+  description: A third-party KYC verification (Sumsub or Veriff) ingested and mapped onto Uphold processes.
+  schema: (kyc-connector spec)
+  key: id (uuid)
+  operations: [kyc-connector.create-sumsub-ingestion, kyc-connector.create-veriff-ingestion,
+    kyc-connector.get-sumsub-ingestion, kyc-connector.get-veriff-ingestion]
+relationships:
+- {from: user, to: account, kind: has_many, via: user context}
+- {from: user, to: kyc-overview, kind: has_one, via: user context}
+- {from: user, to: capability, kind: has_many, via: user context}
+- {from: user, to: external-account, kind: has_many, via: user context}
+- {from: user, to: portfolio, kind: has_one, via: user context}
+- {from: user, to: ingestion, kind: has_many, via: user context}
+- {from: account, to: asset, kind: belongs_to, via: asset code}
+- {from: account, to: account-deposit-method, kind: has_one, via: accountId}
+- {from: account, to: transaction, kind: has_many, via: accountId}
+- {from: external-account, to: network, kind: belongs_to, via: network code}
+- {from: external-account, to: rail, kind: belongs_to, via: rail code}
+- {from: quote, to: transaction, kind: has_one, via: quote id on create-transaction}
+- {from: quote, to: quote-origin-node, kind: has_one, via: origin}
+- {from: quote, to: quote-destination-node, kind: has_one, via: destination}
+- {from: transaction, to: transaction-origin-node, kind: has_one, via: origin}
+- {from: transaction, to: transaction-destination-node, kind: has_one, via: destination}
+- {from: transaction, to: request-for-information, kind: has_many, via: transactionId}
+- {from: transaction, to: transaction-denomination, kind: has_one, via: denomination}
+- {from: transaction, to: transaction-fees, kind: has_many, via: fees}
+- {from: kyc-overview, to: file, kind: has_many, via: document submission media}
+- {from: asset, to: network, kind: has_many, via: supported networks}
+- {from: network, to: rail, kind: has_many, via: rail type}
+- {from: country, to: asset, kind: has_many, via: supported assets}
+- {from: user, to: terms-of-service, kind: has_many, via: acceptance by code}
+polymorphic_nodes:
+  note: >-
+    The origin/destination of a quote or transaction is a NODE, and the node type is what makes the
+    money-movement model general. Four node kinds exist.
+  kinds:
+  - {schema: transaction-node-account, meaning: an Uphold account (internal leg)}
+  - {schema: transaction-node-external-account, meaning: a linked bank account, card or APM}
+  - {schema: transaction-node-crypto-address, meaning: an on-chain address, with an execution mode of
+      onchain, offchain or simulated}
+  - {schema: transaction-node-apm, meaning: an alternative payment method (Apple Pay, PayPal/Venmo)}
+render: null

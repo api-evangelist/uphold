@@ -1,18 +1,190 @@
 aid: uphold
 name: Uphold
-description: 'Uphold is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+description: >-
+  Uphold is a multi-asset digital money platform and regulated crypto exchange that lets consumers and
+  businesses hold, trade, send and spend more than 300 cryptocurrencies, national currencies and precious
+  metals from a single account. Its Enterprise API Suite ("Move on chain") is a modular set of OpenAPI
+  3.1 REST APIs — Core, Widgets, Topper, Market Pulse and KYC Connector — that partners embed to onboard
+  and KYC/KYB-verify users, move value across bank rails (ACH, FedNow/RTP, Wire, FPS, SEPA), debit and
+  credit cards, alternative payment methods (Apple Pay, PayPal) and 50+ blockchain networks, and to run
+  buy/sell, trade, send, portfolio, statements and FATF Travel Rule flows. Uphold also runs a public
+  legacy market-data and wallet API at api.uphold.com/v0, publishes embeddable Payment, KYC and Travel
+  Rule widgets, a Svix-backed webhook event surface, a full Sandbox with test helpers, a public Postman
+  workspace, an llms.txt, an A2A agent card and a documentation MCP server.
+image: https://cdn.prod.website-files.com/65116a8935747aeda81c6865/65a8ffa13ea101b31a905d2f_UPHOLD%20LOGO-2.png
 url: https://raw.githubusercontent.com/api-evangelist/uphold/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
-specificationVersion: '0.20'
+specificationVersion: '0.21'
 created: '2026-08-05'
 modified: '2026-08-05'
 tags:
 - Company
-apis: []
+- cryptocurrency
+- digital-assets
+- payments
+- banking
+- fintech
+- kyc
+- compliance
+- crypto-exchange
+- market-data
+- embedded-finance
+- travel-rule
+- webhooks
+- agent-native
+apis:
+- name: Uphold Enterprise Core API
+  description: >-
+    The primary Uphold Enterprise REST API — users, KYC/KYB processes, capabilities, terms of service,
+    files, countries, assets, networks and rails, accounts, external accounts (bank/card/APM), quotes and
+    transactions, requests for information, portfolio, statements, metadata and webhook management.
+    OAuth 2.0 client-credentials with fine-grained scopes; Sandbox test helpers simulate deposits,
+    withdrawals and compliance state changes.
+  humanURL: https://developer.uphold.com/rest-apis/core-api/concepts
+  baseURL: https://api.enterprise.uphold.com
+  tags:
+  - payments
+  - banking
+  - cryptocurrency
+  - kyc
+  - compliance
+  - digital-assets
+  properties:
+  - type: OpenAPI
+    url: openapi/uphold-core-api-openapi.json
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/introduction
+  - type: APIReference
+    url: https://developer.uphold.com/rest-apis/core-api/concepts
+  - type: Authentication
+    url: authentication/uphold-authentication.yml
+  - type: OAuthScopes
+    url: scopes/uphold-scopes.yml
+  - type: Conventions
+    url: conventions/uphold-conventions.yml
+  - type: ErrorCatalog
+    url: errors/uphold-problem-types.yml
+  - type: DataModel
+    url: data-model/uphold-data-model.yml
+  - type: Overlay
+    url: overlays/uphold-core-api-overlay.yaml
+  - type: Webhooks
+    url: asyncapi/uphold-core-webhooks.yml
+  - type: Sandbox
+    url: sandbox/uphold-sandbox.yml
+- name: Uphold Enterprise Widgets API
+  description: >-
+    Session API behind the embeddable Uphold Widgets — creates Payment Widget, KYC Widget and Travel Rule
+    Widget sessions that the browser/native SDKs consume to collect payment methods, KYC data and FATF
+    Travel Rule information without the partner building the UI.
+  humanURL: https://developer.uphold.com/widgets/introduction
+  baseURL: https://api.enterprise.uphold.com
+  tags:
+  - payments
+  - kyc
+  - travel-rule
+  - embedded-finance
+  properties:
+  - type: OpenAPI
+    url: openapi/uphold-widgets-api-openapi.json
+  - type: Documentation
+    url: https://developer.uphold.com/widgets/introduction
+  - type: Components
+    url: components/uphold-components.yml
+  - type: Overlay
+    url: overlays/uphold-widgets-api-overlay.yaml
+  - type: ChangeLog
+    url: https://developer.uphold.com/widgets/changelog
+- name: Uphold Market Pulse API
+  description: >-
+    Market data API returning descriptive asset information, real-time asset market statistics, per-asset
+    news and general market news for the assets supported on the Uphold platform.
+  humanURL: https://developer.uphold.com/rest-apis/market-pulse-api/assets/get-asset-information
+  baseURL: https://api.enterprise.uphold.com
+  tags:
+  - market-data
+  - cryptocurrency
+  - digital-assets
+  properties:
+  - type: OpenAPI
+    url: openapi/uphold-market-pulse-api-openapi.json
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/market-pulse-api/assets/get-asset-information
+  - type: Overlay
+    url: overlays/uphold-market-pulse-api-overlay.yaml
+- name: Uphold KYC Connector API
+  description: >-
+    Ingests verifications performed in third-party identity providers — Sumsub Reusable KYC and Veriff —
+    and maps their payloads onto Uphold KYC processes, so a partner that already verifies users elsewhere
+    does not have to re-verify them on Uphold.
+  humanURL: https://developer.uphold.com/rest-apis/kyc-connector-api/introduction
+  baseURL: https://api.enterprise.uphold.com
+  tags:
+  - kyc
+  - compliance
+  - identity
+  properties:
+  - type: OpenAPI
+    url: openapi/uphold-kyc-connector-api-openapi.json
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/kyc-connector-api/introduction
+  - type: Overlay
+    url: overlays/uphold-kyc-connector-api-overlay.yaml
+- name: Uphold Topper API
+  description: >-
+    KYC-sharing API for Topper, Uphold's fiat-to-crypto onramp widget — identifies a user and creates a
+    KYC sharing session so an existing Uphold verification can be reused inside a Topper integration.
+  humanURL: https://developer.uphold.com/rest-apis/topper-api/kyc-sharing/create-session
+  baseURL: https://api.enterprise.uphold.com
+  tags:
+  - kyc
+  - payments
+  - onramp
+  properties:
+  - type: OpenAPI
+    url: openapi/uphold-topper-api-openapi.json
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/topper-api/kyc-sharing/create-session
+  - type: Overlay
+    url: overlays/uphold-topper-api-overlay.yaml
+- name: Uphold Public API (v0)
+  description: >-
+    The long-standing public Uphold API at api.uphold.com/v0 — tickers and exchange rates, supported
+    currencies and assets, plus OAuth 2.0 authenticated access to a member's cards, transactions and
+    account data. Anonymous ticker and asset endpoints are open; documented in the uphold/docs GitHub
+    repository.
+  humanURL: https://uphold.com/developer/api/documentation/
+  baseURL: https://api.uphold.com/v0
+  tags:
+  - market-data
+  - cryptocurrency
+  - digital-assets
+  properties:
+  - type: Documentation
+    url: https://uphold.com/developer/api/documentation/
+  - type: SourceCode
+    url: https://github.com/uphold/docs
+- name: Uphold Documentation MCP Server
+  description: >-
+    Anonymous, read-only Model Context Protocol server published by Uphold at developer.uphold.com/mcp
+    over streamable HTTP. Exposes three tools (documentation search, a virtualized read-only docs
+    filesystem query, and docs feedback submission) plus an MCP resource carrying the packaged
+    "enterprise" agent skill.
+  humanURL: https://developer.uphold.com/get-started/build-with-ai
+  baseURL: https://developer.uphold.com/mcp
+  tags:
+  - agent-native
+  - mcp
+  properties:
+  - type: MCPServer
+    url: mcp/uphold-mcp.yml
+  - type: ToolCrosswalk
+    url: mcp/uphold-tool-crosswalk.yml
+  - type: MCP
+    url: https://developer.uphold.com/mcp
+  - type: Documentation
+    url: https://developer.uphold.com/get-started/build-with-ai
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -20,4 +192,93 @@ maintainers:
   email: info@apis.io
 common:
 - type: Website
-  url: https://forgeglobal.com/uphold_stock/
+  url: https://uphold.com/
+- type: DeveloperPortal
+  url: https://developer.uphold.com/
+- type: Documentation
+  url: https://developer.uphold.com/rest-apis/introduction
+- type: APIReference
+  url: https://developer.uphold.com/rest-apis/core-api/concepts
+- type: GettingStarted
+  url: https://developer.uphold.com/get-started/overview
+- type: Quickstart
+  url: https://developer.uphold.com/get-started/make-your-first-api-call
+- type: Support
+  url: https://support.uphold.com/
+- type: Blog
+  url: https://uphold.com/en-us/blog
+- type: GitHubOrganization
+  url: https://github.com/uphold
+- type: Pricing
+  url: https://uphold.com/en-us/get-started/service-fees
+- type: SignUp
+  url: https://portal.enterprise.uphold.com/
+- type: Login
+  url: https://portal.enterprise.uphold.com/
+- type: DeveloperAgreement
+  url: https://uphold.com/en-us/legal/developer-agreement
+- type: TermsOfService
+  url: https://uphold.com/en-us/legal/membership-agreement/usa
+- type: PrivacyPolicy
+  url: https://uphold.com/en-us/legal/privacy-policy
+- type: Postman
+  url: https://www.postman.com/uphold/workspace/enterprise-api
+- type: StatusPage
+  url: https://status.uphold.com/
+- type: Deprecation
+  url: https://developer.uphold.com/rest-apis/versioning
+- type: ChangeLog
+  url: changelog/uphold-changelog.yml
+- type: Lifecycle
+  url: lifecycle/uphold-lifecycle.yml
+- type: Security
+  url: https://uphold.com/en-us/get-started/security
+- type: VulnerabilityDisclosure
+  url: security/uphold-vulnerability-disclosure.yml
+- type: TrustCenter
+  url: security/uphold-trust-center.yml
+- type: Compliance
+  url: https://uphold.com/en-us/get-started/security
+- type: DomainSecurity
+  url: security/uphold-domain-security.yml
+- type: SecurityTxt
+  url: well-known/uphold-security.txt
+- type: WellKnown
+  url: well-known/uphold-well-known.yml
+- type: LLMsTxt
+  url: llms/uphold-llms.txt
+- type: AgentCard
+  url: a2a/uphold-a2a.yml
+- type: MCPServer
+  url: mcp/uphold-mcp.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: Authentication
+  url: authentication/uphold-authentication.yml
+- type: OAuthScopes
+  url: scopes/uphold-scopes.yml
+- type: Conventions
+  url: conventions/uphold-conventions.yml
+- type: Conformance
+  url: conformance/uphold-conformance.yml
+- type: ErrorCatalog
+  url: errors/uphold-problem-types.yml
+- type: DeclineCodes
+  url: errors/uphold-decline-codes.yml
+- type: DataModel
+  url: data-model/uphold-data-model.yml
+- type: Packages
+  url: packages/uphold-packages.yml
+- type: SDKs
+  url: packages/uphold-packages.yml
+- type: Components
+  url: components/uphold-components.yml
+- type: Sandbox
+  url: sandbox/uphold-sandbox.yml
+- type: Webhooks
+  url: asyncapi/uphold-core-webhooks.yml
+x-enrichment:
+  date: '2026-08-05'
+  status: enriched
+  artifacts_added: 39
+  pass: local-v1

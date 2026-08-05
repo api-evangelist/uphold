@@ -1,0 +1,15 @@
+# For security issues related to Uphold, please see our bug bounty program
+Policy: https://app.intigriti.com/programs/Uphold/upholdcom/detail
+
+# To contact Uphold directly regarding any security topic
+Contact: mailto:security@uphold.com
+Preferred-Languages: en
+
+# We support PGP encryption, please find our public key here
+Encryption: https://cdn.uphold.com/security/uphold_security_public.asc
+
+# This file expires every 365 days
+Expires: 2026-12-31T00:00:00.000Z
+
+# We're hiring - join Uphold!
+Hiring: https://uphold.com/resources/careers

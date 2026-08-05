@@ -1,0 +1,267 @@
+generated: '2026-08-05'
+method: searched
+source: https://developer.uphold.com/rest-apis/changelog.md and https://developer.uphold.com/widgets/changelog.md
+docs: https://developer.uphold.com/rest-apis/changelog
+feeds:
+  rest_api: https://developer.uphold.com/rest-apis/changelog
+  widgets: https://developer.uphold.com/widgets/changelog
+  rss: advertised on both changelog pages
+scheme:
+  style: dated
+  label_format: YYYY.MM.DD
+  tags: [New Feature, Enhancement, Breaking Change, Deprecated]
+  scopes: [Core, Core API, KYC, KYB, Transactions, Test Helpers, Market Pulse, KYC Connector, SEPA,
+    Payment, Travel Rule, Compliance]
+  entry_shape: [Summary, Details, Documentation, Actions required]
+current_version: null
+current_version_note: >-
+  The REST APIs carry no version identifier; the dated changelog label is the release marker. The
+  published OpenAPI documents all report info.version 0.1.0.
+window: recent — 2026-01 through 2026-08-03, most-recent first
+entries:
+- date: '2026-08-03'
+  surface: rest-api
+  tags: [New Feature]
+  scope: [Core, Transactions]
+  title: Apple Pay deposits and withdrawals
+  breaking: false
+- date: '2026-08-03'
+  surface: widgets
+  tags: [New Feature]
+  scope: [Payment]
+  title: Apple Pay support in Payment Widget
+  breaking: false
+  note: Requires @uphold/enterprise-payment-widget-web-sdk 0.15.0 or higher; adds a headless AuthorizeMode.
+- date: '2026-07-16'
+  surface: widgets
+  tags: [New Feature]
+  scope: [KYC]
+  title: Profile process support for the KYC Widget
+  breaking: false
+- date: '2026-07-14'
+  surface: rest-api
+  tags: [New Feature, Enhancement, Deprecated]
+  scope: [Core, KYC]
+  title: Simplified KYC Process
+  breaking: false
+  deprecations:
+  - core.update-kyc-address (migrate to core.update-kyc-profile)
+  - 'core.create-user fields: country, subdivision, citizenshipCountry'
+  highlights: >-
+    Profile fields can be supplied inline on Create user; profile now also covers address; Update profile
+    takes a flat input object and returns verification.rules plus warnings.
+- date: '2026-07-13'
+  surface: rest-api
+  tags: [New Feature]
+  scope: [Core, Transactions]
+  title: PayPal deposits and withdrawals
+  breaking: false
+  highlights: Adds `apm` to network types, rail types and external account types.
+- date: '2026-07-13'
+  surface: widgets
+  tags: [New Feature]
+  scope: [Payment]
+  title: PayPal support in Payment Widget
+  breaking: false
+- date: '2026-07-13'
+  surface: widgets
+  tags: [New Feature]
+  scope: [KYC, Payment, Travel Rule]
+  title: Responsive layout on larger screens and the `layout` option
+  breaking: false
+- date: '2026-07-02'
+  surface: rest-api
+  tags: [Enhancement]
+  scope: [Core, Test Helpers]
+  title: Bank account numbers containing only zeros are now rejected
+  breaking: false
+- date: '2026-07-02'
+  surface: rest-api
+  tags: [New Feature]
+  scope: [Core]
+  title: USD bank deposit simulation
+  breaking: false
+- date: '2026-07-01'
+  surface: rest-api
+  tags: [Enhancement]
+  scope: [Core, Test Helpers]
+  title: Invalid amounts now return `400 request_invalid`
+  breaking: false
+- date: '2026-06-30'
+  surface: rest-api
+  tags: [Deprecated]
+  scope: [Core]
+  title: Deprecated `partnerOnboardedAt` field when creating a user
+  breaking: false
+- date: '2026-06-25'
+  surface: rest-api
+  tags: [Enhancement]
+  scope: [Core API]
+  title: Request field validation constraints
+  breaking: false
+- date: '2026-06-22'
+  surface: widgets
+  tags: [New Feature]
+  scope: [Payment, Travel Rule]
+  title: New design system and richer theming for Payment and Travel Rule Widgets
+  breaking: false
+- date: '2026-06-15'
+  surface: widgets
+  tags: [New Feature]
+  scope: [KYC]
+  title: KYC Widget
+  breaking: false
+- date: '2026-05-18'
+  surface: rest-api
+  tags: [New Feature, Enhancement]
+  scope: [KYC]
+  title: KYC verification model
+  breaking: false
+- date: '2026-05-18'
+  surface: rest-api
+  tags: [Enhancement]
+  scope: [Core, KYC, Compliance]
+  title: Crypto risk assessment updated for AAQ v3
+  breaking: false
+- date: '2026-05-15'
+  surface: rest-api
+  tags: [New Feature]
+  scope: [Core]
+  title: Transaction and portfolio statements
+  breaking: false
+- date: '2026-05-11'
+  surface: widgets
+  tags: [Breaking Change]
+  scope: [Payment]
+  title: Asset selection in crypto withdrawal flow
+  breaking: true
+- date: '2026-05-05'
+  surface: rest-api
+  tags: [Enhancement]
+  scope: [Core]
+  title: Bank address destination node on ACH withdrawals
+  breaking: false
+- date: '2026-04-24'
+  surface: rest-api
+  tags: [Breaking Change, Enhancement]
+  scope: [KYC]
+  title: 'Dynamic forms: restructured options with field dependencies and validation rules'
+  breaking: true
+- date: '2026-04-21'
+  surface: widgets
+  tags: [New Feature]
+  scope: [Payment]
+  title: Dark mode support in Payment Widget
+  breaking: false
+- date: '2026-04-16'
+  surface: rest-api
+  tags: [Enhancement]
+  scope: [Core]
+  title: Limit details on transaction amount errors
+  breaking: false
+- date: '2026-04-14'
+  surface: rest-api
+  tags: [New Feature]
+  scope: [Test Helpers]
+  title: Simulate crypto deposit
+  breaking: false
+- date: '2026-04-09'
+  surface: rest-api
+  tags: [New Feature]
+  scope: [Core, SEPA]
+  title: SEPA deposits and withdrawals
+  breaking: false
+- date: '2026-03-27'
+  surface: rest-api
+  tags: [New Feature]
+  scope: [Core]
+  title: ACH deposits and withdrawals
+  breaking: false
+- date: '2026-03-27'
+  surface: widgets
+  tags: [New Feature]
+  scope: [Payment]
+  title: ACH support in Payment Widget
+  breaking: false
+- date: '2026-03-24'
+  surface: rest-api
+  tags: [New Feature]
+  scope: [KYC Connector]
+  title: Proof-of-address support for Veriff in KYC Connector API
+  breaking: false
+- date: '2026-03-19'
+  surface: rest-api
+  tags: [New Feature]
+  scope: [Core]
+  title: Filter assets and networks by type
+  breaking: false
+- date: '2026-03-18'
+  surface: rest-api
+  tags: [New Feature]
+  scope: [Transactions]
+  title: Custom TTL when creating quotes
+  breaking: false
+- date: '2026-03-18'
+  surface: rest-api
+  tags: [Breaking Change]
+  scope: [Core]
+  title: Errors with `date_invalid` code now use hyphenated `details.rule` values
+  breaking: true
+- date: '2026-03-13'
+  surface: rest-api
+  tags: [New Feature]
+  scope: [Core]
+  title: List default accounts endpoint
+  breaking: false
+- date: '2026-03-12'
+  surface: rest-api
+  tags: [New Feature]
+  scope: [KYC Connector]
+  title: Veriff provider support in KYC Connector API
+  breaking: false
+- date: '2026-03-09'
+  surface: rest-api
+  tags: [Breaking Change]
+  scope: [Core]
+  title: Delete user endpoint requires review information
+  breaking: true
+- date: '2026-02-28'
+  surface: rest-api
+  tags: [Enhancement]
+  scope: [Market Pulse]
+  title: New asset information endpoint
+  breaking: false
+- date: '2026-02-16'
+  surface: rest-api
+  tags: [New Feature]
+  scope: [Market Pulse]
+  title: Market Pulse API
+  breaking: false
+- date: '2026-02-11'
+  surface: widgets
+  tags: [New Feature]
+  scope: [Payment]
+  title: Account limit per asset in Payment Widget
+  breaking: false
+- date: '2026-02-09'
+  surface: rest-api
+  tags: [New Feature]
+  scope: [KYC Connector]
+  title: New KYC Connector API
+  breaking: false
+- date: '2026-01-30'
+  surface: widgets
+  tags: [New Feature]
+  scope: [Payment]
+  title: Crypto support and payment method filtering in Payment Widget
+  breaking: false
+- date: '2026-01-29'
+  surface: widgets
+  tags: [New Feature]
+  scope: [Payment, Travel Rule]
+  title: Travel Rule Widget
+  breaking: false
+summary:
+  entries_captured: 39
+  breaking_changes_in_window: 4
+  cadence: roughly weekly to fortnightly across the two changelogs

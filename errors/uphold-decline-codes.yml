@@ -1,0 +1,53 @@
+generated: '2026-08-05'
+method: searched
+source: https://developer.uphold.com/rest-apis/core-api/accounts/test-helpers/fund-sandbox-accounts
+docs: https://developer.uphold.com/rest-apis/core-api/accounts/test-helpers/fund-sandbox-accounts
+scope: card deposits and withdrawals
+note: >-
+  Uphold publishes NO standalone acquirer decline-code reference. The only card-failure codes it
+  documents anywhere are the six reserved-amount simulation triggers in the Sandbox funding guide, so
+  those are recorded here verbatim rather than inferred. Treat this as an incomplete surface: a live
+  card decline in Production may carry a code that Uphold has never published. General API errors are a
+  separate, well-documented surface — see errors/uphold-problem-types.yml (49 codes).
+envelope:
+  field: code
+  shape: '{code, message, details}'
+  reference: errors/uphold-problem-types.yml
+simulation:
+  mechanism: reserved transaction amount on any Sandbox test card
+  environment: Sandbox only
+decline_codes:
+- code: card_unauthorized
+  meaning: The card is not authorized for this transaction.
+  action: >-
+    Do not retry with the same card. Ask the user for a different payment method or to contact their
+    issuer.
+  simulate_amount: ['12.12', '60.60']
+- code: card_declined_by_bank
+  meaning: The issuing bank declined the transaction.
+  action: Ask the user to contact their issuer, or to use a different card.
+  simulate_amount: ['15.15']
+- code: card_expired
+  meaning: The card has expired.
+  action: Prompt the user to update the card's expiry or link a new card.
+  simulate_amount: ['20.20']
+- code: insufficient_funds
+  meaning: The card has insufficient funds to cover the amount.
+  action: Prompt for a smaller amount or a different funding source. Safe to retry later.
+  simulate_amount: ['26.26']
+- code: velocity
+  meaning: The card has exceeded its transaction velocity limit.
+  action: Back off and retry after the issuer's velocity window; do not loop retries.
+  simulate_amount: ['34.34']
+masked_to_buyers:
+  documented: false
+  note: >-
+    Uphold does not document which decline reasons may be shown to an end user versus kept to the
+    integrator. Default to a generic message and log the raw code.
+related_balance_errors:
+- code: insufficient_balance
+  note: Distinct from card insufficient_funds — this is an Uphold account balance failure on a quote.
+- code: transaction_amount_invalid
+  note: >-
+    Amount above a limit or drawing on unsettled funds; the response `details` carries the limit and
+    the rule that fired.

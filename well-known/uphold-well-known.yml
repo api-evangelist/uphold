@@ -1,0 +1,90 @@
+generated: '2026-08-05'
+method: searched
+source: live probes of every apis.yml host and every OpenAPI servers[] host
+hosts:
+- host: https://uphold.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: uphold-security.txt
+    spec: RFC 9116
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /llms.txt
+    status: 404
+- host: https://developer.uphold.com
+  documents:
+  - path: /.well-known/agent-card.json
+    status: 200
+    file: ../a2a/uphold-agent-card.json
+    spec: A2A 1.0.0
+  - path: /.well-known/mcp.json
+    status: 200
+    file: uphold-mcp.json
+    spec: MCP server discovery
+  - path: /.well-known/agent-skills/enterprise/skill.md
+    status: 200
+    file: ../skills/uphold-enterprise-skill.md
+    spec: Agent Skill (markdown + frontmatter)
+  - path: /llms.txt
+    status: 200
+    file: ../llms/uphold-llms.txt
+    spec: llms.txt
+  - path: /llms-full.txt
+    status: 200
+    note: >-
+      1.17 MB verbatim documentation dump. Deliberately NOT committed — *-llms-full.txt is gitignored
+      because these dumps embed vendor example tokens that trip GitHub push-protection.
+  - path: /sitemap.xml
+    status: 200
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+- host: https://api.enterprise.uphold.com
+  note: >-
+    Production Enterprise API host. Returns 503 to unauthenticated requests on every /.well-known/ path
+    probed, so no discovery document could be read anonymously.
+  documents:
+  - path: /.well-known/oauth-authorization-server
+    status: 503
+  - path: /.well-known/openid-configuration
+    status: 503
+  - path: /.well-known/security.txt
+    status: 503
+  - path: /.well-known/agent-card.json
+    status: 503
+- host: https://api.enterprise.sandbox.uphold.com
+  documents:
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+- host: https://api.uphold.com
+  note: Legacy public v0 API host. Live (GET /v0/ticker returns 200) but publishes no /.well-known/ surface.
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+summary:
+  security_txt: true
+  openid_configuration: false
+  oauth_authorization_server: false
+  api_catalog: false
+  ai_plugin: false
+  agent_card: true
+  mcp_discovery: true
+  llms_txt: true

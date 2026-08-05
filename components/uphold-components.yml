@@ -1,0 +1,75 @@
+generated: '2026-08-05'
+method: searched
+source: https://developer.uphold.com/widgets/introduction
+docs: https://developer.uphold.com/widgets/introduction
+changelog: https://developer.uphold.com/widgets/changelog
+note: >-
+  Uphold ships embeddable, Uphold-hosted UI surfaces ("Widgets") that a partner drops into a web app or
+  into a native app through a WebView. Each is driven by a session created server-side through the
+  Widgets API, then rendered by a browser SDK — or, if you prefer, integrated directly against the
+  widget's postMessage protocol without the SDK. These are distinct from the packages in
+  packages/uphold-packages.yml, which is where the loader libraries themselves are catalogued.
+session_api: openapi/uphold-widgets-api-openapi.json
+families:
+- family: Payment Widget
+  description: >-
+    Embeddable managed surface that lets users securely add payment methods and run transactions
+    (deposits and withdrawals) across web and native apps. Covers card linking with 3DS, bank account
+    selection, crypto network/address collection, and APM authorization (Apple Pay, PayPal).
+  session_operation: widgets.create-payment-widget-session
+  scope: widgets.payment.sessions:create
+  loader: '@uphold/enterprise-payment-widget-web-sdk'
+  class: PaymentWidget
+  docs: https://developer.uphold.com/widgets/payment/introduction
+  sdk_reference: https://developer.uphold.com/widgets/payment/sdk-reference
+  installation: https://developer.uphold.com/widgets/payment/installation-and-setup
+  features:
+  - dark mode
+  - responsive layout with a `layout` option
+  - headless AuthorizeMode that renders only the Apple Pay button
+  - payment-method filtering
+  - per-asset account limits
+- family: KYC Widget
+  description: >-
+    Embeddable component that collects KYC data from end users — identity, proof-of-address and profile
+    processes — fully managed by Uphold and themeable to match the host app, so the partner does not
+    build a verification UI.
+  session_operation: widgets.create-kyc-widget-session
+  scope: widgets.kyc.sessions:create
+  loader: '@uphold/enterprise-kyc-widget-web-sdk'
+  class: KycWidget
+  docs: https://developer.uphold.com/widgets/kyc/introduction
+  sdk_reference: https://developer.uphold.com/widgets/kyc/sdk-reference
+  installation: https://developer.uphold.com/widgets/kyc/installation-and-setup
+  processes: [identity, proof-of-address, profile]
+- family: Travel Rule Widget
+  description: >-
+    Embeddable surface for FATF-compliant collection and exchange of originator and beneficiary
+    information on crypto transactions.
+  session_operation: widgets.create-travel-rule-widget-session
+  scope: widgets.travel-rule.sessions:create
+  loader: '@uphold/enterprise-travel-rule-widget-web-sdk'
+  class: TravelRuleWidget
+  docs: https://developer.uphold.com/widgets/travel-rule/introduction
+  sdk_reference: https://developer.uphold.com/widgets/travel-rule/sdk-reference
+  installation: https://developer.uphold.com/widgets/travel-rule/installation-and-setup
+- family: Topper Widget
+  description: >-
+    Uphold's fiat-to-crypto onramp widget. Documented on its own site rather than in the Enterprise
+    docs; KYC sharing between Uphold and Topper is handled by the Topper API.
+  loader: '@uphold/topper-web-sdk'
+  mobile_loader: topper-react-native-sdk
+  docs: https://developer.uphold.com/widgets/topper/introduction
+  session_api: openapi/uphold-topper-api-openapi.json
+dynamic_forms:
+  description: >-
+    Server-driven JSON Schema + UI Schema definitions that let Uphold change what KYC/compliance data is
+    collected without the partner shipping app code. Renderable with JSON Forms in React or by hand.
+  docs: https://developer.uphold.com/developer-guides/resources/dynamic-forms/introduction
+  schema_reference: https://developer.uphold.com/developer-guides/resources/dynamic-forms/schema
+  ui_schema_reference: https://developer.uphold.com/developer-guides/resources/dynamic-forms/ui-schema
+  based_on: JSON Forms specification
+integration_modes:
+- SDK (npm package, web)
+- WebView (native apps)
+- direct integration against the widget message protocol, no SDK

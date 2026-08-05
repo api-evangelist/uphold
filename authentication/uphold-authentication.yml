@@ -1,0 +1,67 @@
+generated: '2026-08-05'
+method: searched
+source: openapi/uphold-core-api-openapi.json, openapi/uphold-kyc-connector-api-openapi.json,
+  openapi/uphold-market-pulse-api-openapi.json, openapi/uphold-topper-api-openapi.json, openapi/uphold-widgets-api-openapi.json
+docs: https://developer.uphold.com/rest-apis/authentication
+token_url: https://api.enterprise.uphold.com/core/oauth2/token
+token_url_sandbox: https://api.enterprise.sandbox.uphold.com/core/oauth2/token
+token_operation: core.create-oauth2-token
+grant_types: [client_credentials]
+api_keys:
+  supported: false
+  statement: >-
+    "API keys are another widely used way to authenticate requests, but they are not supported at this
+    time. If you have a use case that requires API keys, please reach out to your Account Manager."
+subjects:
+- id: client
+  meaning: The OAuth2 client itself, for operations that need no user context.
+- id: user:individual
+  meaning: An individual user within the organization.
+- id: user:business
+  meaning: A business user within the organization.
+client_models:
+- model: organization-wide
+  default_subject: client
+  act_on_behalf_of:
+    header: 'X-On-Behalf-Of: user {userId}'
+    required_scope: core.users:act-on-behalf-of
+- model: single-user
+  default_subject: the bound user
+  note: >-
+    No header required; if X-On-Behalf-Of is sent, the userId must match the user bound to the client.
+credential_issuance:
+  portal: https://portal.enterprise.uphold.com/
+  flow: Register organization > Clients > Create new client > select scopes > Generate client secret
+  environments: [Sandbox, Production]
+  key_prefixes: none
+failures:
+- {status: 401, codes: [token_invalid, token_expired, token_revoked]}
+- {status: 403, codes: [token_insufficient_scopes]}
+legacy_api:
+  api: Uphold Public API (v0)
+  base: https://api.uphold.com/v0
+  auth: OAuth 2.0 — Web Application Flow (authorization code) and Client Credentials Flow
+  docs: https://uphold.com/developer/api/documentation/
+  note: >-
+    The legacy v0 API is the only Uphold surface with a user-facing authorization-code flow; the
+    Enterprise API Suite is client-credentials only. Some legacy v0 endpoints (ticker, assets) are
+    anonymous.
+summary:
+  types:
+  - oauth2
+  oauth2_flows:
+  - clientCredentials
+schemes:
+- name: OAuth2
+  type: oauth2
+  flows:
+  - flow: clientCredentials
+    tokenUrl: /core/oauth2/token
+    scopes: 49
+  description: OAuth 2.0 authentication.
+  sources:
+  - openapi/uphold-core-api-openapi.json
+  - openapi/uphold-kyc-connector-api-openapi.json
+  - openapi/uphold-market-pulse-api-openapi.json
+  - openapi/uphold-topper-api-openapi.json
+  - openapi/uphold-widgets-api-openapi.json

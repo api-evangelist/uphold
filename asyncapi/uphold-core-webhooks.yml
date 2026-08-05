@@ -1,0 +1,151 @@
+generated: '2026-08-05'
+method: derived
+source: openapi/uphold-core-api-openapi.json, openapi/uphold-kyc-connector-api-openapi.json
+docs: https://developer.uphold.com/rest-apis/webhooks
+spec_type: Webhooks
+note: >-
+  Uphold publishes no AsyncAPI document. Its event surface is declared inline in the OpenAPI 3.1 specs
+  using the top-level `webhooks` object, so this catalog is derived verbatim from those declarations —
+  each event below has a real message schema in the referenced spec. Delivery is handled by Svix.
+transport: https-webhook
+provider: Svix
+subscription:
+  portal: Webhooks Portal (Enterprise Portal > Webhooks)
+  api_operation: core.create-webhook-management-link
+  docs: https://developer.uphold.com/rest-apis/core-api/webhooks/request-management-link
+envelope:
+  fields: [id, type, createdAt, data]
+  example_type: core.users.created
+signature:
+  scheme: Svix (Standard Webhooks)
+  headers: [Webhook-Id, Webhook-Timestamp, Webhook-Signature]
+  signature_encoding: base64, space-delimited list
+  verification_docs: https://docs.svix.com/receiving/verifying-payloads/why
+retries:
+  strategy: exponential backoff
+  window: up to 24 hours or first 2xx
+  manual_redelivery: Enterprise Portal > Webhooks
+  docs: https://docs.svix.com/retries
+ip_allowlist: https://docs.svix.com/webhook-ips.json
+event_count: 30
+events:
+- event: core.user.created
+  summary: "User created"
+  description: "A new user has been created."
+  source: openapi/uphold-core-api-openapi.json
+- event: core.user.deleted
+  summary: "User deleted"
+  description: "A user has been deleted."
+  source: openapi/uphold-core-api-openapi.json
+- event: core.kyc.profile.status-changed
+  summary: "Profile Status Changed"
+  description: "The profile status has been changed."
+  source: openapi/uphold-core-api-openapi.json
+- event: core.kyc.email.status-changed
+  summary: "Email Status Changed"
+  description: "The email status has been changed."
+  source: openapi/uphold-core-api-openapi.json
+- event: core.kyc.phone.status-changed
+  summary: "Phone Status Changed"
+  description: "The phone status has been changed."
+  source: openapi/uphold-core-api-openapi.json
+- event: core.kyc.address.status-changed
+  summary: "Address Status Changed"
+  description: "The address status has been changed."
+  source: openapi/uphold-core-api-openapi.json
+- event: core.kyc.identity.status-changed
+  summary: "Identity Status Changed"
+  description: "The identity status has been changed."
+  source: openapi/uphold-core-api-openapi.json
+- event: core.kyc.proof-of-address.status-changed
+  summary: "Proof-of-address Status Changed"
+  description: "The proof-of-address status has been changed."
+  source: openapi/uphold-core-api-openapi.json
+- event: core.kyc.tax-details.status-changed
+  summary: "Tax Details Status Changed"
+  description: "The tax details status has been changed."
+  source: openapi/uphold-core-api-openapi.json
+- event: core.kyc.customer-due-diligence.status-changed
+  summary: "Customer Due Diligence Status Changed"
+  description: "The customer due diligence status has been changed."
+  source: openapi/uphold-core-api-openapi.json
+- event: core.kyc.enhanced-due-diligence.status-changed
+  summary: "Enhanced Due Diligence Status Changed"
+  description: "The enhanced due diligence status has been changed."
+  source: openapi/uphold-core-api-openapi.json
+- event: core.kyc.crypto-risk-assessment.status-changed
+  summary: "Crypto Risk Assessment Status Changed"
+  description: "The crypto risk assessment status has been changed."
+  source: openapi/uphold-core-api-openapi.json
+- event: core.kyc.self-categorization-statement.status-changed
+  summary: "Self Categorization Statement Status Changed"
+  description: "The self categorization statement status has been changed."
+  source: openapi/uphold-core-api-openapi.json
+- event: core.kyc.screening.status-changed
+  summary: "Screening Status Changed"
+  description: "The screening status has been changed."
+  source: openapi/uphold-core-api-openapi.json
+- event: core.kyc.risk.status-changed
+  summary: "Risk Status Changed"
+  description: "The risk status has been changed."
+  source: openapi/uphold-core-api-openapi.json
+- event: core.kyb.onboarding.status-changed
+  summary: "KYB Onboarding Status Changed"
+  description: "The KYB onboarding status has changed."
+  source: openapi/uphold-core-api-openapi.json
+- event: core.assets.cooldown-ended
+  summary: "Assets cooldown ended"
+  description: "The cooldown period for a set of assets has ended."
+  source: openapi/uphold-core-api-openapi.json
+- event: core.account.created
+  summary: "Account Created"
+  description: "An account has been created."
+  source: openapi/uphold-core-api-openapi.json
+- event: core.account.balance-changed
+  summary: "Account Balance Changed"
+  description: "The balance of an account has changed."
+  source: openapi/uphold-core-api-openapi.json
+- event: core.account.archived
+  summary: "Account archived"
+  description: "An account has been archived."
+  source: openapi/uphold-core-api-openapi.json
+- event: core.account.unarchived
+  summary: "Account unarchived"
+  description: "An account has been unarchived."
+  source: openapi/uphold-core-api-openapi.json
+- event: core.external-account.created
+  summary: "External account created"
+  description: "An external account has been created."
+  source: openapi/uphold-core-api-openapi.json
+- event: core.external-account.status-changed
+  summary: "External account status changed"
+  description: "The status of an external account has been changed."
+  source: openapi/uphold-core-api-openapi.json
+- event: core.external-account.deleted
+  summary: "External account deleted"
+  description: "An external account has been deleted."
+  source: openapi/uphold-core-api-openapi.json
+- event: core.transaction.created
+  summary: "Transaction created"
+  description: "A new transaction has been created."
+  source: openapi/uphold-core-api-openapi.json
+- event: core.transaction.status-changed
+  summary: "Transaction status changed"
+  description: "The transaction status has been changed."
+  source: openapi/uphold-core-api-openapi.json
+- event: kyc-connector.sumsub.ingestion.created
+  summary: "Sumsub ingestion created"
+  description: "A new Sumsub ingestion has been created."
+  source: openapi/uphold-kyc-connector-api-openapi.json
+- event: kyc-connector.sumsub.ingestion.status-changed
+  summary: "Sumsub ingestion status changed"
+  description: "The Sumsub ingestion status has been changed."
+  source: openapi/uphold-kyc-connector-api-openapi.json
+- event: kyc-connector.veriff.ingestion.created
+  summary: "Veriff ingestion created"
+  description: "A new Veriff ingestion has been created."
+  source: openapi/uphold-kyc-connector-api-openapi.json
+- event: kyc-connector.veriff.ingestion.status-changed
+  summary: "Veriff ingestion status changed"
+  description: "The Veriff ingestion status has been changed."
+  source: openapi/uphold-kyc-connector-api-openapi.json

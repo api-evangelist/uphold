@@ -1,0 +1,121 @@
+generated: '2026-08-05'
+method: derived
+source: mcp/uphold-mcp.yml (live tools/list) + openapi/*.json
+note: >-
+  Uphold's MCP server and its REST API are NOT projections of one core. The MCP server is a Mintlify
+  documentation server: it searches and reads the published docs. The REST API moves money. The honest
+  crosswalk is therefore almost entirely divergence — every MCP tool is mcp_only, and all 92 REST
+  operations are rest_only. Recording this is the point: an agent that connects to Uphold's MCP server
+  can read about how to onboard a user or send a payout, but cannot perform either through MCP. It must
+  fall back to the OAuth2 client-credentials REST API, whose real input contracts are the parameters and
+  requestBodies in the OpenAPI 3.1 specs harvested into openapi/.
+surfaces:
+  openapi:
+  - file: openapi/uphold-core-api-openapi.json
+    operations: 75
+    gated: false
+  - file: openapi/uphold-kyc-connector-api-openapi.json
+    operations: 8
+    gated: false
+  - file: openapi/uphold-market-pulse-api-openapi.json
+    operations: 4
+    gated: false
+  - file: openapi/uphold-widgets-api-openapi.json
+    operations: 3
+    gated: false
+  - file: openapi/uphold-topper-api-openapi.json
+    operations: 2
+    gated: false
+  graphql: null
+  mcp:
+    url: https://developer.uphold.com/mcp
+    tools_list_gated: false
+    tools: 3
+    kind: documentation-search
+crosswalk: []
+mcp_only:
+- tool: search_uphold
+  reason: >-
+    Full-text search over the published Uphold documentation corpus. There is no public REST operation
+    that searches docs; the nearest machine-readable equivalent is the published llms.txt index
+    (llms/uphold-llms.txt).
+  binding: docs
+  confidence: high
+- tool: query_docs_filesystem_uphold
+  reason: >-
+    Shell-like read of a virtualized in-memory filesystem of documentation pages. Server-side composite
+    with no REST analogue.
+  binding: docs
+  confidence: high
+- tool: submit_feedback
+  reason: >-
+    Files a documentation issue with the Uphold docs team. The only non-read-only tool on the server, and
+    it has no counterpart in the Enterprise REST API.
+  binding: docs
+  confidence: high
+rest_only:
+- capability: Authentication
+  operations: [core.create-oauth2-token]
+- capability: Users
+  operations: [core.create-user, core.get-user, core.delete-user]
+- capability: KYC processes
+  operations: [core.get-kyc-overview, core.update-kyc-profile, core.update-kyc-address, core.update-kyc-email,
+    core.update-kyc-phone, core.update-kyc-identity, core.update-kyc-proof-of-address,
+    core.update-kyc-customer-due-diligence, core.update-kyc-enhanced-due-diligence,
+    core.update-kyc-crypto-risk-assessment, core.update-kyc-self-categorization-statement,
+    core.update-kyc-tax-details]
+- capability: Capabilities and terms of service
+  operations: [core.list-capabilities, core.get-capability, core.list-terms-of-service,
+    core.get-terms-of-service, core.accept-terms-of-service]
+- capability: Files
+  operations: [core.create-file, core.get-file, core.list-files-settings]
+- capability: Assets, networks and rails
+  operations: [core.list-assets, core.get-many-assets, core.get-asset, core.get-asset-rates,
+    core.get-asset-historical-rates, core.list-networks, core.get-network, core.validate-network-address,
+    core.list-rails]
+- capability: Accounts
+  operations: [core.list-accounts, core.create-account, core.list-default-accounts, core.get-account,
+    core.update-account, core.archive-account, core.get-account-deposit-method,
+    core.setup-account-deposit-method]
+- capability: External accounts
+  operations: [core.create-external-account, core.list-external-accounts, core.get-external-account,
+    core.update-external-account, core.delete-external-account]
+- capability: Quotes and transactions
+  operations: [core.create-quote, core.create-transaction, core.get-transaction, core.list-transactions,
+    core.list-account-transactions, core.list-transaction-requests-for-information,
+    core.get-transaction-request-for-information, core.update-transaction-request-for-information]
+- capability: Portfolio and statements
+  operations: [core.get-portfolio-overview, core.get-portfolio-performance,
+    core.get-portfolio-historical-balance, core.get-portfolio-asset-performance,
+    core.get-portfolio-many-assets-performance, core.get-portfolio-asset-historical-balance,
+    core.get-portfolio-account-performance, core.get-portfolio-many-accounts-performance,
+    core.get-portfolio-account-historical-balance, core.get-portfolio-statement,
+    core.get-transactions-statement]
+- capability: Metadata
+  operations: [core.get-metadata, core.set-metadata, core.update-metadata, core.delete-metadata]
+- capability: Webhooks
+  operations: [core.create-webhook-management-link]
+- capability: Sandbox test helpers
+  operations: [core.simulate-bank-deposit, core.simulate-crypto-deposit, core.skip-assets-cooldowns]
+- capability: KYC Connector (Sumsub / Veriff)
+  operations: [kyc-connector.create-sumsub-ingestion, kyc-connector.list-sumsub-ingestions,
+    kyc-connector.get-sumsub-ingestion, kyc-connector.create-veriff-ingestion,
+    kyc-connector.list-veriff-ingestions, kyc-connector.get-veriff-ingestion,
+    kyc-connector.set-veriff-config, kyc-connector.get-veriff-config]
+- capability: Market Pulse
+  operations: [market-pulse.list-general-news, market-pulse.list-asset-news,
+    market-pulse.get-asset-statistics, market-pulse.get-asset-information]
+- capability: Widget sessions
+  operations: [widgets.create-payment-widget-session, widgets.create-travel-rule-widget-session,
+    widgets.create-kyc-widget-session]
+- capability: Topper KYC sharing
+  operations: [topper.identify-kyc-sharing-user, topper.create-kyc-sharing-session]
+coverage:
+  tools_named: 3
+  tools_bound_to_rest: 0
+  mcp_only: 3
+  rest_operations_total: 92
+  rest_operations_with_a_tool: 0
+  gap: >-
+    100% of the money-movement surface is unreachable from MCP. Uphold's agent posture today is
+    documentation-grade (MCP + llms.txt + agent card + agent skill), not execution-grade.

@@ -1,0 +1,429 @@
+generated: '2026-08-05'
+method: searched
+docs: https://developer.uphold.com/rest-apis/authentication#scopes
+issuance: >-
+  Scopes are attached to an OAuth 2.0 client at creation time in the Enterprise Portal
+  (https://portal.enterprise.uphold.com/ > Clients > Create new client). A call whose token lacks the
+  required scope fails 403 with error code token_insufficient_scopes. Uphold publishes no standalone
+  scope-reference page — the authoritative enumeration is the flows.clientCredentials.scopes map in the
+  five published OpenAPI documents, captured verbatim below.
+naming_convention: '<product>.<resource>[.<sub-resource>]:<action>'
+products: [core, kyc-connector, market-pulse, topper, widgets]
+source: openapi/uphold-core-api-openapi.json, openapi/uphold-kyc-connector-api-openapi.json,
+  openapi/uphold-market-pulse-api-openapi.json, openapi/uphold-topper-api-openapi.json, openapi/uphold-widgets-api-openapi.json
+schemes:
+- name: OAuth2
+  source: openapi/uphold-core-api-openapi.json
+  flows:
+  - flow: clientCredentials
+    tokenUrl: /core/oauth2/token
+  description: OAuth 2.0 authentication.
+- name: OAuth2
+  source: openapi/uphold-kyc-connector-api-openapi.json
+  flows:
+  - flow: clientCredentials
+    tokenUrl: /core/oauth2/token
+  description: OAuth 2.0 authentication
+- name: OAuth2
+  source: openapi/uphold-market-pulse-api-openapi.json
+  flows:
+  - flow: clientCredentials
+    tokenUrl: /core/oauth2/token
+  description: OAuth 2.0
+- name: OAuth2
+  source: openapi/uphold-topper-api-openapi.json
+  flows:
+  - flow: clientCredentials
+    tokenUrl: /core/oauth2/token
+  description: OAuth 2.0 authentication
+- name: OAuth2
+  source: openapi/uphold-widgets-api-openapi.json
+  flows:
+  - flow: clientCredentials
+    tokenUrl: /core/oauth2/token
+  description: OAuth 2.0
+scopes:
+- scope: core.accounts.metadata:read
+  description: Grants access to view accounts metadata
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.accounts.metadata:write
+  description: Grants access to modify accounts metadata
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.accounts:archive
+  description: Grants access to archive accounts
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.accounts:create
+  description: Grants access to create accounts
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.accounts:deposit-method
+  description: Grants access to deposit method needed for depositing into accounts
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.accounts:read
+  description: Grants access to view accounts
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.accounts:update
+  description: Grants access to update accounts
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.accounts:use-test-helpers
+  description: Grants access to test helpers of accounts
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.assets:use-test-helpers
+  description: Grants access to test helpers of assets
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.capabilities:read
+  description: Grants access to view user capabilities
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.external-accounts.metadata:read
+  description: Grants access to view external accounts metadata
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.external-accounts.metadata:write
+  description: Grants access to modify external accounts metadata
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.external-accounts:create
+  description: Grants access to create external accounts
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.external-accounts:delete
+  description: Grants access to delete external accounts
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.external-accounts:read
+  description: Grants access to view external accounts
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.external-accounts:update
+  description: Grants access to update external accounts
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.files.metadata:read
+  description: Grants access to view files metadata
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.files.metadata:write
+  description: Grants access to modify files metadata
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.files:create
+  description: Grants access to create files
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.files:read
+  description: Grants access to view files
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.kyc.address:update
+  description: Grants access to update address KYC process
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.kyc.crypto-risk-assessment:update
+  description: Grants access to update crypto risk assessment KYC process
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.kyc.customer-due-diligence:update
+  description: Grants access to update customer due diligence KYC process
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.kyc.email:update
+  description: Grants access to update email KYC process
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.kyc.enhanced-due-diligence:update
+  description: Grants access to update enhanced due diligence KYC process
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.kyc.identity:update
+  description: Grants access to update identity KYC process
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.kyc.phone:update
+  description: Grants access to update phone KYC process
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.kyc.profile:update
+  description: Grants access to update profile KYC process
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.kyc.proof-of-address:update
+  description: Grants access to update proof-of-address KYC process
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.kyc.self-categorization-statement:update
+  description: Grants access to update self-categorization statement KYC process
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.kyc.tax-details:update
+  description: Grants access to update tax details KYC process
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.kyc:read
+  description: Grants access to view KYC processes
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.portfolio:read
+  description: Grants access to view portfolio overview, performance, and historical balance
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.statements:read
+  description: Grants access to read statements
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.terms-of-service:accept
+  description: Grants access to accept terms of service
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.terms-of-service:read
+  description: Grants access to view terms of service
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.transactions.metadata:read
+  description: Grants access to view transactions metadata
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.transactions.metadata:write
+  description: Grants access to modify transactions metadata
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.transactions.requests-for-information:read
+  description: Grants access to view transactions requests for information
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.transactions.requests-for-information:update
+  description: Grants access to update transactions requests for information
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.transactions:create
+  description: Grants access to commit quotes
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.transactions:read
+  description: Grants access to view transactions
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.users.metadata:read
+  description: Grants access to view user metadata
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.users.metadata:write
+  description: Grants access to modify user metadata
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.users:act-on-behalf-of
+  description: Grants access to act on behalf of a user
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.users:create
+  description: Grants access to create users
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.users:delete
+  description: Grants access to delete users
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.users:read
+  description: Grants access to view users
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: core.webhooks:management-link
+  description: Grants access to create webhook management links
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-core-api-openapi.json
+- scope: kyc-connector.sumsub.ingestions:create
+  description: Grants access to create a Sumsub ingestion.
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-kyc-connector-api-openapi.json
+- scope: kyc-connector.sumsub.ingestions:read
+  description: Grants access to view Sumsub ingestions.
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-kyc-connector-api-openapi.json
+- scope: kyc-connector.veriff.config:read
+  description: Grants access to view the Veriff provider configuration.
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-kyc-connector-api-openapi.json
+- scope: kyc-connector.veriff.config:write
+  description: Grants access to create or update the Veriff provider configuration.
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-kyc-connector-api-openapi.json
+- scope: kyc-connector.veriff.ingestions:create
+  description: Grants access to create a Veriff ingestion.
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-kyc-connector-api-openapi.json
+- scope: kyc-connector.veriff.ingestions:read
+  description: Grants access to view Veriff ingestions.
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-kyc-connector-api-openapi.json
+- scope: market-pulse.assets.information:read
+  description: Grants access to read asset information.
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-market-pulse-api-openapi.json
+- scope: market-pulse.assets.news:read
+  description: Grants access to read asset news.
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-market-pulse-api-openapi.json
+- scope: market-pulse.assets.statistics:read
+  description: Grants access to read asset statistics.
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-market-pulse-api-openapi.json
+- scope: market-pulse.general.news:read
+  description: Grants access to read general market news.
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-market-pulse-api-openapi.json
+- scope: topper.kyc-sharing:create-session
+  description: Grants access to create a KYC sharing session.
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-topper-api-openapi.json
+- scope: topper.kyc-sharing:identify-user
+  description: Grants access to identify a user for KYC sharing.
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-topper-api-openapi.json
+- scope: widgets.kyc.sessions:create
+  description: Grants access to create KYC widget sessions.
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-widgets-api-openapi.json
+- scope: widgets.payment.sessions:create
+  description: Grants access to create payment widget sessions.
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-widgets-api-openapi.json
+- scope: widgets.travel-rule.sessions:create
+  description: Grants access to create Travel Rule widget sessions.
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/uphold-widgets-api-openapi.json

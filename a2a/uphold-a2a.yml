@@ -1,0 +1,68 @@
+generated: '2026-08-05'
+method: probed
+source: https://developer.uphold.com/.well-known/agent-card.json
+discovery:
+  path: /.well-known/agent-card.json
+  canonical: true
+  host: developer.uphold.com
+  note: >-
+    Found on the documentation host only. The corporate host (uphold.com) returns 404 for both
+    /.well-known/agent-card.json and the legacy /.well-known/agent.json, and the API host
+    (api.enterprise.uphold.com) returns 503 to unauthenticated requests.
+conformance:
+  spec: A2A 1.0.0
+  grade: conformant
+  protocol_version: '0.3'
+  preferred_transport: HTTP+JSON
+  hard_checks:
+    capabilities_is_object: true
+    protocol_version_present: true
+    skills_is_array: true
+  optional_fields:
+    preferred_transport: true
+    default_input_modes: true
+    default_output_modes: true
+  deviations:
+  - id: supportedInterfaces-instead-of-additionalInterfaces
+    detail: >-
+      The card declares its transport interfaces under `supportedInterfaces` rather than the A2A 1.0.0
+      `additionalInterfaces` key. All three hard conformance checks still pass, so the grade holds, but a
+      strict 1.0.0 consumer will not read the interface list.
+  - id: agent-url-points-at-docs-host
+    detail: >-
+      `url` and every `supportedInterfaces[].url` point at https://developer.uphold.com/ — the
+      documentation site — rather than at a dedicated A2A JSON-RPC endpoint. The declared agent surface
+      is documentation-serving, not transactional; the transactional surface is the REST API and the
+      MCP server at https://developer.uphold.com/mcp.
+card:
+  name: Uphold
+  url: https://developer.uphold.com/
+  version: 1.0.0
+  organization: Uphold
+  documentation_url: https://developer.uphold.com/
+  capabilities:
+    streaming: false
+    push_notifications: false
+  skills: 1
+  skill_ids:
+  - enterprise
+  file: uphold-agent-card.json
+related:
+  agent_skill: skills/uphold-enterprise-skill.md
+  agent_skill_source: https://developer.uphold.com/.well-known/agent-skills/enterprise/skill.md
+  mcp: mcp/uphold-mcp.yml
+x-evidence:
+  fetched: '2026-08-05'
+  url: https://developer.uphold.com/.well-known/agent-card.json
+  http_status: 200
+  content_type: application/json
+  content_length: 1007
+  negative_probes:
+  - url: https://uphold.com/.well-known/agent-card.json
+    http_status: 404
+  - url: https://uphold.com/.well-known/agent.json
+    http_status: 404
+  - url: https://developer.uphold.com/.well-known/agent.json
+    http_status: 404
+  - url: https://api.enterprise.uphold.com/.well-known/agent-card.json
+    http_status: 503

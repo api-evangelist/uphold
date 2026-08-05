@@ -1,0 +1,112 @@
+generated: '2026-08-05'
+method: searched
+source: >-
+  https://developer.uphold.com/rest-apis/test-helpers,
+  https://developer.uphold.com/rest-apis/core-api/accounts/test-helpers/fund-sandbox-accounts,
+  https://developer.uphold.com/get-started/set-up-your-account
+docs: https://developer.uphold.com/rest-apis/test-helpers
+marketing: https://uphold.com/en-us/enterprise/api-integration/sandbox
+environments:
+- name: Sandbox
+  base_url: https://api.enterprise.sandbox.uphold.com
+  description: >-
+    Fully isolated testing environment that mirrors Production behaviour with test funds and test data.
+    Available immediately on Enterprise Portal registration, before any commercial conversation.
+- name: Production
+  base_url: https://api.enterprise.uphold.com
+credentials:
+  model: per-environment OAuth 2.0 clients
+  portal: https://portal.enterprise.uphold.com/
+  flow: >-
+    Register the organization in the Enterprise Portal, open Clients > Create new client, select the
+    scopes the application needs, then Generate client secret to receive a Client ID and Client Secret.
+  key_prefixes: none
+  key_prefix_note: >-
+    Uphold does not use test-vs-live key prefixes. Environment separation is by HOST, not by credential
+    shape, so a client cannot tell from the credential alone which environment it is pointed at. Uphold's
+    own docs warn to make the integration environment-aware.
+  postman:
+    workspace: https://www.postman.com/uphold/workspace/enterprise-api
+    environments: [Sandbox, Production]
+    variables: [auth.client_id, auth.client_secret, auth.access_token, core.user.id, core.account.id,
+      core.transaction.id]
+    note: Public read-only workspace; fork it to edit. Chaining scripts capture ids between requests.
+test_helpers:
+  availability: Sandbox only — these endpoints return 404 Not Found in Production.
+  async_note: Many return 202 Accepted; the simulated event settles asynchronously.
+  operations:
+  - operation: core.simulate-bank-deposit
+    path: POST /core/accounts/test-helpers/bank-deposits
+    description: Simulate an incoming bank deposit into a Sandbox account.
+    prerequisite: core.setup-account-deposit-method
+  - operation: core.simulate-crypto-deposit
+    path: POST /core/accounts/test-helpers/crypto-deposits
+    description: >-
+      Simulate an incoming crypto deposit. The transaction hash is not on any blockchain — use the
+      testnet flow when a real on-chain transaction is required.
+    prerequisite: core.setup-account-deposit-method
+  - operation: core.skip-assets-cooldowns
+    path: PUT /core/assets/test-helpers/skip-assets-cooldowns
+    description: Skip asset cooldown periods so a test can proceed immediately.
+crypto_testnets:
+  note: >-
+    Uphold integrates testnet blockchains in Sandbox but does NOT supply test tokens — source them from
+    third-party faucets. Crypto withdrawals in Sandbox are simulated by default and do not reach the
+    blockchain; on-chain withdrawal testing must be arranged with an Account Manager.
+  networks:
+  - {asset: BTC, testnet: Testnet}
+  - {asset: ETH, testnet: Sepolia}
+  - {asset: XRP, testnet: Ripple Testnet}
+  - {asset: SOL, testnet: Devnet}
+  - {asset: 'USDC, EURC', testnet: multiple (Circle faucet)}
+test_cards:
+  source: https://developer.uphold.com/rest-apis/core-api/accounts/test-helpers/fund-sandbox-accounts
+  usage: >-
+    Create an external account with the test card, then use it as the `origin` when creating a quote.
+    Any three-digit CVV and any future MM/YY expiry are accepted.
+  published_count: 44
+  note: >-
+    Full published table lives at the source URL. A representative sample of the published values is
+    recorded below — these are vendor test-card numbers published openly by Uphold, not credentials.
+  sample:
+  - {number: '4242424242424242', network: visa, type: credit, country: GB, features: [deposit]}
+  - {number: '4111111111111111', network: visa, type: debit, country: PL, features: [deposit]}
+  - {number: '4462030000000000', network: visa, type: debit, country: GB, features: [deposit, withdrawal],
+     method: instant}
+  - {number: '5555555555554444', network: mastercard, type: credit, country: BR, features: [deposit]}
+  - {number: '5454545454545454', network: mastercard, type: credit, country: US, features: [deposit]}
+  - {number: '5318773012490080', network: mastercard, type: debit, country: US, features: [deposit,
+      withdrawal], method: instant}
+decline_simulation:
+  mechanism: reserved transaction amount
+  note: >-
+    Creating a transaction with one of these exact amounts on any Sandbox test card forces the matching
+    failure; every other amount succeeds. This is Uphold's decline-code surface — it publishes no
+    standalone acquirer decline-code reference, so these six codes are the documented set.
+  triggers:
+  - {amount: '12.12', code: card_unauthorized, meaning: The card is not authorized for this transaction.}
+  - {amount: '15.15', code: card_declined_by_bank, meaning: The issuing bank declined the transaction.}
+  - {amount: '20.20', code: card_expired, meaning: The card has expired.}
+  - {amount: '26.26', code: insufficient_funds, meaning: The card has insufficient funds to cover the
+      amount.}
+  - {amount: '34.34', code: velocity, meaning: The card has exceeded its transaction velocity limit.}
+  - {amount: '60.60', code: card_unauthorized, meaning: The card is not authorized for this transaction.}
+apm_testing:
+- method: Apple Pay
+  approach: >-
+    Uses Apple's own Sandbox — a dedicated Sandbox Apple Account created in App Store Connect under
+    Users and Access > Sandbox > Testers, signed in on the test device, with an Apple test card in
+    Wallet showing a "TEST CARD" badge. Apple Pay domain verification is not required in Sandbox.
+  docs: https://developer.apple.com/apple-pay/sandbox-testing/
+- method: PayPal
+  approach: >-
+    Uses PayPal's own sandbox accounts, created at developer.paypal.com. The PayPal sandbox account
+    country must match the country of the Uphold test user.
+  docs: https://developer.paypal.com/tools/sandbox/accounts/
+test_clocks:
+  supported: false
+  note: No time-simulation / test-clock facility is documented.
+caveats:
+- Sandbox behaviour may differ from Production in performance, response times and event handling.
+- Integration code must be environment-aware; nothing in the credential prevents pointing a Sandbox
+  client at Production.

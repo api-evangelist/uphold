@@ -1,0 +1,241 @@
+# Uphold
+
+## Docs
+
+- [Apple Pay deposit via the Payment Widget](https://developer.uphold.com/developer-guides/apm-transfers/deposit/via-payment-widget/apple-pay.md): Fund a user's account with Apple Pay using the Uphold Payment Widget.
+- [PayPal deposit via the Payment Widget](https://developer.uphold.com/developer-guides/apm-transfers/deposit/via-payment-widget/paypal.md): Fund a user's account from PayPal using the Uphold Payment Widget.
+- [Apple Pay deposit via the REST API](https://developer.uphold.com/developer-guides/apm-transfers/deposit/via-rest-api/apple-pay.md): Fund a user's account from Apple Pay through the Uphold REST API.
+- [PayPal deposit via the REST API](https://developer.uphold.com/developer-guides/apm-transfers/deposit/via-rest-api/paypal.md): Fund a user's account from PayPal through the Uphold REST API.
+- [APM transfer integration overview](https://developer.uphold.com/developer-guides/apm-transfers/overview.md): Let users fund their accounts and payouts using Alternative Payment Methods (APM).
+- [Apple Pay withdrawal via the Payment Widget](https://developer.uphold.com/developer-guides/apm-transfers/withdrawal/via-payment-widget/apple-pay.md): Pay out from a user's account to Apple Pay using the Uphold Payment Widget.
+- [PayPal withdrawal via the Payment Widget](https://developer.uphold.com/developer-guides/apm-transfers/withdrawal/via-payment-widget/paypal.md): Pay out from a user's account to PayPal using the Uphold Payment Widget.
+- [Apple Pay withdrawal via the REST API](https://developer.uphold.com/developer-guides/apm-transfers/withdrawal/via-rest-api/apple-pay.md): Pay out from a user's account to Apple Pay through the Uphold REST API.
+- [PayPal withdrawal via the REST API](https://developer.uphold.com/developer-guides/apm-transfers/withdrawal/via-rest-api/paypal.md): Pay out from a user's account to PayPal through the Uphold REST API.
+- [ACH, Fednow/RTP & Wire bank deposit via the Payment Widget](https://developer.uphold.com/developer-guides/bank-transfers/deposit/via-payment-widget/ach.md): Accept ACH, Fednow/RTP & Wire bank deposits with the Uphold Payment Widget: create a session, display transfer instructions to the user, and monitor for incoming funds.
+- [FPS bank deposit via the Payment Widget](https://developer.uphold.com/developer-guides/bank-transfers/deposit/via-payment-widget/fps.md): Accept GBP Faster Payments (FPS) deposits with the Uphold Payment Widget. Create a session, display bank instructions, and monitor for incoming funds.
+- [ACH bank deposit via the REST API](https://developer.uphold.com/developer-guides/bank-transfers/deposit/via-rest-api/ach.md): Support ACH bank deposits in USD using the Uphold REST API: configure the deposit method, share routing details, and monitor for incoming funds.
+- [FedNow / RTP bank deposit via the REST API](https://developer.uphold.com/developer-guides/bank-transfers/deposit/via-rest-api/fednow.md): Send near-instant USD withdrawals via FedNow and RTP using the Uphold REST API: create an external bank account, generate a quote, submit the payout, and monitor settlement.
+- [FPS bank deposit via the REST API](https://developer.uphold.com/developer-guides/bank-transfers/deposit/via-rest-api/fps.md): Generate GBP Faster Payments (FPS) deposit instructions and monitor incoming transfers using the Uphold REST API, with automatic origin account linking after first deposit.
+- [SEPA bank deposit via the REST API](https://developer.uphold.com/developer-guides/bank-transfers/deposit/via-rest-api/sepa.md): Generate EUR SEPA deposit instructions and monitor incoming transfers using the Uphold REST API, with automatic origin account linking after first deposit.
+- [Wire bank deposit via the REST API](https://developer.uphold.com/developer-guides/bank-transfers/deposit/via-rest-api/wire.md): Support USD wire transfer deposits using the Uphold REST API. Wire shares routing and account details with ACH and FedNow for one deposit method setup.
+- [Bank transfer integration overview (FPS, SEPA, ACH, Wire)](https://developer.uphold.com/developer-guides/bank-transfers/overview.md): Connect to local banking rails across the UK, EU, and US — FPS, SEPA, ACH, FedNow/RTP, and Wire — with deposit and withdrawal coverage and quote flows.
+- [ACH bank withdrawal via the Payment Widget](https://developer.uphold.com/developer-guides/bank-transfers/withdrawal/via-payment-widget/ach.md): Send ACH bank withdrawals with the Uphold Payment Widget for account selection, then create the quote and transaction via the REST API to complete payout.
+- [FPS bank withdrawal via the Payment Widget](https://developer.uphold.com/developer-guides/bank-transfers/withdrawal/via-payment-widget/fps.md): Send GBP Faster Payments (FPS) withdrawals with the Uphold Payment Widget for bank account selection, then create the quote and transaction via REST API.
+- [ACH bank withdrawal via the REST API](https://developer.uphold.com/developer-guides/bank-transfers/withdrawal/via-rest-api/ach.md): Send USD ACH bank withdrawals with the Uphold REST API: create an external bank account, generate a quote, submit the payout, and monitor settlement.
+- [FedNow / RTP bank withdrawal via the REST API](https://developer.uphold.com/developer-guides/bank-transfers/withdrawal/via-rest-api/fednow.md): Send near-instant USD withdrawals via FedNow and RTP using the Uphold REST API, including verifying the destination bank's support for these rails.
+- [FPS bank withdrawal via the REST API](https://developer.uphold.com/developer-guides/bank-transfers/withdrawal/via-rest-api/fps.md): Send GBP Faster Payments (FPS) withdrawals using the Uphold REST API: list linked external accounts, generate and confirm a quote, and monitor for settlement.
+- [SEPA bank withdrawal via the REST API](https://developer.uphold.com/developer-guides/bank-transfers/withdrawal/via-rest-api/sepa.md): Send EUR SEPA bank withdrawals using the Uphold REST API: list linked external accounts, generate and confirm a quote, and monitor settlement.
+- [Interactive buy walkthrough](https://developer.uphold.com/developer-guides/buy-and-sell/buy/interactive-buy-flow.md): Navigate through a card → crypto buy flow. Click each step to see the matching API call and visual representation side by side.
+- [Buy via the REST API](https://developer.uphold.com/developer-guides/buy-and-sell/buy/via-rest-api.md): Let users buy crypto with a fiat payment method — card or bank — using the Uphold REST API.
+- [Buy and sell overview](https://developer.uphold.com/developer-guides/buy-and-sell/overview.md): Let users buy crypto from a fiat payment method and sell crypto back to a fiat destination — card and bank, or APMs — in a single transaction.
+- [Interactive sell walkthrough](https://developer.uphold.com/developer-guides/buy-and-sell/sell/interactive-sell-flow.md): Navigate through a crypto → fiat sell flow. Click each step to see the matching API call and visual representation side by side.
+- [Sell via the REST API](https://developer.uphold.com/developer-guides/buy-and-sell/sell/via-rest-api.md): Let users sell crypto to a fiat payment method — card via OCT or bank — using the Uphold REST API.
+- [Card deposit via the Payment Widget](https://developer.uphold.com/developer-guides/card-transfers/deposit/via-payment-widget.md): Accept card deposits with the Uphold Payment Widget for card selection and 3DS authorization.
+- [Card deposit via the REST API](https://developer.uphold.com/developer-guides/card-transfers/deposit/via-rest-api.md): Support card deposits using the Uphold REST API: link a card as an external account, create a quote, handle 3DS, and create the deposit transaction.
+- [Card transfer integration overview (debit and credit cards)](https://developer.uphold.com/developer-guides/card-transfers/overview.md): Let users fund accounts and cash out with debit or credit cards in EUR, GBP, or USD. Covers card linking, 3DS authorization, and card limits.
+- [Card withdrawal via the Payment Widget](https://developer.uphold.com/developer-guides/card-transfers/withdrawal/via-payment-widget.md): Send card withdrawals with the Uphold Payment Widget for card selection, then create the quote and transaction directly via the REST API to complete payout.
+- [Card withdrawal via the REST API](https://developer.uphold.com/developer-guides/card-transfers/withdrawal/via-rest-api.md): Send card withdrawals with the Uphold REST API: link or list a card external account, create a quote, and submit the withdrawal transaction to the user.
+- [Crypto deposit via the Payment Widget](https://developer.uphold.com/developer-guides/crypto-transfers/deposit/via-payment-widget.md): Accept crypto deposits with the Uphold Payment Widget for network selection and address display, then monitor incoming transactions on your backend.
+- [Crypto deposit via the REST API](https://developer.uphold.com/developer-guides/crypto-transfers/deposit/via-rest-api.md): Support crypto deposits with the Uphold REST API: configure the deposit method, generate a network address, and monitor for incoming on-chain transfers.
+- [Crypto transfer integration overview (50+ blockchains)](https://developer.uphold.com/developer-guides/crypto-transfers/overview.md): Build native crypto on/off-ramps across 50+ blockchain networks, with on-chain, off-chain, and simulated execution modes for deposits and withdrawals.
+- [Crypto withdrawal via the Payment Widget](https://developer.uphold.com/developer-guides/crypto-transfers/withdrawal/via-payment-widget.md): Send crypto withdrawals with the Uphold Payment Widget for asset, network and address collection, then create the quote and transaction via the REST API.
+- [Crypto withdrawal via the REST API](https://developer.uphold.com/developer-guides/crypto-transfers/withdrawal/via-rest-api.md): Send crypto withdrawals with the Uphold REST API: collect destination details, create a quote, handle requirements, and monitor for settlement.
+- [Developer guides for onboarding and money movement](https://developer.uphold.com/developer-guides/overview.md): Step-by-step guides for the most common Uphold integrations: user onboarding, plus bank, card, and crypto deposits and withdrawals via API or Widget.
+- [Introduction to dynamic forms](https://developer.uphold.com/developer-guides/resources/dynamic-forms/introduction.md): Dynamic forms are server-driven JSON Schema and UI Schema definitions that adapt data collection (KYC, compliance) without you shipping app code changes.
+- [Render dynamic forms in your application](https://developer.uphold.com/developer-guides/resources/dynamic-forms/rendering.md): Render Uphold dynamic forms in your app using the JSON Schema, UI Schema, and submission handlers, with examples for React, JSON Forms, and validation.
+- [Dynamic forms JSON Schema reference](https://developer.uphold.com/developer-guides/resources/dynamic-forms/schema.md): Reference for the JSON Schema that defines dynamic form data structure, types, and validation rules. Covers properties, required fields, and constraints.
+- [Dynamic forms UI Schema reference](https://developer.uphold.com/developer-guides/resources/dynamic-forms/ui-schema.md): Reference for the UI Schema that defines dynamic form layouts, controls, conditional visibility, and custom options based on the JSON Forms specification.
+- [Fetching data](https://developer.uphold.com/developer-guides/statements/fetching-data.md)
+- [Generating report](https://developer.uphold.com/developer-guides/statements/generating-report.md)
+- [Overview](https://developer.uphold.com/developer-guides/statements/overview.md)
+- [Preparing data](https://developer.uphold.com/developer-guides/statements/preparing-data.md)
+- [Trade & Send integration overview](https://developer.uphold.com/developer-guides/trade-and-send/overview.md): Move assets within your platform — trade between different assets for the same user, or send the same asset between two different users.
+- [Interactive send walkthrough](https://developer.uphold.com/developer-guides/trade-and-send/send/interactive-send-flow.md): Navigate through a peer-to-peer asset send. Click each step to see the matching API call and visual representation side by side.
+- [Execute a send via the REST API](https://developer.uphold.com/developer-guides/trade-and-send/send/via-rest-api.md): Move the same asset between two users in the same organization using the Uphold quote → transaction flow, initiated on behalf of the sender.
+- [Interactive trade walkthrough](https://developer.uphold.com/developer-guides/trade-and-send/trade/interactive-trade-flow.md): Navigate through an asset-to-asset trade. Click each step to see the matching API call and visual representation side by side.
+- [Execute a trade via the REST API](https://developer.uphold.com/developer-guides/trade-and-send/trade/via-rest-api.md): Convert between different assets for the same user using the Uphold quote → commit flow. Trades settle in under a second.
+- [Travel Rule — deposit flow](https://developer.uphold.com/developer-guides/travel-rule/deposit.md): Step-by-step guide to resolving a Travel Rule request for information on an on-hold crypto deposit.
+- [Travel Rule overview](https://developer.uphold.com/developer-guides/travel-rule/overview.md): Understand the Travel Rule regulatory requirement, when it applies to crypto transactions, and how Uphold's Travel Rule solution works.
+- [Travel Rule — withdrawal flow](https://developer.uphold.com/developer-guides/travel-rule/withdrawal.md): Step-by-step guide to handling a Travel Rule requirement during a crypto withdrawal.
+- [Business user onboarding overview (KYB verification)](https://developer.uphold.com/developer-guides/user-onboarding/business/overview.md): Onboard business clients with KYB and compliance workflows on the Uphold platform. Coverage, capabilities, and integration paths for business users.
+- [Individual user onboarding overview (KYC verification)](https://developer.uphold.com/developer-guides/user-onboarding/individual/overview.md): Verify retail user identity and unlock capabilities through Uphold's individual KYC processes, with Uphold-verified or partner-verified models.
+- [Onboard individual users via the REST API](https://developer.uphold.com/developer-guides/user-onboarding/individual/via-api.md): Step-by-step guide to onboarding individual users via the Uphold REST API: create the user, complete KYC processes, and unlock capabilities.
+- [Onboard individual users via the KYC Connector](https://developer.uphold.com/developer-guides/user-onboarding/individual/via-kyc-connector.md): Use the Uphold KYC Connector to ingest verifications from Sumsub or Veriff, mapping provider payloads to KYC processes without bespoke integration work.
+- [Onboard individual users via the KYC Widget](https://developer.uphold.com/developer-guides/user-onboarding/individual/via-kyc-widget.md): Collect KYC data from individual users using the Uphold KYC Widget, without building a custom verification interface.
+- [User onboarding overview — KYC, KYB, and capabilities](https://developer.uphold.com/developer-guides/user-onboarding/overview.md): Establish user eligibility and compliance readiness with Uphold's onboarding model. Compare KYC and KYB methods, verification responsibility, and capabilities.
+- [Introduction to the FIX APIs](https://developer.uphold.com/fix-apis/introduction.md)
+- [Building with AI](https://developer.uphold.com/get-started/build-with-ai.md): Use the Uphold Enterprise docs with LLMs and AI coding tools. Feed llms.txt and llms-full.txt to ChatGPT, Claude, Cursor, or your own agents to scaffold integrations faster.
+- [Make your first API call](https://developer.uphold.com/get-started/make-your-first-api-call.md): Make your first Uphold Enterprise API call using the public Postman workspace, with pre-configured Sandbox and Production environments and example requests.
+- [Get started with the Uphold Enterprise API Suite](https://developer.uphold.com/get-started/overview.md): Build enterprise-grade crypto products with the Uphold Enterprise API Suite — onboard users and move value across banks, cards, and crypto.
+- [Set up your Uphold Enterprise account](https://developer.uphold.com/get-started/set-up-your-account.md): Register your organization in the Enterprise Portal to access the Sandbox and Production environments, manage credentials, and start integrating the APIs.
+- [Authentication](https://developer.uphold.com/rest-apis/authentication.md): Authenticate Uphold REST API requests with OAuth2 access tokens. Includes token endpoints, scopes, and unauthorized error handling for 401 responses.
+- [REST API changelog](https://developer.uphold.com/rest-apis/changelog.md): Track Uphold REST API releases, breaking changes, enhancements, and new features. Includes RSS feed for KYC, transactions, and other endpoint updates.
+- [Archive account](https://developer.uphold.com/rest-apis/core-api/accounts/archive-account.md): Archive an existing account.
+- [Create account](https://developer.uphold.com/rest-apis/core-api/accounts/create-account.md): Create a new account.
+- [Get account](https://developer.uphold.com/rest-apis/core-api/accounts/get-account.md): Retrieve an existing account by id.
+- [Get account deposit method](https://developer.uphold.com/rest-apis/core-api/accounts/get-account-deposit-method.md): Gets deposit method for depositing into an account externally.
+- [Accounts API introduction](https://developer.uphold.com/rest-apis/core-api/accounts/introduction.md): Manage user accounts on the Uphold platform. Each account holds the balance of a single asset and acts as a container for the user's funds in Uphold.
+- [List accounts](https://developer.uphold.com/rest-apis/core-api/accounts/list-accounts.md): List accounts owned by a user.
+- [List default accounts](https://developer.uphold.com/rest-apis/core-api/accounts/list-default-accounts.md): List the default account for each asset owned by a user.
+- [Set up account deposit method](https://developer.uphold.com/rest-apis/core-api/accounts/set-up-account-deposit-method.md): Sets up a deposit method for depositing into an account externally.
+- [Fund Sandbox accounts](https://developer.uphold.com/rest-apis/core-api/accounts/test-helpers/fund-sandbox-accounts.md): All the ways to fund a Sandbox account on the Uphold platform — bank deposit simulation, crypto deposit simulation, and other test helpers for testing flows.
+- [Simulate bank deposit](https://developer.uphold.com/rest-apis/core-api/accounts/test-helpers/simulate-bank-deposit.md): Simulate an incoming bank deposit for testing purposes.
+- [Simulate crypto deposit](https://developer.uphold.com/rest-apis/core-api/accounts/test-helpers/simulate-crypto-deposit.md): Simulate an incoming crypto deposit for testing purposes.
+- [Update account](https://developer.uphold.com/rest-apis/core-api/accounts/update-account.md): Update an existing account.
+- [Account archived](https://developer.uphold.com/rest-apis/core-api/accounts/webhooks/account-archived.md): An account has been archived.
+- [Account Balance Changed](https://developer.uphold.com/rest-apis/core-api/accounts/webhooks/account-balance-changed.md): The balance of an account has changed.
+- [Account Created](https://developer.uphold.com/rest-apis/core-api/accounts/webhooks/account-created.md): An account has been created.
+- [Account unarchived](https://developer.uphold.com/rest-apis/core-api/accounts/webhooks/account-unarchived.md): An account has been unarchived.
+- [Get asset](https://developer.uphold.com/rest-apis/core-api/assets/get-asset.md): Retrieve an asset by code.
+- [Get asset rates](https://developer.uphold.com/rest-apis/core-api/assets/get-asset-rates.md): Retrieve asset rates against other assets.
+- [Get asset historical rates](https://developer.uphold.com/rest-apis/core-api/assets/get-historical-rates.md): Retrieve historical rates for a specific asset.
+- [Get network](https://developer.uphold.com/rest-apis/core-api/assets/get-network.md): Retrieve a network by code.
+- [Assets API introduction](https://developer.uphold.com/rest-apis/core-api/assets/introduction.md): Retrieve information about assets supported on Uphold, plus the networks and rails used to transfer them. Includes asset shape, types, and rate endpoints.
+- [List assets](https://developer.uphold.com/rest-apis/core-api/assets/list-assets.md): List assets supported by the platform.
+- [List networks](https://developer.uphold.com/rest-apis/core-api/assets/list-networks.md): List networks supported by the platform.
+- [List rails](https://developer.uphold.com/rest-apis/core-api/assets/list-rails.md): List rails supported by the platform.
+- [Skip assets cooldowns](https://developer.uphold.com/rest-apis/core-api/assets/test-helpers/skip-assets-cooldowns.md): Skips assets cooldowns for testing purposes.
+- [Validate network address](https://developer.uphold.com/rest-apis/core-api/assets/validate-network-address.md): Validate an address for a specific network.
+- [Assets cooldown ended](https://developer.uphold.com/rest-apis/core-api/assets/webhooks/assets-cooldown-ended.md): The cooldown period for a set of assets has ended.
+- [Request OAuth2 token](https://developer.uphold.com/rest-apis/core-api/authentication/request-oauth2-token.md): Request an access token using OAuth2 protocol.
+- [Get capability](https://developer.uphold.com/rest-apis/core-api/capabilities/get-user-capability.md): Retrieve a user capability by code.
+- [Capabilities API introduction](https://developer.uphold.com/rest-apis/core-api/capabilities/introduction.md): Capabilities define the actions and features users can perform on the Uphold platform. Learn the capability shape, statuses, and how to query user permissions.
+- [List capabilities](https://developer.uphold.com/rest-apis/core-api/capabilities/list-user-capabilities.md): List user capabilities.
+- [Core API concepts and data model](https://developer.uphold.com/rest-apis/core-api/concepts.md): Learn the core concepts and data model behind the Uphold Enterprise API Suite — users, accounts, transactions, and assets — to design your integration.
+- [Get country](https://developer.uphold.com/rest-apis/core-api/countries/get-country.md): Retrieve a country by code.
+- [Countries API introduction](https://developer.uphold.com/rest-apis/core-api/countries/introduction.md): Retrieve information about the countries supported by the Uphold platform, including the country shape, supported assets, and KYC requirements per country.
+- [List countries](https://developer.uphold.com/rest-apis/core-api/countries/list-countries.md): List countries supported by the platform.
+- [Create external account](https://developer.uphold.com/rest-apis/core-api/external-accounts/create-external-account.md): Create an external account for the user.
+- [Delete external account](https://developer.uphold.com/rest-apis/core-api/external-accounts/delete-external-account.md): Delete an existing external account.
+- [Get external account](https://developer.uphold.com/rest-apis/core-api/external-accounts/get-external-account.md): Retrieve an existing external account by id.
+- [External accounts API introduction](https://developer.uphold.com/rest-apis/core-api/external-accounts/introduction.md): Manage external financial accounts, such as user-owned debit and credit cards or bank accounts, used for pull deposits and withdrawals out of Uphold.
+- [List external accounts](https://developer.uphold.com/rest-apis/core-api/external-accounts/list-external-accounts.md): List external accounts for the user.
+- [Update external account](https://developer.uphold.com/rest-apis/core-api/external-accounts/update-external-account.md): Update an existing external account.
+- [External account created](https://developer.uphold.com/rest-apis/core-api/external-accounts/webhooks/external-account-created.md): An external account has been created.
+- [External account deleted](https://developer.uphold.com/rest-apis/core-api/external-accounts/webhooks/external-account-deleted.md): An external account has been deleted.
+- [External account status changed](https://developer.uphold.com/rest-apis/core-api/external-accounts/webhooks/external-account-status-changed.md): The status of an external account has been changed.
+- [Create file](https://developer.uphold.com/rest-apis/core-api/files/create-file.md): Create a new file.
+- [Get file](https://developer.uphold.com/rest-apis/core-api/files/get-file.md): Retrieve an existing file by id.
+- [List files settings](https://developer.uphold.com/rest-apis/core-api/files/list-files-settings.md): List files upload settings.
+- [Get overview](https://developer.uphold.com/rest-apis/core-api/kyc/get-overview.md): Get the KYC overview of a user.
+- [KYC API introduction](https://developer.uphold.com/rest-apis/core-api/kyc/introduction.md): Manage KYC processes on the Uphold platform to keep users compliant with regulatory requirements. Learn the process model, statuses, and verification flow.
+- [Update address](https://developer.uphold.com/rest-apis/core-api/kyc/update-address.md): Update the address process for a user.
+- [Update crypto risk assessment](https://developer.uphold.com/rest-apis/core-api/kyc/update-crypto-risk-assessment.md): Update the crypto risk assessment process for a user.
+- [Update customer due diligence](https://developer.uphold.com/rest-apis/core-api/kyc/update-customer-due-diligence.md): Update the customer due diligence process for a user.
+- [Update email](https://developer.uphold.com/rest-apis/core-api/kyc/update-email.md): Update the email process for a user.
+- [Update enhanced due diligence](https://developer.uphold.com/rest-apis/core-api/kyc/update-enhanced-due-diligence.md): Update the enhanced due diligence process for a user.
+- [Update identity](https://developer.uphold.com/rest-apis/core-api/kyc/update-identity.md): Update the identity process for a user.
+- [Update phone](https://developer.uphold.com/rest-apis/core-api/kyc/update-phone.md): Update the phone process for a user.
+- [Update profile](https://developer.uphold.com/rest-apis/core-api/kyc/update-profile.md): Update the profile process for a user.
+- [Update proof-of-address](https://developer.uphold.com/rest-apis/core-api/kyc/update-proof-of-address.md): Update the proof-of-address process for a user.
+- [Update self-categorization statement](https://developer.uphold.com/rest-apis/core-api/kyc/update-self-categorization-statement.md): Update the self-categorization statement process for a user.
+- [Update tax details](https://developer.uphold.com/rest-apis/core-api/kyc/update-tax-details.md): Update the tax details process for a user.
+- [Address Status Changed](https://developer.uphold.com/rest-apis/core-api/kyc/webhooks/address-status-changed.md): The address status has been changed.
+- [Crypto Risk Assessment Status Changed](https://developer.uphold.com/rest-apis/core-api/kyc/webhooks/crypto-risk-assessment-status-changed.md): The crypto risk assessment status has been changed.
+- [Customer Due Diligence Status Changed](https://developer.uphold.com/rest-apis/core-api/kyc/webhooks/customer-due-diligence-status-changed.md): The customer due diligence status has been changed.
+- [Email Status Changed](https://developer.uphold.com/rest-apis/core-api/kyc/webhooks/email-status-changed.md): The email status has been changed.
+- [Enhanced Due Diligence Status Changed](https://developer.uphold.com/rest-apis/core-api/kyc/webhooks/enhanced-due-diligence-status-changed.md): The enhanced due diligence status has been changed.
+- [Identity Status Changed](https://developer.uphold.com/rest-apis/core-api/kyc/webhooks/identity-status-changed.md): The identity status has been changed.
+- [Phone Status Changed](https://developer.uphold.com/rest-apis/core-api/kyc/webhooks/phone-status-changed.md): The phone status has been changed.
+- [Profile Status Changed](https://developer.uphold.com/rest-apis/core-api/kyc/webhooks/profile-status-changed.md): The profile status has been changed.
+- [Proof-of-address Status Changed](https://developer.uphold.com/rest-apis/core-api/kyc/webhooks/proof-of-address-status-changed.md): The proof-of-address status has been changed.
+- [Risk Status Changed](https://developer.uphold.com/rest-apis/core-api/kyc/webhooks/risk-status-changed.md): The risk status has been changed.
+- [Screening Status Changed](https://developer.uphold.com/rest-apis/core-api/kyc/webhooks/screening-status-changed.md): The screening status has been changed.
+- [Self Categorization Statement Status Changed](https://developer.uphold.com/rest-apis/core-api/kyc/webhooks/self-categorization-statement-status-changed.md): The self categorization statement status has been changed.
+- [Tax Details Status Changed](https://developer.uphold.com/rest-apis/core-api/kyc/webhooks/tax-details-status-changed.md): The tax details status has been changed.
+- [Delete metadata](https://developer.uphold.com/rest-apis/core-api/metadata/delete-metadata.md): Delete metadata for a given entity.
+- [Get metadata](https://developer.uphold.com/rest-apis/core-api/metadata/get-metadata.md): Retrieve metadata for a given entity.
+- [Set metadata](https://developer.uphold.com/rest-apis/core-api/metadata/set-metadata.md): Create or update metadata for a given entity.
+- [Update metadata](https://developer.uphold.com/rest-apis/core-api/metadata/update-metadata.md): Update existing metadata for a given entity.
+- [Get account historical balance](https://developer.uphold.com/rest-apis/core-api/portfolio/get-portfolio-account-historical-balance.md): Retrieves the historical balance of a specific account, including the total and available balance over time.
+- [Get account performance](https://developer.uphold.com/rest-apis/core-api/portfolio/get-portfolio-account-performance.md): Retrieves the performance of an account in the portfolio, including the average cost, total invested, and unrealized gains (gains and losses).
+- [Get asset historical balance](https://developer.uphold.com/rest-apis/core-api/portfolio/get-portfolio-asset-historical-balance.md): Retrieves the historical balance of a specific asset in the portfolio, including the total and available balance over time.
+- [Get asset performance](https://developer.uphold.com/rest-apis/core-api/portfolio/get-portfolio-asset-performance.md): Retrieves the performance of an asset in the portfolio, including the average cost, total invested, and unrealized gains (gains and losses).
+- [Get historical balance](https://developer.uphold.com/rest-apis/core-api/portfolio/get-portfolio-historical-balance.md): Retrieves the historical balance of the portfolio, including the total and available balance over time.
+- [Get overview](https://developer.uphold.com/rest-apis/core-api/portfolio/get-portfolio-overview.md): Retrieves an overview of the portfolio, including the total portfolio value and a breakdown of individual holdings.
+- [Get performance](https://developer.uphold.com/rest-apis/core-api/portfolio/get-portfolio-performance.md): Retrieves the performance of the portfolio, including the average cost, total invested, and unrealized gains (gains and losses).
+- [Portfolio API introduction](https://developer.uphold.com/rest-apis/core-api/portfolio/introduction.md): Retrieve aggregated user financial position data on Uphold: portfolio overview, performance metrics, and historical balances across all accounts and assets.
+- [Get portfolio statement](https://developer.uphold.com/rest-apis/core-api/statements/get-portfolio-statement.md): Retrieves the portfolio statement for a given period.
+- [Get transactions statement](https://developer.uphold.com/rest-apis/core-api/statements/get-transactions-statement.md): Retrieves the transactions statement for a given period.
+- [Introduction](https://developer.uphold.com/rest-apis/core-api/statements/introduction.md)
+- [Accept terms of service](https://developer.uphold.com/rest-apis/core-api/terms-of-service/accept-terms-of-service.md): Accept terms of service by code.
+- [Get terms of service](https://developer.uphold.com/rest-apis/core-api/terms-of-service/get-terms-of-service.md): Retrieve terms of service by code.
+- [Terms of Service API introduction](https://developer.uphold.com/rest-apis/core-api/terms-of-service/introduction.md): Manage Uphold platform Terms of Service that users must accept to transact. Each ToS has a unique code, with content provided by Uphold during onboarding.
+- [List terms of service](https://developer.uphold.com/rest-apis/core-api/terms-of-service/list-terms-of-service.md): List terms of service of the platform.
+- [Create quote](https://developer.uphold.com/rest-apis/core-api/transactions/create-quote.md): Create a quote for a transaction.
+- [Create transaction](https://developer.uphold.com/rest-apis/core-api/transactions/create-transaction.md): Create transaction from a quote.
+- [Get transaction](https://developer.uphold.com/rest-apis/core-api/transactions/get-transaction.md): Retrieve an existing transaction by id.
+- [Transactions API introduction](https://developer.uphold.com/rest-apis/core-api/transactions/introduction.md): Initiate and retrieve transactions on the Uphold platform. Transactions are defined by origin, destination, and direction nodes, with quotes and statuses.
+- [List account transactions](https://developer.uphold.com/rest-apis/core-api/transactions/list-account-transactions.md): List transactions for an account.
+- [List transactions](https://developer.uphold.com/rest-apis/core-api/transactions/list-transactions.md): List transactions associated with a user.
+- [Get request for information](https://developer.uphold.com/rest-apis/core-api/transactions/rfis/get-request-for-information.md): Retrieve a request for information associated with a transaction.
+- [List requests for information](https://developer.uphold.com/rest-apis/core-api/transactions/rfis/list-requests-for-information.md): List requests for information associated with a transaction.
+- [Update request for information](https://developer.uphold.com/rest-apis/core-api/transactions/rfis/update-request-for-information.md): Update a request for information associated with a transaction.
+- [Transaction created](https://developer.uphold.com/rest-apis/core-api/transactions/webhooks/transaction-created.md): A new transaction has been created.
+- [Transaction status changed](https://developer.uphold.com/rest-apis/core-api/transactions/webhooks/transaction-status-changed.md): The transaction status has been changed.
+- [Create user](https://developer.uphold.com/rest-apis/core-api/users/create-user.md): Create a new user.
+- [Delete user](https://developer.uphold.com/rest-apis/core-api/users/delete-user.md): Delete an existing user.
+- [Get user](https://developer.uphold.com/rest-apis/core-api/users/get-user.md): Retrieve an existing user.
+- [User created](https://developer.uphold.com/rest-apis/core-api/users/webhooks/user-created.md): A new user has been created.
+- [User deleted](https://developer.uphold.com/rest-apis/core-api/users/webhooks/user-deleted.md): A user has been deleted.
+- [Request webhook management link](https://developer.uphold.com/rest-apis/core-api/webhooks/request-management-link.md): Request a webhook management link to configure webhooks.
+- [Entity metadata](https://developer.uphold.com/rest-apis/entity-metadata.md): Attach custom JSON metadata to Uphold entities like users, accounts, and transactions to extend them with your business data and external system mappings.
+- [Error handling](https://developer.uphold.com/rest-apis/errors.md): Handle Uphold REST API errors using documented error codes and messages from the OpenAPI spec, with structured error shapes and HTTP status conventions.
+- [Common headers](https://developer.uphold.com/rest-apis/headers.md): Reference for the common request and response headers used across Uphold REST APIs to pass user context, idempotency keys, and other request metadata.
+- [Introduction to the Uphold Enterprise REST APIs](https://developer.uphold.com/rest-apis/introduction.md): Overview of Uphold's modular REST API suite for building enterprise crypto products. Includes OpenAPI specs, User onboarding, Transactions, Portfolio, and more.
+- [KYC Connector API introduction](https://developer.uphold.com/rest-apis/kyc-connector-api/introduction.md): Connect third-party KYC providers like Sumsub and Veriff to Uphold's platform. Ingestions map provider payloads to KYC processes without bespoke code.
+- [Create Sumsub ingestion](https://developer.uphold.com/rest-apis/kyc-connector-api/sumsub/create-ingestion.md): Create a new Sumsub ingestion.
+- [Get Sumsub ingestion](https://developer.uphold.com/rest-apis/kyc-connector-api/sumsub/get-ingestion.md): Retrieve an existing Sumsub ingestion by id.
+- [List Sumsub ingestions](https://developer.uphold.com/rest-apis/kyc-connector-api/sumsub/list-ingestions.md): List Sumsub ingestions made by a user.
+- [Sumsub KYC Connector overview](https://developer.uphold.com/rest-apis/kyc-connector-api/sumsub/overview.md): Use Sumsub Reusable KYC with the Uphold KYC Connector to share verifications between your Sumsub account and Uphold. Includes setup and configuration.
+- [Sumsub ingestion created](https://developer.uphold.com/rest-apis/kyc-connector-api/sumsub/webhooks/ingestion-created.md): A new Sumsub ingestion has been created.
+- [Sumsub ingestion status changed](https://developer.uphold.com/rest-apis/kyc-connector-api/sumsub/webhooks/ingestion-status-changed.md): The Sumsub ingestion status has been changed.
+- [Create Veriff ingestion](https://developer.uphold.com/rest-apis/kyc-connector-api/veriff/create-ingestion.md): Create a new Veriff ingestion.
+- [Get Veriff config](https://developer.uphold.com/rest-apis/kyc-connector-api/veriff/get-config.md): Retrieve the Veriff provider configuration for the organization.
+- [Get Veriff ingestion](https://developer.uphold.com/rest-apis/kyc-connector-api/veriff/get-ingestion.md): Retrieve an existing Veriff ingestion by id.
+- [List Veriff ingestions](https://developer.uphold.com/rest-apis/kyc-connector-api/veriff/list-ingestions.md): List Veriff ingestions made by a user.
+- [Veriff KYC Connector overview](https://developer.uphold.com/rest-apis/kyc-connector-api/veriff/overview.md): Use the Uphold KYC Connector with Veriff's verification platform to share KYC data between your Veriff Station integration and Uphold's KYC processes.
+- [Set Veriff config](https://developer.uphold.com/rest-apis/kyc-connector-api/veriff/set-config.md): Create or update the Veriff provider configuration for the organization.
+- [Veriff ingestion created](https://developer.uphold.com/rest-apis/kyc-connector-api/veriff/webhooks/ingestion-created.md): A new Veriff ingestion has been created.
+- [Veriff ingestion status changed](https://developer.uphold.com/rest-apis/kyc-connector-api/veriff/webhooks/ingestion-status-changed.md): The Veriff ingestion status has been changed.
+- [Get asset information](https://developer.uphold.com/rest-apis/market-pulse-api/assets/get-asset-information.md): Retrieve descriptive information for a specific asset.
+- [Get asset statistics](https://developer.uphold.com/rest-apis/market-pulse-api/assets/get-asset-statistics.md): Retrieve real-time market statistics for a specific asset.
+- [List asset news](https://developer.uphold.com/rest-apis/market-pulse-api/assets/list-asset-news.md): Retrieve the latest news for a specific asset.
+- [List general news](https://developer.uphold.com/rest-apis/market-pulse-api/general/list-general-news.md): Retrieve the latest general market news.
+- [Pagination](https://developer.uphold.com/rest-apis/pagination.md): Paginate Uphold REST API list responses using page-based and cursor-based pagination. Includes parameters, response metadata, and best-practice usage.
+- [Rate limits](https://developer.uphold.com/rest-apis/rate-limits.md): Understand Uphold REST API rate limits and 429 Too Many Requests responses. Covers the three rate limit types and best practices for retries and backoff.
+- [Test helpers](https://developer.uphold.com/rest-apis/test-helpers.md): Use Uphold Sandbox-only test helpers to simulate deposits, withdrawals, and compliance state changes — speeding up integration testing without real events.
+- [Create session](https://developer.uphold.com/rest-apis/topper-api/kyc-sharing/create-session.md): Create a new session for KYC sharing.
+- [Identify user](https://developer.uphold.com/rest-apis/topper-api/kyc-sharing/identify-user.md): Identify a user for KYC sharing.
+- [API versioning](https://developer.uphold.com/rest-apis/versioning.md): How Uphold versions REST APIs to maintain backward compatibility and provide a clear upgrade path for breaking changes when they become necessary.
+- [Webhooks](https://developer.uphold.com/rest-apis/webhooks.md): Receive near real-time events from Uphold's REST API endpoints via webhooks. Subscribe to user, account, transaction, KYC, and other event types.
+- [Create session](https://developer.uphold.com/rest-apis/widgets-api/kyc/create-session.md): Create a new session for the KYC Widget.
+- [Create session](https://developer.uphold.com/rest-apis/widgets-api/payment/create-session.md): Create a new session for the Payment Widget.
+- [Create session](https://developer.uphold.com/rest-apis/widgets-api/travel-rule/create-session.md): Create a new session for the Travel Rule Widget.
+- [Widgets changelog](https://developer.uphold.com/widgets/changelog.md): Track Uphold Widget releases — Payment Widget, Travel Rule Widget, and others — with new features, enhancements, and breaking changes (RSS available).
+- [Uphold Widgets introduction](https://developer.uphold.com/widgets/introduction.md): Embed turnkey Uphold widgets — Payment, Travel Rule, KYC — to add payment methods, transactions, and compliance flows to your applications.
+- [KYC Widget installation and setup](https://developer.uphold.com/widgets/kyc/installation-and-setup.md): Install the Uphold KYC Widget SDK — or integrate directly against the Widget's message protocol — in web and native applications through a WebView.
+- [KYC Widget introduction](https://developer.uphold.com/widgets/kyc/introduction.md): An embeddable UI component for collecting KYC data from your users — fully managed by Uphold, customizable to match your app.
+- [KYC Widget SDK reference](https://developer.uphold.com/widgets/kyc/sdk-reference.md): Reference for the @uphold/enterprise-kyc-widget-web-sdk package, including the KycWidget class, constructor options, methods, and lifecycle events.
+- [Payment Widget installation and setup](https://developer.uphold.com/widgets/payment/installation-and-setup.md): Install the Uphold Payment Widget SDK — or integrate directly against the Widget's message protocol — in web and native applications through a WebView.
+- [Payment Widget introduction](https://developer.uphold.com/widgets/payment/introduction.md): The Uphold Payment Widget is an embeddable, managed solution that lets users securely add payment methods and run transactions across web and native apps.
+- [Payment Widget SDK reference](https://developer.uphold.com/widgets/payment/sdk-reference.md): Reference for the @uphold/enterprise-payment-widget-web-sdk package, including the PaymentWidget class, constructor options, methods, and lifecycle events.
+- [Topper Widget introduction](https://developer.uphold.com/widgets/topper/introduction.md): The Topper Widget has its own dedicated documentation site. Visit the Topper API documentation for installation, configuration, and integration details.
+- [Travel Rule Widget installation and setup](https://developer.uphold.com/widgets/travel-rule/installation-and-setup.md): Install the Uphold Travel Rule Widget SDK — or integrate directly against the Widget's message protocol — in web and native applications through a WebView.
+- [Travel Rule Widget introduction](https://developer.uphold.com/widgets/travel-rule/introduction.md): The Uphold Travel Rule Widget is an embeddable solution for FATF-compliant collection and exchange of originator and beneficiary info on crypto transactions.
+- [Travel Rule Widget SDK reference](https://developer.uphold.com/widgets/travel-rule/sdk-reference.md): Reference for the @uphold/enterprise-travel-rule-widget-web-sdk package, with the TravelRuleWidget class, constructor options, methods, and event handlers.
+
+## OpenAPI Specs
+
+- [core-openapi.public](https://developer.uphold.com/_media/specs/core-openapi.public.json)
+- [core-openapi.mintlify](https://developer.uphold.com/_media/specs/core-openapi.mintlify.json)
+- [widgets-openapi.public](https://developer.uphold.com/_media/specs/widgets-openapi.public.json)
+- [widgets-openapi.mintlify](https://developer.uphold.com/_media/specs/widgets-openapi.mintlify.json)
+- [topper-openapi.public](https://developer.uphold.com/_media/specs/topper-openapi.public.json)
+- [topper-openapi.mintlify](https://developer.uphold.com/_media/specs/topper-openapi.mintlify.json)
+- [market-pulse-openapi.public](https://developer.uphold.com/_media/specs/market-pulse-openapi.public.json)
+- [market-pulse-openapi.mintlify](https://developer.uphold.com/_media/specs/market-pulse-openapi.mintlify.json)
+- [kyc-connector-openapi.public](https://developer.uphold.com/_media/specs/kyc-connector-openapi.public.json)
+- [kyc-connector-openapi.mintlify](https://developer.uphold.com/_media/specs/kyc-connector-openapi.mintlify.json)
+- [package](https://developer.uphold.com/package.json)
+- [package-lock](https://developer.uphold.com/package-lock.json)

@@ -1,0 +1,61 @@
+generated: '2026-08-05'
+method: searched
+source: >-
+  https://developer.uphold.com/rest-apis/versioning, /rest-apis/changelog, /widgets/changelog,
+  https://status.uphold.com/ — deprecated operations derived from openapi/*.json
+versioning:
+  scheme: unversioned-product-namespace
+  current: null
+  detail: >-
+    Enterprise endpoints are namespaced by product (/core, /widgets, /market-pulse, /kyc-connector,
+    /topper) with no version segment. Uphold states the REST APIs "will be versioned" but has not yet
+    published a versioning scheme; it commits to avoiding breaking changes and to giving reasonable
+    notice in advance of any.
+  docs: https://developer.uphold.com/rest-apis/versioning
+  legacy:
+    api: Uphold Public API
+    scheme: uri-path
+    current: v0
+    base: https://api.uphold.com/v0
+deprecation:
+  policy_url: https://developer.uphold.com/rest-apis/versioning
+  policy_detail: >-
+    No standalone deprecation policy page. The versioning page carries the commitment: breaking changes
+    will come with reasonable advance notice. Deprecations are announced in the dated REST API changelog
+    with an "Actions required" block and a "Deprecated" tag, and deprecated operations are flagged
+    `deprecated: true` in the published OpenAPI.
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  announced_in_changelog: true
+  changelog: https://developer.uphold.com/rest-apis/changelog
+deprecated_operations:
+- operation: core.update-kyc-address
+  path: PATCH /core/kyc/processes/address
+  source: openapi/uphold-core-api-openapi.json
+  announced: '2026-07-14'
+  migrate_to: core.update-kyc-profile
+  reason: >-
+    The `profile` KYC process now also covers the user's address, so completing profile marks the
+    address as ok. The standalone address process remains available but is deprecated.
+deprecated_fields:
+- operation: core.create-user
+  fields: [country, subdivision, citizenshipCountry]
+  migrate_to: [address.country, address.subdivision, primaryCitizenship]
+  announced: '2026-07-14'
+  note: The deprecated fields keep working for now.
+status_page:
+  url: https://status.uphold.com/
+  http_status: 200
+  scope: Uphold platform status and incident history
+sla:
+  url: null
+  uptime_target: null
+  note: >-
+    No public SLA or uptime target is published. Rate limits and commercial terms are stated to vary per
+    partner and contract, agreed during onboarding.
+support:
+  help_center: https://support.uphold.com/
+  enterprise: https://uphold.com/en-us/enterprise/api-integration
+  developer_agreement: https://uphold.com/en-us/legal/developer-agreement
+changelog: changelog/uphold-changelog.yml

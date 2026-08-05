@@ -1,0 +1,1119 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "version": "0.1.0",
+    "title": "Market Pulse API",
+    "description": "The Market Pulse API provides resources to access market news, asset statistics, and asset information.",
+    "contact": {
+      "name": "Uphold API Team",
+      "email": "developer@uphold.com",
+      "url": "https://developer.uphold.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.enterprise.sandbox.uphold.com",
+      "description": "Sandbox"
+    },
+    {
+      "url": "https://api.enterprise.uphold.com",
+      "description": "Production"
+    }
+  ],
+  "security": [
+    {
+      "OAuth2": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "General",
+      "description": "General."
+    },
+    {
+      "name": "Assets",
+      "description": "Assets."
+    }
+  ],
+  "paths": {
+    "/market-pulse/news": {
+      "get": {
+        "operationId": "market-pulse.list-general-news",
+        "summary": "List general news",
+        "description": "Retrieve the latest general market news.",
+        "tags": [
+          "General"
+        ],
+        "x-uphold": {
+          "security": {
+            "OAuth2": {
+              "subjects": [
+                "client",
+                "user:business",
+                "user:individual"
+              ]
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              "market-pulse.general.news:read"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/news-limit"
+          },
+          {
+            "$ref": "#/components/parameters/x-on-behalf-of"
+          },
+          {
+            "$ref": "#/components/parameters/x-uphold-user-ip"
+          },
+          {
+            "$ref": "#/components/parameters/x-uphold-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-uphold-user-origin"
+          },
+          {
+            "$ref": "#/components/parameters/x-uphold-user-country"
+          },
+          {
+            "$ref": "#/components/parameters/x-uphold-user-subdivision"
+          },
+          {
+            "$ref": "#/components/parameters/x-uphold-user-city"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/list-general-news-response"
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        }
+      }
+    },
+    "/market-pulse/assets/{assetCode}/news": {
+      "get": {
+        "operationId": "market-pulse.list-asset-news",
+        "summary": "List asset news",
+        "description": "Retrieve the latest news for a specific asset.",
+        "tags": [
+          "Assets"
+        ],
+        "x-uphold": {
+          "security": {
+            "OAuth2": {
+              "subjects": [
+                "client",
+                "user:business",
+                "user:individual"
+              ]
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              "market-pulse.assets.news:read"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/asset-code"
+          },
+          {
+            "$ref": "#/components/parameters/news-limit"
+          },
+          {
+            "$ref": "#/components/parameters/x-on-behalf-of"
+          },
+          {
+            "$ref": "#/components/parameters/x-uphold-user-ip"
+          },
+          {
+            "$ref": "#/components/parameters/x-uphold-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-uphold-user-origin"
+          },
+          {
+            "$ref": "#/components/parameters/x-uphold-user-country"
+          },
+          {
+            "$ref": "#/components/parameters/x-uphold-user-subdivision"
+          },
+          {
+            "$ref": "#/components/parameters/x-uphold-user-city"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/list-asset-news-response"
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        }
+      }
+    },
+    "/market-pulse/assets/{assetCode}/statistics": {
+      "get": {
+        "operationId": "market-pulse.get-asset-statistics",
+        "summary": "Get asset statistics",
+        "description": "Retrieve real-time market statistics for a specific asset.",
+        "tags": [
+          "Assets"
+        ],
+        "x-uphold": {
+          "security": {
+            "OAuth2": {
+              "subjects": [
+                "client",
+                "user:business",
+                "user:individual"
+              ]
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              "market-pulse.assets.statistics:read"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/asset-code"
+          },
+          {
+            "$ref": "#/components/parameters/x-on-behalf-of"
+          },
+          {
+            "$ref": "#/components/parameters/x-uphold-user-ip"
+          },
+          {
+            "$ref": "#/components/parameters/x-uphold-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-uphold-user-origin"
+          },
+          {
+            "$ref": "#/components/parameters/x-uphold-user-country"
+          },
+          {
+            "$ref": "#/components/parameters/x-uphold-user-subdivision"
+          },
+          {
+            "$ref": "#/components/parameters/x-uphold-user-city"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/get-asset-statistics-response"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/get-asset-statistics-not-found-response"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        }
+      }
+    },
+    "/market-pulse/assets/{assetCode}/information": {
+      "get": {
+        "operationId": "market-pulse.get-asset-information",
+        "summary": "Get asset information",
+        "description": "Retrieve descriptive information for a specific asset.",
+        "tags": [
+          "Assets"
+        ],
+        "x-uphold": {
+          "security": {
+            "OAuth2": {
+              "subjects": [
+                "client",
+                "user:business",
+                "user:individual"
+              ]
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              "market-pulse.assets.information:read"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/asset-code"
+          },
+          {
+            "$ref": "#/components/parameters/format"
+          },
+          {
+            "$ref": "#/components/parameters/accept-language"
+          },
+          {
+            "$ref": "#/components/parameters/x-on-behalf-of"
+          },
+          {
+            "$ref": "#/components/parameters/x-uphold-user-ip"
+          },
+          {
+            "$ref": "#/components/parameters/x-uphold-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-uphold-user-origin"
+          },
+          {
+            "$ref": "#/components/parameters/x-uphold-user-country"
+          },
+          {
+            "$ref": "#/components/parameters/x-uphold-user-subdivision"
+          },
+          {
+            "$ref": "#/components/parameters/x-uphold-user-city"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/get-asset-information-response"
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/get-asset-information-not-found-response"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "OAuth2": {
+        "type": "oauth2",
+        "description": "OAuth 2.0",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "/core/oauth2/token",
+            "scopes": {
+              "market-pulse.general.news:read": "Grants access to read general market news.",
+              "market-pulse.assets.news:read": "Grants access to read asset news.",
+              "market-pulse.assets.statistics:read": "Grants access to read asset statistics.",
+              "market-pulse.assets.information:read": "Grants access to read asset information."
+            }
+          }
+        }
+      }
+    },
+    "parameters": {
+      "news-limit": {
+        "name": "limit",
+        "description": "The maximum number of news articles to return.",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10,
+          "default": 10
+        },
+        "examples": {
+          "10 Articles": {
+            "value": 10
+          }
+        }
+      },
+      "x-on-behalf-of": {
+        "name": "X-On-Behalf-Of",
+        "description": "The subject on whose behalf the operation is being performed.",
+        "in": "header",
+        "schema": {
+          "type": "string",
+          "pattern": "^(user|client)\\s[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "examples": {
+          "User Identifier": {
+            "value": "user cd21b26d-35d2-408a-9201-b8fdbef7a604"
+          },
+          "Client Identifier": {
+            "value": "client 3fa85f64-5717-4562-b3fc-2c963f66afa6"
+          }
+        }
+      },
+      "x-uphold-user-ip": {
+        "name": "X-Uphold-User-Ip",
+        "description": "Contains the IP of the end user that is requesting the operation.",
+        "in": "header",
+        "schema": {
+          "oneOf": [
+            {
+              "title": "IPv4",
+              "type": "string",
+              "format": "ipv4"
+            },
+            {
+              "title": "IPv6",
+              "type": "string",
+              "format": "ipv6"
+            }
+          ]
+        },
+        "examples": {
+          "User Ip": {
+            "value": "47.174.97.164"
+          }
+        }
+      },
+      "x-uphold-user-agent": {
+        "name": "X-Uphold-User-Agent",
+        "description": "Contains the user agent of the end user that is requesting the operation.",
+        "in": "header",
+        "schema": {
+          "$ref": "#/components/schemas/string-no-edge-spaces"
+        },
+        "examples": {
+          "User Agent": {
+            "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
+          }
+        }
+      },
+      "x-uphold-user-origin": {
+        "name": "X-Uphold-User-Origin",
+        "description": "Contains the origin of the request made by the end user.",
+        "in": "header",
+        "schema": {
+          "$ref": "#/components/schemas/string-no-edge-spaces"
+        },
+        "examples": {
+          "Origin": {
+            "value": "https://uphold.com"
+          }
+        }
+      },
+      "x-uphold-user-country": {
+        "name": "X-Uphold-User-Country",
+        "description": "Contains the code of the country of the end user that is requesting the operation.",
+        "in": "header",
+        "schema": {
+          "$ref": "#/components/schemas/country-code-for-request"
+        },
+        "examples": {
+          "User Country": {
+            "value": "US"
+          }
+        }
+      },
+      "x-uphold-user-subdivision": {
+        "name": "X-Uphold-User-Subdivision",
+        "description": "Contains the code of the subdivision of the end user that is requesting the operation.",
+        "in": "header",
+        "schema": {
+          "$ref": "#/components/schemas/subdivision-code-for-request"
+        },
+        "examples": {
+          "User Subdivision": {
+            "value": "US-CA"
+          }
+        }
+      },
+      "x-uphold-user-city": {
+        "name": "X-Uphold-User-City",
+        "description": "Contains the name of the city of the end user that is requesting the operation.",
+        "in": "header",
+        "schema": {
+          "$ref": "#/components/schemas/string-no-edge-spaces"
+        },
+        "examples": {
+          "User City": {
+            "value": "San Francisco"
+          }
+        }
+      },
+      "asset-code": {
+        "name": "assetCode",
+        "description": "The asset code.",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "minLength": 1
+        },
+        "examples": {
+          "BTC Asset": {
+            "value": "BTC"
+          }
+        }
+      },
+      "format": {
+        "name": "format",
+        "in": "query",
+        "description": "The format of the information to return.",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "text",
+            "html"
+          ],
+          "default": "text"
+        },
+        "examples": {
+          "Text": {
+            "value": "text"
+          },
+          "HTML": {
+            "value": "html"
+          }
+        }
+      },
+      "accept-language": {
+        "name": "Accept-Language",
+        "description": "The natural language and locale that the client prefers.",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "examples": {
+          "English (UK)": {
+            "value": "en-GB"
+          }
+        }
+      }
+    },
+    "schemas": {
+      "string-no-edge-spaces": {
+        "type": "string",
+        "pattern": "^\\S.*\\S$|^\\S$"
+      },
+      "country-code-for-request": {
+        "type": "string",
+        "pattern": "^[A-Z]{2}$"
+      },
+      "subdivision-code-for-request": {
+        "type": "string",
+        "pattern": "^[A-Z]{2}-[A-Z0-9]{1,3}$"
+      },
+      "news-item": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "description": "The title of the news article.",
+            "type": "string"
+          },
+          "publishedAt": {
+            "description": "The publication date and time of the news article.",
+            "type": "string",
+            "format": "date-time"
+          },
+          "source": {
+            "description": "The source of the news article.",
+            "type": "string"
+          },
+          "url": {
+            "description": "The URL to the full news article.",
+            "type": "string",
+            "format": "uri"
+          }
+        }
+      },
+      "feedback": {
+        "description": "A feedback message with a code and human-readable description.",
+        "type": "object",
+        "properties": {
+          "code": {
+            "description": "A short string with a brief explanation about the code reported.",
+            "type": "string"
+          },
+          "message": {
+            "description": "A human-readable message providing more details.",
+            "type": "string"
+          },
+          "details": {
+            "description": "Additional information about the feedback reported.",
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ]
+      },
+      "error": {
+        "description": "The error information.",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/feedback"
+          }
+        ]
+      },
+      "asset-statistics": {
+        "type": "object",
+        "properties": {
+          "circulatingSupply": {
+            "description": "The asset's circulating supply.",
+            "type": "number"
+          },
+          "marketCap": {
+            "description": "The asset's market capitalization.",
+            "type": "number"
+          },
+          "volume24h": {
+            "description": "The asset's trading volume in the last 24 hours.",
+            "type": "number"
+          },
+          "allTimeHigh": {
+            "description": "The asset's all-time high valuation in USD.",
+            "type": "number"
+          }
+        },
+        "required": [
+          "circulatingSupply",
+          "marketCap",
+          "volume24h",
+          "allTimeHigh"
+        ]
+      },
+      "asset-information": {
+        "description": "Descriptive information about the asset.",
+        "type": "string"
+      },
+      "asset-information-response": {
+        "type": "object",
+        "properties": {
+          "information": {
+            "$ref": "#/components/schemas/asset-information"
+          }
+        },
+        "required": [
+          "information"
+        ]
+      }
+    },
+    "responses": {
+      "list-general-news-response": {
+        "description": "General news retrieved.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "news": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/news-item"
+                  }
+                }
+              },
+              "required": [
+                "news"
+              ]
+            },
+            "examples": {
+              "General News Retrieved": {
+                "value": {
+                  "news": [
+                    {
+                      "title": "Market Update: Cryptocurrency Trends",
+                      "publishedAt": "2024-01-15T10:30:00.000Z",
+                      "source": "Market News Provider",
+                      "url": "https://example.com/news/1"
+                    },
+                    {
+                      "title": "Economic Indicators: January 2024",
+                      "publishedAt": "2024-01-14T15:20:00.000Z",
+                      "source": "Economic News Agency",
+                      "url": "https://example.com/news/2"
+                    },
+                    {
+                      "title": "Global Market Overview: Q1 2024",
+                      "publishedAt": "2024-01-13T09:15:00.000Z",
+                      "source": "Financial Times",
+                      "url": "https://example.com/news/3"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "headers": {
+          "x-uphold-request-id": {
+            "description": "A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "examples": {
+              "Request ID": {
+                "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+              }
+            }
+          }
+        }
+      },
+      "bad-request": {
+        "description": "Bad Request.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/error"
+            },
+            "examples": {
+              "Invalid Request": {
+                "value": {
+                  "code": "request_invalid",
+                  "message": "The request has missing or invalid parameters",
+                  "details": {
+                    "context": "<context>",
+                    "violations": [
+                      {
+                        "property": "<property>",
+                        "rule": "required"
+                      },
+                      {
+                        "property": "<property>",
+                        "rule": "type",
+                        "ruleParams": {
+                          "type": "string"
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "headers": {
+          "x-uphold-request-id": {
+            "description": "A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "examples": {
+              "Request ID": {
+                "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+              }
+            }
+          }
+        }
+      },
+      "unauthorized": {
+        "description": "Unauthorized.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/error"
+            },
+            "examples": {
+              "Token Expired": {
+                "value": {
+                  "code": "token_expired",
+                  "message": "The access token has expired"
+                }
+              },
+              "Token Invalid": {
+                "value": {
+                  "code": "token_invalid",
+                  "message": "The access token is invalid"
+                }
+              },
+              "Token Revoked": {
+                "value": {
+                  "code": "token_revoked",
+                  "message": "The access token has been revoked"
+                }
+              }
+            }
+          }
+        },
+        "headers": {
+          "x-uphold-request-id": {
+            "description": "A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "examples": {
+              "Request ID": {
+                "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+              }
+            }
+          }
+        }
+      },
+      "forbidden": {
+        "description": "Forbidden.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/error"
+            },
+            "examples": {
+              "Token Insufficient Scopes": {
+                "value": {
+                  "code": "token_insufficient_scopes",
+                  "message": "Authorization failed due to insufficient scopes",
+                  "details": {
+                    "security": [
+                      {
+                        "scheme": "OAuth",
+                        "schemeScopes": [
+                          "required:scope_1",
+                          "required:scope_2"
+                        ],
+                        "tokenScopes": [
+                          "token:scope"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "headers": {
+          "x-uphold-request-id": {
+            "description": "A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "examples": {
+              "Request ID": {
+                "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+              }
+            }
+          }
+        }
+      },
+      "too-many-requests": {
+        "description": "Too Many Requests.",
+        "headers": {
+          "Retry-After": {
+            "description": "The number of seconds to wait before making a new request.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "examples": {
+              "Retry After": {
+                "value": 60
+              }
+            }
+          },
+          "x-uphold-request-id": {
+            "description": "A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "examples": {
+              "Request ID": {
+                "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+              }
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/error"
+            },
+            "examples": {
+              "Too Many Requests": {
+                "value": {
+                  "code": "too_many_requests",
+                  "message": "Try again later"
+                }
+              }
+            }
+          }
+        }
+      },
+      "list-asset-news-response": {
+        "description": "Asset news retrieved.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "news": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/news-item"
+                  }
+                }
+              },
+              "required": [
+                "news"
+              ]
+            },
+            "examples": {
+              "Asset News Retrieved": {
+                "value": {
+                  "news": [
+                    {
+                      "title": "Bitcoin Reaches New High",
+                      "publishedAt": "2024-01-15T10:30:00.000Z",
+                      "source": "Crypto News",
+                      "url": "https://example.com/news/btc/1"
+                    },
+                    {
+                      "title": "Bitcoin Adoption Increases",
+                      "publishedAt": "2024-01-14T15:20:00.000Z",
+                      "source": "Financial Times",
+                      "url": "https://example.com/news/btc/2"
+                    },
+                    {
+                      "title": "Bitcoin Network Upgrade Announced",
+                      "publishedAt": "2024-01-13T08:45:00.000Z",
+                      "source": "Blockchain News",
+                      "url": "https://example.com/news/btc/3"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "headers": {
+          "x-uphold-request-id": {
+            "description": "A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "examples": {
+              "Request ID": {
+                "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+              }
+            }
+          }
+        }
+      },
+      "get-asset-statistics-response": {
+        "description": "Asset statistics retrieved.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "statistics": {
+                  "$ref": "#/components/schemas/asset-statistics"
+                }
+              },
+              "required": [
+                "statistics"
+              ]
+            },
+            "examples": {
+              "Asset Statistics Retrieved": {
+                "value": {
+                  "statistics": {
+                    "circulatingSupply": 19000000,
+                    "marketCap": 850000000000,
+                    "volume24h": 1000000000,
+                    "allTimeHigh": 69000
+                  }
+                }
+              }
+            }
+          }
+        },
+        "headers": {
+          "x-uphold-request-id": {
+            "description": "A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "examples": {
+              "Request ID": {
+                "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+              }
+            }
+          }
+        }
+      },
+      "get-asset-statistics-not-found-response": {
+        "description": "Resource not found.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/error"
+            },
+            "examples": {
+              "Asset Not Found": {
+                "value": {
+                  "code": "entity_not_found",
+                  "message": "The asset cannot be found",
+                  "details": {
+                    "entity": "asset"
+                  }
+                }
+              },
+              "Statistics Not Found": {
+                "value": {
+                  "code": "entity_not_found",
+                  "message": "The asset statistics cannot be found",
+                  "details": {
+                    "entity": "statistics"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "headers": {
+          "x-uphold-request-id": {
+            "description": "A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "examples": {
+              "Request ID": {
+                "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+              }
+            }
+          }
+        }
+      },
+      "get-asset-information-response": {
+        "description": "Asset information retrieved.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/asset-information-response"
+            },
+            "examples": {
+              "Asset Information Retrieved": {
+                "value": {
+                  "information": "Bitcoin is a decentralized digital currency that enables peer-to-peer transactions without the need for a central authority..."
+                }
+              }
+            }
+          }
+        },
+        "headers": {
+          "x-uphold-request-id": {
+            "description": "A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "examples": {
+              "Request ID": {
+                "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+              }
+            }
+          }
+        }
+      },
+      "get-asset-information-not-found-response": {
+        "description": "Resource not found.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/error"
+            },
+            "examples": {
+              "Asset Not Found": {
+                "value": {
+                  "code": "entity_not_found",
+                  "message": "The asset cannot be found",
+                  "details": {
+                    "entity": "asset"
+                  }
+                }
+              },
+              "Information Not Found": {
+                "value": {
+                  "code": "entity_not_found",
+                  "message": "The asset information cannot be found",
+                  "details": {
+                    "entity": "information"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "headers": {
+          "x-uphold-request-id": {
+            "description": "A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "examples": {
+              "Request ID": {
+                "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
