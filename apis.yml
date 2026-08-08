@@ -181,7 +181,7 @@ apis:
     url: mcp/uphold-mcp.yml
   - type: ToolCrosswalk
     url: mcp/uphold-tool-crosswalk.yml
-  - type: MCP
+  - type: Documentation
     url: https://developer.uphold.com/mcp
   - type: Documentation
     url: https://developer.uphold.com/get-started/build-with-ai
