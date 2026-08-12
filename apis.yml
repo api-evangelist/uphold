@@ -34,126 +34,11 @@ tags:
 - webhooks
 - agent-native
 apis:
-- name: Uphold Enterprise Core API
-  description: >-
-    The primary Uphold Enterprise REST API — users, KYC/KYB processes, capabilities, terms of service,
-    files, countries, assets, networks and rails, accounts, external accounts (bank/card/APM), quotes and
-    transactions, requests for information, portfolio, statements, metadata and webhook management.
-    OAuth 2.0 client-credentials with fine-grained scopes; Sandbox test helpers simulate deposits,
-    withdrawals and compliance state changes.
-  humanURL: https://developer.uphold.com/rest-apis/core-api/concepts
-  baseURL: https://api.enterprise.uphold.com
-  tags:
-  - payments
-  - banking
-  - cryptocurrency
-  - kyc
-  - compliance
-  - digital-assets
-  properties:
-  - type: OpenAPI
-    url: openapi/uphold-core-api-openapi.json
-  - type: Documentation
-    url: https://developer.uphold.com/rest-apis/introduction
-  - type: APIReference
-    url: https://developer.uphold.com/rest-apis/core-api/concepts
-  - type: Authentication
-    url: authentication/uphold-authentication.yml
-  - type: OAuthScopes
-    url: scopes/uphold-scopes.yml
-  - type: Conventions
-    url: conventions/uphold-conventions.yml
-  - type: ErrorCatalog
-    url: errors/uphold-problem-types.yml
-  - type: DataModel
-    url: data-model/uphold-data-model.yml
-  - type: Overlay
-    url: overlays/uphold-core-api-overlay.yaml
-  - type: Webhooks
-    url: asyncapi/uphold-core-webhooks.yml
-  - type: Sandbox
-    url: sandbox/uphold-sandbox.yml
-- name: Uphold Enterprise Widgets API
-  description: >-
-    Session API behind the embeddable Uphold Widgets — creates Payment Widget, KYC Widget and Travel Rule
-    Widget sessions that the browser/native SDKs consume to collect payment methods, KYC data and FATF
-    Travel Rule information without the partner building the UI.
-  humanURL: https://developer.uphold.com/widgets/introduction
-  baseURL: https://api.enterprise.uphold.com
-  tags:
-  - payments
-  - kyc
-  - travel-rule
-  - embedded-finance
-  properties:
-  - type: OpenAPI
-    url: openapi/uphold-widgets-api-openapi.json
-  - type: Documentation
-    url: https://developer.uphold.com/widgets/introduction
-  - type: Components
-    url: components/uphold-components.yml
-  - type: Overlay
-    url: overlays/uphold-widgets-api-overlay.yaml
-  - type: ChangeLog
-    url: https://developer.uphold.com/widgets/changelog
-- name: Uphold Market Pulse API
-  description: >-
-    Market data API returning descriptive asset information, real-time asset market statistics, per-asset
-    news and general market news for the assets supported on the Uphold platform.
-  humanURL: https://developer.uphold.com/rest-apis/market-pulse-api/assets/get-asset-information
-  baseURL: https://api.enterprise.uphold.com
-  tags:
-  - market-data
-  - cryptocurrency
-  - digital-assets
-  properties:
-  - type: OpenAPI
-    url: openapi/uphold-market-pulse-api-openapi.json
-  - type: Documentation
-    url: https://developer.uphold.com/rest-apis/market-pulse-api/assets/get-asset-information
-  - type: Overlay
-    url: overlays/uphold-market-pulse-api-overlay.yaml
-- name: Uphold KYC Connector API
-  description: >-
-    Ingests verifications performed in third-party identity providers — Sumsub Reusable KYC and Veriff —
-    and maps their payloads onto Uphold KYC processes, so a partner that already verifies users elsewhere
-    does not have to re-verify them on Uphold.
-  humanURL: https://developer.uphold.com/rest-apis/kyc-connector-api/introduction
-  baseURL: https://api.enterprise.uphold.com
-  tags:
-  - kyc
-  - compliance
-  - identity
-  properties:
-  - type: OpenAPI
-    url: openapi/uphold-kyc-connector-api-openapi.json
-  - type: Documentation
-    url: https://developer.uphold.com/rest-apis/kyc-connector-api/introduction
-  - type: Overlay
-    url: overlays/uphold-kyc-connector-api-overlay.yaml
-- name: Uphold Topper API
-  description: >-
-    KYC-sharing API for Topper, Uphold's fiat-to-crypto onramp widget — identifies a user and creates a
-    KYC sharing session so an existing Uphold verification can be reused inside a Topper integration.
-  humanURL: https://developer.uphold.com/rest-apis/topper-api/kyc-sharing/create-session
-  baseURL: https://api.enterprise.uphold.com
-  tags:
-  - kyc
-  - payments
-  - onramp
-  properties:
-  - type: OpenAPI
-    url: openapi/uphold-topper-api-openapi.json
-  - type: Documentation
-    url: https://developer.uphold.com/rest-apis/topper-api/kyc-sharing/create-session
-  - type: Overlay
-    url: overlays/uphold-topper-api-overlay.yaml
 - name: Uphold Public API (v0)
   description: >-
-    The long-standing public Uphold API at api.uphold.com/v0 — tickers and exchange rates, supported
-    currencies and assets, plus OAuth 2.0 authenticated access to a member's cards, transactions and
-    account data. Anonymous ticker and asset endpoints are open; documented in the uphold/docs GitHub
-    repository.
+    The long-standing public Uphold API at api.uphold.com/v0 — tickers and exchange rates, supported currencies
+    and assets, plus OAuth 2.0 authenticated access to a member's cards, transactions and account data.
+    Anonymous ticker and asset endpoints are open; documented in the uphold/docs GitHub repository.
   humanURL: https://uphold.com/developer/api/documentation/
   baseURL: https://api.uphold.com/v0
   tags:
@@ -168,9 +53,9 @@ apis:
 - name: Uphold Documentation MCP Server
   description: >-
     Anonymous, read-only Model Context Protocol server published by Uphold at developer.uphold.com/mcp
-    over streamable HTTP. Exposes three tools (documentation search, a virtualized read-only docs
-    filesystem query, and docs feedback submission) plus an MCP resource carrying the packaged
-    "enterprise" agent skill.
+    over streamable HTTP. Exposes three tools (documentation search, a virtualized read-only docs filesystem
+    query, and docs feedback submission) plus an MCP resource carrying the packaged "enterprise" agent
+    skill.
   humanURL: https://developer.uphold.com/get-started/build-with-ai
   baseURL: https://developer.uphold.com/mcp
   tags:
@@ -185,12 +70,934 @@ apis:
     url: https://developer.uphold.com/mcp
   - type: Documentation
     url: https://developer.uphold.com/get-started/build-with-ai
+- aid: uphold:uphold-accounts-api
+  name: Uphold Accounts API
+  description: Accounts.
+  humanURL: https://developer.uphold.com/rest-apis/core-api/concepts
+  baseURL: https://api.enterprise.uphold.com
+  tags:
+  - Accounts
+  properties:
+  - type: OpenAPI
+    url: openapi/uphold-accounts-api-openapi.yml
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/introduction
+  - type: APIReference
+    url: https://developer.uphold.com/rest-apis/core-api/concepts
+  - type: Authentication
+    url: authentication/uphold-authentication.yml
+  - type: OAuthScopes
+    url: scopes/uphold-scopes.yml
+  - type: Conventions
+    url: conventions/uphold-conventions.yml
+  - type: ErrorCatalog
+    url: errors/uphold-problem-types.yml
+  - type: DataModel
+    url: data-model/uphold-data-model.yml
+  - type: Webhooks
+    url: asyncapi/uphold-core-webhooks.yml
+  - type: Sandbox
+    url: sandbox/uphold-sandbox.yml
+  - type: Documentation
+    url: https://developer.uphold.com/widgets/introduction
+  - type: Components
+    url: components/uphold-components.yml
+  - type: ChangeLog
+    url: https://developer.uphold.com/widgets/changelog
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/market-pulse-api/assets/get-asset-information
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/kyc-connector-api/introduction
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/topper-api/kyc-sharing/create-session
+- aid: uphold:uphold-assets-api
+  name: Uphold Assets API
+  description: Assets, networks and rails.
+  humanURL: https://developer.uphold.com/rest-apis/core-api/concepts
+  baseURL: https://api.enterprise.uphold.com
+  tags:
+  - Assets
+  properties:
+  - type: OpenAPI
+    url: openapi/uphold-assets-api-openapi.yml
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/introduction
+  - type: APIReference
+    url: https://developer.uphold.com/rest-apis/core-api/concepts
+  - type: Authentication
+    url: authentication/uphold-authentication.yml
+  - type: OAuthScopes
+    url: scopes/uphold-scopes.yml
+  - type: Conventions
+    url: conventions/uphold-conventions.yml
+  - type: ErrorCatalog
+    url: errors/uphold-problem-types.yml
+  - type: DataModel
+    url: data-model/uphold-data-model.yml
+  - type: Webhooks
+    url: asyncapi/uphold-core-webhooks.yml
+  - type: Sandbox
+    url: sandbox/uphold-sandbox.yml
+  - type: Documentation
+    url: https://developer.uphold.com/widgets/introduction
+  - type: Components
+    url: components/uphold-components.yml
+  - type: ChangeLog
+    url: https://developer.uphold.com/widgets/changelog
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/market-pulse-api/assets/get-asset-information
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/kyc-connector-api/introduction
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/topper-api/kyc-sharing/create-session
+- aid: uphold:uphold-authentication-api
+  name: Uphold Authentication API
+  description: Authentication.
+  humanURL: https://developer.uphold.com/rest-apis/core-api/concepts
+  baseURL: https://api.enterprise.uphold.com
+  tags:
+  - Authentication
+  properties:
+  - type: OpenAPI
+    url: openapi/uphold-authentication-api-openapi.yml
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/introduction
+  - type: APIReference
+    url: https://developer.uphold.com/rest-apis/core-api/concepts
+  - type: Authentication
+    url: authentication/uphold-authentication.yml
+  - type: OAuthScopes
+    url: scopes/uphold-scopes.yml
+  - type: Conventions
+    url: conventions/uphold-conventions.yml
+  - type: ErrorCatalog
+    url: errors/uphold-problem-types.yml
+  - type: DataModel
+    url: data-model/uphold-data-model.yml
+  - type: Webhooks
+    url: asyncapi/uphold-core-webhooks.yml
+  - type: Sandbox
+    url: sandbox/uphold-sandbox.yml
+  - type: Documentation
+    url: https://developer.uphold.com/widgets/introduction
+  - type: Components
+    url: components/uphold-components.yml
+  - type: ChangeLog
+    url: https://developer.uphold.com/widgets/changelog
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/market-pulse-api/assets/get-asset-information
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/kyc-connector-api/introduction
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/topper-api/kyc-sharing/create-session
+- aid: uphold:uphold-capabilities-api
+  name: Uphold Capabilities API
+  description: User capabilities.
+  humanURL: https://developer.uphold.com/rest-apis/core-api/concepts
+  baseURL: https://api.enterprise.uphold.com
+  tags:
+  - Capabilities
+  properties:
+  - type: OpenAPI
+    url: openapi/uphold-capabilities-api-openapi.yml
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/introduction
+  - type: APIReference
+    url: https://developer.uphold.com/rest-apis/core-api/concepts
+  - type: Authentication
+    url: authentication/uphold-authentication.yml
+  - type: OAuthScopes
+    url: scopes/uphold-scopes.yml
+  - type: Conventions
+    url: conventions/uphold-conventions.yml
+  - type: ErrorCatalog
+    url: errors/uphold-problem-types.yml
+  - type: DataModel
+    url: data-model/uphold-data-model.yml
+  - type: Webhooks
+    url: asyncapi/uphold-core-webhooks.yml
+  - type: Sandbox
+    url: sandbox/uphold-sandbox.yml
+  - type: Documentation
+    url: https://developer.uphold.com/widgets/introduction
+  - type: Components
+    url: components/uphold-components.yml
+  - type: ChangeLog
+    url: https://developer.uphold.com/widgets/changelog
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/market-pulse-api/assets/get-asset-information
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/kyc-connector-api/introduction
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/topper-api/kyc-sharing/create-session
+- aid: uphold:uphold-countries-api
+  name: Uphold Countries API
+  description: Countries.
+  humanURL: https://developer.uphold.com/rest-apis/core-api/concepts
+  baseURL: https://api.enterprise.uphold.com
+  tags:
+  - Countries
+  properties:
+  - type: OpenAPI
+    url: openapi/uphold-countries-api-openapi.yml
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/introduction
+  - type: APIReference
+    url: https://developer.uphold.com/rest-apis/core-api/concepts
+  - type: Authentication
+    url: authentication/uphold-authentication.yml
+  - type: OAuthScopes
+    url: scopes/uphold-scopes.yml
+  - type: Conventions
+    url: conventions/uphold-conventions.yml
+  - type: ErrorCatalog
+    url: errors/uphold-problem-types.yml
+  - type: DataModel
+    url: data-model/uphold-data-model.yml
+  - type: Webhooks
+    url: asyncapi/uphold-core-webhooks.yml
+  - type: Sandbox
+    url: sandbox/uphold-sandbox.yml
+  - type: Documentation
+    url: https://developer.uphold.com/widgets/introduction
+  - type: Components
+    url: components/uphold-components.yml
+  - type: ChangeLog
+    url: https://developer.uphold.com/widgets/changelog
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/market-pulse-api/assets/get-asset-information
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/kyc-connector-api/introduction
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/topper-api/kyc-sharing/create-session
+- aid: uphold:uphold-external-accounts-api
+  name: Uphold External accounts API
+  description: External accounts.
+  humanURL: https://developer.uphold.com/rest-apis/core-api/concepts
+  baseURL: https://api.enterprise.uphold.com
+  tags:
+  - External accounts
+  properties:
+  - type: OpenAPI
+    url: openapi/uphold-external-accounts-api-openapi.yml
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/introduction
+  - type: APIReference
+    url: https://developer.uphold.com/rest-apis/core-api/concepts
+  - type: Authentication
+    url: authentication/uphold-authentication.yml
+  - type: OAuthScopes
+    url: scopes/uphold-scopes.yml
+  - type: Conventions
+    url: conventions/uphold-conventions.yml
+  - type: ErrorCatalog
+    url: errors/uphold-problem-types.yml
+  - type: DataModel
+    url: data-model/uphold-data-model.yml
+  - type: Webhooks
+    url: asyncapi/uphold-core-webhooks.yml
+  - type: Sandbox
+    url: sandbox/uphold-sandbox.yml
+  - type: Documentation
+    url: https://developer.uphold.com/widgets/introduction
+  - type: Components
+    url: components/uphold-components.yml
+  - type: ChangeLog
+    url: https://developer.uphold.com/widgets/changelog
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/market-pulse-api/assets/get-asset-information
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/kyc-connector-api/introduction
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/topper-api/kyc-sharing/create-session
+- aid: uphold:uphold-files-api
+  name: Uphold Files API
+  description: Files.
+  humanURL: https://developer.uphold.com/rest-apis/core-api/concepts
+  baseURL: https://api.enterprise.uphold.com
+  tags:
+  - Files
+  properties:
+  - type: OpenAPI
+    url: openapi/uphold-files-api-openapi.yml
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/introduction
+  - type: APIReference
+    url: https://developer.uphold.com/rest-apis/core-api/concepts
+  - type: Authentication
+    url: authentication/uphold-authentication.yml
+  - type: OAuthScopes
+    url: scopes/uphold-scopes.yml
+  - type: Conventions
+    url: conventions/uphold-conventions.yml
+  - type: ErrorCatalog
+    url: errors/uphold-problem-types.yml
+  - type: DataModel
+    url: data-model/uphold-data-model.yml
+  - type: Webhooks
+    url: asyncapi/uphold-core-webhooks.yml
+  - type: Sandbox
+    url: sandbox/uphold-sandbox.yml
+  - type: Documentation
+    url: https://developer.uphold.com/widgets/introduction
+  - type: Components
+    url: components/uphold-components.yml
+  - type: ChangeLog
+    url: https://developer.uphold.com/widgets/changelog
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/market-pulse-api/assets/get-asset-information
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/kyc-connector-api/introduction
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/topper-api/kyc-sharing/create-session
+- aid: uphold:uphold-general-api
+  name: Uphold General API
+  description: General.
+  humanURL: https://developer.uphold.com/rest-apis/core-api/concepts
+  baseURL: https://api.enterprise.uphold.com
+  tags:
+  - General
+  properties:
+  - type: OpenAPI
+    url: openapi/uphold-general-api-openapi.yml
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/introduction
+  - type: APIReference
+    url: https://developer.uphold.com/rest-apis/core-api/concepts
+  - type: Authentication
+    url: authentication/uphold-authentication.yml
+  - type: OAuthScopes
+    url: scopes/uphold-scopes.yml
+  - type: Conventions
+    url: conventions/uphold-conventions.yml
+  - type: ErrorCatalog
+    url: errors/uphold-problem-types.yml
+  - type: DataModel
+    url: data-model/uphold-data-model.yml
+  - type: Webhooks
+    url: asyncapi/uphold-core-webhooks.yml
+  - type: Sandbox
+    url: sandbox/uphold-sandbox.yml
+  - type: Documentation
+    url: https://developer.uphold.com/widgets/introduction
+  - type: Components
+    url: components/uphold-components.yml
+  - type: ChangeLog
+    url: https://developer.uphold.com/widgets/changelog
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/market-pulse-api/assets/get-asset-information
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/kyc-connector-api/introduction
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/topper-api/kyc-sharing/create-session
+- aid: uphold:uphold-ingestions-api
+  name: Uphold Ingestions API
+  description: The Ingestions API from Uphold — 0 operation(s) for ingestions.
+  humanURL: https://developer.uphold.com/rest-apis/core-api/concepts
+  baseURL: https://api.enterprise.uphold.com
+  tags:
+  - Ingestions
+  properties:
+  - type: OpenAPI
+    url: openapi/uphold-ingestions-api-openapi.yml
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/introduction
+  - type: APIReference
+    url: https://developer.uphold.com/rest-apis/core-api/concepts
+  - type: Authentication
+    url: authentication/uphold-authentication.yml
+  - type: OAuthScopes
+    url: scopes/uphold-scopes.yml
+  - type: Conventions
+    url: conventions/uphold-conventions.yml
+  - type: ErrorCatalog
+    url: errors/uphold-problem-types.yml
+  - type: DataModel
+    url: data-model/uphold-data-model.yml
+  - type: Webhooks
+    url: asyncapi/uphold-core-webhooks.yml
+  - type: Sandbox
+    url: sandbox/uphold-sandbox.yml
+  - type: Documentation
+    url: https://developer.uphold.com/widgets/introduction
+  - type: Components
+    url: components/uphold-components.yml
+  - type: ChangeLog
+    url: https://developer.uphold.com/widgets/changelog
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/market-pulse-api/assets/get-asset-information
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/kyc-connector-api/introduction
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/topper-api/kyc-sharing/create-session
+- aid: uphold:uphold-kyb-api
+  name: Uphold KYB API
+  description: Business User's KYB.
+  humanURL: https://developer.uphold.com/rest-apis/core-api/concepts
+  baseURL: https://api.enterprise.uphold.com
+  tags:
+  - KYB
+  properties:
+  - type: OpenAPI
+    url: openapi/uphold-kyb-api-openapi.yml
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/introduction
+  - type: APIReference
+    url: https://developer.uphold.com/rest-apis/core-api/concepts
+  - type: Authentication
+    url: authentication/uphold-authentication.yml
+  - type: OAuthScopes
+    url: scopes/uphold-scopes.yml
+  - type: Conventions
+    url: conventions/uphold-conventions.yml
+  - type: ErrorCatalog
+    url: errors/uphold-problem-types.yml
+  - type: DataModel
+    url: data-model/uphold-data-model.yml
+  - type: Webhooks
+    url: asyncapi/uphold-core-webhooks.yml
+  - type: Sandbox
+    url: sandbox/uphold-sandbox.yml
+  - type: Documentation
+    url: https://developer.uphold.com/widgets/introduction
+  - type: Components
+    url: components/uphold-components.yml
+  - type: ChangeLog
+    url: https://developer.uphold.com/widgets/changelog
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/market-pulse-api/assets/get-asset-information
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/kyc-connector-api/introduction
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/topper-api/kyc-sharing/create-session
+- aid: uphold:uphold-kyc-api
+  name: Uphold KYC API
+  description: Individual User's KYC.
+  humanURL: https://developer.uphold.com/rest-apis/core-api/concepts
+  baseURL: https://api.enterprise.uphold.com
+  tags:
+  - KYC
+  properties:
+  - type: OpenAPI
+    url: openapi/uphold-kyc-api-openapi.yml
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/introduction
+  - type: APIReference
+    url: https://developer.uphold.com/rest-apis/core-api/concepts
+  - type: Authentication
+    url: authentication/uphold-authentication.yml
+  - type: OAuthScopes
+    url: scopes/uphold-scopes.yml
+  - type: Conventions
+    url: conventions/uphold-conventions.yml
+  - type: ErrorCatalog
+    url: errors/uphold-problem-types.yml
+  - type: DataModel
+    url: data-model/uphold-data-model.yml
+  - type: Webhooks
+    url: asyncapi/uphold-core-webhooks.yml
+  - type: Sandbox
+    url: sandbox/uphold-sandbox.yml
+  - type: Documentation
+    url: https://developer.uphold.com/widgets/introduction
+  - type: Components
+    url: components/uphold-components.yml
+  - type: ChangeLog
+    url: https://developer.uphold.com/widgets/changelog
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/market-pulse-api/assets/get-asset-information
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/kyc-connector-api/introduction
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/topper-api/kyc-sharing/create-session
+- aid: uphold:uphold-kyc-sharing-api
+  name: Uphold KYC sharing API
+  description: KYC sharing.
+  humanURL: https://developer.uphold.com/rest-apis/core-api/concepts
+  baseURL: https://api.enterprise.uphold.com
+  tags:
+  - KYC sharing
+  properties:
+  - type: OpenAPI
+    url: openapi/uphold-kyc-sharing-api-openapi.yml
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/introduction
+  - type: APIReference
+    url: https://developer.uphold.com/rest-apis/core-api/concepts
+  - type: Authentication
+    url: authentication/uphold-authentication.yml
+  - type: OAuthScopes
+    url: scopes/uphold-scopes.yml
+  - type: Conventions
+    url: conventions/uphold-conventions.yml
+  - type: ErrorCatalog
+    url: errors/uphold-problem-types.yml
+  - type: DataModel
+    url: data-model/uphold-data-model.yml
+  - type: Webhooks
+    url: asyncapi/uphold-core-webhooks.yml
+  - type: Sandbox
+    url: sandbox/uphold-sandbox.yml
+  - type: Documentation
+    url: https://developer.uphold.com/widgets/introduction
+  - type: Components
+    url: components/uphold-components.yml
+  - type: ChangeLog
+    url: https://developer.uphold.com/widgets/changelog
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/market-pulse-api/assets/get-asset-information
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/kyc-connector-api/introduction
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/topper-api/kyc-sharing/create-session
+- aid: uphold:uphold-metadata-api
+  name: Uphold Metadata API
+  description: Metadata.
+  humanURL: https://developer.uphold.com/rest-apis/core-api/concepts
+  baseURL: https://api.enterprise.uphold.com
+  tags:
+  - Metadata
+  properties:
+  - type: OpenAPI
+    url: openapi/uphold-metadata-api-openapi.yml
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/introduction
+  - type: APIReference
+    url: https://developer.uphold.com/rest-apis/core-api/concepts
+  - type: Authentication
+    url: authentication/uphold-authentication.yml
+  - type: OAuthScopes
+    url: scopes/uphold-scopes.yml
+  - type: Conventions
+    url: conventions/uphold-conventions.yml
+  - type: ErrorCatalog
+    url: errors/uphold-problem-types.yml
+  - type: DataModel
+    url: data-model/uphold-data-model.yml
+  - type: Webhooks
+    url: asyncapi/uphold-core-webhooks.yml
+  - type: Sandbox
+    url: sandbox/uphold-sandbox.yml
+  - type: Documentation
+    url: https://developer.uphold.com/widgets/introduction
+  - type: Components
+    url: components/uphold-components.yml
+  - type: ChangeLog
+    url: https://developer.uphold.com/widgets/changelog
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/market-pulse-api/assets/get-asset-information
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/kyc-connector-api/introduction
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/topper-api/kyc-sharing/create-session
+- aid: uphold:uphold-payment-api
+  name: Uphold Payment API
+  description: Payment.
+  humanURL: https://developer.uphold.com/rest-apis/core-api/concepts
+  baseURL: https://api.enterprise.uphold.com
+  tags:
+  - Payment
+  properties:
+  - type: OpenAPI
+    url: openapi/uphold-payment-api-openapi.yml
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/introduction
+  - type: APIReference
+    url: https://developer.uphold.com/rest-apis/core-api/concepts
+  - type: Authentication
+    url: authentication/uphold-authentication.yml
+  - type: OAuthScopes
+    url: scopes/uphold-scopes.yml
+  - type: Conventions
+    url: conventions/uphold-conventions.yml
+  - type: ErrorCatalog
+    url: errors/uphold-problem-types.yml
+  - type: DataModel
+    url: data-model/uphold-data-model.yml
+  - type: Webhooks
+    url: asyncapi/uphold-core-webhooks.yml
+  - type: Sandbox
+    url: sandbox/uphold-sandbox.yml
+  - type: Documentation
+    url: https://developer.uphold.com/widgets/introduction
+  - type: Components
+    url: components/uphold-components.yml
+  - type: ChangeLog
+    url: https://developer.uphold.com/widgets/changelog
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/market-pulse-api/assets/get-asset-information
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/kyc-connector-api/introduction
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/topper-api/kyc-sharing/create-session
+- aid: uphold:uphold-portfolio-api
+  name: Uphold Portfolio API
+  description: Portfolio.
+  humanURL: https://developer.uphold.com/rest-apis/core-api/concepts
+  baseURL: https://api.enterprise.uphold.com
+  tags:
+  - Portfolio
+  properties:
+  - type: OpenAPI
+    url: openapi/uphold-portfolio-api-openapi.yml
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/introduction
+  - type: APIReference
+    url: https://developer.uphold.com/rest-apis/core-api/concepts
+  - type: Authentication
+    url: authentication/uphold-authentication.yml
+  - type: OAuthScopes
+    url: scopes/uphold-scopes.yml
+  - type: Conventions
+    url: conventions/uphold-conventions.yml
+  - type: ErrorCatalog
+    url: errors/uphold-problem-types.yml
+  - type: DataModel
+    url: data-model/uphold-data-model.yml
+  - type: Webhooks
+    url: asyncapi/uphold-core-webhooks.yml
+  - type: Sandbox
+    url: sandbox/uphold-sandbox.yml
+  - type: Documentation
+    url: https://developer.uphold.com/widgets/introduction
+  - type: Components
+    url: components/uphold-components.yml
+  - type: ChangeLog
+    url: https://developer.uphold.com/widgets/changelog
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/market-pulse-api/assets/get-asset-information
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/kyc-connector-api/introduction
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/topper-api/kyc-sharing/create-session
+- aid: uphold:uphold-statements-api
+  name: Uphold Statements API
+  description: Statements.
+  humanURL: https://developer.uphold.com/rest-apis/core-api/concepts
+  baseURL: https://api.enterprise.uphold.com
+  tags:
+  - Statements
+  properties:
+  - type: OpenAPI
+    url: openapi/uphold-statements-api-openapi.yml
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/introduction
+  - type: APIReference
+    url: https://developer.uphold.com/rest-apis/core-api/concepts
+  - type: Authentication
+    url: authentication/uphold-authentication.yml
+  - type: OAuthScopes
+    url: scopes/uphold-scopes.yml
+  - type: Conventions
+    url: conventions/uphold-conventions.yml
+  - type: ErrorCatalog
+    url: errors/uphold-problem-types.yml
+  - type: DataModel
+    url: data-model/uphold-data-model.yml
+  - type: Webhooks
+    url: asyncapi/uphold-core-webhooks.yml
+  - type: Sandbox
+    url: sandbox/uphold-sandbox.yml
+  - type: Documentation
+    url: https://developer.uphold.com/widgets/introduction
+  - type: Components
+    url: components/uphold-components.yml
+  - type: ChangeLog
+    url: https://developer.uphold.com/widgets/changelog
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/market-pulse-api/assets/get-asset-information
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/kyc-connector-api/introduction
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/topper-api/kyc-sharing/create-session
+- aid: uphold:uphold-sumsub-api
+  name: Uphold Sumsub API
+  description: Sumsub KYC Connector.
+  humanURL: https://developer.uphold.com/rest-apis/core-api/concepts
+  baseURL: https://api.enterprise.uphold.com
+  tags:
+  - Sumsub
+  properties:
+  - type: OpenAPI
+    url: openapi/uphold-sumsub-api-openapi.yml
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/introduction
+  - type: APIReference
+    url: https://developer.uphold.com/rest-apis/core-api/concepts
+  - type: Authentication
+    url: authentication/uphold-authentication.yml
+  - type: OAuthScopes
+    url: scopes/uphold-scopes.yml
+  - type: Conventions
+    url: conventions/uphold-conventions.yml
+  - type: ErrorCatalog
+    url: errors/uphold-problem-types.yml
+  - type: DataModel
+    url: data-model/uphold-data-model.yml
+  - type: Webhooks
+    url: asyncapi/uphold-core-webhooks.yml
+  - type: Sandbox
+    url: sandbox/uphold-sandbox.yml
+  - type: Documentation
+    url: https://developer.uphold.com/widgets/introduction
+  - type: Components
+    url: components/uphold-components.yml
+  - type: ChangeLog
+    url: https://developer.uphold.com/widgets/changelog
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/market-pulse-api/assets/get-asset-information
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/kyc-connector-api/introduction
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/topper-api/kyc-sharing/create-session
+- aid: uphold:uphold-terms-of-service-api
+  name: Uphold Terms of service API
+  description: User terms of service.
+  humanURL: https://developer.uphold.com/rest-apis/core-api/concepts
+  baseURL: https://api.enterprise.uphold.com
+  tags:
+  - Terms of service
+  properties:
+  - type: OpenAPI
+    url: openapi/uphold-terms-of-service-api-openapi.yml
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/introduction
+  - type: APIReference
+    url: https://developer.uphold.com/rest-apis/core-api/concepts
+  - type: Authentication
+    url: authentication/uphold-authentication.yml
+  - type: OAuthScopes
+    url: scopes/uphold-scopes.yml
+  - type: Conventions
+    url: conventions/uphold-conventions.yml
+  - type: ErrorCatalog
+    url: errors/uphold-problem-types.yml
+  - type: DataModel
+    url: data-model/uphold-data-model.yml
+  - type: Webhooks
+    url: asyncapi/uphold-core-webhooks.yml
+  - type: Sandbox
+    url: sandbox/uphold-sandbox.yml
+  - type: Documentation
+    url: https://developer.uphold.com/widgets/introduction
+  - type: Components
+    url: components/uphold-components.yml
+  - type: ChangeLog
+    url: https://developer.uphold.com/widgets/changelog
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/market-pulse-api/assets/get-asset-information
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/kyc-connector-api/introduction
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/topper-api/kyc-sharing/create-session
+- aid: uphold:uphold-transactions-api
+  name: Uphold Transactions API
+  description: Transactions.
+  humanURL: https://developer.uphold.com/rest-apis/core-api/concepts
+  baseURL: https://api.enterprise.uphold.com
+  tags:
+  - Transactions
+  properties:
+  - type: OpenAPI
+    url: openapi/uphold-transactions-api-openapi.yml
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/introduction
+  - type: APIReference
+    url: https://developer.uphold.com/rest-apis/core-api/concepts
+  - type: Authentication
+    url: authentication/uphold-authentication.yml
+  - type: OAuthScopes
+    url: scopes/uphold-scopes.yml
+  - type: Conventions
+    url: conventions/uphold-conventions.yml
+  - type: ErrorCatalog
+    url: errors/uphold-problem-types.yml
+  - type: DataModel
+    url: data-model/uphold-data-model.yml
+  - type: Webhooks
+    url: asyncapi/uphold-core-webhooks.yml
+  - type: Sandbox
+    url: sandbox/uphold-sandbox.yml
+  - type: Documentation
+    url: https://developer.uphold.com/widgets/introduction
+  - type: Components
+    url: components/uphold-components.yml
+  - type: ChangeLog
+    url: https://developer.uphold.com/widgets/changelog
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/market-pulse-api/assets/get-asset-information
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/kyc-connector-api/introduction
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/topper-api/kyc-sharing/create-session
+- aid: uphold:uphold-travel-rule-api
+  name: Uphold Travel rule API
+  description: Travel rule.
+  humanURL: https://developer.uphold.com/rest-apis/core-api/concepts
+  baseURL: https://api.enterprise.uphold.com
+  tags:
+  - Travel rule
+  properties:
+  - type: OpenAPI
+    url: openapi/uphold-travel-rule-api-openapi.yml
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/introduction
+  - type: APIReference
+    url: https://developer.uphold.com/rest-apis/core-api/concepts
+  - type: Authentication
+    url: authentication/uphold-authentication.yml
+  - type: OAuthScopes
+    url: scopes/uphold-scopes.yml
+  - type: Conventions
+    url: conventions/uphold-conventions.yml
+  - type: ErrorCatalog
+    url: errors/uphold-problem-types.yml
+  - type: DataModel
+    url: data-model/uphold-data-model.yml
+  - type: Webhooks
+    url: asyncapi/uphold-core-webhooks.yml
+  - type: Sandbox
+    url: sandbox/uphold-sandbox.yml
+  - type: Documentation
+    url: https://developer.uphold.com/widgets/introduction
+  - type: Components
+    url: components/uphold-components.yml
+  - type: ChangeLog
+    url: https://developer.uphold.com/widgets/changelog
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/market-pulse-api/assets/get-asset-information
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/kyc-connector-api/introduction
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/topper-api/kyc-sharing/create-session
+- aid: uphold:uphold-users-api
+  name: Uphold Users API
+  description: Users.
+  humanURL: https://developer.uphold.com/rest-apis/core-api/concepts
+  baseURL: https://api.enterprise.uphold.com
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/uphold-users-api-openapi.yml
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/introduction
+  - type: APIReference
+    url: https://developer.uphold.com/rest-apis/core-api/concepts
+  - type: Authentication
+    url: authentication/uphold-authentication.yml
+  - type: OAuthScopes
+    url: scopes/uphold-scopes.yml
+  - type: Conventions
+    url: conventions/uphold-conventions.yml
+  - type: ErrorCatalog
+    url: errors/uphold-problem-types.yml
+  - type: DataModel
+    url: data-model/uphold-data-model.yml
+  - type: Webhooks
+    url: asyncapi/uphold-core-webhooks.yml
+  - type: Sandbox
+    url: sandbox/uphold-sandbox.yml
+  - type: Documentation
+    url: https://developer.uphold.com/widgets/introduction
+  - type: Components
+    url: components/uphold-components.yml
+  - type: ChangeLog
+    url: https://developer.uphold.com/widgets/changelog
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/market-pulse-api/assets/get-asset-information
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/kyc-connector-api/introduction
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/topper-api/kyc-sharing/create-session
+- aid: uphold:uphold-veriff-api
+  name: Uphold Veriff API
+  description: Veriff KYC Connector.
+  humanURL: https://developer.uphold.com/rest-apis/core-api/concepts
+  baseURL: https://api.enterprise.uphold.com
+  tags:
+  - Veriff
+  properties:
+  - type: OpenAPI
+    url: openapi/uphold-veriff-api-openapi.yml
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/introduction
+  - type: APIReference
+    url: https://developer.uphold.com/rest-apis/core-api/concepts
+  - type: Authentication
+    url: authentication/uphold-authentication.yml
+  - type: OAuthScopes
+    url: scopes/uphold-scopes.yml
+  - type: Conventions
+    url: conventions/uphold-conventions.yml
+  - type: ErrorCatalog
+    url: errors/uphold-problem-types.yml
+  - type: DataModel
+    url: data-model/uphold-data-model.yml
+  - type: Webhooks
+    url: asyncapi/uphold-core-webhooks.yml
+  - type: Sandbox
+    url: sandbox/uphold-sandbox.yml
+  - type: Documentation
+    url: https://developer.uphold.com/widgets/introduction
+  - type: Components
+    url: components/uphold-components.yml
+  - type: ChangeLog
+    url: https://developer.uphold.com/widgets/changelog
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/market-pulse-api/assets/get-asset-information
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/kyc-connector-api/introduction
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/topper-api/kyc-sharing/create-session
+- aid: uphold:uphold-webhooks-api
+  name: Uphold Webhooks API
+  description: Webhooks.
+  humanURL: https://developer.uphold.com/rest-apis/core-api/concepts
+  baseURL: https://api.enterprise.uphold.com
+  tags:
+  - Webhooks
+  properties:
+  - type: OpenAPI
+    url: openapi/uphold-webhooks-api-openapi.yml
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/introduction
+  - type: APIReference
+    url: https://developer.uphold.com/rest-apis/core-api/concepts
+  - type: Authentication
+    url: authentication/uphold-authentication.yml
+  - type: OAuthScopes
+    url: scopes/uphold-scopes.yml
+  - type: Conventions
+    url: conventions/uphold-conventions.yml
+  - type: ErrorCatalog
+    url: errors/uphold-problem-types.yml
+  - type: DataModel
+    url: data-model/uphold-data-model.yml
+  - type: Webhooks
+    url: asyncapi/uphold-core-webhooks.yml
+  - type: Sandbox
+    url: sandbox/uphold-sandbox.yml
+  - type: Documentation
+    url: https://developer.uphold.com/widgets/introduction
+  - type: Components
+    url: components/uphold-components.yml
+  - type: ChangeLog
+    url: https://developer.uphold.com/widgets/changelog
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/market-pulse-api/assets/get-asset-information
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/kyc-connector-api/introduction
+  - type: Documentation
+    url: https://developer.uphold.com/rest-apis/topper-api/kyc-sharing/create-session
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: Overlay
+  url: overlays/uphold-core-api-overlay.yaml
 - type: Website
   url: https://uphold.com/
 - type: DeveloperPortal
