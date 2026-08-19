@@ -1,0 +1,339 @@
+openapi: 3.2.0
+info:
+  version: 0.1.0
+  title: Core Authentication API
+  description: The Core API provides essential building blocks that empower businesses to embed financial services into their applications.
+  contact:
+    name: Uphold API Team
+    email: developers@uphold.com
+    url: https://developer.uphold.com
+servers:
+- url: https://api.enterprise.sandbox.uphold.com
+  description: Sandbox
+- url: https://api.enterprise.uphold.com
+  description: Production
+security:
+- OAuth2: []
+tags:
+- name: Authentication
+  description: Authentication.
+paths:
+  /core/oauth2/token:
+    post:
+      operationId: core.create-oauth2-token
+      summary: Request OAuth2 token
+      description: Request an access token using OAuth2 protocol.
+      tags:
+      - Authentication
+      security: []
+      parameters:
+      - $ref: '#/components/parameters/create-oauth2-token-authorization'
+      requestBody:
+        $ref: '#/components/requestBodies/create-oauth2-token-request-body'
+      responses:
+        '200':
+          $ref: '#/components/responses/create-oauth2-token-response'
+        '400':
+          $ref: '#/components/responses/create-oauth2-token-bad-request-response'
+        '401':
+          $ref: '#/components/responses/create-oauth2-token-unauthorized-response'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+components:
+  responses:
+    create-oauth2-token-response:
+      description: Token created successfully.
+      headers:
+        x-uphold-organization-id:
+          description: The organization id of the associated token.
+          schema:
+            type: string
+            format: uuid
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/oauth2-token'
+          examples:
+            OK:
+              value:
+                access_token: eyJhbGciOiJIUzI1NiIsI...
+                expires_in: 600
+                scope: users:* users.kyc:read
+                token_type: Bearer
+    create-oauth2-token-unauthorized-response:
+      description: Unauthorized.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/oauth2-error'
+          examples:
+            Invalid Authorization Header:
+              value:
+                error: invalid_client
+                error_description: Client id and secret could not be extracted from Authorization header
+            Invalid Client:
+              value:
+                error: invalid_client
+                error_description: Client does not exist or secret is incorrect
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    create-oauth2-token-bad-request-response:
+      description: Bad Request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/oauth2-error'
+          examples:
+            Invalid Request:
+              value:
+                error: invalid_request
+                error_description: Body must have required property 'grant_type'
+            Unsupported Grant Type:
+              value:
+                error: unsupported_grant_type
+                error_description: Grant type not supported
+            Invalid Grant:
+              value:
+                error: invalid_grant
+                error_description: Token expired
+            Invalid Scope:
+              value:
+                error: invalid_scope
+                error_description: Requested scopes must be equal or narrower
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    too-many-requests:
+      description: Too Many Requests.
+      headers:
+        Retry-After:
+          description: The number of seconds to wait before making a new request.
+          schema:
+            type: integer
+            format: int32
+          examples:
+            Retry After:
+              value: 60
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Too Many Requests:
+              value:
+                code: too_many_requests
+                message: Try again later
+  requestBodies:
+    create-oauth2-token-request-body:
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            type: object
+            discriminator:
+              propertyName: grant_type
+              mapping:
+                client_credentials: '#/components/schemas/create-oauth2-token-client-credentials'
+                refresh_token: '#/components/schemas/create-oauth2-token-refresh-token'
+            oneOf:
+            - title: Client credentials
+              $ref: '#/components/schemas/create-oauth2-token-client-credentials'
+            - title: Refresh token
+              $ref: '#/components/schemas/create-oauth2-token-refresh-token'
+            required:
+            - grant_type
+          examples:
+            Client Credentials:
+              value:
+                grant_type: client_credentials
+                scope: users:* users.kyc:read
+  schemas:
+    error:
+      description: The error information.
+      allOf:
+      - $ref: '#/components/schemas/feedback'
+    oauth2-error:
+      type: object
+      properties:
+        error:
+          description: A single error code.
+          type: string
+        error_description:
+          description: A human-readable description of the error.
+          type: string
+        error_uri:
+          description: A URI to a page with more information about the error.
+          type: string
+      required:
+      - error
+    create-oauth2-token-client-credentials:
+      type: object
+      properties:
+        grant_type:
+          type: string
+          enum:
+          - client_credentials
+        scope:
+          description: The list of scopes, delimited with spaces.
+          type: string
+          maxLength: 4096
+      required:
+      - grant_type
+    oauth2-token:
+      type: object
+      properties:
+        access_token:
+          type: string
+          description: The access token string issued.
+        refresh_token:
+          type: string
+          description: The refresh token string issued (only applicable to certain grant types).
+        expires_in:
+          type: integer
+          description: The number of seconds until the token expires.
+        scope:
+          description: The list of scopes, delimited with spaces.
+          type: string
+        token_type:
+          type: string
+          enum:
+          - Bearer
+      required:
+      - access_token
+      - token_type
+      - expires_in
+    create-oauth2-token-refresh-token:
+      type: object
+      properties:
+        grant_type:
+          type: string
+          enum:
+          - refresh_token
+        refresh_token:
+          description: The refresh token string.
+          type: string
+          maxLength: 8192
+        scope:
+          description: The list of scopes, delimited with spaces.
+          type: string
+          maxLength: 4096
+      required:
+      - grant_type
+      - refresh_token
+    feedback:
+      description: A feedback message with a code and human-readable description.
+      type: object
+      properties:
+        code:
+          description: A short string with a brief explanation about the code reported.
+          type: string
+        message:
+          description: A human-readable message providing more details.
+          type: string
+        details:
+          description: Additional information about the feedback reported.
+          type: object
+          additionalProperties: true
+      required:
+      - code
+      - message
+  parameters:
+    create-oauth2-token-authorization:
+      name: Authorization
+      description: Basic authentication credentials, in the format `Basic <base64(client_id:client_secret)>`.
+      in: header
+      required: false
+      schema:
+        type: string
+      examples:
+        Basic Authorization:
+          value: Basic aW52YWxpZDpzZWNyZXQ=
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: OAuth 2.0 authentication.
+      flows:
+        clientCredentials:
+          tokenUrl: /core/oauth2/token
+          scopes:
+            core.users:act-on-behalf-of: Grants access to act on behalf of a user
+            core.users:create: Grants access to create users
+            core.users:read: Grants access to view users
+            core.users:delete: Grants access to delete users
+            core.users.metadata:read: Grants access to view user metadata
+            core.users.metadata:write: Grants access to modify user metadata
+            core.kyc:read: Grants access to view KYC processes
+            core.kyc.profile:update: Grants access to update profile KYC process
+            core.kyc.address:update: Grants access to update address KYC process
+            core.kyc.email:update: Grants access to update email KYC process
+            core.kyc.phone:update: Grants access to update phone KYC process
+            core.kyc.identity:update: Grants access to update identity KYC process
+            core.kyc.proof-of-address:update: Grants access to update proof-of-address KYC process
+            core.kyc.customer-due-diligence:update: Grants access to update customer due diligence KYC process
+            core.kyc.enhanced-due-diligence:update: Grants access to update enhanced due diligence KYC process
+            core.kyc.crypto-risk-assessment:update: Grants access to update crypto risk assessment KYC process
+            core.kyc.self-categorization-statement:update: Grants access to update self-categorization statement KYC process
+            core.kyc.tax-details:update: Grants access to update tax details KYC process
+            core.capabilities:read: Grants access to view user capabilities
+            core.terms-of-service:read: Grants access to view terms of service
+            core.terms-of-service:accept: Grants access to accept terms of service
+            core.files:create: Grants access to create files
+            core.files:read: Grants access to view files
+            core.files.metadata:read: Grants access to view files metadata
+            core.files.metadata:write: Grants access to modify files metadata
+            core.accounts:create: Grants access to create accounts
+            core.accounts:read: Grants access to view accounts
+            core.accounts:update: Grants access to update accounts
+            core.accounts:archive: Grants access to archive accounts
+            core.accounts:deposit-method: Grants access to deposit method needed for depositing into accounts
+            core.accounts:use-test-helpers: Grants access to test helpers of accounts
+            core.accounts.metadata:read: Grants access to view accounts metadata
+            core.accounts.metadata:write: Grants access to modify accounts metadata
+            core.assets:use-test-helpers: Grants access to test helpers of assets
+            core.external-accounts:create: Grants access to create external accounts
+            core.external-accounts:read: Grants access to view external accounts
+            core.external-accounts:update: Grants access to update external accounts
+            core.external-accounts:delete: Grants access to delete external accounts
+            core.external-accounts.metadata:read: Grants access to view external accounts metadata
+            core.external-accounts.metadata:write: Grants access to modify external accounts metadata
+            core.transactions:create: Grants access to commit quotes
+            core.transactions:read: Grants access to view transactions
+            core.transactions.metadata:read: Grants access to view transactions metadata
+            core.transactions.metadata:write: Grants access to modify transactions metadata
+            core.transactions.requests-for-information:read: Grants access to view transactions requests for information
+            core.transactions.requests-for-information:update: Grants access to update transactions requests for information
+            core.portfolio:read: Grants access to view portfolio overview, performance, and historical balance
+            core.statements:read: Grants access to read statements
+            core.webhooks:management-link: Grants access to create webhook management links

@@ -1,0 +1,852 @@
+{
+  "item": [
+    {
+      "id": "6b0f006a-fe03-4190-914b-59178790c50f",
+      "name": "Countries",
+      "description": {
+        "content": "Countries.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "9bb96330-9c61-434f-a03e-e24a646ce807",
+          "name": "List countries",
+          "request": {
+            "name": "List countries",
+            "description": {
+              "content": "List countries supported by the platform.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "core",
+                "countries"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Contains the IP of the end user that is requesting the operation.",
+                "key": "X-Uphold-User-Ip",
+                "value": "<ipv4>"
+              },
+              {
+                "disabled": false,
+                "description": "Contains the user agent of the end user that is requesting the operation.",
+                "key": "X-Uphold-User-Agent",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Contains the origin of the request made by the end user.",
+                "key": "X-Uphold-User-Origin",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Contains the code of the country of the end user that is requesting the operation.",
+                "key": "X-Uphold-User-Country",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Contains the code of the subdivision of the end user that is requesting the operation.",
+                "key": "X-Uphold-User-Subdivision",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Contains the name of the city of the end user that is requesting the operation.",
+                "key": "X-Uphold-User-City",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d952c60f-4fc1-4179-825a-43d74ad55db1",
+              "name": "Countries list retrieved.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "core",
+                    "countries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the IP of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Ip",
+                    "value": "<ipv4>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the user agent of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Agent",
+                    "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the origin of the request made by the end user.",
+                    "key": "X-Uphold-User-Origin",
+                    "value": "https://uphold.com"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the country of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Country",
+                    "value": "US"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the subdivision of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Subdivision",
+                    "value": "US-CA"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the name of the city of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-City",
+                    "value": "San Francisco"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "(Required) A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+                  "key": "x-uphold-request-id",
+                  "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"countries\": [\n    {\n      \"code\": \"GB\",\n      \"name\": \"United Kingdom\",\n      \"asset\": \"GBP\",\n      \"restrictions\": [],\n      \"subdivisions\": [\n        {\n          \"code\": \"GB-BAS\",\n          \"name\": \"Bath and North East Somerset\",\n          \"restrictions\": []\n        },\n        {\n          \"code\": \"GB-LND\",\n          \"name\": \"London, City of\",\n          \"restrictions\": []\n        }\n      ]\n    },\n    {\n      \"code\": \"US\",\n      \"name\": \"United States of America\",\n      \"asset\": \"USD\",\n      \"restrictions\": [],\n      \"subdivisions\": [\n        {\n          \"code\": \"US-CA\",\n          \"name\": \"California\",\n          \"restrictions\": []\n        },\n        {\n          \"code\": \"US-NY\",\n          \"name\": \"New York\",\n          \"restrictions\": [\n            {\n              \"scope\": \"residence\"\n            }\n          ]\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "be673f8a-64c2-44d1-80c9-6189037f7da9",
+              "name": "Unauthorized.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "core",
+                    "countries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the IP of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Ip",
+                    "value": "<ipv4>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the user agent of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Agent",
+                    "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the origin of the request made by the end user.",
+                    "key": "X-Uphold-User-Origin",
+                    "value": "https://uphold.com"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the country of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Country",
+                    "value": "US"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the subdivision of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Subdivision",
+                    "value": "US-CA"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the name of the city of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-City",
+                    "value": "San Francisco"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "(Required) A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+                  "key": "x-uphold-request-id",
+                  "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"token_expired\",\n  \"message\": \"The access token has expired\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fafefe83-90bf-424d-85d9-ff8bd52d6e5e",
+              "name": "Too Many Requests.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "core",
+                    "countries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the IP of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Ip",
+                    "value": "<ipv4>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the user agent of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Agent",
+                    "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the origin of the request made by the end user.",
+                    "key": "X-Uphold-User-Origin",
+                    "value": "https://uphold.com"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the country of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Country",
+                    "value": "US"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the subdivision of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Subdivision",
+                    "value": "US-CA"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the name of the city of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-City",
+                    "value": "San Francisco"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The number of seconds to wait before making a new request.",
+                  "key": "Retry-After",
+                  "value": "60"
+                },
+                {
+                  "disabled": false,
+                  "description": "(Required) A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+                  "key": "x-uphold-request-id",
+                  "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"too_many_requests\",\n  \"message\": \"Try again later\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6a4a1131-b50e-4d80-8853-a190b58031b0",
+          "name": "Get country",
+          "request": {
+            "name": "Get country",
+            "description": {
+              "content": "Retrieve a country by code.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "core",
+                "countries",
+                ":country"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "country",
+                  "description": "(Required) The unique code of the country."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Contains the IP of the end user that is requesting the operation.",
+                "key": "X-Uphold-User-Ip",
+                "value": "<ipv4>"
+              },
+              {
+                "disabled": false,
+                "description": "Contains the user agent of the end user that is requesting the operation.",
+                "key": "X-Uphold-User-Agent",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Contains the origin of the request made by the end user.",
+                "key": "X-Uphold-User-Origin",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Contains the code of the country of the end user that is requesting the operation.",
+                "key": "X-Uphold-User-Country",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Contains the code of the subdivision of the end user that is requesting the operation.",
+                "key": "X-Uphold-User-Subdivision",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Contains the name of the city of the end user that is requesting the operation.",
+                "key": "X-Uphold-User-City",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "31544245-d661-4ec1-ad59-43bc54c0fb8e",
+              "name": "Country retrieved.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "core",
+                    "countries",
+                    ":country"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "country",
+                      "description": "(Required) The unique code of the country."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the IP of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Ip",
+                    "value": "<ipv4>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the user agent of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Agent",
+                    "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the origin of the request made by the end user.",
+                    "key": "X-Uphold-User-Origin",
+                    "value": "https://uphold.com"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the country of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Country",
+                    "value": "US"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the subdivision of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Subdivision",
+                    "value": "US-CA"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the name of the city of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-City",
+                    "value": "San Francisco"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "(Required) A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+                  "key": "x-uphold-request-id",
+                  "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"country\": {\n    \"code\": \"GB\",\n    \"name\": \"United Kingdom\",\n    \"asset\": \"GBP\",\n    \"restrictions\": [],\n    \"subdivisions\": [\n      {\n        \"code\": \"GB-BAS\",\n        \"name\": \"Bath and North East Somerset\",\n        \"restrictions\": []\n      },\n      {\n        \"code\": \"GB-LND\",\n        \"name\": \"London, City of\",\n        \"restrictions\": []\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a71975d5-7d14-44fc-822b-e0b5f541b6ad",
+              "name": "Unauthorized.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "core",
+                    "countries",
+                    ":country"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "country",
+                      "description": "(Required) The unique code of the country."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the IP of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Ip",
+                    "value": "<ipv4>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the user agent of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Agent",
+                    "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the origin of the request made by the end user.",
+                    "key": "X-Uphold-User-Origin",
+                    "value": "https://uphold.com"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the country of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Country",
+                    "value": "US"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the subdivision of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Subdivision",
+                    "value": "US-CA"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the name of the city of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-City",
+                    "value": "San Francisco"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "(Required) A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+                  "key": "x-uphold-request-id",
+                  "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"token_expired\",\n  \"message\": \"The access token has expired\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d773b715-03ba-4bbc-962e-48da8ede5315",
+              "name": "Resource not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "core",
+                    "countries",
+                    ":country"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "country",
+                      "description": "(Required) The unique code of the country."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the IP of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Ip",
+                    "value": "<ipv4>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the user agent of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Agent",
+                    "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the origin of the request made by the end user.",
+                    "key": "X-Uphold-User-Origin",
+                    "value": "https://uphold.com"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the country of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Country",
+                    "value": "US"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the subdivision of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Subdivision",
+                    "value": "US-CA"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the name of the city of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-City",
+                    "value": "San Francisco"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "(Required) A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+                  "key": "x-uphold-request-id",
+                  "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"entity_not_found\",\n  \"message\": \"The country cannot be found\",\n  \"details\": {\n    \"entity\": \"country\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ca2228af-c686-41fb-aa5a-f27d39eb73ca",
+              "name": "Too Many Requests.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "core",
+                    "countries",
+                    ":country"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "country",
+                      "description": "(Required) The unique code of the country."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the IP of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Ip",
+                    "value": "<ipv4>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the user agent of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Agent",
+                    "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the origin of the request made by the end user.",
+                    "key": "X-Uphold-User-Origin",
+                    "value": "https://uphold.com"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the country of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Country",
+                    "value": "US"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the subdivision of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Subdivision",
+                    "value": "US-CA"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the name of the city of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-City",
+                    "value": "San Francisco"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The number of seconds to wait before making a new request.",
+                  "key": "Retry-After",
+                  "value": "60"
+                },
+                {
+                  "disabled": false,
+                  "description": "(Required) A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+                  "key": "x-uphold-request-id",
+                  "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"too_many_requests\",\n  \"message\": \"Try again later\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.enterprise.sandbox.uphold.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "scope",
+        "value": "core.users:act-on-behalf-of core.users:create core.users:read core.users:delete core.users.metadata:read core.users.metadata:write core.kyc:read core.kyc.profile:update core.kyc.address:update core.kyc.email:update core.kyc.phone:update core.kyc.identity:update core.kyc.proof-of-address:update core.kyc.customer-due-diligence:update core.kyc.enhanced-due-diligence:update core.kyc.crypto-risk-assessment:update core.kyc.self-categorization-statement:update core.kyc.tax-details:update core.capabilities:read core.terms-of-service:read core.terms-of-service:accept core.files:create core.files:read core.files.metadata:read core.files.metadata:write core.accounts:create core.accounts:read core.accounts:update core.accounts:archive core.accounts:deposit-method core.accounts:use-test-helpers core.accounts.metadata:read core.accounts.metadata:write core.assets:use-test-helpers core.external-accounts:create core.external-accounts:read core.external-accounts:update core.external-accounts:delete core.external-accounts.metadata:read core.external-accounts.metadata:write core.transactions:create core.transactions:read core.transactions.metadata:read core.transactions.metadata:write core.transactions.requests-for-information:read core.transactions.requests-for-information:update core.portfolio:read core.statements:read core.webhooks:management-link"
+      },
+      {
+        "key": "accessTokenUrl",
+        "value": "/core/oauth2/token"
+      },
+      {
+        "key": "grant_type",
+        "value": "client_credentials"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "0b6a6ca1-a828-4736-97f1-b150ca93a64b",
+    "name": "Core Countries API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Core API provides essential building blocks that empower businesses to embed financial services into their applications.\n\nContact Support:\n Name: Uphold API Team\n Email: developers@uphold.com",
+      "type": "text/plain"
+    }
+  }
+}

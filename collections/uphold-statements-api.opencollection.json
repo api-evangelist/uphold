@@ -1,0 +1,187 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Core Statements API",
+    "version": "0.1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "client_credentials",
+      "accessTokenUrl": "/core/oauth2/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Statements",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get portfolio statement",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.enterprise.sandbox.uphold.com/core/statements/portfolio",
+            "headers": [
+              {
+                "name": "X-On-Behalf-Of",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Ip",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Agent",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Origin",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Country",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Subdivision",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-City",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "period",
+                "value": "",
+                "type": "query",
+                "description": "The statement period type."
+              },
+              {
+                "name": "year",
+                "value": "",
+                "type": "query",
+                "description": "The statement year."
+              },
+              {
+                "name": "month",
+                "value": "",
+                "type": "query",
+                "description": "The statement month."
+              },
+              {
+                "name": "denomination",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the asset code to use as the denomination for value conversion. If not provided, USD is used by default."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/core/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves the portfolio statement for a given period."
+        },
+        {
+          "info": {
+            "name": "Get transactions statement",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.enterprise.sandbox.uphold.com/core/statements/transactions",
+            "headers": [
+              {
+                "name": "X-On-Behalf-Of",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Ip",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Agent",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Origin",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Country",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Subdivision",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-City",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "period",
+                "value": "",
+                "type": "query",
+                "description": "The statement period type."
+              },
+              {
+                "name": "year",
+                "value": "",
+                "type": "query",
+                "description": "The statement year."
+              },
+              {
+                "name": "month",
+                "value": "",
+                "type": "query",
+                "description": "The statement month."
+              },
+              {
+                "name": "denomination",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the asset code to use as the denomination for value conversion. If not provided, USD is used by default."
+              },
+              {
+                "name": "perPage",
+                "value": "",
+                "type": "query",
+                "description": "The number of items per page."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/core/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves the transactions statement for a given period."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

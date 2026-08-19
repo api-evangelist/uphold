@@ -1,0 +1,1651 @@
+{
+  "item": [
+    {
+      "id": "0bac4c11-6f4a-458c-ab63-db438343ad00",
+      "name": "Statements",
+      "description": {
+        "content": "Statements.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "065ae217-4284-40b4-8ad3-ea1c01a19291",
+          "name": "Get portfolio statement",
+          "request": {
+            "name": "Get portfolio statement",
+            "description": {
+              "content": "Retrieves the portfolio statement for a given period.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "core",
+                "statements",
+                "portfolio"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "period",
+                  "value": "<string>",
+                  "description": "(Required) The statement period type."
+                },
+                {
+                  "disabled": false,
+                  "key": "year",
+                  "value": "<integer>",
+                  "description": "(Required) The statement year."
+                },
+                {
+                  "disabled": false,
+                  "key": "month",
+                  "value": "<integer>",
+                  "description": "(Required) The statement month."
+                },
+                {
+                  "disabled": false,
+                  "key": "denomination",
+                  "value": "USD",
+                  "description": "Specifies the asset code to use as the denomination for value conversion. If not provided, USD is used by default."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "The subject on whose behalf the operation is being performed.",
+                "key": "X-On-Behalf-Of",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Contains the IP of the end user that is requesting the operation.",
+                "key": "X-Uphold-User-Ip",
+                "value": "<ipv4>"
+              },
+              {
+                "disabled": false,
+                "description": "Contains the user agent of the end user that is requesting the operation.",
+                "key": "X-Uphold-User-Agent",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Contains the origin of the request made by the end user.",
+                "key": "X-Uphold-User-Origin",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Contains the code of the country of the end user that is requesting the operation.",
+                "key": "X-Uphold-User-Country",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Contains the code of the subdivision of the end user that is requesting the operation.",
+                "key": "X-Uphold-User-Subdivision",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Contains the name of the city of the end user that is requesting the operation.",
+                "key": "X-Uphold-User-City",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "core.users:act-on-behalf-of core.users:create core.users:read core.users:delete core.users.metadata:read core.users.metadata:write core.kyc:read core.kyc.profile:update core.kyc.address:update core.kyc.email:update core.kyc.phone:update core.kyc.identity:update core.kyc.proof-of-address:update core.kyc.customer-due-diligence:update core.kyc.enhanced-due-diligence:update core.kyc.crypto-risk-assessment:update core.kyc.self-categorization-statement:update core.kyc.tax-details:update core.capabilities:read core.terms-of-service:read core.terms-of-service:accept core.files:create core.files:read core.files.metadata:read core.files.metadata:write core.accounts:create core.accounts:read core.accounts:update core.accounts:archive core.accounts:deposit-method core.accounts:use-test-helpers core.accounts.metadata:read core.accounts.metadata:write core.assets:use-test-helpers core.external-accounts:create core.external-accounts:read core.external-accounts:update core.external-accounts:delete core.external-accounts.metadata:read core.external-accounts.metadata:write core.transactions:create core.transactions:read core.transactions.metadata:read core.transactions.metadata:write core.transactions.requests-for-information:read core.transactions.requests-for-information:update core.portfolio:read core.statements:read core.webhooks:management-link"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "/core/oauth2/token"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "4e624dbb-0241-445c-83c4-e65089f806b8",
+              "name": "Portfolio statement retrieved.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "core",
+                    "statements",
+                    "portfolio"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "period",
+                      "value": "one-month"
+                    },
+                    {
+                      "key": "year",
+                      "value": "2026"
+                    },
+                    {
+                      "key": "month",
+                      "value": "3"
+                    },
+                    {
+                      "key": "denomination",
+                      "value": "BTC"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The subject on whose behalf the operation is being performed.",
+                    "key": "X-On-Behalf-Of",
+                    "value": "user cd21b26d-35d2-408a-9201-b8fdbef7a604"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the IP of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Ip",
+                    "value": "<ipv4>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the user agent of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Agent",
+                    "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the origin of the request made by the end user.",
+                    "key": "X-Uphold-User-Origin",
+                    "value": "https://uphold.com"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the country of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Country",
+                    "value": "US"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the subdivision of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Subdivision",
+                    "value": "US-CA"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the name of the city of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-City",
+                    "value": "San Francisco"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "(Required) A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+                  "key": "x-uphold-request-id",
+                  "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"statement\": {\n    \"period\": {\n      \"from\": \"2026-03-01T00:00:00.000Z\",\n      \"to\": \"2026-03-31T23:59:59.999Z\"\n    },\n    \"rates\": {\n      \"BTC-USD\": \"61728.00\"\n    },\n    \"holdings\": [\n      {\n        \"asset\": \"BTC\",\n        \"total\": \"0.02\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2da393cc-abef-44b9-af82-8f5e072c4396",
+              "name": "Bad Request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "core",
+                    "statements",
+                    "portfolio"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "period",
+                      "value": "one-month"
+                    },
+                    {
+                      "key": "year",
+                      "value": "2026"
+                    },
+                    {
+                      "key": "month",
+                      "value": "3"
+                    },
+                    {
+                      "key": "denomination",
+                      "value": "BTC"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The subject on whose behalf the operation is being performed.",
+                    "key": "X-On-Behalf-Of",
+                    "value": "user cd21b26d-35d2-408a-9201-b8fdbef7a604"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the IP of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Ip",
+                    "value": "<ipv4>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the user agent of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Agent",
+                    "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the origin of the request made by the end user.",
+                    "key": "X-Uphold-User-Origin",
+                    "value": "https://uphold.com"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the country of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Country",
+                    "value": "US"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the subdivision of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Subdivision",
+                    "value": "US-CA"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the name of the city of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-City",
+                    "value": "San Francisco"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "(Required) A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+                  "key": "x-uphold-request-id",
+                  "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"request_invalid\",\n  \"message\": \"The request has missing or invalid parameters\",\n  \"details\": {\n    \"context\": \"<context>\",\n    \"violations\": [\n      {\n        \"property\": \"<property>\",\n        \"rule\": \"required\"\n      },\n      {\n        \"property\": \"<property>\",\n        \"rule\": \"type\",\n        \"ruleParams\": {\n          \"type\": \"string\"\n        }\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3633056d-d6b0-43f4-aa27-b28f24fcfd7a",
+              "name": "Unauthorized.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "core",
+                    "statements",
+                    "portfolio"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "period",
+                      "value": "one-month"
+                    },
+                    {
+                      "key": "year",
+                      "value": "2026"
+                    },
+                    {
+                      "key": "month",
+                      "value": "3"
+                    },
+                    {
+                      "key": "denomination",
+                      "value": "BTC"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The subject on whose behalf the operation is being performed.",
+                    "key": "X-On-Behalf-Of",
+                    "value": "user cd21b26d-35d2-408a-9201-b8fdbef7a604"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the IP of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Ip",
+                    "value": "<ipv4>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the user agent of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Agent",
+                    "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the origin of the request made by the end user.",
+                    "key": "X-Uphold-User-Origin",
+                    "value": "https://uphold.com"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the country of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Country",
+                    "value": "US"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the subdivision of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Subdivision",
+                    "value": "US-CA"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the name of the city of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-City",
+                    "value": "San Francisco"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "(Required) A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+                  "key": "x-uphold-request-id",
+                  "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"token_expired\",\n  \"message\": \"The access token has expired\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9d13e8fe-877c-4ec3-b5aa-47ccaadd5032",
+              "name": "Forbidden.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "core",
+                    "statements",
+                    "portfolio"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "period",
+                      "value": "one-month"
+                    },
+                    {
+                      "key": "year",
+                      "value": "2026"
+                    },
+                    {
+                      "key": "month",
+                      "value": "3"
+                    },
+                    {
+                      "key": "denomination",
+                      "value": "BTC"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The subject on whose behalf the operation is being performed.",
+                    "key": "X-On-Behalf-Of",
+                    "value": "user cd21b26d-35d2-408a-9201-b8fdbef7a604"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the IP of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Ip",
+                    "value": "<ipv4>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the user agent of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Agent",
+                    "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the origin of the request made by the end user.",
+                    "key": "X-Uphold-User-Origin",
+                    "value": "https://uphold.com"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the country of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Country",
+                    "value": "US"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the subdivision of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Subdivision",
+                    "value": "US-CA"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the name of the city of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-City",
+                    "value": "San Francisco"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "(Required) A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+                  "key": "x-uphold-request-id",
+                  "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"token_insufficient_scopes\",\n  \"message\": \"Authorization failed due to insufficient scopes\",\n  \"details\": {\n    \"security\": [\n      {\n        \"scheme\": \"OAuth\",\n        \"schemeScopes\": [\n          \"required:scope_1\",\n          \"required:scope_2\"\n        ],\n        \"tokenScopes\": [\n          \"token:scope\"\n        ]\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "49ec52ee-91f0-41ca-99ca-eb6968b02c40",
+              "name": "Business logic error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "core",
+                    "statements",
+                    "portfolio"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "period",
+                      "value": "one-month"
+                    },
+                    {
+                      "key": "year",
+                      "value": "2026"
+                    },
+                    {
+                      "key": "month",
+                      "value": "3"
+                    },
+                    {
+                      "key": "denomination",
+                      "value": "BTC"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The subject on whose behalf the operation is being performed.",
+                    "key": "X-On-Behalf-Of",
+                    "value": "user cd21b26d-35d2-408a-9201-b8fdbef7a604"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the IP of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Ip",
+                    "value": "<ipv4>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the user agent of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Agent",
+                    "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the origin of the request made by the end user.",
+                    "key": "X-Uphold-User-Origin",
+                    "value": "https://uphold.com"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the country of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Country",
+                    "value": "US"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the subdivision of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Subdivision",
+                    "value": "US-CA"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the name of the city of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-City",
+                    "value": "San Francisco"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "(Required) A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+                  "key": "x-uphold-request-id",
+                  "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"asset_not_supported\",\n  \"message\": \"The denomination asset is not supported\",\n  \"details\": {\n    \"context\": \"query\",\n    \"property\": \"denomination\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e350ecca-2134-4cf4-9926-09549c6ab6f5",
+              "name": "Too Many Requests.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "core",
+                    "statements",
+                    "portfolio"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "period",
+                      "value": "one-month"
+                    },
+                    {
+                      "key": "year",
+                      "value": "2026"
+                    },
+                    {
+                      "key": "month",
+                      "value": "3"
+                    },
+                    {
+                      "key": "denomination",
+                      "value": "BTC"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The subject on whose behalf the operation is being performed.",
+                    "key": "X-On-Behalf-Of",
+                    "value": "user cd21b26d-35d2-408a-9201-b8fdbef7a604"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the IP of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Ip",
+                    "value": "<ipv4>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the user agent of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Agent",
+                    "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the origin of the request made by the end user.",
+                    "key": "X-Uphold-User-Origin",
+                    "value": "https://uphold.com"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the country of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Country",
+                    "value": "US"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the subdivision of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Subdivision",
+                    "value": "US-CA"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the name of the city of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-City",
+                    "value": "San Francisco"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The number of seconds to wait before making a new request.",
+                  "key": "Retry-After",
+                  "value": "60"
+                },
+                {
+                  "disabled": false,
+                  "description": "(Required) A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+                  "key": "x-uphold-request-id",
+                  "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"too_many_requests\",\n  \"message\": \"Try again later\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "193d0273-7655-47a1-bc13-2c7e22266a16",
+          "name": "Get transactions statement",
+          "request": {
+            "name": "Get transactions statement",
+            "description": {
+              "content": "Retrieves the transactions statement for a given period.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "core",
+                "statements",
+                "transactions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "period",
+                  "value": "<string>",
+                  "description": "(Required) The statement period type."
+                },
+                {
+                  "disabled": false,
+                  "key": "year",
+                  "value": "<integer>",
+                  "description": "(Required) The statement year."
+                },
+                {
+                  "disabled": false,
+                  "key": "month",
+                  "value": "<integer>",
+                  "description": "(Required) The statement month."
+                },
+                {
+                  "disabled": false,
+                  "key": "denomination",
+                  "value": "USD",
+                  "description": "Specifies the asset code to use as the denomination for value conversion. If not provided, USD is used by default."
+                },
+                {
+                  "disabled": false,
+                  "key": "perPage",
+                  "value": "10",
+                  "description": "The number of items per page."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "The subject on whose behalf the operation is being performed.",
+                "key": "X-On-Behalf-Of",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Contains the IP of the end user that is requesting the operation.",
+                "key": "X-Uphold-User-Ip",
+                "value": "<ipv4>"
+              },
+              {
+                "disabled": false,
+                "description": "Contains the user agent of the end user that is requesting the operation.",
+                "key": "X-Uphold-User-Agent",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Contains the origin of the request made by the end user.",
+                "key": "X-Uphold-User-Origin",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Contains the code of the country of the end user that is requesting the operation.",
+                "key": "X-Uphold-User-Country",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Contains the code of the subdivision of the end user that is requesting the operation.",
+                "key": "X-Uphold-User-Subdivision",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Contains the name of the city of the end user that is requesting the operation.",
+                "key": "X-Uphold-User-City",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "core.users:act-on-behalf-of core.users:create core.users:read core.users:delete core.users.metadata:read core.users.metadata:write core.kyc:read core.kyc.profile:update core.kyc.address:update core.kyc.email:update core.kyc.phone:update core.kyc.identity:update core.kyc.proof-of-address:update core.kyc.customer-due-diligence:update core.kyc.enhanced-due-diligence:update core.kyc.crypto-risk-assessment:update core.kyc.self-categorization-statement:update core.kyc.tax-details:update core.capabilities:read core.terms-of-service:read core.terms-of-service:accept core.files:create core.files:read core.files.metadata:read core.files.metadata:write core.accounts:create core.accounts:read core.accounts:update core.accounts:archive core.accounts:deposit-method core.accounts:use-test-helpers core.accounts.metadata:read core.accounts.metadata:write core.assets:use-test-helpers core.external-accounts:create core.external-accounts:read core.external-accounts:update core.external-accounts:delete core.external-accounts.metadata:read core.external-accounts.metadata:write core.transactions:create core.transactions:read core.transactions.metadata:read core.transactions.metadata:write core.transactions.requests-for-information:read core.transactions.requests-for-information:update core.portfolio:read core.statements:read core.webhooks:management-link"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "/core/oauth2/token"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "469069d8-47c0-442f-b3b6-713792f9c614",
+              "name": "Transactions statement retrieved.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "core",
+                    "statements",
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "period",
+                      "value": "one-month"
+                    },
+                    {
+                      "key": "year",
+                      "value": "2026"
+                    },
+                    {
+                      "key": "month",
+                      "value": "3"
+                    },
+                    {
+                      "key": "denomination",
+                      "value": "BTC"
+                    },
+                    {
+                      "key": "perPage",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The subject on whose behalf the operation is being performed.",
+                    "key": "X-On-Behalf-Of",
+                    "value": "user cd21b26d-35d2-408a-9201-b8fdbef7a604"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the IP of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Ip",
+                    "value": "<ipv4>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the user agent of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Agent",
+                    "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the origin of the request made by the end user.",
+                    "key": "X-Uphold-User-Origin",
+                    "value": "https://uphold.com"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the country of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Country",
+                    "value": "US"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the subdivision of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Subdivision",
+                    "value": "US-CA"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the name of the city of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-City",
+                    "value": "San Francisco"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "(Required) A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+                  "key": "x-uphold-request-id",
+                  "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"statement\": {\n    \"period\": {\n      \"from\": \"2026-03-01T00:00:00.000Z\",\n      \"to\": \"2026-03-31T23:59:59.999Z\"\n    },\n    \"transactions\": [\n      {\n        \"rates\": {\n          \"GBP-EUR\": \"1.15\",\n          \"BTC-EUR\": \"60460.77\"\n        },\n        \"transaction\": {\n          \"id\": \"8daa6dbd-21a0-4305-93c3-bd1d04bc575c\",\n          \"origin\": {\n            \"amount\": \"100\",\n            \"asset\": \"GBP\",\n            \"rate\": \"53484.17885426114102547488\",\n            \"node\": {\n              \"id\": \"d3401ecb-60dd-4d35-975b-1dfb58c0ba1a\",\n              \"network\": \"sepa\",\n              \"ownerId\": \"5d894b41-270e-4162-a4f9-dae31bc53b1c\",\n              \"type\": \"external-account\"\n            }\n          },\n          \"destination\": {\n            \"amount\": \"0.00186036\",\n            \"asset\": \"BTC\",\n            \"rate\": \"0.00001869711794070723\",\n            \"node\": {\n              \"id\": \"9287ee0a-0bcb-43cf-9791-f96bb49ba3fb\",\n              \"ownerId\": \"5d894b41-270e-4162-a4f9-dae31bc53b1c\",\n              \"type\": \"account\"\n            }\n          },\n          \"denomination\": {\n            \"amount\": \"100\",\n            \"asset\": \"GBP\",\n            \"target\": \"origin\",\n            \"rate\": \"1\"\n          },\n          \"fees\": [\n            {\n              \"amount\": \"0.5\",\n              \"asset\": \"GBP\",\n              \"code\": \"uphold\",\n              \"type\": \"deposit\"\n            }\n          ],\n          \"status\": \"completed\",\n          \"quotedAt\": \"2026-03-23T11:57:00.000Z\",\n          \"createdAt\": \"2026-03-23T11:58:00.000Z\",\n          \"updatedAt\": \"2026-03-23T12:06:55.116Z\",\n          \"completedAt\": \"2026-03-23T12:06:55.116Z\"\n        }\n      }\n    ]\n  },\n  \"pagination\": {\n    \"first\": \"https://api.enterprise.uphold.com/core/statements/transactions?denomination=EUR&period=one-month&year=2026&month=3&page=1&perPage=10\",\n    \"next\": \"https://api.enterprise.uphold.com/core/statements/transactions?denomination=EUR&period=one-month&year=2026&month=3&page=2&perPage=10\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "655ac154-8d15-4657-81c2-7e50b8b5a9df",
+              "name": "Bad Request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "core",
+                    "statements",
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "period",
+                      "value": "one-month"
+                    },
+                    {
+                      "key": "year",
+                      "value": "2026"
+                    },
+                    {
+                      "key": "month",
+                      "value": "3"
+                    },
+                    {
+                      "key": "denomination",
+                      "value": "BTC"
+                    },
+                    {
+                      "key": "perPage",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The subject on whose behalf the operation is being performed.",
+                    "key": "X-On-Behalf-Of",
+                    "value": "user cd21b26d-35d2-408a-9201-b8fdbef7a604"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the IP of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Ip",
+                    "value": "<ipv4>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the user agent of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Agent",
+                    "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the origin of the request made by the end user.",
+                    "key": "X-Uphold-User-Origin",
+                    "value": "https://uphold.com"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the country of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Country",
+                    "value": "US"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the subdivision of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Subdivision",
+                    "value": "US-CA"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the name of the city of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-City",
+                    "value": "San Francisco"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "(Required) A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+                  "key": "x-uphold-request-id",
+                  "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"request_invalid\",\n  \"message\": \"The request has missing or invalid parameters\",\n  \"details\": {\n    \"context\": \"<context>\",\n    \"violations\": [\n      {\n        \"property\": \"<property>\",\n        \"rule\": \"required\"\n      },\n      {\n        \"property\": \"<property>\",\n        \"rule\": \"type\",\n        \"ruleParams\": {\n          \"type\": \"string\"\n        }\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "00a15ff9-837e-44f6-933c-05e183cfcb17",
+              "name": "Unauthorized.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "core",
+                    "statements",
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "period",
+                      "value": "one-month"
+                    },
+                    {
+                      "key": "year",
+                      "value": "2026"
+                    },
+                    {
+                      "key": "month",
+                      "value": "3"
+                    },
+                    {
+                      "key": "denomination",
+                      "value": "BTC"
+                    },
+                    {
+                      "key": "perPage",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The subject on whose behalf the operation is being performed.",
+                    "key": "X-On-Behalf-Of",
+                    "value": "user cd21b26d-35d2-408a-9201-b8fdbef7a604"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the IP of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Ip",
+                    "value": "<ipv4>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the user agent of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Agent",
+                    "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the origin of the request made by the end user.",
+                    "key": "X-Uphold-User-Origin",
+                    "value": "https://uphold.com"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the country of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Country",
+                    "value": "US"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the subdivision of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Subdivision",
+                    "value": "US-CA"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the name of the city of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-City",
+                    "value": "San Francisco"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "(Required) A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+                  "key": "x-uphold-request-id",
+                  "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"token_expired\",\n  \"message\": \"The access token has expired\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0ad13293-08a9-4124-9815-faea28344579",
+              "name": "Forbidden.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "core",
+                    "statements",
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "period",
+                      "value": "one-month"
+                    },
+                    {
+                      "key": "year",
+                      "value": "2026"
+                    },
+                    {
+                      "key": "month",
+                      "value": "3"
+                    },
+                    {
+                      "key": "denomination",
+                      "value": "BTC"
+                    },
+                    {
+                      "key": "perPage",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The subject on whose behalf the operation is being performed.",
+                    "key": "X-On-Behalf-Of",
+                    "value": "user cd21b26d-35d2-408a-9201-b8fdbef7a604"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the IP of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Ip",
+                    "value": "<ipv4>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the user agent of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Agent",
+                    "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the origin of the request made by the end user.",
+                    "key": "X-Uphold-User-Origin",
+                    "value": "https://uphold.com"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the country of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Country",
+                    "value": "US"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the subdivision of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Subdivision",
+                    "value": "US-CA"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the name of the city of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-City",
+                    "value": "San Francisco"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "(Required) A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+                  "key": "x-uphold-request-id",
+                  "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"token_insufficient_scopes\",\n  \"message\": \"Authorization failed due to insufficient scopes\",\n  \"details\": {\n    \"security\": [\n      {\n        \"scheme\": \"OAuth\",\n        \"schemeScopes\": [\n          \"required:scope_1\",\n          \"required:scope_2\"\n        ],\n        \"tokenScopes\": [\n          \"token:scope\"\n        ]\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6d970f47-98ad-49b5-8592-8bb2985e47a2",
+              "name": "Business logic error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "core",
+                    "statements",
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "period",
+                      "value": "one-month"
+                    },
+                    {
+                      "key": "year",
+                      "value": "2026"
+                    },
+                    {
+                      "key": "month",
+                      "value": "3"
+                    },
+                    {
+                      "key": "denomination",
+                      "value": "BTC"
+                    },
+                    {
+                      "key": "perPage",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The subject on whose behalf the operation is being performed.",
+                    "key": "X-On-Behalf-Of",
+                    "value": "user cd21b26d-35d2-408a-9201-b8fdbef7a604"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the IP of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Ip",
+                    "value": "<ipv4>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the user agent of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Agent",
+                    "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the origin of the request made by the end user.",
+                    "key": "X-Uphold-User-Origin",
+                    "value": "https://uphold.com"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the country of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Country",
+                    "value": "US"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the subdivision of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Subdivision",
+                    "value": "US-CA"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the name of the city of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-City",
+                    "value": "San Francisco"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "(Required) A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+                  "key": "x-uphold-request-id",
+                  "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"asset_not_supported\",\n  \"message\": \"The denomination asset is not supported\",\n  \"details\": {\n    \"context\": \"query\",\n    \"property\": \"denomination\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "973ac538-cad2-4a7f-bf80-a87cf950eac1",
+              "name": "Too Many Requests.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "core",
+                    "statements",
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "period",
+                      "value": "one-month"
+                    },
+                    {
+                      "key": "year",
+                      "value": "2026"
+                    },
+                    {
+                      "key": "month",
+                      "value": "3"
+                    },
+                    {
+                      "key": "denomination",
+                      "value": "BTC"
+                    },
+                    {
+                      "key": "perPage",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The subject on whose behalf the operation is being performed.",
+                    "key": "X-On-Behalf-Of",
+                    "value": "user cd21b26d-35d2-408a-9201-b8fdbef7a604"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the IP of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Ip",
+                    "value": "<ipv4>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the user agent of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Agent",
+                    "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the origin of the request made by the end user.",
+                    "key": "X-Uphold-User-Origin",
+                    "value": "https://uphold.com"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the country of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Country",
+                    "value": "US"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the subdivision of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Subdivision",
+                    "value": "US-CA"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the name of the city of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-City",
+                    "value": "San Francisco"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The number of seconds to wait before making a new request.",
+                  "key": "Retry-After",
+                  "value": "60"
+                },
+                {
+                  "disabled": false,
+                  "description": "(Required) A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+                  "key": "x-uphold-request-id",
+                  "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"too_many_requests\",\n  \"message\": \"Try again later\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.enterprise.sandbox.uphold.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "scope",
+        "value": "core.users:act-on-behalf-of core.users:create core.users:read core.users:delete core.users.metadata:read core.users.metadata:write core.kyc:read core.kyc.profile:update core.kyc.address:update core.kyc.email:update core.kyc.phone:update core.kyc.identity:update core.kyc.proof-of-address:update core.kyc.customer-due-diligence:update core.kyc.enhanced-due-diligence:update core.kyc.crypto-risk-assessment:update core.kyc.self-categorization-statement:update core.kyc.tax-details:update core.capabilities:read core.terms-of-service:read core.terms-of-service:accept core.files:create core.files:read core.files.metadata:read core.files.metadata:write core.accounts:create core.accounts:read core.accounts:update core.accounts:archive core.accounts:deposit-method core.accounts:use-test-helpers core.accounts.metadata:read core.accounts.metadata:write core.assets:use-test-helpers core.external-accounts:create core.external-accounts:read core.external-accounts:update core.external-accounts:delete core.external-accounts.metadata:read core.external-accounts.metadata:write core.transactions:create core.transactions:read core.transactions.metadata:read core.transactions.metadata:write core.transactions.requests-for-information:read core.transactions.requests-for-information:update core.portfolio:read core.statements:read core.webhooks:management-link"
+      },
+      {
+        "key": "accessTokenUrl",
+        "value": "/core/oauth2/token"
+      },
+      {
+        "key": "grant_type",
+        "value": "client_credentials"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "500c95eb-9589-443d-a954-077d05fd071c",
+    "name": "Core Statements API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Core API provides essential building blocks that empower businesses to embed financial services into their applications.\n\nContact Support:\n Name: Uphold API Team\n Email: developers@uphold.com",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,2644 @@
+openapi: 3.2.0
+info:
+  title: Uphold Assets API
+  version: 0.1.0
+  description: 'Operations tagged Assets across 2 of this provider''s published API definitions: uphold-core-api-openapi.json, uphold-market-pulse-api-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.enterprise.sandbox.uphold.com
+  description: Sandbox
+- url: https://api.enterprise.uphold.com
+  description: Production
+security:
+- OAuth2: []
+tags:
+- name: Assets
+  description: Assets, networks and rails.
+paths:
+  /core/assets:
+    servers:
+    - url: https://api.enterprise.sandbox.uphold.com
+      description: Sandbox
+    - url: https://api.enterprise.uphold.com
+      description: Production
+    get:
+      operationId: core.list-assets
+      summary: List assets
+      description: List assets supported by the platform.
+      tags:
+      - Assets
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - client
+            - user:business
+            - user:individual
+      parameters:
+      - $ref: '#/components/parameters/list-assets-type-filter'
+      - $ref: '#/components/parameters/list-assets-sort'
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      responses:
+        '200':
+          $ref: '#/components/responses/list-assets-response'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+  /core/assets/_mget:
+    servers:
+    - url: https://api.enterprise.sandbox.uphold.com
+      description: Sandbox
+    - url: https://api.enterprise.uphold.com
+      description: Production
+    post:
+      operationId: core.get-many-assets
+      summary: Get many assets
+      description: Retrieve several assets by their codes.
+      tags:
+      - Assets
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - client
+            - user:business
+            - user:individual
+      parameters:
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      requestBody:
+        $ref: '#/components/requestBodies/get-many-assets-request-body'
+      responses:
+        '200':
+          $ref: '#/components/responses/get-many-assets-response'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+  /core/assets/{asset}:
+    servers:
+    - url: https://api.enterprise.sandbox.uphold.com
+      description: Sandbox
+    - url: https://api.enterprise.uphold.com
+      description: Production
+    get:
+      operationId: core.get-asset
+      summary: Get asset
+      description: Retrieve an asset by code.
+      tags:
+      - Assets
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - client
+            - user:business
+            - user:individual
+      parameters:
+      - $ref: '#/components/parameters/asset-code'
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      responses:
+        '200':
+          $ref: '#/components/responses/get-asset-response'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/get-asset-not-found-response'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+  /core/assets/{asset}/rates:
+    servers:
+    - url: https://api.enterprise.sandbox.uphold.com
+      description: Sandbox
+    - url: https://api.enterprise.uphold.com
+      description: Production
+    get:
+      operationId: core.get-asset-rates
+      summary: Get asset rates
+      description: Retrieve asset rates against other assets.
+      tags:
+      - Assets
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - client
+            - user:business
+            - user:individual
+      parameters:
+      - $ref: '#/components/parameters/asset-code'
+      - $ref: '#/components/parameters/get-asset-rates-denomination-filter'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      responses:
+        '200':
+          $ref: '#/components/responses/get-asset-rates-response'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/get-asset-rates-not-found-response'
+        '409':
+          $ref: '#/components/responses/get-asset-rates-conflict-response'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+  /core/assets/{asset}/historical-rates:
+    servers:
+    - url: https://api.enterprise.sandbox.uphold.com
+      description: Sandbox
+    - url: https://api.enterprise.uphold.com
+      description: Production
+    get:
+      operationId: core.get-asset-historical-rates
+      summary: Get asset historical rates
+      description: Retrieve historical rates for a specific asset.
+      tags:
+      - Assets
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - client
+            - user:business
+            - user:individual
+      parameters:
+      - $ref: '#/components/parameters/asset-code'
+      - $ref: '#/components/parameters/denomination'
+      - $ref: '#/components/parameters/asset-historical-rates-interval'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      responses:
+        '200':
+          $ref: '#/components/responses/get-asset-historical-rate-response'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/get-asset-historical-rate-not-found-response'
+        '409':
+          $ref: '#/components/responses/get-asset-historical-rate-conflict-response'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+  /core/networks:
+    servers:
+    - url: https://api.enterprise.sandbox.uphold.com
+      description: Sandbox
+    - url: https://api.enterprise.uphold.com
+      description: Production
+    get:
+      operationId: core.list-networks
+      summary: List networks
+      description: List networks supported by the platform.
+      tags:
+      - Assets
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - client
+            - user:business
+            - user:individual
+      parameters:
+      - $ref: '#/components/parameters/list-networks-type-filter'
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      responses:
+        '200':
+          $ref: '#/components/responses/list-networks-response'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+  /core/networks/{network}:
+    servers:
+    - url: https://api.enterprise.sandbox.uphold.com
+      description: Sandbox
+    - url: https://api.enterprise.uphold.com
+      description: Production
+    get:
+      operationId: core.get-network
+      summary: Get network
+      description: Retrieve a network by code.
+      tags:
+      - Assets
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - client
+            - user:business
+            - user:individual
+      parameters:
+      - $ref: '#/components/parameters/network-code'
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      responses:
+        '200':
+          $ref: '#/components/responses/get-network-response'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/get-network-not-found-response'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+  /core/networks/{network}/validate-address:
+    servers:
+    - url: https://api.enterprise.sandbox.uphold.com
+      description: Sandbox
+    - url: https://api.enterprise.uphold.com
+      description: Production
+    post:
+      operationId: core.validate-network-address
+      summary: Validate network address
+      description: Validate an address for a specific network.
+      tags:
+      - Assets
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - client
+            - user:business
+            - user:individual
+      parameters:
+      - $ref: '#/components/parameters/network-code'
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      requestBody:
+        $ref: '#/components/requestBodies/validate-network-address-request-body'
+      responses:
+        '200':
+          $ref: '#/components/responses/validate-network-address-response'
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/validate-network-address-not-found-response'
+        '409':
+          $ref: '#/components/responses/validate-network-address-conflict-response'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+  /core/rails:
+    servers:
+    - url: https://api.enterprise.sandbox.uphold.com
+      description: Sandbox
+    - url: https://api.enterprise.uphold.com
+      description: Production
+    get:
+      operationId: core.list-rails
+      summary: List rails
+      description: List rails supported by the platform.
+      tags:
+      - Assets
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - client
+            - user:business
+            - user:individual
+      parameters:
+      - $ref: '#/components/parameters/list-rails-type-filter'
+      - $ref: '#/components/parameters/list-rails-network-code-filter'
+      - $ref: '#/components/parameters/list-rails-method-filter'
+      - $ref: '#/components/parameters/list-rails-asset-code-filter'
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      responses:
+        '200':
+          $ref: '#/components/responses/list-rails-response'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+  /core/assets/test-helpers/skip-assets-cooldowns:
+    servers:
+    - url: https://api.enterprise.sandbox.uphold.com
+      description: Sandbox
+    - url: https://api.enterprise.uphold.com
+      description: Production
+    put:
+      operationId: core.skip-assets-cooldowns
+      summary: Skip assets cooldowns
+      description: Skips assets cooldowns for testing purposes.
+      tags:
+      - Assets
+      x-uphold:
+        operation:
+          notImplementedIn:
+          - production
+        security:
+          OAuth2:
+            subjects:
+            - user:individual
+            - user:business
+      security:
+      - OAuth2:
+        - core.assets:use-test-helpers
+      parameters:
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      responses:
+        '204':
+          $ref: '#/components/responses/skip-assets-cooldowns-response'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+  /market-pulse/assets/{assetCode}/news:
+    servers:
+    - url: https://api.enterprise.sandbox.uphold.com
+      description: Sandbox
+    - url: https://api.enterprise.uphold.com
+      description: Production
+    get:
+      operationId: market-pulse.list-asset-news
+      summary: List asset news
+      description: Retrieve the latest news for a specific asset.
+      tags:
+      - Assets
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - client
+            - user:business
+            - user:individual
+      security:
+      - OAuth2:
+        - market-pulse.assets.news:read
+      parameters:
+      - $ref: '#/components/parameters/asset-code_2'
+      - $ref: '#/components/parameters/news-limit'
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      responses:
+        '200':
+          $ref: '#/components/responses/list-asset-news-response'
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+  /market-pulse/assets/{assetCode}/statistics:
+    servers:
+    - url: https://api.enterprise.sandbox.uphold.com
+      description: Sandbox
+    - url: https://api.enterprise.uphold.com
+      description: Production
+    get:
+      operationId: market-pulse.get-asset-statistics
+      summary: Get asset statistics
+      description: Retrieve real-time market statistics for a specific asset.
+      tags:
+      - Assets
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - client
+            - user:business
+            - user:individual
+      security:
+      - OAuth2:
+        - market-pulse.assets.statistics:read
+      parameters:
+      - $ref: '#/components/parameters/asset-code_2'
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      responses:
+        '200':
+          $ref: '#/components/responses/get-asset-statistics-response'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/get-asset-statistics-not-found-response'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+  /market-pulse/assets/{assetCode}/information:
+    servers:
+    - url: https://api.enterprise.sandbox.uphold.com
+      description: Sandbox
+    - url: https://api.enterprise.uphold.com
+      description: Production
+    get:
+      operationId: market-pulse.get-asset-information
+      summary: Get asset information
+      description: Retrieve descriptive information for a specific asset.
+      tags:
+      - Assets
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - client
+            - user:business
+            - user:individual
+      security:
+      - OAuth2:
+        - market-pulse.assets.information:read
+      parameters:
+      - $ref: '#/components/parameters/asset-code_2'
+      - $ref: '#/components/parameters/format'
+      - $ref: '#/components/parameters/accept-language'
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      responses:
+        '200':
+          $ref: '#/components/responses/get-asset-information-response'
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/get-asset-information-not-found-response'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+webhooks:
+  core.assets.cooldown-ended:
+    servers:
+    - url: https://api.enterprise.sandbox.uphold.com
+      description: Sandbox
+    - url: https://api.enterprise.uphold.com
+      description: Production
+    post:
+      operationId: core.assets-cooldown-ended
+      summary: Assets cooldown ended
+      description: The cooldown period for a set of assets has ended.
+      tags:
+      - Assets
+      parameters:
+      - $ref: '#/components/parameters/webhook-id'
+      - $ref: '#/components/parameters/webhook-timestamp'
+      - $ref: '#/components/parameters/webhook-signature'
+      requestBody:
+        description: Assets cooldown ended event.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/assets-cooldown-webhook-event'
+            examples:
+              Assets Financial Promotions Cooldown Ended:
+                value:
+                  id: 123e4567-e89b-12d3-a456-426614174000
+                  type: core.assets.cooldown-ended
+                  createdAt: '2021-01-01T00:00:00.000Z'
+                  data:
+                    userId: cd21b26d-35d2-408a-9201-b8fdbef7a604
+                    assets:
+                    - BTC
+                    - ETH
+                    cooldown:
+                      rule: financial-promotions
+                      features:
+                      - buy
+                      - deposit
+                      endsAt: '2024-12-31T23:59:59.000Z'
+      responses:
+        '200':
+          description: Return a 200 status to indicate that the data was received successfully.
+components:
+  parameters:
+    x-on-behalf-of:
+      name: X-On-Behalf-Of
+      description: The subject on whose behalf the operation is being performed.
+      in: header
+      schema:
+        type: string
+        pattern: ^(user|client)\s[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$
+      examples:
+        User Identifier:
+          value: user cd21b26d-35d2-408a-9201-b8fdbef7a604
+        Client Identifier:
+          value: client 3fa85f64-5717-4562-b3fc-2c963f66afa6
+    asset-historical-rates-interval:
+      name: interval
+      description: The interval for the historical rates.
+      in: query
+      required: false
+      schema:
+        type: string
+        enum:
+        - one-hour
+        - one-day
+        - one-week
+        - one-month
+        - one-year
+        - five-years
+        default: one-day
+    get-asset-rates-denomination-filter:
+      name: denomination
+      description: Filter rates by specified assets.
+      in: query
+      style: form
+      explode: false
+      required: false
+      schema:
+        type: array
+        maxItems: 100
+        uniqueItems: true
+        items:
+          type: string
+          minLength: 1
+      examples:
+        GBP Asset:
+          value:
+          - GBP
+    list-assets-sort:
+      name: sort
+      in: query
+      description: Sort assets by a criterion.
+      required: false
+      schema:
+        type: string
+        enum:
+        - code:asc
+        - code:desc
+        - name:asc
+        - name:desc
+        - price:asc
+        - price:desc
+        - price-delta:asc:one-hour
+        - price-delta:asc:one-day
+        - price-delta:asc:one-week
+        - price-delta:asc:one-month
+        - price-delta:asc:one-year
+        - price-delta:asc:five-years
+        - price-delta:desc:one-hour
+        - price-delta:desc:one-day
+        - price-delta:desc:one-week
+        - price-delta:desc:one-month
+        - price-delta:desc:one-year
+        - price-delta:desc:five-years
+        - market-cap:asc
+        - market-cap:desc
+        default: code:asc
+    x-uphold-user-city:
+      name: X-Uphold-User-City
+      description: Contains the name of the city of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        User City:
+          value: San Francisco
+    list-rails-method-filter:
+      name: method
+      description: Filter rails by method.
+      in: query
+      style: form
+      explode: false
+      required: false
+      schema:
+        type: array
+        maxItems: 25
+        uniqueItems: true
+        items:
+          $ref: '#/components/schemas/rail-method'
+      examples:
+        Debit Card Method:
+          value:
+          - debit-card
+    list-assets-type-filter:
+      name: type
+      description: Filter assets by type.
+      in: query
+      explode: false
+      required: false
+      schema:
+        type: array
+        uniqueItems: true
+        maxItems: 25
+        items:
+          $ref: '#/components/schemas/asset-type'
+      examples:
+        Crypto Asset Type:
+          value:
+          - crypto
+    x-uphold-user-origin:
+      name: X-Uphold-User-Origin
+      description: Contains the origin of the request made by the end user.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        Origin:
+          value: https://uphold.com
+    list-networks-type-filter:
+      name: type
+      description: Filter networks by type.
+      in: query
+      explode: false
+      required: false
+      schema:
+        type: array
+        maxItems: 25
+        uniqueItems: true
+        items:
+          allOf:
+          - $ref: '#/components/schemas/network-type'
+          - type: string
+            minLength: 1
+      examples:
+        Crypto Network Type:
+          value:
+          - crypto
+    webhook-id:
+      name: webhook-id
+      description: The unique identifier of the webhook.
+      in: header
+      required: true
+      schema:
+        type: string
+      examples:
+        Webhook ID:
+          value: msg_p5jXN8AQM9LWM0D4loKWxJek
+    list-rails-network-code-filter:
+      name: network
+      description: Filter rails by network code.
+      in: query
+      explode: false
+      required: false
+      schema:
+        type: array
+        maxItems: 25
+        uniqueItems: true
+        items:
+          type: string
+          minLength: 1
+      examples:
+        Bitcoin Network:
+          value:
+          - bitcoin
+    list-rails-asset-code-filter:
+      name: asset
+      description: Filter rails by asset code.
+      in: query
+      style: form
+      explode: false
+      required: false
+      schema:
+        type: array
+        maxItems: 100
+        uniqueItems: true
+        items:
+          type: string
+          minLength: 1
+      examples:
+        BTC Asset:
+          value:
+          - BTC
+    asset-code:
+      name: asset
+      description: The asset code.
+      in: path
+      required: true
+      schema:
+        type: string
+        minLength: 1
+      examples:
+        BTC Asset:
+          value: BTC
+    webhook-timestamp:
+      name: webhook-timestamp
+      description: The timestamp of the webhook, in seconds after the Unix epoch.
+      in: header
+      required: true
+      schema:
+        type: integer
+      examples:
+        Webhook Timestamp:
+          value: 1614265330
+    x-uphold-user-ip:
+      name: X-Uphold-User-Ip
+      description: Contains the IP of the end user that is requesting the operation.
+      in: header
+      schema:
+        oneOf:
+        - title: IPv4
+          type: string
+          format: ipv4
+        - title: IPv6
+          type: string
+          format: ipv6
+      examples:
+        User Ip:
+          value: 47.174.97.164
+    news-limit:
+      name: limit
+      description: The maximum number of news articles to return.
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 10
+        default: 10
+      examples:
+        10 Articles:
+          value: 10
+    network-code:
+      name: network
+      description: The network code.
+      in: path
+      required: true
+      schema:
+        type: string
+        minLength: 1
+      examples:
+        Bitcoin Network:
+          value: bitcoin
+    accept-language:
+      name: Accept-Language
+      description: The natural language and locale that the client prefers.
+      in: header
+      schema:
+        type: string
+      examples:
+        English (UK):
+          value: en-GB
+    x-uphold-user-country:
+      name: X-Uphold-User-Country
+      description: Contains the code of the country of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/country-code-for-request'
+      examples:
+        User Country:
+          value: US
+    asset-code_2:
+      name: assetCode
+      description: The asset code.
+      in: path
+      required: true
+      schema:
+        type: string
+        minLength: 1
+      examples:
+        BTC Asset:
+          value: BTC
+    list-rails-type-filter:
+      name: type
+      description: Filter rails by type.
+      in: query
+      explode: false
+      required: false
+      schema:
+        type: array
+        maxItems: 25
+        uniqueItems: true
+        items:
+          $ref: '#/components/schemas/rail-type'
+      examples:
+        Crypto Rail Type:
+          value:
+          - crypto
+    x-uphold-user-agent:
+      name: X-Uphold-User-Agent
+      description: Contains the user agent of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        User Agent:
+          value: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36
+    webhook-signature:
+      name: webhook-signature
+      description: The signature of the webhook.
+      in: header
+      required: true
+      schema:
+        type: string
+      examples:
+        Webhook Signature:
+          value: v1,Hw8/adTzfYtjPGhuBahfmGhUROG3AvEKH3mvkeK791Q=
+    format:
+      name: format
+      in: query
+      description: The format of the information to return.
+      required: false
+      schema:
+        type: string
+        enum:
+        - text
+        - html
+        default: text
+      examples:
+        Text:
+          value: text
+        HTML:
+          value: html
+    denomination:
+      name: denomination
+      description: Specifies the asset code to use as the denomination for value conversion. If not provided, USD is used by default.
+      in: query
+      required: false
+      schema:
+        type: string
+        minLength: 1
+        default: USD
+      examples:
+        BTC Asset:
+          value: BTC
+    x-uphold-user-subdivision:
+      name: X-Uphold-User-Subdivision
+      description: Contains the code of the subdivision of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/subdivision-code-for-request'
+      examples:
+        User Subdivision:
+          value: US-CA
+  responses:
+    too-many-requests:
+      description: Too Many Requests.
+      headers:
+        Retry-After:
+          description: The number of seconds to wait before making a new request.
+          schema:
+            type: integer
+            format: int32
+          examples:
+            Retry After:
+              value: 60
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Too Many Requests:
+              value:
+                code: too_many_requests
+                message: Try again later
+    get-asset-statistics-response:
+      description: Asset statistics retrieved.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              statistics:
+                $ref: '#/components/schemas/asset-statistics'
+            required:
+            - statistics
+          examples:
+            Asset Statistics Retrieved:
+              value:
+                statistics:
+                  circulatingSupply: 19000000
+                  marketCap: 850000000000
+                  volume24h: 1000000000
+                  allTimeHigh: 69000
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-network-not-found-response:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Network Not Found:
+              value:
+                code: entity_not_found
+                message: The network cannot be found
+                details:
+                  entity: network
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-asset-rates-not-found-response:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Asset Not Found:
+              value:
+                code: entity_not_found
+                message: The asset cannot be found
+                details:
+                  entity: asset
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    list-networks-response:
+      description: Networks retrieved.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              networks:
+                type: array
+                items:
+                  $ref: '#/components/schemas/network'
+            required:
+            - networks
+          examples:
+            Networks Retrieved:
+              value:
+                networks:
+                - code: bitcoin
+                  name: Bitcoin
+                  type: crypto
+                  logo: https://cdn.uphold.com/assets/BTC.svg
+                  exampleAddress: tb1qgu0gacn9pqpnvlqclvdwyz4gfgxz8pptfz4emt
+                  explorer:
+                    addressUrl: https://mempool.space/testnet/tx/<hash>
+                    txUrl: https://mempool.space/testnet/address/<hash>
+                - code: xrp-ledger
+                  name: XRP Ledger
+                  type: crypto
+                  logo: https://cdn.uphold.com/assets/XRP.svg
+                  exampleAddress: rPjTZfLP3Qxwwd2xvXSALJzEFmmf7bEYgh
+                  reference:
+                    type: destination-tag
+                  explorer:
+                    addressUrl: https://testnet.xrpl.org/accounts/<hash>,
+                    txUrl: https://testnet.xrpl.org/transactions/<hash>
+                - code: visa
+                  name: VISA
+                  type: card
+                - code: mastercard
+                  name: Mastercard
+                  type: card
+                - code: ach
+                  name: Automated Clearing House
+                  type: bank
+                - code: fps
+                  name: Faster Payment System
+                  reference:
+                    type: payment-reference
+                  type: bank
+                - code: paypal
+                  name: PayPal
+                  type: apm
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-asset-not-found-response:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Asset Not Found:
+              value:
+                code: entity_not_found
+                message: The asset cannot be found
+                details:
+                  entity: asset
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    forbidden:
+      description: Forbidden.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Token Insufficient Scopes:
+              value:
+                code: token_insufficient_scopes
+                message: Authorization failed due to insufficient scopes
+                details:
+                  security:
+                  - scheme: OAuth
+                    schemeScopes:
+                    - required:scope_1
+                    - required:scope_2
+                    tokenScopes:
+                    - token:scope
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-asset-statistics-not-found-response:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Asset Not Found:
+              value:
+                code: entity_not_found
+                message: The asset cannot be found
+                details:
+                  entity: asset
+            Statistics Not Found:
+              value:
+                code: entity_not_found
+                message: The asset statistics cannot be found
+                details:
+                  entity: statistics
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-asset-information-not-found-response:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Asset Not Found:
+              value:
+                code: entity_not_found
+                message: The asset cannot be found
+                details:
+                  entity: asset
+            Information Not Found:
+              value:
+                code: entity_not_found
+                message: The asset information cannot be found
+                details:
+                  entity: information
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    validate-network-address-conflict-response:
+      description: Business logic error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Network Must Be Crypto:
+              value:
+                code: operation_not_allowed
+                message: Network must be a crypto network
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-asset-historical-rate-not-found-response:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            From Asset Not Found:
+              value:
+                code: entity_not_found
+                message: The asset cannot be found
+                details:
+                  context: path
+                  entity: asset
+            Denomination Asset Not Found:
+              value:
+                code: entity_not_found
+                message: The asset cannot be found
+                details:
+                  context: query
+                  property: denomination
+                  entity: asset
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-asset-rates-response:
+      description: Asset rates retrieved.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              rates:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/asset-rate'
+          examples:
+            Asset Rates Retrieved:
+              value:
+                rates:
+                  ETH:
+                    ask: '22.910619213684715739'
+                    bid: '22.85842248147463121064'
+                    mid: '22.88452084757967347482'
+                  GBP:
+                    ask: '47027.64159916551332431855'
+                    bid: '46908.53407930127413227339'
+                    mid: '46968.08783923339372829597'
+                  USD:
+                    ask: '61023.8527432818'
+                    bid: '60946.4628910217'
+                    mid: '60985.15781715175'
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    validate-network-address-not-found-response:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Network Not Found:
+              value:
+                code: entity_not_found
+                message: The network cannot be found
+                details:
+                  entity: network
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    validate-network-address-response:
+      description: Address validation result.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              isValid:
+                description: Whether the address is valid for the specified network.
+                type: boolean
+              error:
+                description: The error details if the address is invalid.
+                type: object
+                properties:
+                  code:
+                    description: The error code.
+                    type: string
+                    enum:
+                    - address_invalid
+                    - reference_invalid
+                    - reference_missing
+                  message:
+                    description: A human-readable error message.
+                    type: string
+                  details:
+                    description: Additional details about the error.
+                    type: object
+                    additionalProperties: true
+                required:
+                - code
+                - message
+            required:
+            - isValid
+          examples:
+            Valid Address:
+              value:
+                isValid: true
+            Invalid Address:
+              value:
+                isValid: false
+                error:
+                  code: address_invalid
+                  message: The address is invalid
+            Invalid Stellar Memo:
+              value:
+                isValid: false
+                error:
+                  code: reference_invalid
+                  message: Stellar memo must be 28 bytes long
+                  details:
+                    rule: byteLength
+                    expected: 28
+                    actual: 10
+            Invalid XRP Destination Tag:
+              value:
+                isValid: false
+                error:
+                  code: reference_invalid
+                  message: XRP destination tag must be an integer between 0 and 4294967295
+                  details:
+                    rule: range
+                    min: 0
+                    max: 4294967295
+            Missing Reference:
+              value:
+                isValid: false
+                error:
+                  code: reference_missing
+                  message: A reference is required for this address
+                  details:
+                    rule: required
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    list-assets-response:
+      description: Assets list retrieved.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              assets:
+                type: array
+                items:
+                  $ref: '#/components/schemas/asset'
+            required:
+            - assets
+          examples:
+            Assets Retrieved:
+              value:
+                assets:
+                - code: GBP
+                  name: British Pound
+                  type: fiat
+                  symbol: £
+                  decimals: 2
+                  logo: https://cdn.uphold.com/assets/GBP.svg
+                  features:
+                  - buy
+                  - deposit
+                  - sell
+                  - transfer
+                  - withdraw
+                  cooldowns: []
+                - code: BTC
+                  name: Bitcoin
+                  type: crypto
+                  symbol: ₿
+                  decimals: 8
+                  logo: https://cdn.uphold.com/assets/BTC.svg
+                  features:
+                  - buy
+                  - deposit
+                  - sell
+                  - transfer
+                  - withdraw
+                  cooldowns: []
+                - code: ETH
+                  name: Ether
+                  type: crypto
+                  symbol: Ξ
+                  decimals: 18
+                  logo: https://cdn.uphold.com/assets/ETH.svg
+                  features:
+                  - buy
+                  - deposit
+                  - sell
+                  - transfer
+                  - withdraw
+                  cooldowns: []
+                - code: USDC
+                  name: USDC
+                  type: crypto
+                  symbol: $
+                  decimals: 6
+                  logo: https://cdn.uphold.com/assets/USDC.svg
+                  features:
+                  - buy
+                  - sell
+                  - transfer
+                  cooldowns: []
+                - code: BAT
+                  name: BAT
+                  type: crypto
+                  decimals: 18
+                  logo: https://cdn.uphold.com/assets/BAT.svg
+                  features:
+                  - buy
+                  - deposit
+                  - sell
+                  - transfer
+                  - withdraw
+                  cooldowns: []
+            Assets With Cooldowns Retrieved:
+              value:
+                assets:
+                - code: GBP
+                  name: British Pound
+                  type: fiat
+                  symbol: £
+                  decimals: 2
+                  logo: https://cdn.uphold.com/assets/GBP.svg
+                  features:
+                  - buy
+                  - deposit
+                  - sell
+                  - transfer
+                  - withdraw
+                  cooldowns: []
+                - code: BTC
+                  name: Bitcoin
+                  type: crypto
+                  symbol: ₿
+                  decimals: 8
+                  logo: https://cdn.uphold.com/assets/BTC.svg
+                  features:
+                  - sell
+                  - transfer
+                  - withdraw
+                  cooldowns:
+                  - rule: financial-promotions
+                    features:
+                    - buy
+                    - deposit
+                    endsAt: '2020-01-01T00:00:00.000Z'
+                - code: ETH
+                  name: Ether
+                  type: crypto
+                  symbol: Ξ
+                  decimals: 18
+                  logo: https://cdn.uphold.com/assets/ETH.svg
+                  features:
+                  - sell
+                  - transfer
+                  - withdraw
+                  cooldowns:
+                  - rule: financial-promotions
+                    features:
+                    - buy
+                    - deposit
+                    endsAt: '2020-01-01T00:00:00.000Z'
+                - code: USDC
+                  name: USDC
+                  type: crypto
+                  symbol: $
+                  decimals: 6
+                  logo: https://cdn.uphold.com/assets/USDC.svg
+                  features:
+                  - sell
+                  - transfer
+                  cooldowns:
+                  - rule: financial-promotions
+                    features:
+                    - buy
+                    endsAt: '2024-12-31T23:59:59.000Z'
+                - code: BAT
+                  name: BAT
+                  type: crypto
+                  decimals: 18
+                  logo: https://cdn.uphold.com/assets/BAT.svg
+                  features:
+                  - sell
+                  - transfer
+                  - withdraw
+                  cooldowns:
+                  - rule: financial-promotions
+                    features:
+                    - buy
+                    - deposit
+                    endsAt: '2024-12-31T23:59:59.000Z'
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-asset-response:
+      description: Asset retrieved.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              asset:
+                $ref: '#/components/schemas/asset'
+            required:
+            - asset
+          examples:
+            Asset Retrieved:
+              value:
+                asset:
+                  code: BTC
+                  name: Bitcoin
+                  type: crypto
+                  symbol: ₿
+                  decimals: 8
+                  logo: https://cdn.uphold.com/assets/BTC.svg
+                  features:
+                  - buy
+                  - deposit
+                  - sell
+                  - transfer
+                  - withdraw
+                  cooldowns: []
+            Asset With Cooldowns Retrieved:
+              value:
+                asset:
+                  code: BTC
+                  name: Bitcoin
+                  type: crypto
+                  symbol: ₿
+                  decimals: 8
+                  logo: https://cdn.uphold.com/assets/BTC.svg
+                  features:
+                  - sell
+                  - transfer
+                  - withdraw
+                  cooldowns:
+                  - rule: financial-promotions
+                    features:
+                    - buy
+                    - deposit
+                    endsAt: '2024-12-31T23:59:59.000Z'
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    skip-assets-cooldowns-response:
+      description: Assets cooldowns skipped successfully.
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-asset-rates-conflict-response:
+      description: Business logic error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Asset Pair Not Supported:
+              value:
+                code: asset_pair_not_supported
+                message: Rates are not available for the requested asset pair
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-many-assets-response:
+      description: Assets retrieved.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              assets:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/asset'
+            required:
+            - assets
+          examples:
+            Assets Retrieved:
+              value:
+                assets:
+                  BTC:
+                    code: BTC
+                    name: Bitcoin
+                    type: crypto
+                    symbol: ₿
+                    decimals: 8
+                    logo: https://cdn.uphold.com/assets/BTC.svg
+                    features:
+                    - buy
+                    - deposit
+                    - sell
+                    - transfer
+                    - withdraw
+                    cooldowns: []
+                  ETH:
+                    code: ETH
+                    name: Ethereum
+                    type: crypto
+                    symbol: Ξ
+                    decimals: 18
+                    logo: https://cdn.uphold.com/assets/ETH.svg
+                    features:
+                    - buy
+                    - deposit
+                    - sell
+                    - transfer
+                    - withdraw
+                    cooldowns: []
+            Assets With Cooldowns Retrieved:
+              value:
+                assets:
+                  BTC:
+                    code: BTC
+                    name: Bitcoin
+                    type: crypto
+                    symbol: ₿
+                    decimals: 8
+                    logo: https://cdn.uphold.com/assets/BTC.svg
+                    features:
+                    - sell
+                    - transfer
+                    - withdraw
+                    cooldowns:
+                    - rule: financial-promotions
+                      features:
+                      - buy
+                      - deposit
+                      endsAt: '2024-12-31T23:59:59.000Z'
+                  ETH:
+                    code: ETH
+                    name: Ethereum
+                    type: crypto
+                    symbol: Ξ
+                    decimals: 18
+                    logo: https://cdn.uphold.com/assets/ETH.svg
+                    features:
+                    - sell
+                    - transfer
+                    - withdraw
+                    cooldowns:
+                    - rule: financial-promotions
+                      features:
+                      - buy
+                      - deposit
+                      endsAt: '2024-12-31T23:59:59.000Z'
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    bad-request:
+      description: Bad Request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Invalid Request:
+              value:
+                code: request_invalid
+                message: The request has missing or invalid parameters
+                details:
+                  context: <context>
+                  violations:
+                  - property: <property>
+                    rule: required
+                  - property: <property>
+                    rule: type
+                    ruleParams:
+                      type: string
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-asset-historical-rate-conflict-response:
+      description: Business logic error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Asset Not Supported:
+              value:
+                code: asset_not_supported
+                message: The asset is not supported
+                details:
+                  context: query
+                  property: denomination
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-network-response:
+      description: Network retrieved.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              network:
+                $ref: '#/components/schemas/network'
+            required:
+            - network
+          examples:
+            Network Retrieved:
+              value:
+                network:
+                  code: bitcoin
+                  name: Bitcoin
+                  type: crypto
+                  exampleAddress: tb1qgu0gacn9pqpnvlqclvdwyz4gfgxz8pptfz4emt
+                  explorer:
+                    addressUrl: https://mempool.space/testnet/tx/<hash>
+                    txUrl: https://mempool.space/testnet/address/<hash>
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-asset-historical-rate-response:
+      description: Historical rates retrieved.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              historicalRates:
+                type: object
+                additionalProperties:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/asset-historical-rate'
+                minProperties: 1
+          examples:
+            Historical Rates Retrieved:
+              value:
+                historicalRates:
+                  BTC:
+                  - rate:
+                      mid: '27649.1865680048064515576'
+                    timestamp: '2021-07-01T00:00:00.000Z'
+                  - rate:
+                      mid: '28000.1234567890123456789'
+                    timestamp: '2021-07-02T00:00:00.000Z'
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    unauthorized:
+      description: Unauthorized.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Token Expired:
+              value:
+                code: token_expired
+                message: The access token has expired
+            Token Invalid:
+              value:
+                code: token_invalid
+                message: The access token is invalid
+            Token Revoked:
+              value:
+                code: token_revoked
+                message: The access token has been revoked
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    list-asset-news-response:
+      description: Asset news retrieved.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              news:
+                type: array
+                items:
+                  $ref: '#/components/schemas/news-item'
+            required:
+            - news
+          examples:
+            Asset News Retrieved:
+              value:
+                news:
+                - title: Bitcoin Reaches New High
+                  publishedAt: '2024-01-15T10:30:00.000Z'
+                  source: Crypto News
+                  url: https://example.com/news/btc/1
+                - title: Bitcoin Adoption Increases
+                  publishedAt: '2024-01-14T15:20:00.000Z'
+                  source: Financial Times
+                  url: https://example.com/news/btc/2
+                - title: Bitcoin Network Upgrade Announced
+                  publishedAt: '2024-01-13T08:45:00.000Z'
+                  source: Blockchain News
+                  url: https://example.com/news/btc/3
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    list-rails-response:
+      description: Rails retrieved.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              rails:
+                type: array
+                items:
+                  $ref: '#/components/schemas/rail'
+          examples:
+            Rails Retrieved:
+              value:
+                rails:
+                - type: crypto
+                  network: bitcoin
+                  method: crypto-transaction
+                  asset: BTC
+                  decimals: 8
+                  features:
+                  - deposit
+                  - withdraw
+                - type: crypto
+                  network: ethereum
+                  method: crypto-transaction
+                  asset: USDC
+                  decimals: 6
+                  features:
+                  - deposit
+                  - withdraw
+                  contractAddress: '0xd6d663b601D63a0d1A651D61847Ec8134Eb3a3CF'
+                - type: card
+                  network: visa
+                  method: debit-card
+                  asset: USD
+                  decimals: 2
+                  features:
+                  - deposit
+                  - withdraw
+                - type: bank
+                  network: ach
+                  method: bank-transfer
+                  asset: USD
+                  decimals: 2
+                  features:
+                  - deposit
+                  - withdraw
+                  constraints:
+                  - rule: allowed-deposit-accounts
+                    allowed: default-only
+                - type: bank
+                  network: fps
+                  method: bank-transfer
+                  asset: GBP
+                  decimals: 2
+                  features:
+                  - deposit
+                  - withdraw
+                - type: apm
+                  network: paypal
+                  method: paypal
+                  asset: USD
+                  decimals: 2
+                  features:
+                  - deposit
+                  - withdraw
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-asset-information-response:
+      description: Asset information retrieved.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/asset-information-response'
+          examples:
+            Asset Information Retrieved:
+              value:
+                information: Bitcoin is a decentralized digital currency that enables peer-to-peer transactions without the need for a central authority...
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+  schemas:
+    string-no-edge-spaces:
+      type: string
+      pattern: ^\S.*\S$|^\S$
+    asset-type:
+      description: The type of the asset.
+      type: string
+      enum:
+      - fiat
+      - crypto
+    network-base:
+      type: object
+      properties:
+        code:
+          description: The unique code of the network.
+          type: string
+        name:
+          description: The name of the network.
+          type: string
+        type:
+          $ref: '#/components/schemas/network-type'
+        logo:
+          description: The logo of the network.
+          type: string
+          format: url
+      required:
+      - code
+      - name
+      - type
+    network:
+      type: object
+      discriminator:
+        propertyName: type
+        mapping:
+          crypto: '#/components/schemas/network-crypto'
+          card: '#/components/schemas/network-card'
+          bank: '#/components/schemas/network-bank'
+          apm: '#/components/schemas/network-apm'
+      oneOf:
+      - title: Crypto
+        $ref: '#/components/schemas/network-crypto'
+      - title: Card
+        $ref: '#/components/schemas/network-card'
+      - title: Bank
+        $ref: '#/components/schemas/network-bank'
+      - title: Alternative payment method
+        $ref: '#/components/schemas/network-apm'
+    asset:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/asset-type'
+        code:
+          description: The unique code of the asset.
+          type: string
+        name:
+          description: The name of the asset.
+          type: string
+        symbol:
+          description: The symbol of the asset.
+          type: string
+        decimals:
+          description: The maximum number of decimal places this asset can have.
+          type: integer
+          minimum: 0
+        logo:
+          description: The logo of the asset.
+          type: string
+          format: url
+        features:
+          description: The features of the asset.
+          type: array
+          items:
+            $ref: '#/components/schemas/asset-features'
+        cooldowns:
+          description: The cooldowns of the asset.
+          type: array
+          items:
+            type: object
+            properties:
+              rule:
+                description: The cooldown rule.
+                type: string
+                enum:
+                - financial-promotions
+              features:
+                description: The features affected by the cooldown.
+                type: array
+                items:
+                  $ref: '#/components/schemas/asset-features'
+              endsAt:
+                description: The date and time when the cooldown ends.
+                type: string
+                format: date-time
+      required:
+      - code
+      - name
+      - type
+      - decimals
+      - cooldowns
+      - features
+    rail-method:
+      type: string
+      enum:
+      - crypto-transaction
+      - credit-card
+      - debit-card
+      - bank-transfer
+      - apple-pay
+      - paypal
+      - venmo
+    network-type:
+      description: The type of the network.
+      type: string
+      enum:
+      - crypto
+      - card
+      - bank
+      - apm
+    rail-apm:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/rail-base'
+      - type: object
+        properties:
+          type:
+            enum:
+            - apm
+          method:
+            enum:
+            - apple-pay
+            - paypal
+            - venmo
+    subdivision-code-for-request:
+      type: string
+      pattern: ^[A-Z]{2}-[A-Z0-9]{1,3}$
+    country-code-for-request:
+      type: string
+      pattern: ^[A-Z]{2}$
+    feedback:
+      description: A feedback message with a code and human-readable description.
+      type: object
+      properties:
+        code:
+          description: A short string with a brief explanation about the code reported.
+          type: string
+        message:
+          description: A human-readable message providing more details.
+          type: string
+        details:
+          description: Additional information about the feedback reported.
+          type: object
+          additionalProperties: true
+      required:
+      - code
+      - message
+    rail-type:
+      type: string
+      enum:
+      - crypto
+      - card
+      - bank
+      - apm
+    news-item:
+      type: object
+      properties:
+        title:
+          description: The title of the news article.
+          type: string
+        publishedAt:
+          description: The publication date and time of the news article.
+          type: string
+          format: date-time
+        source:
+          description: The source of the news article.
+          type: string
+        url:
+          description: The URL to the full news article.
+          type: string
+          format: uri
+    assets-cooldown-webhook-event:
+      allOf:
+      - $ref: '#/components/schemas/webhook-event'
+      - type: object
+        properties:
+          data:
+            type: object
+            properties:
+              userId:
+                description: The id of the user.
+                type: string
+                format: uuid
+              assets:
+                description: The list of asset codes affected by the cooldown ending.
+                type: array
+                items:
+                  type: string
+              cooldown:
+                type: object
+                properties:
+                  rule:
+                    description: The cooldown rule.
+                    type: string
+                    enum:
+                    - financial-promotions
+                  features:
+                    description: The features affected by the cooldown.
+                    type: array
+                    items:
+                      type: string
+                      enum:
+                      - buy
+                      - deposit
+                  endsAt:
+                    description: The date and time when the cooldown ended.
+                    type: string
+                    format: date-time
+                required:
+                - rule
+                - features
+                - endsAt
+            required:
+            - userId
+            - assets
+            - cooldown
+    asset-historical-rate:
+      type: object
+      properties:
+        rate:
+          allOf:
+          - $ref: '#/components/schemas/asset-rate'
+          - description: 'The rate of the asset at the given timestamp.
+
+
+              This field will be absent if the rate is not available for the given timestamp, which can happen if the asset was not available at that time.'
+        timestamp:
+          description: The timestamp of the rate.
+          type: string
+          format: date-time
+      required:
+      - timestamp
+    error:
+      description: The error information.
+      allOf:
+      - $ref: '#/components/schemas/feedback'
+    rail-crypto:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/rail-base'
+      - type: object
+        properties:
+          type:
+            enum:
+            - crypto
+          method:
+            enum:
+            - crypto-transaction
+          contractAddress:
+            description: The contract address for the asset within the network.
+            type: string
+    asset-information:
+      description: Descriptive information about the asset.
+      type: string
+    rail-bank-constraint-allowed-deposit-accounts:
+      type: object
+      properties:
+        rule:
+          type: string
+          enum:
+          - allowed-deposit-accounts
+        allowed:
+          type: string
+          enum:
+          - default-only
+      required:
+      - rule
+      - allowed
+    webhook-event:
+      description: The webhook event information.
+      type: object
+      properties:
+        id:
+          description: The id of the event.
+          type: string
+          format: uuid
+        type:
+          description: The type of event.
+          type: string
+        createdAt:
+          description: The date and time when the event was created.
+          type: string
+          format: date-time
+        data:
+          description: The event payload.
+          type: object
+      required:
+      - id
+      - type
+      - createdAt
+      - data
+    network-bank:
+      allOf:
+      - $ref: '#/components/schemas/network-base'
+      - type: object
+        properties:
+          type:
+            enum:
+            - bank
+          reference:
+            description: The reference used for the network, if any.
+            type: object
+            properties:
+              type:
+                description: The type of reference.
+                type: string
+                enum:
+                - payment-reference
+            required:
+            - type
+    asset-information-response:
+      type: object
+      properties:
+        information:
+          $ref: '#/components/schemas/asset-information'
+      required:
+      - information
+    rail-bank:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/rail-base'
+      - type: object
+        properties:
+          type:
+            enum:
+            - bank
+          method:
+            enum:
+            - bank-transfer
+          constraints:
+            description: The constraints for the rail.
+            type: array
+            items:
+              $ref: '#/components/schemas/rail-bank-constraint'
+    rail-bank-constraint:
+      oneOf:
+      - $ref: '#/components/schemas/rail-bank-constraint-allowed-deposit-accounts'
+      discriminator:
+        propertyName: rule
+        mapping:
+          allowed-deposit-accounts: '#/components/schemas/rail-bank-constraint-allowed-deposit-accounts'
+    rail:
+      type: object
+      discriminator:
+        propertyName: type
+        mapping:
+          crypto: '#/components/schemas/rail-crypto'
+          card: '#/components/schemas/rail-card'
+          bank: '#/components/schemas/rail-bank'
+          apm: '#/components/schemas/rail-apm'
+      oneOf:
+      - title: Crypto
+        $ref: '#/components/schemas/rail-crypto'
+      - title: Card
+        $ref: '#/components/schemas/rail-card'
+      - title: Bank
+        $ref: '#/components/schemas/rail-bank'
+      - title: Alternative payment method
+        $ref: '#/components/schemas/rail-apm'
+    rail-card:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/rail-base'
+      - type: object
+        properties:
+          type:
+            enum:
+            - card
+          method:
+            enum:
+            - credit-card
+            - debit-card
+    network-apm:
+      allOf:
+      - $ref: '#/components/schemas/network-base'
+      - type: object
+        properties:
+          type:
+            enum:
+            - apm
+    asset-statistics:
+      type: object
+      properties:
+        circulatingSupply:
+          description: The asset's circulating supply.
+          type: number
+        marketCap:
+          description: The asset's market capitalization.
+          type: number
+        volume24h:
+          description: The asset's trading volume in the last 24 hours.
+          type: number
+        allTimeHigh:
+          description: The asset's all-time high valuation in USD.
+          type: number
+      required:
+      - circulatingSupply
+      - marketCap
+      - volume24h
+      - allTimeHigh
+    network-card:
+      allOf:
+      - $ref: '#/components/schemas/network-base'
+      - type: object
+        properties:
+          type:
+            enum:
+            - card
+    rail-base:
+      type: object
+      properties:
+        type:
+          allOf:
+          - $ref: '#/components/schemas/rail-type'
+          - description: The type of the rail.
+        network:
+          description: The network code of the rail.
+          type: string
+        method:
+          allOf:
+          - $ref: '#/components/schemas/rail-method'
+          - description: The method through which operations are carried over the network.
+        asset:
+          description: The asset code of the rail.
+          type: string
+        decimals:
+          description: The number of decimal places for the asset within the network.
+          type: integer
+          minimum: 0
+        features:
+          description: The features of the asset within the network.
+          type: array
+          items:
+            type: string
+            enum:
+            - withdraw
+            - deposit
+      required:
+      - type
+      - network
+      - method
+      - asset
+      - decimals
+      - features
+    asset-features:
+      type: string
+      enum:
+      - buy
+      - sell
+      - transfer
+      - withdraw
+      - deposit
+    asset-rate:
+      type: object
+      properties:
+        bid:
+          description: Highest price a buyer is willing to pay.
+          type: string
+        ask:
+          description: Lowest price a seller is willing to accept.
+          type: string
+        mid:
+          description: The mid price between the bid and ask.
+          type: string
+      required:
+      - mid
+    network-crypto:
+      allOf:
+      - $ref: '#/components/schemas/network-base'
+      - type: object
+        properties:
+          type:
+            enum:
+            - crypto
+          exampleAddress:
+            description: An example address for the network.
+            type: string
+          reference:
+            description: The reference used for the network, if any.
+            type: object
+            properties:
+              type:
+                description: The type of reference.
+                type: string
+                enum:
+                - destination-tag
+                - memo
+            required:
+            - type
+          explorer:
+            description: Details for exploring the blockchain.
+            type: object
+            properties:
+              addressUrl:
+                description: The URL to view address details.
+                type: string
+              txUrl:
+                description: The URL to view transaction details.
+                type: string
+  requestBodies:
+    validate-network-address-request-body:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              address:
+                allOf:
+                - $ref: '#/components/schemas/string-no-edge-spaces'
+                - description: The crypto address to validate.
+              reference:
+                allOf:
+                - $ref: '#/components/schemas/string-no-edge-spaces'
+                - description: The destination reference (for networks that support it, e.g., XRP destination tag).
+            required:
+            - address
+          examples:
+            Validate Bitcoin Address:
+              value:
+                address: tb1qgu0gacn9pqpnvlqclvdwyz4gfgxz8pptfz4emt
+            Validate XRP Address With Reference:
+              value:
+                address: rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh
+                reference: '12345'
+    get-many-assets-request-body:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              codes:
+                description: The asset codes to retrieve.
+                type: array
+                minItems: 1
+                maxItems: 100
+                items:
+                  type: string
+                  minLength: 1
+            required:
+            - codes
+          examples:
+            Get Many Assets:
+              value:
+                codes:
+                - BTC
+                - ETH
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: OAuth 2.0 authentication.
+      flows:
+        clientCredentials:
+          tokenUrl: /core/oauth2/token
+          scopes:
+            core.users:act-on-behalf-of: Grants access to act on behalf of a user
+            core.users:create: Grants access to create users
+            core.users:read: Grants access to view users
+            core.users:delete: Grants access to delete users
+            core.users.metadata:read: Grants access to view user metadata
+            core.users.metadata:write: Grants access to modify user metadata
+            core.kyc:read: Grants access to view KYC processes
+            core.kyc.profile:update: Grants access to update profile KYC process
+            core.kyc.address:update: Grants access to update address KYC process
+            core.kyc.email:update: Grants access to update email KYC process
+            core.kyc.phone:update: Grants access to update phone KYC process
+            core.kyc.identity:update: Grants access to update identity KYC process
+            core.kyc.proof-of-address:update: Grants access to update proof-of-address KYC process
+            core.kyc.customer-due-diligence:update: Grants access to update customer due diligence KYC process
+            core.kyc.enhanced-due-diligence:update: Grants access to update enhanced due diligence KYC process
+            core.kyc.crypto-risk-assessment:update: Grants access to update crypto risk assessment KYC process
+            core.kyc.self-categorization-statement:update: Grants access to update self-categorization statement KYC process
+            core.kyc.tax-details:update: Grants access to update tax details KYC process
+            core.capabilities:read: Grants access to view user capabilities
+            core.terms-of-service:read: Grants access to view terms of service
+            core.terms-of-service:accept: Grants access to accept terms of service
+            core.files:create: Grants access to create files
+            core.files:read: Grants access to view files
+            core.files.metadata:read: Grants access to view files metadata
+            core.files.metadata:write: Grants access to modify files metadata
+            core.accounts:create: Grants access to create accounts
+            core.accounts:read: Grants access to view accounts
+            core.accounts:update: Grants access to update accounts
+            core.accounts:archive: Grants access to archive accounts
+            core.accounts:deposit-method: Grants access to deposit method needed for depositing into accounts
+            core.accounts:use-test-helpers: Grants access to test helpers of accounts
+            core.accounts.metadata:read: Grants access to view accounts metadata
+            core.accounts.metadata:write: Grants access to modify accounts metadata
+            core.assets:use-test-helpers: Grants access to test helpers of assets
+            core.external-accounts:create: Grants access to create external accounts
+            core.external-accounts:read: Grants access to view external accounts
+            core.external-accounts:update: Grants access to update external accounts
+            core.external-accounts:delete: Grants access to delete external accounts
+            core.external-accounts.metadata:read: Grants access to view external accounts metadata
+            core.external-accounts.metadata:write: Grants access to modify external accounts metadata
+            core.transactions:create: Grants access to commit quotes
+            core.transactions:read: Grants access to view transactions
+            core.transactions.metadata:read: Grants access to view transactions metadata
+            core.transactions.metadata:write: Grants access to modify transactions metadata
+            core.transactions.requests-for-information:read: Grants access to view transactions requests for information
+            core.transactions.requests-for-information:update: Grants access to update transactions requests for information
+            core.portfolio:read: Grants access to view portfolio overview, performance, and historical balance
+            core.statements:read: Grants access to read statements
+            core.webhooks:management-link: Grants access to create webhook management links
+x-refined-from:
+- uphold-core-api-openapi.json
+- uphold-market-pulse-api-openapi.json

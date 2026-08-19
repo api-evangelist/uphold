@@ -1,0 +1,1757 @@
+{
+  "item": [
+    {
+      "id": "6461ac9c-b548-4d64-9ea8-7a3e3081281d",
+      "name": "Sumsub",
+      "description": {
+        "content": "Sumsub KYC Connector.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f0463419-e4f3-4e02-b571-5bb1dc4ed941",
+          "name": "Create Sumsub ingestion",
+          "request": {
+            "name": "Create Sumsub ingestion",
+            "description": {
+              "content": "Create a new Sumsub ingestion.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "kyc-connector",
+                "sumsub",
+                "ingestions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "The subject on whose behalf the operation is being performed.",
+                "key": "X-On-Behalf-Of",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Contains the IP of the end user that is requesting the operation.",
+                "key": "X-Uphold-User-Ip",
+                "value": "<ipv4>"
+              },
+              {
+                "disabled": false,
+                "description": "Contains the user agent of the end user that is requesting the operation.",
+                "key": "X-Uphold-User-Agent",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Contains the origin of the request made by the end user.",
+                "key": "X-Uphold-User-Origin",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Contains the code of the country of the end user that is requesting the operation.",
+                "key": "X-Uphold-User-Country",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Contains the code of the subdivision of the end user that is requesting the operation.",
+                "key": "X-Uphold-User-Subdivision",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Contains the name of the city of the end user that is requesting the operation.",
+                "key": "X-Uphold-User-City",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "kyc-connector.sumsub.ingestions:create kyc-connector.sumsub.ingestions:read kyc-connector.veriff.ingestions:create kyc-connector.veriff.ingestions:read kyc-connector.veriff.config:read kyc-connector.veriff.config:write"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "/core/oauth2/token"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"shareToken\": \"<string>\",\n  \"processes\": [\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "261d0a4d-316c-4dc8-9129-e7d4d06f0fb4",
+              "name": "Sumsub ingestion created.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "kyc-connector",
+                    "sumsub",
+                    "ingestions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The subject on whose behalf the operation is being performed.",
+                    "key": "X-On-Behalf-Of",
+                    "value": "user cd21b26d-35d2-408a-9201-b8fdbef7a604"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the IP of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Ip",
+                    "value": "<ipv4>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the user agent of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Agent",
+                    "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the origin of the request made by the end user.",
+                    "key": "X-Uphold-User-Origin",
+                    "value": "https://uphold.com"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the country of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Country",
+                    "value": "US"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the subdivision of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Subdivision",
+                    "value": "US-CA"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the name of the city of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-City",
+                    "value": "San Francisco"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "(Required) A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+                  "key": "x-uphold-request-id",
+                  "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ingestion\": {\n    \"id\": \"019b2184-1ca9-7dd6-b7a5-ec242def68b0\",\n    \"userId\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"status\": \"queued\",\n    \"processes\": [\n      \"identity\",\n      \"proof-of-address\"\n    ],\n    \"provider\": \"sumsub\",\n    \"parameters\": {\n      \"shareToken\": \"_act-sbx-jwt-eyJhbGciOiJub25lIn0.eyJqdGkiOiJ0ZXN0IiwidXJsIjoiaHR0cHM6Ly9leGFtcGxlLmNvbSJ9.\"\n    },\n    \"createdAt\": \"2026-01-15T14:23:01.819Z\",\n    \"updatedAt\": \"2026-01-15T14:23:01.819Z\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "79108849-c052-481b-9ba6-91fe4aedc561",
+              "name": "Unauthorized.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "kyc-connector",
+                    "sumsub",
+                    "ingestions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The subject on whose behalf the operation is being performed.",
+                    "key": "X-On-Behalf-Of",
+                    "value": "user cd21b26d-35d2-408a-9201-b8fdbef7a604"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the IP of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Ip",
+                    "value": "<ipv4>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the user agent of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Agent",
+                    "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the origin of the request made by the end user.",
+                    "key": "X-Uphold-User-Origin",
+                    "value": "https://uphold.com"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the country of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Country",
+                    "value": "US"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the subdivision of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Subdivision",
+                    "value": "US-CA"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the name of the city of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-City",
+                    "value": "San Francisco"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "(Required) A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+                  "key": "x-uphold-request-id",
+                  "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"token_expired\",\n  \"message\": \"The access token has expired\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b7f5f152-c060-45aa-b22d-7266f040fd21",
+              "name": "Forbidden.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "kyc-connector",
+                    "sumsub",
+                    "ingestions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The subject on whose behalf the operation is being performed.",
+                    "key": "X-On-Behalf-Of",
+                    "value": "user cd21b26d-35d2-408a-9201-b8fdbef7a604"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the IP of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Ip",
+                    "value": "<ipv4>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the user agent of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Agent",
+                    "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the origin of the request made by the end user.",
+                    "key": "X-Uphold-User-Origin",
+                    "value": "https://uphold.com"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the country of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Country",
+                    "value": "US"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the subdivision of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Subdivision",
+                    "value": "US-CA"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the name of the city of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-City",
+                    "value": "San Francisco"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "(Required) A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+                  "key": "x-uphold-request-id",
+                  "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"token_insufficient_scopes\",\n  \"message\": \"Authorization failed due to insufficient scopes\",\n  \"details\": {\n    \"security\": [\n      {\n        \"scheme\": \"OAuth\",\n        \"schemeScopes\": [\n          \"required:scope_1\",\n          \"required:scope_2\"\n        ],\n        \"tokenScopes\": [\n          \"token:scope\"\n        ]\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "11a13064-c893-414f-97e8-8465078dd39f",
+              "name": "Too Many Requests.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "kyc-connector",
+                    "sumsub",
+                    "ingestions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The subject on whose behalf the operation is being performed.",
+                    "key": "X-On-Behalf-Of",
+                    "value": "user cd21b26d-35d2-408a-9201-b8fdbef7a604"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the IP of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Ip",
+                    "value": "<ipv4>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the user agent of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Agent",
+                    "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the origin of the request made by the end user.",
+                    "key": "X-Uphold-User-Origin",
+                    "value": "https://uphold.com"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the country of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Country",
+                    "value": "US"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the subdivision of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Subdivision",
+                    "value": "US-CA"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the name of the city of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-City",
+                    "value": "San Francisco"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The number of seconds to wait before making a new request.",
+                  "key": "Retry-After",
+                  "value": "60"
+                },
+                {
+                  "disabled": false,
+                  "description": "(Required) A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+                  "key": "x-uphold-request-id",
+                  "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"too_many_requests\",\n  \"message\": \"Try again later\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2a5d0204-aa00-41b3-b7cb-df3530111cd5",
+          "name": "List Sumsub ingestions",
+          "request": {
+            "name": "List Sumsub ingestions",
+            "description": {
+              "content": "List Sumsub ingestions made by a user.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "kyc-connector",
+                "sumsub",
+                "ingestions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "perPage",
+                  "value": "10",
+                  "description": "The number of items per page."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "The subject on whose behalf the operation is being performed.",
+                "key": "X-On-Behalf-Of",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Contains the IP of the end user that is requesting the operation.",
+                "key": "X-Uphold-User-Ip",
+                "value": "<ipv4>"
+              },
+              {
+                "disabled": false,
+                "description": "Contains the user agent of the end user that is requesting the operation.",
+                "key": "X-Uphold-User-Agent",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Contains the origin of the request made by the end user.",
+                "key": "X-Uphold-User-Origin",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Contains the code of the country of the end user that is requesting the operation.",
+                "key": "X-Uphold-User-Country",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Contains the code of the subdivision of the end user that is requesting the operation.",
+                "key": "X-Uphold-User-Subdivision",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Contains the name of the city of the end user that is requesting the operation.",
+                "key": "X-Uphold-User-City",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "kyc-connector.sumsub.ingestions:create kyc-connector.sumsub.ingestions:read kyc-connector.veriff.ingestions:create kyc-connector.veriff.ingestions:read kyc-connector.veriff.config:read kyc-connector.veriff.config:write"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "/core/oauth2/token"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "f6bc28e6-7665-44c9-ae33-47db9d0ea005",
+              "name": "Sumsub ingestions retrieved.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "kyc-connector",
+                    "sumsub",
+                    "ingestions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "perPage",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The subject on whose behalf the operation is being performed.",
+                    "key": "X-On-Behalf-Of",
+                    "value": "user cd21b26d-35d2-408a-9201-b8fdbef7a604"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the IP of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Ip",
+                    "value": "<ipv4>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the user agent of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Agent",
+                    "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the origin of the request made by the end user.",
+                    "key": "X-Uphold-User-Origin",
+                    "value": "https://uphold.com"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the country of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Country",
+                    "value": "US"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the subdivision of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Subdivision",
+                    "value": "US-CA"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the name of the city of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-City",
+                    "value": "San Francisco"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "(Required) A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+                  "key": "x-uphold-request-id",
+                  "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ingestions\": [\n    {\n      \"id\": \"019b2184-1ca9-7dd6-b7a5-ec242def68b0\",\n      \"userId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"status\": \"queued\",\n      \"processes\": [\n        \"identity\",\n        \"proof-of-address\"\n      ],\n      \"provider\": \"sumsub\",\n      \"parameters\": {\n        \"shareToken\": \"_act-sbx-jwt-eyJhbGciOiJub25lIn0.eyJqdGkiOiJ0ZXN0IiwidXJsIjoiaHR0cHM6Ly9leGFtcGxlLmNvbSJ9.\"\n      },\n      \"createdAt\": \"2026-01-15T14:23:01.819Z\",\n      \"updatedAt\": \"2026-01-15T14:23:01.819Z\"\n    },\n    {\n      \"id\": \"019b218f-f235-79d3-866c-f56215e515e2\",\n      \"userId\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"status\": \"finished\",\n      \"processes\": [\n        \"identity\",\n        \"proof-of-address\"\n      ],\n      \"provider\": \"sumsub\",\n      \"parameters\": {\n        \"shareToken\": \"_act-sbx-jwt-eyJhbGciOiJub25lIn0.eyJqdGkiOiJ0ZXN0IiwidXJsIjoiaHR0cHM6Ly9leGFtcGxlLmNvbSJ9.\"\n      },\n      \"result\": {\n        \"identity\": {\n          \"status\": \"completed\",\n          \"data\": {\n            \"document\": {\n              \"type\": \"passport\",\n              \"number\": \"7700225VH\",\n              \"country\": \"GB\",\n              \"expiresAt\": \"2026-03-13\"\n            },\n            \"person\": {\n              \"givenName\": \"John\",\n              \"familyName\": \"Doe\",\n              \"birthdate\": \"1987-01-01\",\n              \"gender\": \"male\"\n            },\n            \"verifiedAt\": \"2020-01-01T00:00:00.000Z\"\n          },\n          \"files\": [\n            {\n              \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n              \"category\": \"document\",\n              \"context\": \"photo-document-front\",\n              \"contentType\": \"image/png\",\n              \"size\": 204800,\n              \"providerDetails\": {\n                \"fileId\": \"732150141\"\n              }\n            }\n          ]\n        },\n        \"proofOfAddress\": {\n          \"status\": \"failed\",\n          \"error\": {\n            \"code\": \"provider_data_not_available\",\n            \"message\": \"Profile data not available in Sumsub applicant info\"\n          }\n        }\n      },\n      \"startedAt\": \"2025-12-15T10:17:45.113Z\",\n      \"finishedAt\": \"2025-12-15T10:18:33.241Z\",\n      \"createdAt\": \"2025-12-15T10:17:44.911Z\",\n      \"updatedAt\": \"2025-12-15T10:18:33.241Z\"\n    }\n  ],\n  \"pagination\": {\n    \"first\": \"https://api.enterprise.uphold.com/kyc-connector/sumsub/ingestions?perPage=2\",\n    \"next\": \"https://api.enterprise.uphold.com/kyc-connector/sumsub/ingestions?cursor=019b2184-1ca9-7dd6-b7a5-ec242def68b0&perPage=2\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "af68cdc3-49e1-4e49-9b51-7540373491ad",
+              "name": "Unauthorized.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "kyc-connector",
+                    "sumsub",
+                    "ingestions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "perPage",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The subject on whose behalf the operation is being performed.",
+                    "key": "X-On-Behalf-Of",
+                    "value": "user cd21b26d-35d2-408a-9201-b8fdbef7a604"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the IP of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Ip",
+                    "value": "<ipv4>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the user agent of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Agent",
+                    "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the origin of the request made by the end user.",
+                    "key": "X-Uphold-User-Origin",
+                    "value": "https://uphold.com"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the country of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Country",
+                    "value": "US"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the subdivision of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Subdivision",
+                    "value": "US-CA"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the name of the city of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-City",
+                    "value": "San Francisco"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "(Required) A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+                  "key": "x-uphold-request-id",
+                  "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"token_expired\",\n  \"message\": \"The access token has expired\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0b6c767e-23a4-4041-ad60-84393ce407a1",
+              "name": "Forbidden.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "kyc-connector",
+                    "sumsub",
+                    "ingestions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "perPage",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The subject on whose behalf the operation is being performed.",
+                    "key": "X-On-Behalf-Of",
+                    "value": "user cd21b26d-35d2-408a-9201-b8fdbef7a604"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the IP of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Ip",
+                    "value": "<ipv4>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the user agent of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Agent",
+                    "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the origin of the request made by the end user.",
+                    "key": "X-Uphold-User-Origin",
+                    "value": "https://uphold.com"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the country of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Country",
+                    "value": "US"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the subdivision of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Subdivision",
+                    "value": "US-CA"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the name of the city of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-City",
+                    "value": "San Francisco"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "(Required) A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+                  "key": "x-uphold-request-id",
+                  "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"token_insufficient_scopes\",\n  \"message\": \"Authorization failed due to insufficient scopes\",\n  \"details\": {\n    \"security\": [\n      {\n        \"scheme\": \"OAuth\",\n        \"schemeScopes\": [\n          \"required:scope_1\",\n          \"required:scope_2\"\n        ],\n        \"tokenScopes\": [\n          \"token:scope\"\n        ]\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "442cd361-8a48-45df-a2f2-cdd077cbb4a9",
+              "name": "Too Many Requests.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "kyc-connector",
+                    "sumsub",
+                    "ingestions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "perPage",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The subject on whose behalf the operation is being performed.",
+                    "key": "X-On-Behalf-Of",
+                    "value": "user cd21b26d-35d2-408a-9201-b8fdbef7a604"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the IP of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Ip",
+                    "value": "<ipv4>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the user agent of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Agent",
+                    "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the origin of the request made by the end user.",
+                    "key": "X-Uphold-User-Origin",
+                    "value": "https://uphold.com"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the country of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Country",
+                    "value": "US"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the subdivision of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Subdivision",
+                    "value": "US-CA"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the name of the city of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-City",
+                    "value": "San Francisco"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The number of seconds to wait before making a new request.",
+                  "key": "Retry-After",
+                  "value": "60"
+                },
+                {
+                  "disabled": false,
+                  "description": "(Required) A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+                  "key": "x-uphold-request-id",
+                  "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"too_many_requests\",\n  \"message\": \"Try again later\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "be1eb40a-992d-48af-a461-d95df7f9c4c6",
+          "name": "Get Sumsub ingestion",
+          "request": {
+            "name": "Get Sumsub ingestion",
+            "description": {
+              "content": "Retrieve an existing Sumsub ingestion by id.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "kyc-connector",
+                "sumsub",
+                "ingestions",
+                ":ingestionId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "ingestionId",
+                  "description": "(Required) The ingestion id."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "The subject on whose behalf the operation is being performed.",
+                "key": "X-On-Behalf-Of",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Contains the IP of the end user that is requesting the operation.",
+                "key": "X-Uphold-User-Ip",
+                "value": "<ipv4>"
+              },
+              {
+                "disabled": false,
+                "description": "Contains the user agent of the end user that is requesting the operation.",
+                "key": "X-Uphold-User-Agent",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Contains the origin of the request made by the end user.",
+                "key": "X-Uphold-User-Origin",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Contains the code of the country of the end user that is requesting the operation.",
+                "key": "X-Uphold-User-Country",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Contains the code of the subdivision of the end user that is requesting the operation.",
+                "key": "X-Uphold-User-Subdivision",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Contains the name of the city of the end user that is requesting the operation.",
+                "key": "X-Uphold-User-City",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "kyc-connector.sumsub.ingestions:create kyc-connector.sumsub.ingestions:read kyc-connector.veriff.ingestions:create kyc-connector.veriff.ingestions:read kyc-connector.veriff.config:read kyc-connector.veriff.config:write"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "/core/oauth2/token"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "0f2ab809-ab0d-475f-a811-079cd3fc54b6",
+              "name": "Sumsub ingestion retrieved.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "kyc-connector",
+                    "sumsub",
+                    "ingestions",
+                    ":ingestionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "ingestionId",
+                      "description": "(Required) The ingestion id."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The subject on whose behalf the operation is being performed.",
+                    "key": "X-On-Behalf-Of",
+                    "value": "user cd21b26d-35d2-408a-9201-b8fdbef7a604"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the IP of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Ip",
+                    "value": "<ipv4>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the user agent of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Agent",
+                    "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the origin of the request made by the end user.",
+                    "key": "X-Uphold-User-Origin",
+                    "value": "https://uphold.com"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the country of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Country",
+                    "value": "US"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the subdivision of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Subdivision",
+                    "value": "US-CA"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the name of the city of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-City",
+                    "value": "San Francisco"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "(Required) A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+                  "key": "x-uphold-request-id",
+                  "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ingestion\": {\n    \"id\": \"019b218f-f235-79d3-866c-f56215e515e2\",\n    \"userId\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"status\": \"finished\",\n    \"processes\": [\n      \"identity\",\n      \"proof-of-address\"\n    ],\n    \"provider\": \"sumsub\",\n    \"parameters\": {\n      \"shareToken\": \"_act-sbx-jwt-eyJhbGciOiJub25lIn0.eyJqdGkiOiJ0ZXN0IiwidXJsIjoiaHR0cHM6Ly9leGFtcGxlLmNvbSJ9.\"\n    },\n    \"result\": {\n      \"identity\": {\n        \"status\": \"completed\",\n        \"data\": {\n          \"document\": {\n            \"type\": \"passport\",\n            \"number\": \"7700225VH\",\n            \"country\": \"GB\",\n            \"expiresAt\": \"2026-03-13\"\n          },\n          \"person\": {\n            \"givenName\": \"John\",\n            \"familyName\": \"Doe\",\n            \"birthdate\": \"1987-01-01\",\n            \"gender\": \"male\"\n          },\n          \"verifiedAt\": \"2020-01-01T00:00:00.000Z\"\n        },\n        \"files\": [\n          {\n            \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n            \"category\": \"document\",\n            \"context\": \"photo-document-front\",\n            \"contentType\": \"image/png\",\n            \"size\": 204800,\n            \"providerDetails\": {\n              \"fileId\": \"732150141\"\n            }\n          }\n        ]\n      },\n      \"proofOfAddress\": {\n        \"status\": \"failed\",\n        \"error\": {\n          \"code\": \"provider_data_not_available\",\n          \"message\": \"Profile data not available in Sumsub applicant info\"\n        }\n      }\n    },\n    \"startedAt\": \"2025-12-15T10:17:45.113Z\",\n    \"finishedAt\": \"2025-12-15T10:18:33.241Z\",\n    \"createdAt\": \"2025-12-15T10:17:44.911Z\",\n    \"updatedAt\": \"2025-12-15T10:18:33.241Z\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "adfd5b54-6ef4-4c73-89db-5a99534fe7cc",
+              "name": "Bad Request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "kyc-connector",
+                    "sumsub",
+                    "ingestions",
+                    ":ingestionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "ingestionId",
+                      "description": "(Required) The ingestion id."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The subject on whose behalf the operation is being performed.",
+                    "key": "X-On-Behalf-Of",
+                    "value": "user cd21b26d-35d2-408a-9201-b8fdbef7a604"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the IP of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Ip",
+                    "value": "<ipv4>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the user agent of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Agent",
+                    "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the origin of the request made by the end user.",
+                    "key": "X-Uphold-User-Origin",
+                    "value": "https://uphold.com"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the country of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Country",
+                    "value": "US"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the subdivision of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Subdivision",
+                    "value": "US-CA"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the name of the city of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-City",
+                    "value": "San Francisco"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "(Required) A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+                  "key": "x-uphold-request-id",
+                  "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"request_invalid\",\n  \"message\": \"The request has missing or invalid parameters\",\n  \"details\": {\n    \"context\": \"<context>\",\n    \"violations\": [\n      {\n        \"property\": \"<property>\",\n        \"rule\": \"required\"\n      },\n      {\n        \"property\": \"<property>\",\n        \"rule\": \"type\",\n        \"ruleParams\": {\n          \"type\": \"string\"\n        }\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "98fce158-3f24-4ab6-a66b-f0df03e4952f",
+              "name": "Unauthorized.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "kyc-connector",
+                    "sumsub",
+                    "ingestions",
+                    ":ingestionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "ingestionId",
+                      "description": "(Required) The ingestion id."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The subject on whose behalf the operation is being performed.",
+                    "key": "X-On-Behalf-Of",
+                    "value": "user cd21b26d-35d2-408a-9201-b8fdbef7a604"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the IP of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Ip",
+                    "value": "<ipv4>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the user agent of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Agent",
+                    "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the origin of the request made by the end user.",
+                    "key": "X-Uphold-User-Origin",
+                    "value": "https://uphold.com"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the country of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Country",
+                    "value": "US"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the subdivision of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Subdivision",
+                    "value": "US-CA"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the name of the city of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-City",
+                    "value": "San Francisco"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "(Required) A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+                  "key": "x-uphold-request-id",
+                  "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"token_expired\",\n  \"message\": \"The access token has expired\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "04b7a54f-ab3c-4cbd-a669-291d10756e80",
+              "name": "Forbidden.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "kyc-connector",
+                    "sumsub",
+                    "ingestions",
+                    ":ingestionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "ingestionId",
+                      "description": "(Required) The ingestion id."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The subject on whose behalf the operation is being performed.",
+                    "key": "X-On-Behalf-Of",
+                    "value": "user cd21b26d-35d2-408a-9201-b8fdbef7a604"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the IP of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Ip",
+                    "value": "<ipv4>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the user agent of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Agent",
+                    "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the origin of the request made by the end user.",
+                    "key": "X-Uphold-User-Origin",
+                    "value": "https://uphold.com"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the country of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Country",
+                    "value": "US"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the subdivision of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Subdivision",
+                    "value": "US-CA"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the name of the city of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-City",
+                    "value": "San Francisco"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "(Required) A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+                  "key": "x-uphold-request-id",
+                  "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"token_insufficient_scopes\",\n  \"message\": \"Authorization failed due to insufficient scopes\",\n  \"details\": {\n    \"security\": [\n      {\n        \"scheme\": \"OAuth\",\n        \"schemeScopes\": [\n          \"required:scope_1\",\n          \"required:scope_2\"\n        ],\n        \"tokenScopes\": [\n          \"token:scope\"\n        ]\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8e238a06-00b9-4d0c-a835-9a8e9b6e4602",
+              "name": "Resource not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "kyc-connector",
+                    "sumsub",
+                    "ingestions",
+                    ":ingestionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "ingestionId",
+                      "description": "(Required) The ingestion id."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The subject on whose behalf the operation is being performed.",
+                    "key": "X-On-Behalf-Of",
+                    "value": "user cd21b26d-35d2-408a-9201-b8fdbef7a604"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the IP of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Ip",
+                    "value": "<ipv4>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the user agent of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Agent",
+                    "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the origin of the request made by the end user.",
+                    "key": "X-Uphold-User-Origin",
+                    "value": "https://uphold.com"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the country of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Country",
+                    "value": "US"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the subdivision of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Subdivision",
+                    "value": "US-CA"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the name of the city of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-City",
+                    "value": "San Francisco"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "(Required) A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+                  "key": "x-uphold-request-id",
+                  "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"entity_not_found\",\n  \"message\": \"The ingestion cannot be found\",\n  \"details\": {\n    \"entity\": \"ingestion\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d7fd5e89-af65-4b3a-92b4-5deba52eb7fc",
+              "name": "Too Many Requests.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "kyc-connector",
+                    "sumsub",
+                    "ingestions",
+                    ":ingestionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "ingestionId",
+                      "description": "(Required) The ingestion id."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The subject on whose behalf the operation is being performed.",
+                    "key": "X-On-Behalf-Of",
+                    "value": "user cd21b26d-35d2-408a-9201-b8fdbef7a604"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the IP of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Ip",
+                    "value": "<ipv4>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the user agent of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Agent",
+                    "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the origin of the request made by the end user.",
+                    "key": "X-Uphold-User-Origin",
+                    "value": "https://uphold.com"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the country of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Country",
+                    "value": "US"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the code of the subdivision of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-Subdivision",
+                    "value": "US-CA"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Contains the name of the city of the end user that is requesting the operation.",
+                    "key": "X-Uphold-User-City",
+                    "value": "San Francisco"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The number of seconds to wait before making a new request.",
+                  "key": "Retry-After",
+                  "value": "60"
+                },
+                {
+                  "disabled": false,
+                  "description": "(Required) A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+                  "key": "x-uphold-request-id",
+                  "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"too_many_requests\",\n  \"message\": \"Try again later\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.enterprise.sandbox.uphold.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "scope",
+        "value": "kyc-connector.sumsub.ingestions:create kyc-connector.sumsub.ingestions:read kyc-connector.veriff.ingestions:create kyc-connector.veriff.ingestions:read kyc-connector.veriff.config:read kyc-connector.veriff.config:write"
+      },
+      {
+        "key": "accessTokenUrl",
+        "value": "/core/oauth2/token"
+      },
+      {
+        "key": "grant_type",
+        "value": "client_credentials"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "bd703377-281d-4e7f-be4c-e567b5b75be5",
+    "name": "KYC Connectors Sumsub API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The KYC Connectors API offers a set of endpoints to enable ingestion of KYC data via third-party connectors.\n\nContact Support:\n Name: Uphold API Team\n Email: developer@uphold.com",
+      "type": "text/plain"
+    }
+  }
+}

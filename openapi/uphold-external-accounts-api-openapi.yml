@@ -1,0 +1,1748 @@
+openapi: 3.2.0
+info:
+  version: 0.1.0
+  title: Core External accounts API
+  description: The Core API provides essential building blocks that empower businesses to embed financial services into their applications.
+  contact:
+    name: Uphold API Team
+    email: developers@uphold.com
+    url: https://developer.uphold.com
+servers:
+- url: https://api.enterprise.sandbox.uphold.com
+  description: Sandbox
+- url: https://api.enterprise.uphold.com
+  description: Production
+security:
+- OAuth2: []
+tags:
+- name: External accounts
+  description: External accounts.
+paths:
+  /core/external-accounts:
+    post:
+      operationId: core.create-external-account
+      summary: Create external account
+      description: Create an external account for the user.
+      tags:
+      - External accounts
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - user:business
+            - user:individual
+      security:
+      - OAuth2:
+        - core.external-accounts:create
+      parameters:
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      requestBody:
+        $ref: '#/components/requestBodies/create-external-account-request-body'
+      responses:
+        '201':
+          $ref: '#/components/responses/create-external-account-response'
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/create-external-account-not-found-response'
+        '409':
+          $ref: '#/components/responses/create-external-account-conflict-response'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+    get:
+      operationId: core.list-external-accounts
+      summary: List external accounts
+      description: List external accounts for the user.
+      tags:
+      - External accounts
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - user:business
+            - user:individual
+      security:
+      - OAuth2:
+        - core.external-accounts:read
+      parameters:
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      responses:
+        '200':
+          $ref: '#/components/responses/list-external-accounts-response'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+  /core/external-accounts/{externalAccountId}:
+    get:
+      operationId: core.get-external-account
+      summary: Get external account
+      description: Retrieve an existing external account by id.
+      tags:
+      - External accounts
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - user:business
+            - user:individual
+      security:
+      - OAuth2:
+        - core.external-accounts:read
+      parameters:
+      - $ref: '#/components/parameters/external-account-id'
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      responses:
+        '200':
+          $ref: '#/components/responses/get-external-account-response'
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/get-external-account-not-found-response'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+    patch:
+      operationId: core.update-external-account
+      summary: Update external account
+      description: Update an existing external account.
+      tags:
+      - External accounts
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - user:business
+            - user:individual
+      security:
+      - OAuth2:
+        - core.external-accounts:update
+      parameters:
+      - $ref: '#/components/parameters/external-account-id'
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      requestBody:
+        $ref: '#/components/requestBodies/update-external-account-request-body'
+      responses:
+        '200':
+          $ref: '#/components/responses/update-external-account-response'
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/update-external-account-not-found-response'
+        '409':
+          $ref: '#/components/responses/update-external-account-conflict-response'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+    delete:
+      operationId: core.delete-external-account
+      summary: Delete external account
+      description: Delete an existing external account.
+      tags:
+      - External accounts
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - user:business
+            - user:individual
+      security:
+      - OAuth2:
+        - core.external-accounts:delete
+      parameters:
+      - $ref: '#/components/parameters/external-account-id'
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      responses:
+        '204':
+          $ref: '#/components/responses/delete-external-account-response'
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/delete-external-account-not-found-response'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+webhooks:
+  core.external-account.created:
+    post:
+      operationId: core.external-account-created
+      summary: External account created
+      description: An external account has been created.
+      tags:
+      - External accounts
+      parameters:
+      - $ref: '#/components/parameters/webhook-id'
+      - $ref: '#/components/parameters/webhook-timestamp'
+      - $ref: '#/components/parameters/webhook-signature'
+      requestBody:
+        description: External account created event.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/external-account-webhook-event'
+            examples:
+              External Account Created:
+                value:
+                  id: 123e4567-e89b-12d3-a456-426614174000
+                  type: core.external-account.created
+                  createdAt: '2024-06-01T00:00:00.000Z'
+                  data:
+                    externalAccount:
+                      id: aa6e6efa-8d73-497c-8278-0347f459bd68
+                      ownerId: 1e32fca3-23f7-40ed-bc1b-de10c790182d
+                      type: card
+                      status: processing
+                      label: My Visa Card
+                      asset: GBP
+                      network: visa
+                      features: []
+                      details:
+                        last4Digits: '1519'
+                        expiryDate:
+                          month: 12
+                          year: 2030
+                        octSupport: unknown
+                      createdAt: '2024-06-01T00:00:00.000Z'
+                      updatedAt: '2024-06-01T00:00:00.000Z'
+      responses:
+        '200':
+          description: Return a 200 status to indicate that the data was received successfully.
+  core.external-account.status-changed:
+    post:
+      operationId: core.external-account-status-changed
+      summary: External account status changed
+      description: The status of an external account has been changed.
+      tags:
+      - External accounts
+      parameters:
+      - $ref: '#/components/parameters/webhook-id'
+      - $ref: '#/components/parameters/webhook-timestamp'
+      - $ref: '#/components/parameters/webhook-signature'
+      requestBody:
+        description: External account status changed event.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/external-account-webhook-event'
+            examples:
+              External Account Status Changed:
+                value:
+                  id: 123e4567-e89b-12d3-a456-426614174000
+                  type: core.external-account.status-changed
+                  createdAt: '2024-07-16T00:00:00.000Z'
+                  data:
+                    externalAccount:
+                      id: aa6e6efa-8d73-497c-8278-0347f459bd68
+                      ownerId: 1e32fca3-23f7-40ed-bc1b-de10c790182d
+                      type: card
+                      status: failed
+                      statusDetails:
+                        reason: card-expired
+                      label: My Visa Card
+                      asset: GBP
+                      network: visa
+                      features:
+                      - deposit
+                      - withdraw
+                      details:
+                        last4Digits: '1519'
+                        expiryDate:
+                          month: 12
+                          year: 2030
+                        octSupport: supported
+                      createdAt: '2024-06-01T00:00:00.000Z'
+                      updatedAt: '2024-07-15T00:00:00.000Z'
+      responses:
+        '200':
+          description: Return a 200 status to indicate that the data was received successfully.
+  core.external-account.deleted:
+    post:
+      operationId: core.external-account-deleted
+      summary: External account deleted
+      description: An external account has been deleted.
+      tags:
+      - External accounts
+      parameters:
+      - $ref: '#/components/parameters/webhook-id'
+      - $ref: '#/components/parameters/webhook-timestamp'
+      - $ref: '#/components/parameters/webhook-signature'
+      requestBody:
+        description: External account deleted event.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/external-account-webhook-event'
+            examples:
+              External Account Deleted:
+                value:
+                  id: 123e4567-e89b-12d3-a456-426614174000
+                  type: core.external-account.deleted
+                  createdAt: '2024-07-16T00:00:00.000Z'
+                  data:
+                    externalAccount:
+                      id: aa6e6efa-8d73-497c-8278-0347f459bd68
+                      ownerId: 1e32fca3-23f7-40ed-bc1b-de10c790182d
+                      type: card
+                      status: ok
+                      label: My Visa Card
+                      asset: GBP
+                      network: visa
+                      features:
+                      - deposit
+                      - withdraw
+                      details:
+                        type: debit
+                        last4Digits: '1519'
+                        expiryDate:
+                          month: 12
+                          year: 2030
+                        octSupport: supported
+                      createdAt: '2024-06-01T00:00:00.000Z'
+                      updatedAt: '2024-07-15T00:00:00.000Z'
+      responses:
+        '200':
+          description: Return a 200 status to indicate that the data was received successfully.
+components:
+  schemas:
+    webhook-event:
+      description: The webhook event information.
+      type: object
+      properties:
+        id:
+          description: The id of the event.
+          type: string
+          format: uuid
+        type:
+          description: The type of event.
+          type: string
+        createdAt:
+          description: The date and time when the event was created.
+          type: string
+          format: date-time
+        data:
+          description: The event payload.
+          type: object
+      required:
+      - id
+      - type
+      - createdAt
+      - data
+    external-account-details-card:
+      type: object
+      properties:
+        type:
+          description: The type of the card, available if card was recognized.
+          type: string
+          enum:
+          - credit
+          - debit
+        last4Digits:
+          description: The last 4 digits of the card number.
+          type: string
+          pattern: ^[0-9]{4}$
+        expiryDate:
+          description: The expiry date of the card.
+          type: object
+          properties:
+            month:
+              type: integer
+              description: The expiry month of the card.
+            year:
+              type: integer
+              description: The expiry year of the card.
+          required:
+          - month
+          - year
+        octSupport:
+          description: The support for Open Credit Transfer (withdrawals) for the card.
+          type: string
+          enum:
+          - unknown
+          - supported
+          - unsupported
+      required:
+      - last4Digits
+      - expiryDate
+      - octSupport
+    external-account:
+      type: object
+      properties:
+        id:
+          description: The unique identifier of the external account.
+          type: string
+          format: uuid
+        ownerId:
+          description: The unique identifier of the user that owns the account.
+          type: string
+          format: uuid
+        type:
+          description: The type of the external account.
+          type: string
+          enum:
+          - card
+          - bank
+          - apm
+        status:
+          description: The status of the external account.
+          type: string
+          enum:
+          - processing
+          - ok
+          - expired
+          - failed
+          - restricted
+          - blocked
+        statusDetails:
+          description: The details of the status of the external account.
+          type: object
+          properties:
+            reason:
+              $ref: '#/components/schemas/external-account-status-reason'
+          required:
+          - reason
+        label:
+          description: The label of the external account.
+          type: string
+        asset:
+          description: The asset in which the external account is denominated.
+          type: string
+        network:
+          description: The network that the external account corresponds to.
+          type: string
+        features:
+          description: The features of the external account.
+          type: array
+          items:
+            type: string
+            enum:
+            - withdraw
+            - deposit
+        details:
+          description: The details of the external account based on the type and network.
+          oneOf:
+          - title: Card
+            $ref: '#/components/schemas/external-account-details-card'
+          - title: Bank (ACH)
+            $ref: '#/components/schemas/external-account-details-bank-ach'
+          - title: Bank (FPS)
+            $ref: '#/components/schemas/external-account-details-bank-fps'
+          - title: Bank (SEPA)
+            $ref: '#/components/schemas/external-account-details-bank-sepa'
+          - title: Alternative payment method
+            $ref: '#/components/schemas/external-account-details-apm'
+        createdAt:
+          description: The time at which the external account was created.
+          type: string
+          format: date-time
+        updatedAt:
+          description: The last time at which the external account was updated.
+          type: string
+          format: date-time
+      required:
+      - id
+      - ownerId
+      - type
+      - status
+      - label
+      - asset
+      - features
+      - details
+      - createdAt
+      - updatedAt
+    external-account-webhook-event:
+      allOf:
+      - $ref: '#/components/schemas/webhook-event'
+      - type: object
+        properties:
+          data:
+            type: object
+            properties:
+              externalAccount:
+                $ref: '#/components/schemas/external-account'
+            required:
+            - externalAccount
+    external-account-details-apm:
+      type: object
+      properties:
+        identifier:
+          description: The identifier of the payment method account.
+          type: string
+      required:
+      - identifier
+    feedback:
+      description: A feedback message with a code and human-readable description.
+      type: object
+      properties:
+        code:
+          description: A short string with a brief explanation about the code reported.
+          type: string
+        message:
+          description: A human-readable message providing more details.
+          type: string
+        details:
+          description: Additional information about the feedback reported.
+          type: object
+          additionalProperties: true
+      required:
+      - code
+      - message
+    external-account-details-bank-ach:
+      type: object
+      properties:
+        address:
+          $ref: '#/components/schemas/address'
+        routingNumber:
+          description: The routing number of the bank account (ABA).
+          type: string
+        accountNumber:
+          description: The account number of the bank account.
+          type: string
+        accountType:
+          description: The type of the bank account.
+          type: string
+        secondaryNetworks:
+          description: The secondary networks that the external account can be used with, grouped by operation.
+          type: object
+          properties:
+            deposit:
+              type: array
+              items:
+                type: string
+            withdraw:
+              type: array
+              items:
+                type: string
+      required:
+      - address
+      - routingNumber
+      - accountNumber
+      - accountType
+    external-account-label-for-request:
+      allOf:
+      - $ref: '#/components/schemas/string-no-edge-spaces'
+      - type: string
+        description: The label of the external account.
+        maxLength: 140
+    external-account-details-bank-sepa:
+      type: object
+      properties:
+        bic:
+          description: The bank account's BIC.
+          type: string
+        iban:
+          description: The IBAN.
+          type: string
+      required:
+      - bic
+      - iban
+    address:
+      description: The address information.
+      type: object
+      properties:
+        country:
+          description: The country of the address.
+          type: string
+        subdivision:
+          description: The subdivision of the address.
+          type: string
+        city:
+          description: The city of the address.
+          type: string
+        line1:
+          description: The first line of the address.
+          type: string
+        line2:
+          description: The second line of the address.
+          type: string
+        postalCode:
+          description: The postal code of the address.
+          type: string
+    external-account-details-bank-fps:
+      type: object
+      properties:
+        accountNumber:
+          description: The account number of the bank account.
+          type: string
+        sortCode:
+          description: The sort code of the bank account.
+          type: string
+      required:
+      - accountNumber
+      - sortCode
+    create-external-account-card:
+      type: object
+      properties:
+        type:
+          type: string
+          description: The type of the external account.
+          enum:
+          - card
+        label:
+          $ref: '#/components/schemas/external-account-label-for-request'
+        number:
+          type: string
+          description: The number of the card.
+          pattern: ^[0-9]{12,19}$
+        securityCode:
+          type: string
+          description: The security code of the card.
+          pattern: ^[0-9]{3,3}$
+        expiryDate:
+          type: object
+          properties:
+            month:
+              type: integer
+              description: The expiry month of the card.
+              minimum: 1
+              maximum: 12
+            year:
+              type: integer
+              description: The expiry year of the card.
+              minimum: 2000
+          required:
+          - month
+          - year
+        metadata:
+          description: Additional data for the external account.
+          $ref: '#/components/schemas/metadata'
+      required:
+      - type
+      - label
+      - number
+      - securityCode
+      - expiryDate
+    string-no-edge-spaces:
+      type: string
+      pattern: ^\S.*\S$|^\S$
+    error:
+      description: The error information.
+      allOf:
+      - $ref: '#/components/schemas/feedback'
+    external-account-status-reason:
+      description: The reason why the external account is in its current status.
+      type: string
+      enum:
+      - card-data-invalid
+      - card-declined-by-bank
+      - card-expired
+      - card-permanently-declined-by-bank
+      - card-unauthorized
+      - card-unsupported
+      - bank-account-holder-name-mismatch
+      - velocity
+      - under-review
+      - unspecified-error
+    metadata:
+      type: object
+      additionalProperties: true
+      minProperties: 1
+    address-for-request:
+      description: The address information.
+      type: object
+      properties:
+        country:
+          allOf:
+          - $ref: '#/components/schemas/country-code-for-request'
+          - description: The country of the address.
+        subdivision:
+          allOf:
+          - $ref: '#/components/schemas/subdivision-code-for-request'
+          - description: The subdivision of the address.
+        city:
+          allOf:
+          - $ref: '#/components/schemas/string-no-edge-spaces'
+          - description: The city of the address.
+            type: string
+            maxLength: 100
+        line1:
+          allOf:
+          - $ref: '#/components/schemas/string-no-edge-spaces'
+          - description: The first line of the address.
+            type: string
+            maxLength: 150
+        line2:
+          allOf:
+          - $ref: '#/components/schemas/string-no-edge-spaces'
+          - description: The second line of the address.
+            type: string
+            maxLength: 100
+        postalCode:
+          allOf:
+          - $ref: '#/components/schemas/string-no-edge-spaces'
+          - description: The postal code of the address.
+            type: string
+            maxLength: 20
+    subdivision-code-for-request:
+      type: string
+      pattern: ^[A-Z]{2}-[A-Z0-9]{1,3}$
+    create-external-account-bank-ach:
+      type: object
+      properties:
+        type:
+          type: string
+          description: The type of the external account.
+          enum:
+          - bank
+        asset:
+          description: The asset in which the external account is denominated.
+          type: string
+          enum:
+          - USD
+        network:
+          type: string
+          description: The default network of the external account.
+          enum:
+          - ach
+        label:
+          $ref: '#/components/schemas/external-account-label-for-request'
+        address:
+          allOf:
+          - description: The beneficiary address.
+          - $ref: '#/components/schemas/address-for-request'
+          - type: object
+            required:
+            - country
+            - subdivision
+            - city
+            - line1
+            - postalCode
+        routingNumber:
+          description: The routing number of the bank account (ABA).
+          type: string
+          pattern: ^[0-9]{9}$
+        accountNumber:
+          description: The account number of the bank account.
+          type: string
+          pattern: ^(?!0+$)[0-9]{4,17}$
+        accountType:
+          description: The type of the bank account.
+          type: string
+          enum:
+          - checking
+          - savings
+        metadata:
+          description: Additional data for the external account.
+          $ref: '#/components/schemas/metadata'
+      required:
+      - type
+      - asset
+      - network
+      - label
+      - address
+      - routingNumber
+      - accountNumber
+      - accountType
+    country-code-for-request:
+      type: string
+      pattern: ^[A-Z]{2}$
+  parameters:
+    x-on-behalf-of:
+      name: X-On-Behalf-Of
+      description: The subject on whose behalf the operation is being performed.
+      in: header
+      schema:
+        type: string
+        pattern: ^(user|client)\s[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$
+      examples:
+        User Identifier:
+          value: user cd21b26d-35d2-408a-9201-b8fdbef7a604
+        Client Identifier:
+          value: client 3fa85f64-5717-4562-b3fc-2c963f66afa6
+    webhook-id:
+      name: webhook-id
+      description: The unique identifier of the webhook.
+      in: header
+      required: true
+      schema:
+        type: string
+      examples:
+        Webhook ID:
+          value: msg_p5jXN8AQM9LWM0D4loKWxJek
+    webhook-timestamp:
+      name: webhook-timestamp
+      description: The timestamp of the webhook, in seconds after the Unix epoch.
+      in: header
+      required: true
+      schema:
+        type: integer
+      examples:
+        Webhook Timestamp:
+          value: 1614265330
+    x-uphold-user-country:
+      name: X-Uphold-User-Country
+      description: Contains the code of the country of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/country-code-for-request'
+      examples:
+        User Country:
+          value: US
+    x-uphold-user-agent:
+      name: X-Uphold-User-Agent
+      description: Contains the user agent of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        User Agent:
+          value: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36
+    x-uphold-user-city:
+      name: X-Uphold-User-City
+      description: Contains the name of the city of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        User City:
+          value: San Francisco
+    x-uphold-user-ip:
+      name: X-Uphold-User-Ip
+      description: Contains the IP of the end user that is requesting the operation.
+      in: header
+      schema:
+        oneOf:
+        - title: IPv4
+          type: string
+          format: ipv4
+        - title: IPv6
+          type: string
+          format: ipv6
+      examples:
+        User Ip:
+          value: 47.174.97.164
+    webhook-signature:
+      name: webhook-signature
+      description: The signature of the webhook.
+      in: header
+      required: true
+      schema:
+        type: string
+      examples:
+        Webhook Signature:
+          value: v1,Hw8/adTzfYtjPGhuBahfmGhUROG3AvEKH3mvkeK791Q=
+    x-uphold-user-origin:
+      name: X-Uphold-User-Origin
+      description: Contains the origin of the request made by the end user.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        Origin:
+          value: https://uphold.com
+    external-account-id:
+      name: externalAccountId
+      description: The external account identifier.
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      examples:
+        External Account Identifier:
+          value: be37b37c-4c1f-4b87-b2eb-86a1ff469470
+    x-uphold-user-subdivision:
+      name: X-Uphold-User-Subdivision
+      description: Contains the code of the subdivision of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/subdivision-code-for-request'
+      examples:
+        User Subdivision:
+          value: US-CA
+  responses:
+    delete-external-account-not-found-response:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Account Not Found:
+              value:
+                code: entity_not_found
+                message: The external account cannot be found
+                details:
+                  entity: external-account
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    delete-external-account-response:
+      description: External account deleted.
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    forbidden:
+      description: Forbidden.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Token Insufficient Scopes:
+              value:
+                code: token_insufficient_scopes
+                message: Authorization failed due to insufficient scopes
+                details:
+                  security:
+                  - scheme: OAuth
+                    schemeScopes:
+                    - required:scope_1
+                    - required:scope_2
+                    tokenScopes:
+                    - token:scope
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    update-external-account-not-found-response:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            External Account Not Found:
+              value:
+                code: entity_not_found
+                message: The external account cannot be found
+                details:
+                  entity: external-account
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-external-account-not-found-response:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            External Account Not Found:
+              value:
+                code: entity_not_found
+                message: The external account cannot be found
+                details:
+                  entity: external-account
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    too-many-requests:
+      description: Too Many Requests.
+      headers:
+        Retry-After:
+          description: The number of seconds to wait before making a new request.
+          schema:
+            type: integer
+            format: int32
+          examples:
+            Retry After:
+              value: 60
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Too Many Requests:
+              value:
+                code: too_many_requests
+                message: Try again later
+    bad-request:
+      description: Bad Request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Invalid Request:
+              value:
+                code: request_invalid
+                message: The request has missing or invalid parameters
+                details:
+                  context: <context>
+                  violations:
+                  - property: <property>
+                    rule: required
+                  - property: <property>
+                    rule: type
+                    ruleParams:
+                      type: string
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    create-external-account-response:
+      description: External account created.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              externalAccount:
+                $ref: '#/components/schemas/external-account'
+              errors:
+                description: Additional contextual errors that occurred while processing the request.
+                type: object
+                properties:
+                  metadata:
+                    allOf:
+                    - $ref: '#/components/schemas/error'
+                    - description: Error related to metadata processing.
+            required:
+            - externalAccount
+          examples:
+            ACH Bank Account Created:
+              value:
+                externalAccount:
+                  id: 550e8400-e29b-41d4-a716-446655440000
+                  ownerId: 1e32fca3-23f7-40ed-bc1b-de10c790182d
+                  type: bank
+                  status: ok
+                  label: My ACH Bank Account
+                  asset: USD
+                  network: ach
+                  features:
+                  - withdraw
+                  details:
+                    address:
+                      country: US
+                      subdivision: US-CA
+                      city: San Francisco
+                      line1: 123 Main Street
+                      line2: Apt 4B
+                      postalCode: '94102'
+                    routingNumber: '121000248'
+                    accountNumber: '9876543210'
+                    accountType: checking
+                    secondaryNetworks:
+                      withdraw:
+                      - fednow
+                  createdAt: '2024-06-01T00:00:00.000Z'
+                  updatedAt: '2024-07-15T00:00:00.000Z'
+            Card Created:
+              value:
+                externalAccount:
+                  id: aa6e6efa-8d73-497c-8278-0347f459bd68
+                  ownerId: 1e32fca3-23f7-40ed-bc1b-de10c790182d
+                  type: card
+                  status: processing
+                  label: My Visa Card
+                  asset: GBP
+                  network: visa
+                  features: []
+                  details:
+                    last4Digits: '1519'
+                    expiryDate:
+                      month: 12
+                      year: 2030
+                    octSupport: unknown
+                  createdAt: '2024-06-01T00:00:00.000Z'
+                  updatedAt: '2024-07-15T00:00:00.000Z'
+            Card Created With Metadata Error:
+              value:
+                externalAccount:
+                  id: aa6e6efa-8d73-497c-8278-0347f459bd68
+                  ownerId: 1e32fca3-23f7-40ed-bc1b-de10c790182d
+                  type: card
+                  status: processing
+                  label: My Visa Card
+                  asset: GBP
+                  network: visa
+                  features: []
+                  details:
+                    last4Digits: '1519'
+                    expiryDate:
+                      month: 12
+                      year: 2030
+                    octSupport: unknown
+                  createdAt: '2024-06-01T00:00:00.000Z'
+                  updatedAt: '2024-07-15T00:00:00.000Z'
+                errors:
+                  metadata:
+                    code: content_too_large
+                    message: The entity metadata size is greater than maximum size limit
+                    details:
+                      threshold:
+                        unit: characters
+                        limit: 1024
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    update-external-account-response:
+      description: External account updated.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              externalAccount:
+                $ref: '#/components/schemas/external-account'
+            required:
+            - externalAccount
+          examples:
+            External Account Updated:
+              value:
+                externalAccount:
+                  id: aa6e6efa-8d73-497c-8278-0347f459bd68
+                  ownerId: 1e32fca3-23f7-40ed-bc1b-de10c790182d
+                  type: card
+                  status: ok
+                  label: My new VISA card
+                  asset: GBP
+                  network: visa
+                  features:
+                  - deposit
+                  - withdraw
+                  details:
+                    type: debit
+                    last4Digits: '1519'
+                    expiryDate:
+                      month: 12
+                      year: 2030
+                    octSupport: supported
+                  createdAt: '2024-06-01T00:00:00.000Z'
+                  updatedAt: '2024-07-15T00:00:00.000Z'
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    list-external-accounts-response:
+      description: External accounts retrieved.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              externalAccounts:
+                type: array
+                items:
+                  $ref: '#/components/schemas/external-account'
+            required:
+            - externalAccounts
+          examples:
+            External Accounts Retrieved:
+              value:
+                externalAccounts:
+                - id: 550e8400-e29b-41d4-a716-446655440000
+                  ownerId: 1e32fca3-23f7-40ed-bc1b-de10c790182d
+                  type: bank
+                  status: ok
+                  label: My ACH Bank Account
+                  asset: USD
+                  network: ach
+                  features:
+                  - withdraw
+                  details:
+                    address:
+                      country: US
+                      subdivision: US-CA
+                      city: Los Angeles
+                      line1: 456 Oak Avenue
+                      postalCode: '90001'
+                    routingNumber: '021000021'
+                    accountNumber: '987654321'
+                    accountType: checking
+                    secondaryNetworks:
+                      withdraw:
+                      - fednow
+                  createdAt: '2024-06-01T00:00:00.000Z'
+                  updatedAt: '2024-07-15T00:00:00.000Z'
+                - id: 8357a0d4-f3c4-43d9-aecc-bcfd32ca9333
+                  ownerId: 1e32fca3-23f7-40ed-bc1b-de10c790182d
+                  type: bank
+                  status: ok
+                  label: My FPS Bank Account
+                  asset: GBP
+                  network: fps
+                  features:
+                  - withdraw
+                  details:
+                    accountNumber: '12345678'
+                    sortCode: '123456'
+                  createdAt: '2024-06-01T00:00:00.000Z'
+                  updatedAt: '2024-07-15T00:00:00.000Z'
+                - id: c4a2e8b1-5d6f-4a3b-9e7c-8f1d2a3b4c5d
+                  ownerId: 1e32fca3-23f7-40ed-bc1b-de10c790182d
+                  type: bank
+                  status: ok
+                  label: My SEPA Bank Account
+                  asset: EUR
+                  network: sepa
+                  features:
+                  - withdraw
+                  details:
+                    bic: EXAAAT2K
+                    iban: AT487954841229809844
+                  createdAt: '2024-06-01T00:00:00.000Z'
+                  updatedAt: '2024-07-15T00:00:00.000Z'
+                - id: aa6e6efa-8d73-497c-8278-0347f459bd68
+                  ownerId: 1e32fca3-23f7-40ed-bc1b-de10c790182d
+                  type: card
+                  status: ok
+                  label: My Visa Card
+                  asset: GBP
+                  network: visa
+                  features:
+                  - deposit
+                  - withdraw
+                  details:
+                    type: debit
+                    last4Digits: '1519'
+                    expiryDate:
+                      month: 12
+                      year: 2030
+                    octSupport: supported
+                  createdAt: '2024-06-02T00:00:00.000Z'
+                  updatedAt: '2024-07-15T00:00:00.000Z'
+                - id: 1e32fca3-23f7-40ed-bc1b-de10c790182d
+                  ownerId: 1e32fca3-23f7-40ed-bc1b-de10c790182d
+                  type: card
+                  status: ok
+                  label: My Mastercard Card
+                  asset: GBP
+                  network: mastercard
+                  features:
+                  - deposit
+                  details:
+                    type: credit
+                    last4Digits: '2311'
+                    expiryDate:
+                      month: 3
+                      year: 2035
+                    octSupport: unsupported
+                  createdAt: '2024-06-01T00:00:00.000Z'
+                  updatedAt: '2024-07-15T00:00:00.000Z'
+                - id: 0c32bd02-32f5-fdfa-a5d1-24fe5ba83728
+                  ownerId: 1e32fca3-23f7-40ed-bc1b-de10c790182d
+                  type: apm
+                  status: ok
+                  label: PayPal
+                  asset: USD
+                  network: paypal
+                  features:
+                  - deposit
+                  - withdraw
+                  details:
+                    identifier: john.doe@example.com
+                  createdAt: '2024-06-03T00:00:00.000Z'
+                  updatedAt: '2024-07-15T00:00:00.000Z'
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-external-account-response:
+      description: External account retrieved.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              externalAccount:
+                $ref: '#/components/schemas/external-account'
+            required:
+            - externalAccount
+          examples:
+            External Account Retrieved:
+              value:
+                externalAccount:
+                  id: aa6e6efa-8d73-497c-8278-0347f459bd68
+                  ownerId: 1e32fca3-23f7-40ed-bc1b-de10c790182d
+                  type: card
+                  status: ok
+                  label: My Visa Card
+                  asset: GBP
+                  network: visa
+                  features:
+                  - deposit
+                  - withdraw
+                  details:
+                    type: debit
+                    last4Digits: '1519'
+                    expiryDate:
+                      month: 12
+                      year: 2030
+                    octSupport: supported
+                  createdAt: '2024-06-01T00:00:00.000Z'
+                  updatedAt: '2024-07-15T00:00:00.000Z'
+            Failed External Account Retrieved:
+              value:
+                externalAccount:
+                  id: aa6e6efa-8d73-497c-8278-0347f459bd68
+                  ownerId: 1e32fca3-23f7-40ed-bc1b-de10c790182d
+                  type: card
+                  status: failed
+                  statusDetails:
+                    reason: card-expired
+                  label: My Visa Card
+                  asset: GBP
+                  features: []
+                  network: visa
+                  details:
+                    type: credit
+                    last4Digits: '1519'
+                    expiryDate:
+                      month: 12
+                      year: 2030
+                    octSupport: supported
+                  createdAt: '2024-06-01T00:00:00.000Z'
+                  updatedAt: '2024-07-15T00:00:00.000Z'
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    create-external-account-conflict-response:
+      description: Business logic error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Bank Account Already Registered:
+              value:
+                code: duplicate
+                message: The bank account is already registered
+                details:
+                  context: body
+                  property: accountNumber
+            Bank Routing Number Invalid:
+              value:
+                code: number_invalid
+                message: The routing number is invalid
+                details:
+                  context: body
+                  property: routingNumber
+            Bank Address Country Not Supported:
+              value:
+                code: country_not_supported
+                message: The country is not supported
+                details:
+                  context: body
+                  property: address.country
+            Bank Address Subdivision Not Supported:
+              value:
+                code: subdivision_not_supported
+                message: The subdivision is not supported
+                details:
+                  context: body
+                  property: address.subdivision
+            Bank Address Postal Code Invalid:
+              value:
+                code: postal_code_invalid
+                message: The postal code is invalid
+                details:
+                  context: body
+                  property: address.postalCode
+            Card Already Registered:
+              value:
+                code: duplicate
+                message: The card is already registered
+                details:
+                  context: body
+                  property: number
+            Card Number Invalid:
+              value:
+                code: number_invalid
+                message: The card number is invalid
+                details:
+                  context: body
+                  property: number
+            Card Expiry Date Invalid:
+              value:
+                code: date_invalid
+                message: The date must be at least now
+                details:
+                  context: body
+                  property: expiryDate
+                  rule: difference-less-than-or-equal-to-threshold
+                  threshold:
+                    limit: 0
+                    unit: milliseconds
+            Card Type Not Allowed:
+              value:
+                code: card_type_not_allowed
+                message: The card type is not allowed
+                details:
+                  type: credit
+            Card Issuer Country Mismatch:
+              value:
+                code: operation_not_allowed
+                message: The card issuer country does not match the user country of residence
+                details:
+                  reasons:
+                  - card-issuer-country-mismatch
+            Card Max Active Limit Exceeded:
+              value:
+                code: user_capability_failure
+                message: The user has capability constraints
+                details:
+                  capability:
+                    code: cards
+                    requirements:
+                    - user-must-delete-card
+                    restrictions: []
+            Card Max Limit Exceeded:
+              value:
+                code: user_capability_failure
+                message: The user has capability constraints
+                details:
+                  capability:
+                    code: cards
+                    requirements: []
+                    restrictions:
+                    - user-unique-card-limit-reached
+            Card Declined:
+              value:
+                code: operation_not_allowed
+                message: The card was declined
+                details:
+                  reasons:
+                  - card-declined
+            Card Permanently Declined:
+              value:
+                code: operation_not_allowed
+                message: The card was permanently declined
+                details:
+                  reasons:
+                  - card-permanently-declined
+            User Capability Failure:
+              value:
+                code: user_capability_failure
+                message: The user has capability constraints
+                details:
+                  capability:
+                    code: cards
+                    requirements:
+                    - user-must-submit-identity
+                    restrictions: []
+            Organization Not Configured:
+              value:
+                code: operation_not_allowed
+                message: External account type 'card' is not configured for your organization
+                details:
+                  reasons:
+                  - permission-denied
+            Rail Does Not Have Features:
+              value:
+                code: rail_feature_not_available
+                message: The rail for the specified type, asset and network does not have any available features
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    update-external-account-conflict-response:
+      description: Business logic error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            External Account Cannot Be Updated:
+              value:
+                code: operation_not_allowed
+                message: The external account cannot be updated
+                details:
+                  reasons:
+                  - permission-denied
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    create-external-account-not-found-response:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Rail Not Found:
+              value:
+                code: entity_not_found
+                message: A rail for the specified type, asset and network cannot be found
+                details:
+                  entity: rail
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    unauthorized:
+      description: Unauthorized.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Token Expired:
+              value:
+                code: token_expired
+                message: The access token has expired
+            Token Invalid:
+              value:
+                code: token_invalid
+                message: The access token is invalid
+            Token Revoked:
+              value:
+                code: token_revoked
+                message: The access token has been revoked
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+  requestBodies:
+    create-external-account-request-body:
+      content:
+        application/json:
+          schema:
+            type: object
+            discriminator:
+              propertyName: type
+              mapping:
+                card: '#/components/schemas/create-external-account-card'
+                bank: '#/components/schemas/create-external-account-bank-ach'
+            oneOf:
+            - title: Card
+              $ref: '#/components/schemas/create-external-account-card'
+            - title: Bank (ACH)
+              $ref: '#/components/schemas/create-external-account-bank-ach'
+            required:
+            - type
+          examples:
+            Create ACH Bank Account:
+              value:
+                type: bank
+                asset: USD
+                network: ach
+                label: My ACH Bank Account
+                address:
+                  country: US
+                  subdivision: US-CA
+                  city: San Francisco
+                  line1: 123 Main Street
+                  line2: Apt 4B
+                  postalCode: '94102'
+                routingNumber: '121000248'
+                accountNumber: '9876543210'
+                accountType: checking
+            Create Card:
+              value:
+                type: card
+                label: My Visa Card
+                number: '4111111111111111'
+                securityCode: '123'
+                expiryDate:
+                  month: 12
+                  year: 2030
+                metadata:
+                  externalId: 123
+    update-external-account-request-body:
+      content:
+        application/json:
+          schema:
+            type: object
+            additionalProperties: false
+            minProperties: 1
+            properties:
+              label:
+                $ref: '#/components/schemas/external-account-label-for-request'
+          examples:
+            Update Account:
+              value:
+                label: My new VISA card
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: OAuth 2.0 authentication.
+      flows:
+        clientCredentials:
+          tokenUrl: /core/oauth2/token
+          scopes:
+            core.users:act-on-behalf-of: Grants access to act on behalf of a user
+            core.users:create: Grants access to create users
+            core.users:read: Grants access to view users
+            core.users:delete: Grants access to delete users
+            core.users.metadata:read: Grants access to view user metadata
+            core.users.metadata:write: Grants access to modify user metadata
+            core.kyc:read: Grants access to view KYC processes
+            core.kyc.profile:update: Grants access to update profile KYC process
+            core.kyc.address:update: Grants access to update address KYC process
+            core.kyc.email:update: Grants access to update email KYC process
+            core.kyc.phone:update: Grants access to update phone KYC process
+            core.kyc.identity:update: Grants access to update identity KYC process
+            core.kyc.proof-of-address:update: Grants access to update proof-of-address KYC process
+            core.kyc.customer-due-diligence:update: Grants access to update customer due diligence KYC process
+            core.kyc.enhanced-due-diligence:update: Grants access to update enhanced due diligence KYC process
+            core.kyc.crypto-risk-assessment:update: Grants access to update crypto risk assessment KYC process
+            core.kyc.self-categorization-statement:update: Grants access to update self-categorization statement KYC process
+            core.kyc.tax-details:update: Grants access to update tax details KYC process
+            core.capabilities:read: Grants access to view user capabilities
+            core.terms-of-service:read: Grants access to view terms of service
+            core.terms-of-service:accept: Grants access to accept terms of service
+            core.files:create: Grants access to create files
+            core.files:read: Grants access to view files
+            core.files.metadata:read: Grants access to view files metadata
+            core.files.metadata:write: Grants access to modify files metadata
+            core.accounts:create: Grants access to create accounts
+            core.accounts:read: Grants access to view accounts
+            core.accounts:update: Grants access to update accounts
+            core.accounts:archive: Grants access to archive accounts
+            core.accounts:deposit-method: Grants access to deposit method needed for depositing into accounts
+            core.accounts:use-test-helpers: Grants access to test helpers of accounts
+            core.accounts.metadata:read: Grants access to view accounts metadata
+            core.accounts.metadata:write: Grants access to modify accounts metadata
+            core.assets:use-test-helpers: Grants access to test helpers of assets
+            core.external-accounts:create: Grants access to create external accounts
+            core.external-accounts:read: Grants access to view external accounts
+            core.external-accounts:update: Grants access to update external accounts
+            core.external-accounts:delete: Grants access to delete external accounts
+            core.external-accounts.metadata:read: Grants access to view external accounts metadata
+            core.external-accounts.metadata:write: Grants access to modify external accounts metadata
+            core.transactions:create: Grants access to commit quotes
+            core.transactions:read: Grants access to view transactions
+            core.transactions.metadata:read: Grants access to view transactions metadata
+            core.transactions.metadata:write: Grants access to modify transactions metadata
+            core.transactions.requests-for-information:read: Grants access to view transactions requests for information
+            core.transactions.requests-for-information:update: Grants access to update transactions requests for information
+            core.portfolio:read: Grants access to view portfolio overview, performance, and historical balance
+            core.statements:read: Grants access to read statements
+            core.webhooks:management-link: Grants access to create webhook management links

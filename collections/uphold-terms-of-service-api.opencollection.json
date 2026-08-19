@@ -1,0 +1,215 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Core Terms of service API",
+    "version": "0.1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "client_credentials",
+      "accessTokenUrl": "/core/oauth2/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Terms of service",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List terms of service",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.enterprise.sandbox.uphold.com/core/terms-of-service",
+            "headers": [
+              {
+                "name": "X-On-Behalf-Of",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Ip",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Agent",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Origin",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Country",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Subdivision",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-City",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Filter terms of service by type."
+              },
+              {
+                "name": "country",
+                "value": "",
+                "type": "query",
+                "description": "Filter terms of service by unique code of the country."
+              },
+              {
+                "name": "userType",
+                "value": "",
+                "type": "query",
+                "description": "Filter terms of service by user type."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/core/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "List terms of service of the platform."
+        },
+        {
+          "info": {
+            "name": "Get terms of service",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.enterprise.sandbox.uphold.com/core/terms-of-service/:termsOfService",
+            "headers": [
+              {
+                "name": "X-On-Behalf-Of",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Ip",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Agent",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Origin",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Country",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Subdivision",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-City",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "termsOfService",
+                "value": "",
+                "type": "path",
+                "description": "The terms of service code."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/core/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieve terms of service by code."
+        },
+        {
+          "info": {
+            "name": "Accept terms of service",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.enterprise.sandbox.uphold.com/core/terms-of-service/:termsOfService/accept",
+            "headers": [
+              {
+                "name": "X-On-Behalf-Of",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Ip",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Agent",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Origin",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Country",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Subdivision",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-City",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "termsOfService",
+                "value": "",
+                "type": "path",
+                "description": "The terms of service code."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/core/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Accept terms of service by code."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

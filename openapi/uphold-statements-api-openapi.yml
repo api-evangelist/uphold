@@ -1,0 +1,1084 @@
+openapi: 3.2.0
+info:
+  version: 0.1.0
+  title: Core Statements API
+  description: The Core API provides essential building blocks that empower businesses to embed financial services into their applications.
+  contact:
+    name: Uphold API Team
+    email: developers@uphold.com
+    url: https://developer.uphold.com
+servers:
+- url: https://api.enterprise.sandbox.uphold.com
+  description: Sandbox
+- url: https://api.enterprise.uphold.com
+  description: Production
+security:
+- OAuth2: []
+tags:
+- name: Statements
+  description: Statements.
+paths:
+  /core/statements/portfolio:
+    get:
+      operationId: core.get-portfolio-statement
+      summary: Get portfolio statement
+      description: Retrieves the portfolio statement for a given period.
+      tags:
+      - Statements
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - user:business
+            - user:individual
+      security:
+      - OAuth2:
+        - core.statements:read
+      parameters:
+      - $ref: '#/components/parameters/period'
+      - $ref: '#/components/parameters/year'
+      - $ref: '#/components/parameters/month'
+      - $ref: '#/components/parameters/denomination'
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      responses:
+        '200':
+          $ref: '#/components/responses/get-portfolio-statement-response'
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '409':
+          $ref: '#/components/responses/get-portfolio-statement-conflict-response'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+  /core/statements/transactions:
+    get:
+      operationId: core.get-transactions-statement
+      summary: Get transactions statement
+      description: Retrieves the transactions statement for a given period.
+      tags:
+      - Statements
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - user:business
+            - user:individual
+      security:
+      - OAuth2:
+        - core.statements:read
+      parameters:
+      - $ref: '#/components/parameters/period'
+      - $ref: '#/components/parameters/year'
+      - $ref: '#/components/parameters/month'
+      - $ref: '#/components/parameters/denomination'
+      - $ref: '#/components/parameters/pagination-per-page'
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      responses:
+        '200':
+          $ref: '#/components/responses/get-transactions-statement-response'
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '409':
+          $ref: '#/components/responses/get-transactions-statement-conflict-response'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+components:
+  parameters:
+    x-on-behalf-of:
+      name: X-On-Behalf-Of
+      description: The subject on whose behalf the operation is being performed.
+      in: header
+      schema:
+        type: string
+        pattern: ^(user|client)\s[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$
+      examples:
+        User Identifier:
+          value: user cd21b26d-35d2-408a-9201-b8fdbef7a604
+        Client Identifier:
+          value: client 3fa85f64-5717-4562-b3fc-2c963f66afa6
+    month:
+      name: month
+      description: The statement month.
+      in: query
+      required: true
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 12
+      examples:
+        Month:
+          value: 3
+    x-uphold-user-country:
+      name: X-Uphold-User-Country
+      description: Contains the code of the country of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/country-code-for-request'
+      examples:
+        User Country:
+          value: US
+    x-uphold-user-agent:
+      name: X-Uphold-User-Agent
+      description: Contains the user agent of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        User Agent:
+          value: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36
+    year:
+      name: year
+      description: The statement year.
+      in: query
+      required: true
+      schema:
+        type: integer
+        format: int32
+        minimum: 2010
+        maximum: 2100
+      examples:
+        Year:
+          value: 2026
+    x-uphold-user-city:
+      name: X-Uphold-User-City
+      description: Contains the name of the city of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        User City:
+          value: San Francisco
+    x-uphold-user-ip:
+      name: X-Uphold-User-Ip
+      description: Contains the IP of the end user that is requesting the operation.
+      in: header
+      schema:
+        oneOf:
+        - title: IPv4
+          type: string
+          format: ipv4
+        - title: IPv6
+          type: string
+          format: ipv6
+      examples:
+        User Ip:
+          value: 47.174.97.164
+    pagination-per-page:
+      name: perPage
+      description: The number of items per page.
+      in: query
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 100
+        default: 10
+      examples:
+        10 Items Per Page:
+          value: 10
+    x-uphold-user-origin:
+      name: X-Uphold-User-Origin
+      description: Contains the origin of the request made by the end user.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        Origin:
+          value: https://uphold.com
+    denomination:
+      name: denomination
+      description: Specifies the asset code to use as the denomination for value conversion. If not provided, USD is used by default.
+      in: query
+      required: false
+      schema:
+        type: string
+        minLength: 1
+        default: USD
+      examples:
+        BTC Asset:
+          value: BTC
+    period:
+      name: period
+      description: The statement period type.
+      in: query
+      required: true
+      schema:
+        type: string
+        enum:
+        - one-month
+      examples:
+        Period:
+          value: one-month
+    x-uphold-user-subdivision:
+      name: X-Uphold-User-Subdivision
+      description: Contains the code of the subdivision of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/subdivision-code-for-request'
+      examples:
+        User Subdivision:
+          value: US-CA
+  schemas:
+    portfolio-statement:
+      type: object
+      properties:
+        period:
+          $ref: '#/components/schemas/statement-period'
+        rates:
+          type: object
+          description: Exchange rates keyed by asset-denomination pair (e.g. BTC-USD, USD-EUR).
+          additionalProperties:
+            type: string
+        holdings:
+          type: array
+          items:
+            $ref: '#/components/schemas/portfolio-statement-holding'
+      required:
+      - period
+      - rates
+      - holdings
+    transaction-origin-node:
+      type: object
+      discriminator:
+        propertyName: type
+        mapping:
+          account: '#/components/schemas/transaction-node-account'
+          external-account: '#/components/schemas/transaction-node-external-account'
+          bank-address: '#/components/schemas/transaction-node-bank-address'
+          apm: '#/components/schemas/transaction-node-apm'
+          crypto-address: '#/components/schemas/transaction-node-crypto-address'
+      oneOf:
+      - title: Account
+        $ref: '#/components/schemas/transaction-node-account'
+      - title: External account
+        $ref: '#/components/schemas/transaction-node-external-account'
+      - title: Bank address
+        $ref: '#/components/schemas/transaction-node-bank-address'
+      - title: Alternative payment method
+        $ref: '#/components/schemas/transaction-node-apm'
+      - title: Crypto address
+        $ref: '#/components/schemas/transaction-node-crypto-address'
+    transaction-node-crypto-address-execution-simulated:
+      type: object
+      properties:
+        mode:
+          description: The mode of execution.
+          type: string
+          enum:
+          - simulated
+        transactionHash:
+          description: The simulated transaction hash.
+          $ref: '#/components/schemas/string-no-edge-spaces'
+      required:
+      - mode
+    transaction-node-crypto-address-execution-onchain:
+      type: object
+      properties:
+        mode:
+          description: The mode of execution.
+          type: string
+          enum:
+          - onchain
+        transactionHash:
+          description: The hash of the transaction in the blockchain.
+          $ref: '#/components/schemas/string-no-edge-spaces'
+      required:
+      - mode
+    transaction-origin-endpoint:
+      type: object
+      properties:
+        asset:
+          description: The asset of the endpoint.
+          type: string
+        amount:
+          description: The amount of the endpoint.
+          type: string
+        rate:
+          description: The rate of the endpoint against its counter-part (origin to destination and vice-versa).
+          type: string
+        node:
+          description: The node of the endpoint.
+          $ref: '#/components/schemas/transaction-origin-node'
+      required:
+      - asset
+      - amount
+      - rate
+      - node
+    transaction-destination-node:
+      type: object
+      discriminator:
+        propertyName: type
+        mapping:
+          account: '#/components/schemas/transaction-node-account'
+          external-account: '#/components/schemas/transaction-node-external-account'
+          bank-address: '#/components/schemas/transaction-node-bank-address'
+          apm: '#/components/schemas/transaction-node-apm'
+          crypto-address: '#/components/schemas/transaction-node-crypto-address'
+      oneOf:
+      - title: Account
+        $ref: '#/components/schemas/transaction-node-account'
+      - title: External account
+        $ref: '#/components/schemas/transaction-node-external-account'
+      - title: Bank address
+        $ref: '#/components/schemas/transaction-node-bank-address'
+      - title: Alternative payment method
+        $ref: '#/components/schemas/transaction-node-apm'
+      - title: Crypto address
+        $ref: '#/components/schemas/transaction-node-crypto-address'
+    transaction-destination-endpoint:
+      type: object
+      properties:
+        asset:
+          description: The asset of the endpoint.
+          type: string
+        amount:
+          description: The amount of the endpoint.
+          type: string
+        rate:
+          description: The rate of the endpoint against its counter-part (origin to destination and vice-versa).
+          type: string
+        node:
+          description: The node of the endpoint.
+          $ref: '#/components/schemas/transaction-destination-node'
+      required:
+      - asset
+      - amount
+      - rate
+      - node
+    transactions-statement-entry:
+      type: object
+      properties:
+        rates:
+          type: object
+          description: Exchange rates keyed by asset-denomination pair (e.g. GBP-EUR, BTC-EUR).
+          additionalProperties:
+            type: string
+        transaction:
+          $ref: '#/components/schemas/transaction'
+      required:
+      - rates
+      - transaction
+    transaction-node-crypto-address-execution:
+      type: object
+      discriminator:
+        propertyName: mode
+        mapping:
+          onchain: '#/components/schemas/transaction-node-crypto-address-execution-onchain'
+          offchain: '#/components/schemas/transaction-node-crypto-address-execution-offchain'
+          simulated: '#/components/schemas/transaction-node-crypto-address-execution-simulated'
+      oneOf:
+      - title: On-chain
+        $ref: '#/components/schemas/transaction-node-crypto-address-execution-onchain'
+      - title: Off-chain
+        $ref: '#/components/schemas/transaction-node-crypto-address-execution-offchain'
+      - title: Simulated
+        $ref: '#/components/schemas/transaction-node-crypto-address-execution-simulated'
+    feedback:
+      description: A feedback message with a code and human-readable description.
+      type: object
+      properties:
+        code:
+          description: A short string with a brief explanation about the code reported.
+          type: string
+        message:
+          description: A human-readable message providing more details.
+          type: string
+        details:
+          description: Additional information about the feedback reported.
+          type: object
+          additionalProperties: true
+      required:
+      - code
+      - message
+    pagination:
+      description: The pagination information.
+      type: object
+      properties:
+        first:
+          description: The URL to the first set of results.
+          type: string
+          format: uri
+        prev:
+          description: The URL to the previous set of results.
+          type: string
+          format: uri
+        next:
+          description: The URL to the next set of results.
+          type: string
+          format: uri
+    transaction:
+      type: object
+      properties:
+        id:
+          description: The id of the transaction.
+          type: string
+          format: uuid
+        origin:
+          description: The origin of the transaction.
+          $ref: '#/components/schemas/transaction-origin-endpoint'
+        destination:
+          description: The destination of the transaction.
+          $ref: '#/components/schemas/transaction-destination-endpoint'
+        denomination:
+          description: The denomination of the transaction.
+          $ref: '#/components/schemas/transaction-denomination'
+        fees:
+          description: The fees of the transaction.
+          $ref: '#/components/schemas/transaction-fees'
+        status:
+          description: Status of the transaction.
+          type: string
+          enum:
+          - processing
+          - on-hold
+          - completed
+          - failed
+        statusDetails:
+          description: The details of the status of the transaction.
+          type: object
+          properties:
+            reason:
+              $ref: '#/components/schemas/transaction-status-reason'
+        quotedAt:
+          description: The time at which the quote was created.
+          type: string
+          format: date-time
+        createdAt:
+          description: The time at which the transaction was created.
+          type: string
+          format: date-time
+        updatedAt:
+          description: The last time at which the transaction was updated.
+          type: string
+          format: date-time
+        completedAt:
+          description: The date and time the transaction was completed.
+          type: string
+          format: date-time
+      required:
+      - id
+      - origin
+      - destination
+      - fees
+      - status
+      - createdAt
+      - updatedAt
+      - quotedAt
+    transaction-node-apm:
+      type: object
+      properties:
+        type:
+          description: The type of the node.
+          type: string
+          enum:
+          - apm
+        method:
+          description: The alternative payment method to be used in the operation.
+          enum:
+          - apple-pay
+          - paypal
+          - venmo
+      required:
+      - type
+      - method
+    transactions-statement:
+      type: object
+      properties:
+        period:
+          $ref: '#/components/schemas/statement-period'
+        transactions:
+          type: array
+          items:
+            $ref: '#/components/schemas/transactions-statement-entry'
+      required:
+      - period
+      - transactions
+    transaction-node-bank-address:
+      type: object
+      properties:
+        type:
+          description: The type of the node.
+          type: string
+          enum:
+          - bank-address
+        network:
+          description: The network of the bank transfer.
+          type: string
+      required:
+      - type
+      - network
+    statement-period:
+      type: object
+      properties:
+        from:
+          type: string
+          format: date-time
+          description: The start of the statement period.
+        to:
+          type: string
+          format: date-time
+          description: The end of the statement period.
+      required:
+      - from
+      - to
+    string-no-edge-spaces:
+      type: string
+      pattern: ^\S.*\S$|^\S$
+    portfolio-statement-holding:
+      type: object
+      properties:
+        asset:
+          type: string
+          description: The asset code.
+        total:
+          type: string
+          description: The total amount held at the end of the period.
+      required:
+      - asset
+      - total
+    error:
+      description: The error information.
+      allOf:
+      - $ref: '#/components/schemas/feedback'
+    transaction-fees:
+      type: array
+      items:
+        type: object
+        properties:
+          type:
+            description: The type of the fee.
+            type: string
+            enum:
+            - deposit
+            - exchange
+            - network
+            - withdrawal
+          code:
+            description: The code of the fee.
+            type: string
+          asset:
+            description: The asset in which the fee is denominated.
+            type: string
+          amount:
+            description: The amount of the fee.
+            type: string
+          percentage:
+            description: The percentage of the fee, if the amount was calculated from a percentage.
+            type: string
+        required:
+        - type
+        - code
+        - asset
+        - amount
+    transaction-node-account:
+      type: object
+      properties:
+        type:
+          description: The type of the node.
+          type: string
+          enum:
+          - account
+        id:
+          description: The account id.
+          type: string
+          format: uuid
+        ownerId:
+          description: The id of the user that owns the account.
+          type: string
+          format: uuid
+      required:
+      - type
+      - id
+      - ownerId
+    transaction-node-crypto-address-execution-offchain:
+      type: object
+      properties:
+        mode:
+          description: The mode of execution.
+          type: string
+          enum:
+          - offchain
+        accountId:
+          description: The account id to which the off-chain transaction was made.
+          type: string
+          format: uuid
+        accountOwnerId:
+          description: The id of the user that owns the account to which the off-chain transaction was made.
+          type: string
+          format: uuid
+      required:
+      - mode
+    transaction-status-reason:
+      description: The reason why the transaction failed.
+      type: string
+      enum:
+      - apm-account-holder-data-mismatch
+      - apm-authorization-failed
+      - apm-missing-account-holder-data
+      - apm-payment-method-declined
+      - bank-account-holder-name-mismatch
+      - beneficiary-country-restricted
+      - card-declined-by-bank
+      - card-expired
+      - card-permanently-declined-by-bank
+      - card-unauthorized
+      - card-unsupported
+      - card-withdrawals-unsupported
+      - insufficient-funds
+      - pending-requests-for-information
+      - provider-maximum-limit-exceeded
+      - screening-verification-failed
+      - travel-rule-verification-failed
+      - unspecified-error
+      - velocity
+    transaction-node-external-account:
+      type: object
+      properties:
+        type:
+          description: The type of the node.
+          type: string
+          enum:
+          - external-account
+        id:
+          description: The external account id.
+          type: string
+          format: uuid
+        confirmationUrl:
+          description: The URL to confirm the authorization using the external account (e.g., 3DS).
+          type: string
+          format: uri
+        ownerId:
+          description: The id of the user that owns the external account.
+          type: string
+          format: uuid
+        network:
+          description: The network used for the transaction with the external account.
+          type: string
+      required:
+      - type
+      - id
+      - ownerId
+    transaction-node-crypto-address:
+      type: object
+      properties:
+        type:
+          description: The type of the node.
+          type: string
+          enum:
+          - crypto-address
+        network:
+          description: The network that the crypto address is on.
+          $ref: '#/components/schemas/string-no-edge-spaces'
+        address:
+          description: The crypto address (may not be available for deposits).
+          $ref: '#/components/schemas/string-no-edge-spaces'
+        reference:
+          description: The additional identifier (e.g., destination tag, memo, or message) for the crypto address.
+          type: string
+        execution:
+          description: The execution details for the transaction.
+          $ref: '#/components/schemas/transaction-node-crypto-address-execution'
+      required:
+      - type
+      - network
+    subdivision-code-for-request:
+      type: string
+      pattern: ^[A-Z]{2}-[A-Z0-9]{1,3}$
+    transaction-denomination:
+      type: object
+      properties:
+        asset:
+          description: The asset in which the transaction is denominated.
+          type: string
+        amount:
+          description: The amount of the transaction.
+          type: string
+        rate:
+          description: The rate against the specified target (origin or destination).
+          type: string
+        target:
+          description: Whether this exact amount should be paid by the origin or received by the destination.
+          type: string
+          enum:
+          - origin
+          - destination
+      required:
+      - asset
+      - amount
+      - rate
+      - target
+    country-code-for-request:
+      type: string
+      pattern: ^[A-Z]{2}$
+  responses:
+    forbidden:
+      description: Forbidden.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Token Insufficient Scopes:
+              value:
+                code: token_insufficient_scopes
+                message: Authorization failed due to insufficient scopes
+                details:
+                  security:
+                  - scheme: OAuth
+                    schemeScopes:
+                    - required:scope_1
+                    - required:scope_2
+                    tokenScopes:
+                    - token:scope
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    too-many-requests:
+      description: Too Many Requests.
+      headers:
+        Retry-After:
+          description: The number of seconds to wait before making a new request.
+          schema:
+            type: integer
+            format: int32
+          examples:
+            Retry After:
+              value: 60
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Too Many Requests:
+              value:
+                code: too_many_requests
+                message: Try again later
+    get-portfolio-statement-conflict-response:
+      description: Business logic error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Denomination Asset Not Supported:
+              value:
+                code: asset_not_supported
+                message: The denomination asset is not supported
+                details:
+                  context: query
+                  property: denomination
+            Statement Period Not Complete:
+              value:
+                code: date_invalid
+                message: The statement period is not yet complete
+                details:
+                  context: query
+            Statement Period Before User Creation:
+              value:
+                code: date_invalid
+                message: The statement period predates the user creation date
+                details:
+                  context: query
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    bad-request:
+      description: Bad Request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Invalid Request:
+              value:
+                code: request_invalid
+                message: The request has missing or invalid parameters
+                details:
+                  context: <context>
+                  violations:
+                  - property: <property>
+                    rule: required
+                  - property: <property>
+                    rule: type
+                    ruleParams:
+                      type: string
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-transactions-statement-response:
+      description: Transactions statement retrieved.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              statement:
+                $ref: '#/components/schemas/transactions-statement'
+              pagination:
+                $ref: '#/components/schemas/pagination'
+            required:
+            - statement
+            - pagination
+          examples:
+            Transactions Statement Retrieved:
+              value:
+                statement:
+                  period:
+                    from: '2026-03-01T00:00:00.000Z'
+                    to: '2026-03-31T23:59:59.999Z'
+                  transactions:
+                  - rates:
+                      GBP-EUR: '1.15'
+                      BTC-EUR: '60460.77'
+                    transaction:
+                      id: 8daa6dbd-21a0-4305-93c3-bd1d04bc575c
+                      origin:
+                        amount: '100'
+                        asset: GBP
+                        rate: '53484.17885426114102547488'
+                        node:
+                          id: d3401ecb-60dd-4d35-975b-1dfb58c0ba1a
+                          network: sepa
+                          ownerId: 5d894b41-270e-4162-a4f9-dae31bc53b1c
+                          type: external-account
+                      destination:
+                        amount: '0.00186036'
+                        asset: BTC
+                        rate: '0.00001869711794070723'
+                        node:
+                          id: 9287ee0a-0bcb-43cf-9791-f96bb49ba3fb
+                          ownerId: 5d894b41-270e-4162-a4f9-dae31bc53b1c
+                          type: account
+                      denomination:
+                        amount: '100'
+                        asset: GBP
+                        target: origin
+                        rate: '1'
+                      fees:
+                      - amount: '0.5'
+                        asset: GBP
+                        code: uphold
+                        type: deposit
+                      status: completed
+                      quotedAt: '2026-03-23T11:57:00.000Z'
+                      createdAt: '2026-03-23T11:58:00.000Z'
+                      updatedAt: '2026-03-23T12:06:55.116Z'
+                      completedAt: '2026-03-23T12:06:55.116Z'
+                pagination:
+                  first: https://api.enterprise.uphold.com/core/statements/transactions?denomination=EUR&period=one-month&year=2026&month=3&page=1&perPage=10
+                  next: https://api.enterprise.uphold.com/core/statements/transactions?denomination=EUR&period=one-month&year=2026&month=3&page=2&perPage=10
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-portfolio-statement-response:
+      description: Portfolio statement retrieved.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              statement:
+                $ref: '#/components/schemas/portfolio-statement'
+            required:
+            - statement
+          examples:
+            Portfolio Statement Retrieved:
+              value:
+                statement:
+                  period:
+                    from: '2026-03-01T00:00:00.000Z'
+                    to: '2026-03-31T23:59:59.999Z'
+                  rates:
+                    BTC-USD: '61728.00'
+                  holdings:
+                  - asset: BTC
+                    total: '0.02'
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-transactions-statement-conflict-response:
+      description: Business logic error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Denomination Asset Not Supported:
+              value:
+                code: asset_not_supported
+                message: The denomination asset is not supported
+                details:
+                  context: query
+                  property: denomination
+            Statement Period Not Complete:
+              value:
+                code: date_invalid
+                message: The statement period is not yet complete
+                details:
+                  context: query
+            Statement Period Before User Creation:
+              value:
+                code: date_invalid
+                message: The statement period predates the user creation date
+                details:
+                  context: query
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    unauthorized:
+      description: Unauthorized.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Token Expired:
+              value:
+                code: token_expired
+                message: The access token has expired
+            Token Invalid:
+              value:
+                code: token_invalid
+                message: The access token is invalid
+            Token Revoked:
+              value:
+                code: token_revoked
+                message: The access token has been revoked
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: OAuth 2.0 authentication.
+      flows:
+        clientCredentials:
+          tokenUrl: /core/oauth2/token
+          scopes:
+            core.users:act-on-behalf-of: Grants access to act on behalf of a user
+            core.users:create: Grants access to create users
+            core.users:read: Grants access to view users
+            core.users:delete: Grants access to delete users
+            core.users.metadata:read: Grants access to view user metadata
+            core.users.metadata:write: Grants access to modify user metadata
+            core.kyc:read: Grants access to view KYC processes
+            core.kyc.profile:update: Grants access to update profile KYC process
+            core.kyc.address:update: Grants access to update address KYC process
+            core.kyc.email:update: Grants access to update email KYC process
+            core.kyc.phone:update: Grants access to update phone KYC process
+            core.kyc.identity:update: Grants access to update identity KYC process
+            core.kyc.proof-of-address:update: Grants access to update proof-of-address KYC process
+            core.kyc.customer-due-diligence:update: Grants access to update customer due diligence KYC process
+            core.kyc.enhanced-due-diligence:update: Grants access to update enhanced due diligence KYC process
+            core.kyc.crypto-risk-assessment:update: Grants access to update crypto risk assessment KYC process
+            core.kyc.self-categorization-statement:update: Grants access to update self-categorization statement KYC process
+            core.kyc.tax-details:update: Grants access to update tax details KYC process
+            core.capabilities:read: Grants access to view user capabilities
+            core.terms-of-service:read: Grants access to view terms of service
+            core.terms-of-service:accept: Grants access to accept terms of service
+            core.files:create: Grants access to create files
+            core.files:read: Grants access to view files
+            core.files.metadata:read: Grants access to view files metadata
+            core.files.metadata:write: Grants access to modify files metadata
+            core.accounts:create: Grants access to create accounts
+            core.accounts:read: Grants access to view accounts
+            core.accounts:update: Grants access to update accounts
+            core.accounts:archive: Grants access to archive accounts
+            core.accounts:deposit-method: Grants access to deposit method needed for depositing into accounts
+            core.accounts:use-test-helpers: Grants access to test helpers of accounts
+            core.accounts.metadata:read: Grants access to view accounts metadata
+            core.accounts.metadata:write: Grants access to modify accounts metadata
+            core.assets:use-test-helpers: Grants access to test helpers of assets
+            core.external-accounts:create: Grants access to create external accounts
+            core.external-accounts:read: Grants access to view external accounts
+            core.external-accounts:update: Grants access to update external accounts
+            core.external-accounts:delete: Grants access to delete external accounts
+            core.external-accounts.metadata:read: Grants access to view external accounts metadata
+            core.external-accounts.metadata:write: Grants access to modify external accounts metadata
+            core.transactions:create: Grants access to commit quotes
+            core.transactions:read: Grants access to view transactions
+            core.transactions.metadata:read: Grants access to view transactions metadata
+            core.transactions.metadata:write: Grants access to modify transactions metadata
+            core.transactions.requests-for-information:read: Grants access to view transactions requests for information
+            core.transactions.requests-for-information:update: Grants access to update transactions requests for information
+            core.portfolio:read: Grants access to view portfolio overview, performance, and historical balance
+            core.statements:read: Grants access to read statements
+            core.webhooks:management-link: Grants access to create webhook management links

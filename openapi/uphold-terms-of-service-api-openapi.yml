@@ -1,0 +1,662 @@
+openapi: 3.2.0
+info:
+  version: 0.1.0
+  title: Core Terms of service API
+  description: The Core API provides essential building blocks that empower businesses to embed financial services into their applications.
+  contact:
+    name: Uphold API Team
+    email: developers@uphold.com
+    url: https://developer.uphold.com
+servers:
+- url: https://api.enterprise.sandbox.uphold.com
+  description: Sandbox
+- url: https://api.enterprise.uphold.com
+  description: Production
+security:
+- OAuth2: []
+tags:
+- name: Terms of service
+  description: User terms of service.
+paths:
+  /core/terms-of-service:
+    get:
+      operationId: core.list-terms-of-service
+      summary: List terms of service
+      description: List terms of service of the platform.
+      tags:
+      - Terms of service
+      security:
+      - OAuth2:
+        - core.terms-of-service:read
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - client
+            - user:business
+            - user:individual
+      parameters:
+      - $ref: '#/components/parameters/list-terms-of-service-type-filter'
+      - $ref: '#/components/parameters/list-terms-of-service-country-code-filter'
+      - $ref: '#/components/parameters/list-terms-of-service-user-type-filter'
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      responses:
+        '200':
+          $ref: '#/components/responses/list-terms-of-service-response'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+  /core/terms-of-service/{termsOfService}:
+    get:
+      operationId: core.get-terms-of-service
+      summary: Get terms of service
+      description: Retrieve terms of service by code.
+      tags:
+      - Terms of service
+      security:
+      - OAuth2:
+        - core.terms-of-service:read
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - client
+            - user:business
+            - user:individual
+      parameters:
+      - $ref: '#/components/parameters/terms-of-service-code'
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      responses:
+        '200':
+          $ref: '#/components/responses/get-terms-of-service-response'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+  /core/terms-of-service/{termsOfService}/accept:
+    post:
+      operationId: core.accept-terms-of-service
+      summary: Accept terms of service
+      description: Accept terms of service by code.
+      tags:
+      - Terms of service
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - user:business
+            - user:individual
+      security:
+      - OAuth2:
+        - core.terms-of-service:accept
+      parameters:
+      - $ref: '#/components/parameters/terms-of-service-code-excluding-general'
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      responses:
+        '201':
+          $ref: '#/components/responses/accept-terms-of-service-response'
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '409':
+          $ref: '#/components/responses/accept-terms-of-service-conflict-response'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+components:
+  parameters:
+    x-on-behalf-of:
+      name: X-On-Behalf-Of
+      description: The subject on whose behalf the operation is being performed.
+      in: header
+      schema:
+        type: string
+        pattern: ^(user|client)\s[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$
+      examples:
+        User Identifier:
+          value: user cd21b26d-35d2-408a-9201-b8fdbef7a604
+        Client Identifier:
+          value: client 3fa85f64-5717-4562-b3fc-2c963f66afa6
+    list-terms-of-service-user-type-filter:
+      name: userType
+      description: Filter terms of service by user type.
+      in: query
+      required: false
+      schema:
+        type: string
+        enum:
+        - individual
+        - business
+      examples:
+        Individual:
+          value: individual
+        Business:
+          value: business
+    terms-of-service-code-excluding-general:
+      name: termsOfService
+      description: The terms of service code.
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/terms-of-service-code-excluding-general'
+    x-uphold-user-country:
+      name: X-Uphold-User-Country
+      description: Contains the code of the country of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/country-code-for-request'
+      examples:
+        User Country:
+          value: US
+    x-uphold-user-agent:
+      name: X-Uphold-User-Agent
+      description: Contains the user agent of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        User Agent:
+          value: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36
+    terms-of-service-code:
+      name: termsOfService
+      description: The terms of service code.
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/terms-of-service-code'
+    x-uphold-user-city:
+      name: X-Uphold-User-City
+      description: Contains the name of the city of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        User City:
+          value: San Francisco
+    list-terms-of-service-type-filter:
+      name: type
+      description: Filter terms of service by type.
+      in: query
+      required: false
+      schema:
+        $ref: '#/components/schemas/terms-of-service-type'
+      examples:
+        General:
+          value: general
+    x-uphold-user-ip:
+      name: X-Uphold-User-Ip
+      description: Contains the IP of the end user that is requesting the operation.
+      in: header
+      schema:
+        oneOf:
+        - title: IPv4
+          type: string
+          format: ipv4
+        - title: IPv6
+          type: string
+          format: ipv6
+      examples:
+        User Ip:
+          value: 47.174.97.164
+    x-uphold-user-origin:
+      name: X-Uphold-User-Origin
+      description: Contains the origin of the request made by the end user.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        Origin:
+          value: https://uphold.com
+    list-terms-of-service-country-code-filter:
+      name: country
+      description: Filter terms of service by unique code of the country.
+      in: query
+      required: false
+      schema:
+        $ref: '#/components/schemas/country-code-for-request'
+      examples:
+        United Kingdom:
+          value: GB
+    x-uphold-user-subdivision:
+      name: X-Uphold-User-Subdivision
+      description: Contains the code of the subdivision of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/subdivision-code-for-request'
+      examples:
+        User Subdivision:
+          value: US-CA
+  responses:
+    forbidden:
+      description: Forbidden.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Token Insufficient Scopes:
+              value:
+                code: token_insufficient_scopes
+                message: Authorization failed due to insufficient scopes
+                details:
+                  security:
+                  - scheme: OAuth
+                    schemeScopes:
+                    - required:scope_1
+                    - required:scope_2
+                    tokenScopes:
+                    - token:scope
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    too-many-requests:
+      description: Too Many Requests.
+      headers:
+        Retry-After:
+          description: The number of seconds to wait before making a new request.
+          schema:
+            type: integer
+            format: int32
+          examples:
+            Retry After:
+              value: 60
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Too Many Requests:
+              value:
+                code: too_many_requests
+                message: Try again later
+    bad-request:
+      description: Bad Request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Invalid Request:
+              value:
+                code: request_invalid
+                message: The request has missing or invalid parameters
+                details:
+                  context: <context>
+                  violations:
+                  - property: <property>
+                    rule: required
+                  - property: <property>
+                    rule: type
+                    ruleParams:
+                      type: string
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    accept-terms-of-service-response:
+      description: Terms of service acceptance added.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              termsOfService:
+                $ref: '#/components/schemas/terms-of-service'
+            required:
+            - termsOfService
+          examples:
+            Terms of Service Accepted:
+              value:
+                termsOfService:
+                  code: unique-account-number-viban
+                  type: unique-account-number
+                  countries:
+                  - GB
+                  - PT
+                  userTypes:
+                  - individual
+                  modifiedAt: '2025-02-01T00:00:00.000Z'
+                  acceptedAt: '2025-03-01T00:00:00.000Z'
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    accept-terms-of-service-conflict-response:
+      description: Business logic error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Missing User Context:
+              value:
+                code: operation_not_allowed
+                message: Request not allowed due to missing user context
+                details:
+                  reasons:
+                  - missing-user-ip-header
+            Terms of Service Not Applicable Due to User Type Mismatch:
+              value:
+                code: operation_not_allowed
+                message: The terms of service cannot be accepted by users of type 'business'
+                details:
+                  reasons:
+                  - terms-of-service-not-applicable
+            Terms of Service Not Applicable Due to Country Mismatch:
+              value:
+                code: operation_not_allowed
+                message: The terms of service cannot be accepted because they do not apply to the user country of residence
+                details:
+                  reasons:
+                  - terms-of-service-not-applicable
+            Terms of Service Already Accepted:
+              value:
+                code: operation_not_allowed
+                message: The terms of service have already been accepted
+                details:
+                  reasons:
+                  - terms-of-service-already-accepted
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    list-terms-of-service-response:
+      description: Terms of service retrieved.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              termsOfService:
+                type: array
+                items:
+                  $ref: '#/components/schemas/terms-of-service'
+            required:
+            - termsOfService
+          examples:
+            Terms of Service Retrieved:
+              value:
+                termsOfService:
+                - code: general-gb-fca
+                  type: general
+                  countries:
+                  - GB
+                  modifiedAt: '2025-02-01T00:00:00.000Z'
+                  acceptedAt: '2025-03-01T00:00:00.000Z'
+                - code: unique-account-number-viban
+                  type: unique-account-number
+                  userTypes:
+                  - individual
+                  countries:
+                  - GB
+                  - PT
+                  modifiedAt: '2024-12-01T00:00:00.000Z'
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-terms-of-service-response:
+      description: Terms of service retrieved.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              termsOfService:
+                $ref: '#/components/schemas/terms-of-service'
+            required:
+            - termsOfService
+          examples:
+            Terms of Service Retrieved:
+              value:
+                termsOfService:
+                  code: general-gb-fca
+                  type: general
+                  countries:
+                  - GB
+                  modifiedAt: '2025-02-01T00:00:00.000Z'
+                  acceptedAt: '2025-03-01T00:00:00.000Z'
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    unauthorized:
+      description: Unauthorized.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Token Expired:
+              value:
+                code: token_expired
+                message: The access token has expired
+            Token Invalid:
+              value:
+                code: token_invalid
+                message: The access token is invalid
+            Token Revoked:
+              value:
+                code: token_revoked
+                message: The access token has been revoked
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+  schemas:
+    feedback:
+      description: A feedback message with a code and human-readable description.
+      type: object
+      properties:
+        code:
+          description: A short string with a brief explanation about the code reported.
+          type: string
+        message:
+          description: A human-readable message providing more details.
+          type: string
+        details:
+          description: Additional information about the feedback reported.
+          type: object
+          additionalProperties: true
+      required:
+      - code
+      - message
+    terms-of-service-code:
+      description: The code of the terms of service.
+      type: string
+      enum:
+      - general-us-hq
+      - general-gb-fca
+      - general-pt-bop
+      - general-lt-fcs
+      - general-bs-scb
+      - unique-account-number-viban
+    terms-of-service:
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/terms-of-service-code'
+        type:
+          $ref: '#/components/schemas/terms-of-service-type'
+        countries:
+          description: The country codes in which the terms of service apply. If omitted, the terms apply to all countries.
+          type: array
+          items:
+            type: string
+        userTypes:
+          description: The user types to which the terms of service apply. If omitted, the terms apply to all user types.
+          type: array
+          items:
+            type: string
+            enum:
+            - individual
+            - business
+        modifiedAt:
+          description: The date and time when the terms of service were last updated.
+          type: string
+          format: date-time
+        acceptedAt:
+          description: The date and time when the terms of service were accepted, in case the request is contextualized with a user.
+          type: string
+          format: date-time
+      required:
+      - type
+      - code
+      - modifiedAt
+    terms-of-service-type:
+      description: The type of the terms of service.
+      type: string
+      enum:
+      - general
+      - unique-account-number
+    string-no-edge-spaces:
+      type: string
+      pattern: ^\S.*\S$|^\S$
+    error:
+      description: The error information.
+      allOf:
+      - $ref: '#/components/schemas/feedback'
+    subdivision-code-for-request:
+      type: string
+      pattern: ^[A-Z]{2}-[A-Z0-9]{1,3}$
+    country-code-for-request:
+      type: string
+      pattern: ^[A-Z]{2}$
+    terms-of-service-code-excluding-general:
+      type: string
+      enum:
+      - unique-account-number-viban
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: OAuth 2.0 authentication.
+      flows:
+        clientCredentials:
+          tokenUrl: /core/oauth2/token
+          scopes:
+            core.users:act-on-behalf-of: Grants access to act on behalf of a user
+            core.users:create: Grants access to create users
+            core.users:read: Grants access to view users
+            core.users:delete: Grants access to delete users
+            core.users.metadata:read: Grants access to view user metadata
+            core.users.metadata:write: Grants access to modify user metadata
+            core.kyc:read: Grants access to view KYC processes
+            core.kyc.profile:update: Grants access to update profile KYC process
+            core.kyc.address:update: Grants access to update address KYC process
+            core.kyc.email:update: Grants access to update email KYC process
+            core.kyc.phone:update: Grants access to update phone KYC process
+            core.kyc.identity:update: Grants access to update identity KYC process
+            core.kyc.proof-of-address:update: Grants access to update proof-of-address KYC process
+            core.kyc.customer-due-diligence:update: Grants access to update customer due diligence KYC process
+            core.kyc.enhanced-due-diligence:update: Grants access to update enhanced due diligence KYC process
+            core.kyc.crypto-risk-assessment:update: Grants access to update crypto risk assessment KYC process
+            core.kyc.self-categorization-statement:update: Grants access to update self-categorization statement KYC process
+            core.kyc.tax-details:update: Grants access to update tax details KYC process
+            core.capabilities:read: Grants access to view user capabilities
+            core.terms-of-service:read: Grants access to view terms of service
+            core.terms-of-service:accept: Grants access to accept terms of service
+            core.files:create: Grants access to create files
+            core.files:read: Grants access to view files
+            core.files.metadata:read: Grants access to view files metadata
+            core.files.metadata:write: Grants access to modify files metadata
+            core.accounts:create: Grants access to create accounts
+            core.accounts:read: Grants access to view accounts
+            core.accounts:update: Grants access to update accounts
+            core.accounts:archive: Grants access to archive accounts
+            core.accounts:deposit-method: Grants access to deposit method needed for depositing into accounts
+            core.accounts:use-test-helpers: Grants access to test helpers of accounts
+            core.accounts.metadata:read: Grants access to view accounts metadata
+            core.accounts.metadata:write: Grants access to modify accounts metadata
+            core.assets:use-test-helpers: Grants access to test helpers of assets
+            core.external-accounts:create: Grants access to create external accounts
+            core.external-accounts:read: Grants access to view external accounts
+            core.external-accounts:update: Grants access to update external accounts
+            core.external-accounts:delete: Grants access to delete external accounts
+            core.external-accounts.metadata:read: Grants access to view external accounts metadata
+            core.external-accounts.metadata:write: Grants access to modify external accounts metadata
+            core.transactions:create: Grants access to commit quotes
+            core.transactions:read: Grants access to view transactions
+            core.transactions.metadata:read: Grants access to view transactions metadata
+            core.transactions.metadata:write: Grants access to modify transactions metadata
+            core.transactions.requests-for-information:read: Grants access to view transactions requests for information
+            core.transactions.requests-for-information:update: Grants access to update transactions requests for information
+            core.portfolio:read: Grants access to view portfolio overview, performance, and historical balance
+            core.statements:read: Grants access to read statements
+            core.webhooks:management-link: Grants access to create webhook management links

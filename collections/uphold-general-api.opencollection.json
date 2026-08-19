@@ -1,0 +1,87 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Market Pulse General API",
+    "version": "0.1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "client_credentials",
+      "accessTokenUrl": "/core/oauth2/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "General",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List general news",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.enterprise.sandbox.uphold.com/market-pulse/news",
+            "headers": [
+              {
+                "name": "X-On-Behalf-Of",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Ip",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Agent",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Origin",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Country",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Subdivision",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-City",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The maximum number of news articles to return."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/core/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieve the latest general market news."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

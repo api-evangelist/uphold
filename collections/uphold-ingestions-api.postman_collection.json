@@ -1,0 +1,48 @@
+{
+  "item": [
+    {
+      "id": "01d30761-8c0b-4f4b-a84f-a85ca9a9c591",
+      "name": "Ingestions",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.enterprise.sandbox.uphold.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "scope",
+        "value": "kyc-connector.sumsub.ingestions:create kyc-connector.sumsub.ingestions:read kyc-connector.veriff.ingestions:create kyc-connector.veriff.ingestions:read kyc-connector.veriff.config:read kyc-connector.veriff.config:write"
+      },
+      {
+        "key": "accessTokenUrl",
+        "value": "/core/oauth2/token"
+      },
+      {
+        "key": "grant_type",
+        "value": "client_credentials"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "15fedeb2-5c9d-400e-803e-9e76d771795c",
+    "name": "KYC Connectors Ingestions API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The KYC Connectors API offers a set of endpoints to enable ingestion of KYC data via third-party connectors.\n\nContact Support:\n Name: Uphold API Team\n Email: developer@uphold.com",
+      "type": "text/plain"
+    }
+  }
+}

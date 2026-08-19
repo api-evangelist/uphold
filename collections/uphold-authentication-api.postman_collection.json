@@ -1,0 +1,346 @@
+{
+  "item": [
+    {
+      "id": "6e9c33d3-393f-43b7-af41-bc53f017cc45",
+      "name": "Authentication",
+      "description": {
+        "content": "Authentication.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "0a9faa56-1aef-4995-a7fa-03781ed87b5b",
+          "name": "Request OAuth2 token",
+          "request": {
+            "name": "Request OAuth2 token",
+            "description": {
+              "content": "Request an access token using OAuth2 protocol.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "core",
+                "oauth2",
+                "token"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "grant_type",
+                  "value": "<string>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "scope",
+                  "value": "<string>"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "ab9d2780-53e7-4467-93cd-350aae8a7a6a",
+              "name": "Token created successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "core",
+                    "oauth2",
+                    "token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Basic authentication credentials, in the format `Basic <base64(client_id:client_secret)>`.",
+                    "key": "Authorization",
+                    "value": "Basic aW52YWxpZDpzZWNyZXQ="
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The organization id of the associated token.",
+                  "key": "x-uphold-organization-id",
+                  "value": "1708672f-23a0-8ac5-9367-c6c8d51a7bd5"
+                },
+                {
+                  "disabled": false,
+                  "description": "(Required) A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+                  "key": "x-uphold-request-id",
+                  "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"access_token\": \"eyJhbGciOiJIUzI1NiIsI...\",\n  \"expires_in\": 600,\n  \"scope\": \"users:* users.kyc:read\",\n  \"token_type\": \"Bearer\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "85c80038-90dc-478f-9e8f-cd19a8a4d2a1",
+              "name": "Bad Request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "core",
+                    "oauth2",
+                    "token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Basic authentication credentials, in the format `Basic <base64(client_id:client_secret)>`.",
+                    "key": "Authorization",
+                    "value": "Basic aW52YWxpZDpzZWNyZXQ="
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "(Required) A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+                  "key": "x-uphold-request-id",
+                  "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"invalid_request\",\n  \"error_description\": \"Body must have required property 'grant_type'\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "583a272f-19af-44b4-8ef5-9b5ae74462ec",
+              "name": "Unauthorized.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "core",
+                    "oauth2",
+                    "token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Basic authentication credentials, in the format `Basic <base64(client_id:client_secret)>`.",
+                    "key": "Authorization",
+                    "value": "Basic aW52YWxpZDpzZWNyZXQ="
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "(Required) A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+                  "key": "x-uphold-request-id",
+                  "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"invalid_client\",\n  \"error_description\": \"Client id and secret could not be extracted from Authorization header\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "85701a63-37a0-4449-b35a-7aa6f86d155b",
+              "name": "Too Many Requests.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "core",
+                    "oauth2",
+                    "token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Basic authentication credentials, in the format `Basic <base64(client_id:client_secret)>`.",
+                    "key": "Authorization",
+                    "value": "Basic aW52YWxpZDpzZWNyZXQ="
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The number of seconds to wait before making a new request.",
+                  "key": "Retry-After",
+                  "value": "60"
+                },
+                {
+                  "disabled": false,
+                  "description": "(Required) A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.",
+                  "key": "x-uphold-request-id",
+                  "value": "9092ee4d-f0fb-42e9-8787-b668dbcec531"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"too_many_requests\",\n  \"message\": \"Try again later\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.enterprise.sandbox.uphold.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "scope",
+        "value": "core.users:act-on-behalf-of core.users:create core.users:read core.users:delete core.users.metadata:read core.users.metadata:write core.kyc:read core.kyc.profile:update core.kyc.address:update core.kyc.email:update core.kyc.phone:update core.kyc.identity:update core.kyc.proof-of-address:update core.kyc.customer-due-diligence:update core.kyc.enhanced-due-diligence:update core.kyc.crypto-risk-assessment:update core.kyc.self-categorization-statement:update core.kyc.tax-details:update core.capabilities:read core.terms-of-service:read core.terms-of-service:accept core.files:create core.files:read core.files.metadata:read core.files.metadata:write core.accounts:create core.accounts:read core.accounts:update core.accounts:archive core.accounts:deposit-method core.accounts:use-test-helpers core.accounts.metadata:read core.accounts.metadata:write core.assets:use-test-helpers core.external-accounts:create core.external-accounts:read core.external-accounts:update core.external-accounts:delete core.external-accounts.metadata:read core.external-accounts.metadata:write core.transactions:create core.transactions:read core.transactions.metadata:read core.transactions.metadata:write core.transactions.requests-for-information:read core.transactions.requests-for-information:update core.portfolio:read core.statements:read core.webhooks:management-link"
+      },
+      {
+        "key": "accessTokenUrl",
+        "value": "/core/oauth2/token"
+      },
+      {
+        "key": "grant_type",
+        "value": "client_credentials"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "a092fe3c-a2aa-48c9-ba5f-4db5b79359da",
+    "name": "Core Authentication API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Core API provides essential building blocks that empower businesses to embed financial services into their applications.\n\nContact Support:\n Name: Uphold API Team\n Email: developers@uphold.com",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Widget Payment API",
+    "version": "0.1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "client_credentials",
+      "accessTokenUrl": "/core/oauth2/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Payment",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create session",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.enterprise.sandbox.uphold.com/widgets/payment/sessions",
+            "headers": [
+              {
+                "name": "X-On-Behalf-Of",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Ip",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Agent",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Origin",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Country",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Subdivision",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-City",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/core/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Create a new session for the Payment Widget."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,731 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Uphold KYC API",
+    "version": "0.1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "client_credentials",
+      "accessTokenUrl": "/core/oauth2/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "KYC",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get overview",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.enterprise.sandbox.uphold.com/core/kyc",
+            "headers": [
+              {
+                "name": "Accept-Language",
+                "value": ""
+              },
+              {
+                "name": "X-On-Behalf-Of",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Ip",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Agent",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Origin",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Country",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Subdivision",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-City",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "detailed",
+                "value": "",
+                "type": "query",
+                "description": "Include detailed information about the specified KYC processes. Use this sparingly as its more expensive to retrieve."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/core/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get the KYC overview of a user."
+        },
+        {
+          "info": {
+            "name": "Update profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.enterprise.sandbox.uphold.com/core/kyc/processes/profile",
+            "headers": [
+              {
+                "name": "X-On-Behalf-Of",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Ip",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Agent",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Origin",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Country",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Subdivision",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-City",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/core/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Update the profile process for a user."
+        },
+        {
+          "info": {
+            "name": "Update address",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.enterprise.sandbox.uphold.com/core/kyc/processes/address",
+            "headers": [
+              {
+                "name": "X-On-Behalf-Of",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Ip",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Agent",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Origin",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Country",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Subdivision",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-City",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/core/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Update the address process for a user."
+        },
+        {
+          "info": {
+            "name": "Update email",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.enterprise.sandbox.uphold.com/core/kyc/processes/email",
+            "headers": [
+              {
+                "name": "X-On-Behalf-Of",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Ip",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Agent",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Origin",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Country",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Subdivision",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-City",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/core/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Update the email process for a user."
+        },
+        {
+          "info": {
+            "name": "Update phone",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.enterprise.sandbox.uphold.com/core/kyc/processes/phone",
+            "headers": [
+              {
+                "name": "X-On-Behalf-Of",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Ip",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Agent",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Origin",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Country",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Subdivision",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-City",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/core/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Update the phone process for a user."
+        },
+        {
+          "info": {
+            "name": "Update identity",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.enterprise.sandbox.uphold.com/core/kyc/processes/identity",
+            "headers": [
+              {
+                "name": "X-On-Behalf-Of",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Ip",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Agent",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Origin",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Country",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Subdivision",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-City",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/core/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Update the identity process for a user."
+        },
+        {
+          "info": {
+            "name": "Update proof-of-address",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.enterprise.sandbox.uphold.com/core/kyc/processes/proof-of-address",
+            "headers": [
+              {
+                "name": "X-On-Behalf-Of",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Ip",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Agent",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Origin",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Country",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Subdivision",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-City",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/core/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Update the proof-of-address process for a user."
+        },
+        {
+          "info": {
+            "name": "Update customer due diligence",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.enterprise.sandbox.uphold.com/core/kyc/processes/customer-due-diligence",
+            "headers": [
+              {
+                "name": "Accept-Language",
+                "value": ""
+              },
+              {
+                "name": "X-On-Behalf-Of",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Ip",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Agent",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Origin",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Country",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Subdivision",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-City",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/core/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Update the customer due diligence process for a user."
+        },
+        {
+          "info": {
+            "name": "Update enhanced due diligence",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.enterprise.sandbox.uphold.com/core/kyc/processes/enhanced-due-diligence",
+            "headers": [
+              {
+                "name": "X-On-Behalf-Of",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Ip",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Agent",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Origin",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Country",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Subdivision",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-City",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/core/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Update the enhanced due diligence process for a user."
+        },
+        {
+          "info": {
+            "name": "Update crypto risk assessment",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.enterprise.sandbox.uphold.com/core/kyc/processes/crypto-risk-assessment",
+            "headers": [
+              {
+                "name": "Accept-Language",
+                "value": ""
+              },
+              {
+                "name": "X-On-Behalf-Of",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Ip",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Agent",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Origin",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Country",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Subdivision",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-City",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/core/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Update the crypto risk assessment process for a user."
+        },
+        {
+          "info": {
+            "name": "Update self-categorization statement",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.enterprise.sandbox.uphold.com/core/kyc/processes/self-categorization-statement",
+            "headers": [
+              {
+                "name": "Accept-Language",
+                "value": ""
+              },
+              {
+                "name": "X-On-Behalf-Of",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Ip",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Agent",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Origin",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Country",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Subdivision",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-City",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/core/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Update the self-categorization statement process for a user."
+        },
+        {
+          "info": {
+            "name": "Update tax details",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.enterprise.sandbox.uphold.com/core/kyc/processes/tax-details",
+            "headers": [
+              {
+                "name": "X-On-Behalf-Of",
+                "value": ""
+              },
+              {
+                "name": "Accept-Language",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/core/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Update the tax details process for a user."
+        },
+        {
+          "info": {
+            "name": "Create session",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.enterprise.sandbox.uphold.com/widgets/kyc/sessions",
+            "headers": [
+              {
+                "name": "X-On-Behalf-Of",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Ip",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Agent",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Origin",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Country",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-Subdivision",
+                "value": ""
+              },
+              {
+                "name": "X-Uphold-User-City",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/core/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Create a new session for the KYC Widget."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

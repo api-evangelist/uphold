@@ -20,33 +20,29 @@ capabilities:
     list_changed: true
   resources:
     list_changed: true
-scope: >-
-  Read-only and scoped to published Uphold documentation. The server states it does not mutate state or
-  reach anything beyond published site content, with the single exception of submit_feedback, which files
-  a documentation issue. It is a DOCS server — it does not proxy the Uphold Enterprise REST API, so an
-  agent cannot move money through it.
+scope: Read-only and scoped to published Uphold documentation. The server states it does not mutate state
+  or reach anything beyond published site content, with the single exception of submit_feedback, which
+  files a documentation issue. It is a DOCS server — it does not proxy the Uphold Enterprise REST API,
+  so an agent cannot move money through it.
 tools:
 - name: search_uphold
   title: Search documentation
-  description: >-
-    Search across the Uphold knowledge base to find relevant information, code examples, API references
-    and guides.
+  description: Search across the Uphold knowledge base to find relevant information, code examples, API
+    references and guides.
   input_schema:
     query: string
   source: live tools/list
 - name: query_docs_filesystem_uphold
   title: Query docs filesystem
-  description: >-
-    Run a read-only shell-like query against a virtualized, in-memory filesystem rooted at `/` containing
-    only the Uphold documentation pages.
+  description: Run a read-only shell-like query against a virtualized, in-memory filesystem rooted at
+    `/` containing only the Uphold documentation pages.
   input_schema:
     command: string
   source: live tools/list
 - name: submit_feedback
   title: Submit documentation feedback
-  description: >-
-    Report a problem with the documentation site (incorrect, outdated, confusing or incomplete page) so
-    the docs team can fix it.
+  description: Report a problem with the documentation site (incorrect, outdated, confusing or incomplete
+    page) so the docs team can fix it.
   input_schema:
     path: string
     feedback: string
@@ -55,9 +51,8 @@ resources:
 - uri: mintlify://skills/enterprise
   name: enterprise
   mime_type: text/markdown
-  description: >-
-    Packaged agent skill for building financial applications on Uphold — user onboarding, money movement
-    across banks/cards/crypto, transactions, portfolio management and compliance workflows.
+  description: Packaged agent skill for building financial applications on Uphold — user onboarding, money
+    movement across banks/cards/crypto, transactions, portfolio management and compliance workflows.
   local_copy: skills/uphold-enterprise-skill.md
 x-evidence:
   fetched: '2026-08-05'
@@ -69,7 +64,7 @@ x-evidence:
     url: https://developer.uphold.com/mcp
     http_status: 200
     content_type: text/event-stream
-    server_info: 'Uphold 1.0.0'
+    server_info: Uphold 1.0.0
   tools_list:
     url: https://developer.uphold.com/mcp
     http_status: 200
@@ -79,3 +74,11 @@ x-evidence:
     url: https://developer.uphold.com/mcp
     http_status: 200
     resources_returned: 1
+deployment:
+  mode: remote
+  endpoint: https://developer.uphold.com/mcp
+  verified: probed
+  probe: live
+  tools: 3
+  checked: '2026-08-12'
+  source: catalog MCP census

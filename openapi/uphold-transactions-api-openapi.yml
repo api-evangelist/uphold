@@ -1,0 +1,3174 @@
+openapi: 3.2.0
+info:
+  version: 0.1.0
+  title: Core Transactions API
+  description: The Core API provides essential building blocks that empower businesses to embed financial services into their applications.
+  contact:
+    name: Uphold API Team
+    email: developers@uphold.com
+    url: https://developer.uphold.com
+servers:
+- url: https://api.enterprise.sandbox.uphold.com
+  description: Sandbox
+- url: https://api.enterprise.uphold.com
+  description: Production
+security:
+- OAuth2: []
+tags:
+- name: Transactions
+  description: Transactions.
+paths:
+  /core/transactions/quote:
+    post:
+      operationId: core.create-quote
+      summary: Create quote
+      description: Create a quote for a transaction.
+      tags:
+      - Transactions
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - user:business
+            - user:individual
+      security:
+      - OAuth2:
+        - core.transactions:create
+      parameters:
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      requestBody:
+        $ref: '#/components/requestBodies/create-quote-request-body'
+      responses:
+        '201':
+          $ref: '#/components/responses/create-quote-response'
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/create-quote-not-found-response'
+        '409':
+          $ref: '#/components/responses/create-quote-conflict-response'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+  /core/accounts/{accountId}/transactions:
+    get:
+      operationId: core.list-account-transactions
+      summary: List account transactions
+      description: List transactions for an account.
+      tags:
+      - Transactions
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - user:business
+            - user:individual
+      security:
+      - OAuth2:
+        - core.accounts:read
+        - core.transactions:read
+      parameters:
+      - $ref: '#/components/parameters/account-id'
+      - $ref: '#/components/parameters/pagination-per-page'
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      responses:
+        '200':
+          $ref: '#/components/responses/list-account-transactions-response'
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/list-account-transactions-not-found-response'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+  /core/transactions:
+    get:
+      operationId: core.list-transactions
+      summary: List transactions
+      description: List transactions associated with a user.
+      tags:
+      - Transactions
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - user:business
+            - user:individual
+      security:
+      - OAuth2:
+        - core.transactions:read
+      parameters:
+      - $ref: '#/components/parameters/pagination-per-page'
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      responses:
+        '200':
+          $ref: '#/components/responses/list-transactions-response'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+    post:
+      operationId: core.create-transaction
+      summary: Create transaction
+      description: Create transaction from a quote.
+      tags:
+      - Transactions
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - user:business
+            - user:individual
+      security:
+      - OAuth2:
+        - core.transactions:create
+      parameters:
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      requestBody:
+        $ref: '#/components/requestBodies/create-transaction-request-body'
+      responses:
+        '201':
+          $ref: '#/components/responses/create-transaction-response'
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/create-transaction-not-found-response'
+        '409':
+          $ref: '#/components/responses/create-transaction-conflict-response'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+  /core/transactions/{transactionId}:
+    get:
+      operationId: core.get-transaction
+      summary: Get transaction
+      description: Retrieve an existing transaction by id.
+      tags:
+      - Transactions
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - user:business
+            - user:individual
+      security:
+      - OAuth2:
+        - core.transactions:read
+      parameters:
+      - $ref: '#/components/parameters/transaction-id'
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      responses:
+        '200':
+          $ref: '#/components/responses/get-transaction-response'
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/get-transaction-not-found-response'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+  /core/transactions/{transactionId}/requests-for-information:
+    get:
+      operationId: core.list-transaction-requests-for-information
+      summary: List requests for information
+      description: List requests for information associated with a transaction.
+      tags:
+      - Transactions
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - user:business
+            - user:individual
+      security:
+      - OAuth2:
+        - core.transactions.requests-for-information:read
+      parameters:
+      - $ref: '#/components/parameters/transaction-id'
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      responses:
+        '200':
+          $ref: '#/components/responses/list-transaction-requests-for-information-response'
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/transaction-not-found-response'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+  /core/transactions/{transactionId}/requests-for-information/{requestForInformationId}:
+    get:
+      operationId: core.get-transaction-request-for-information
+      summary: Get request for information
+      description: Retrieve a request for information associated with a transaction.
+      tags:
+      - Transactions
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - user:business
+            - user:individual
+      security:
+      - OAuth2:
+        - core.transactions.requests-for-information:read
+      parameters:
+      - $ref: '#/components/parameters/transaction-id'
+      - $ref: '#/components/parameters/request-for-information-id'
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      responses:
+        '200':
+          $ref: '#/components/responses/get-transaction-request-for-information-response'
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/get-transaction-request-for-information-not-found-response'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+    put:
+      operationId: core.update-transaction-request-for-information
+      summary: Update request for information
+      description: Update a request for information associated with a transaction.
+      tags:
+      - Transactions
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - user:business
+            - user:individual
+      security:
+      - OAuth2:
+        - core.transactions.requests-for-information:update
+      parameters:
+      - $ref: '#/components/parameters/transaction-id'
+      - $ref: '#/components/parameters/request-for-information-id'
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      requestBody:
+        $ref: '#/components/requestBodies/update-transaction-request-for-information-request-body'
+      responses:
+        '200':
+          $ref: '#/components/responses/update-transaction-request-for-information-response'
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/update-transaction-request-for-information-not-found-response'
+        '409':
+          $ref: '#/components/responses/update-transaction-request-for-information-conflict-response'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+webhooks:
+  core.transaction.created:
+    post:
+      operationId: core.transaction-created
+      summary: Transaction created
+      description: A new transaction has been created.
+      tags:
+      - Transactions
+      parameters:
+      - $ref: '#/components/parameters/webhook-id'
+      - $ref: '#/components/parameters/webhook-timestamp'
+      - $ref: '#/components/parameters/webhook-signature'
+      requestBody:
+        description: Transaction created event.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/transaction-webhook-event'
+            examples:
+              Transaction Created:
+                value:
+                  id: 123e4567-e89b-12d3-a456-426614174000
+                  type: core.transaction.created
+                  createdAt: '2021-01-01T00:00:00.000Z'
+                  data:
+                    transaction:
+                      id: 623000c8-9bdf-4a2b-aa3d-6a6b44a7f6a0
+                      origin:
+                        amount: '100.00'
+                        asset: GBP
+                        rate: '47619.04761904762'
+                        node:
+                          type: account
+                          id: b98e4f0d-a67d-4126-a99d-666f7e0315d9
+                          ownerId: e4ce04dc-67b7-4e9f-af91-482cb6f9fc4a
+                      destination:
+                        amount: '0.0021'
+                        asset: BTC
+                        rate: '0.000021'
+                        node:
+                          type: account
+                          id: 555a99a1-620d-4431-a0ac-b43e1aad2bdc
+                          ownerId: e4ce04dc-67b7-4e9f-af91-482cb6f9fc4a
+                      denomination:
+                        amount: '100.00'
+                        asset: GBP
+                        target: origin
+                        rate: '1'
+                      fees: []
+                      status: processing
+                      quotedAt: '2024-07-24T15:02:39.000Z'
+                      createdAt: '2024-07-24T15:22:39.000Z'
+                      updatedAt: '2024-07-24T15:32:39.000Z'
+      responses:
+        '200':
+          description: Return a 200 status to indicate that the data was received successfully.
+  core.transaction.status-changed:
+    post:
+      operationId: core.transaction-status-changed
+      summary: Transaction status changed
+      description: The transaction status has been changed.
+      tags:
+      - Transactions
+      parameters:
+      - $ref: '#/components/parameters/webhook-id'
+      - $ref: '#/components/parameters/webhook-timestamp'
+      - $ref: '#/components/parameters/webhook-signature'
+      requestBody:
+        description: Transaction status changed event.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/transaction-webhook-event'
+            examples:
+              Transaction Status Changed:
+                value:
+                  id: 123e4567-e89b-12d3-a456-426614174000
+                  type: core.transaction.status-changed
+                  createdAt: '2021-01-01T00:00:00.000Z'
+                  data:
+                    transaction:
+                      id: 623000c8-9bdf-4a2b-aa3d-6a6b44a7f6a0
+                      origin:
+                        amount: '100.00'
+                        asset: GBP
+                        rate: '47619.04761904762'
+                        node:
+                          type: account
+                          id: b98e4f0d-a67d-4126-a99d-666f7e0315d9
+                          ownerId: e4ce04dc-67b7-4e9f-af91-482cb6f9fc4a
+                      destination:
+                        amount: '0.0021'
+                        asset: BTC
+                        rate: '0.000021'
+                        node:
+                          type: account
+                          id: 555a99a1-620d-4431-a0ac-b43e1aad2bdc
+                          ownerId: e4ce04dc-67b7-4e9f-af91-482cb6f9fc4a
+                      denomination:
+                        amount: '100.00'
+                        asset: GBP
+                        target: origin
+                        rate: '1'
+                      fees: []
+                      status: completed
+                      quotedAt: '2024-07-24T15:02:39.000Z'
+                      createdAt: '2024-07-24T15:22:39.000Z'
+                      updatedAt: '2024-07-24T15:32:39.000Z'
+      responses:
+        '200':
+          description: Return a 200 status to indicate that the data was received successfully.
+components:
+  schemas:
+    quote-requirements:
+      type: array
+      items:
+        type: string
+        enum:
+        - travel-rule
+        - authorize:3ds
+        - authorize:apple-pay
+        - authorize:paypal
+        - authorize:venmo
+    transaction-node-crypto-address-execution-simulated:
+      type: object
+      properties:
+        mode:
+          description: The mode of execution.
+          type: string
+          enum:
+          - simulated
+        transactionHash:
+          description: The simulated transaction hash.
+          $ref: '#/components/schemas/string-no-edge-spaces'
+      required:
+      - mode
+    transaction-destination-node:
+      type: object
+      discriminator:
+        propertyName: type
+        mapping:
+          account: '#/components/schemas/transaction-node-account'
+          external-account: '#/components/schemas/transaction-node-external-account'
+          bank-address: '#/components/schemas/transaction-node-bank-address'
+          apm: '#/components/schemas/transaction-node-apm'
+          crypto-address: '#/components/schemas/transaction-node-crypto-address'
+      oneOf:
+      - title: Account
+        $ref: '#/components/schemas/transaction-node-account'
+      - title: External account
+        $ref: '#/components/schemas/transaction-node-external-account'
+      - title: Bank address
+        $ref: '#/components/schemas/transaction-node-bank-address'
+      - title: Alternative payment method
+        $ref: '#/components/schemas/transaction-node-apm'
+      - title: Crypto address
+        $ref: '#/components/schemas/transaction-node-crypto-address'
+    transaction-webhook-event:
+      allOf:
+      - $ref: '#/components/schemas/webhook-event'
+      - type: object
+        properties:
+          data:
+            type: object
+            properties:
+              transaction:
+                $ref: '#/components/schemas/transaction'
+            required:
+            - transaction
+    transaction-node-crypto-address-execution:
+      type: object
+      discriminator:
+        propertyName: mode
+        mapping:
+          onchain: '#/components/schemas/transaction-node-crypto-address-execution-onchain'
+          offchain: '#/components/schemas/transaction-node-crypto-address-execution-offchain'
+          simulated: '#/components/schemas/transaction-node-crypto-address-execution-simulated'
+      oneOf:
+      - title: On-chain
+        $ref: '#/components/schemas/transaction-node-crypto-address-execution-onchain'
+      - title: Off-chain
+        $ref: '#/components/schemas/transaction-node-crypto-address-execution-offchain'
+      - title: Simulated
+        $ref: '#/components/schemas/transaction-node-crypto-address-execution-simulated'
+    create-quote-node-crypto-address:
+      type: object
+      properties:
+        type:
+          description: The type of the node.
+          type: string
+          enum:
+          - crypto-address
+        asset:
+          allOf:
+          - $ref: '#/components/schemas/string-no-edge-spaces'
+          - description: The asset to be used in the operation.
+            type: string
+            maxLength: 20
+        network:
+          allOf:
+          - $ref: '#/components/schemas/string-no-edge-spaces'
+          - description: The network that the crypto address is on.
+            type: string
+            maxLength: 50
+        address:
+          allOf:
+          - $ref: '#/components/schemas/string-no-edge-spaces'
+          - description: The crypto address.
+            type: string
+            maxLength: 256
+        reference:
+          allOf:
+          - $ref: '#/components/schemas/string-no-edge-spaces'
+          - description: The additional identifier (e.g., destination tag, memo, or message) required for some networks such as XRP (Ripple), XLM (Stellar), EOS, and others. If the network does not require a tag, this field can be omitted.
+            type: string
+            maxLength: 255
+      required:
+      - type
+      - asset
+      - network
+      - address
+    transaction:
+      type: object
+      properties:
+        id:
+          description: The id of the transaction.
+          type: string
+          format: uuid
+        origin:
+          description: The origin of the transaction.
+          $ref: '#/components/schemas/transaction-origin-endpoint'
+        destination:
+          description: The destination of the transaction.
+          $ref: '#/components/schemas/transaction-destination-endpoint'
+        denomination:
+          description: The denomination of the transaction.
+          $ref: '#/components/schemas/transaction-denomination'
+        fees:
+          description: The fees of the transaction.
+          $ref: '#/components/schemas/transaction-fees'
+        status:
+          description: Status of the transaction.
+          type: string
+          enum:
+          - processing
+          - on-hold
+          - completed
+          - failed
+        statusDetails:
+          description: The details of the status of the transaction.
+          type: object
+          properties:
+            reason:
+              $ref: '#/components/schemas/transaction-status-reason'
+        quotedAt:
+          description: The time at which the quote was created.
+          type: string
+          format: date-time
+        createdAt:
+          description: The time at which the transaction was created.
+          type: string
+          format: date-time
+        updatedAt:
+          description: The last time at which the transaction was updated.
+          type: string
+          format: date-time
+        completedAt:
+          description: The date and time the transaction was completed.
+          type: string
+          format: date-time
+      required:
+      - id
+      - origin
+      - destination
+      - fees
+      - status
+      - createdAt
+      - updatedAt
+      - quotedAt
+    create-quote-destination-node:
+      type: object
+      discriminator:
+        propertyName: type
+        mapping:
+          account: '#/components/schemas/create-quote-node-account'
+          external-account: '#/components/schemas/create-quote-node-external-account'
+          apm: '#/components/schemas/create-quote-node-apm'
+          crypto-address: '#/components/schemas/create-quote-node-crypto-address'
+      oneOf:
+      - title: Account
+        $ref: '#/components/schemas/create-quote-node-account'
+      - title: External account
+        $ref: '#/components/schemas/create-quote-node-external-account'
+      - title: Alternative payment method
+        $ref: '#/components/schemas/create-quote-node-apm'
+      - title: Crypto address
+        $ref: '#/components/schemas/create-quote-node-crypto-address'
+      required:
+      - type
+    create-transaction-authorize-3ds-requirement:
+      type: object
+      properties:
+        name:
+          description: The name of the requirement.
+          type: string
+          enum:
+          - authorize:3ds
+        returnUrl:
+          description: The URL to redirect after the 3DS authorization flow.
+          type: string
+          format: uri
+          pattern: ^[a-zA-Z][a-zA-Z0-9+\-.]*:\/\/[^\s]+$
+      required:
+      - name
+      - returnUrl
+    transaction-node-bank-address:
+      type: object
+      properties:
+        type:
+          description: The type of the node.
+          type: string
+          enum:
+          - bank-address
+        network:
+          description: The network of the bank transfer.
+          type: string
+      required:
+      - type
+      - network
+    string-no-edge-spaces:
+      type: string
+      pattern: ^\S.*\S$|^\S$
+    create-transaction-requirement:
+      type: object
+      discriminator:
+        propertyName: name
+        mapping:
+          authorize:3ds: '#/components/schemas/create-transaction-authorize-3ds-requirement'
+          authorize:apple-pay: '#/components/schemas/create-transaction-authorize-apple-pay-requirement'
+          authorize:paypal: '#/components/schemas/create-transaction-authorize-paypal-venmo-requirement'
+          authorize:venmo: '#/components/schemas/create-transaction-authorize-paypal-venmo-requirement'
+      oneOf:
+      - title: Authorize 3DS
+        $ref: '#/components/schemas/create-transaction-authorize-3ds-requirement'
+      - title: Authorize Apple Pay
+        $ref: '#/components/schemas/create-transaction-authorize-apple-pay-requirement'
+      - title: Authorize PayPal/Venmo
+        $ref: '#/components/schemas/create-transaction-authorize-paypal-venmo-requirement'
+    transaction-node-crypto-address-execution-offchain:
+      type: object
+      properties:
+        mode:
+          description: The mode of execution.
+          type: string
+          enum:
+          - offchain
+        accountId:
+          description: The account id to which the off-chain transaction was made.
+          type: string
+          format: uuid
+        accountOwnerId:
+          description: The id of the user that owns the account to which the off-chain transaction was made.
+          type: string
+          format: uuid
+      required:
+      - mode
+    transaction-node-external-account:
+      type: object
+      properties:
+        type:
+          description: The type of the node.
+          type: string
+          enum:
+          - external-account
+        id:
+          description: The external account id.
+          type: string
+          format: uuid
+        confirmationUrl:
+          description: The URL to confirm the authorization using the external account (e.g., 3DS).
+          type: string
+          format: uri
+        ownerId:
+          description: The id of the user that owns the external account.
+          type: string
+          format: uuid
+        network:
+          description: The network used for the transaction with the external account.
+          type: string
+      required:
+      - type
+      - id
+      - ownerId
+    transaction-origin-endpoint:
+      type: object
+      properties:
+        asset:
+          description: The asset of the endpoint.
+          type: string
+        amount:
+          description: The amount of the endpoint.
+          type: string
+        rate:
+          description: The rate of the endpoint against its counter-part (origin to destination and vice-versa).
+          type: string
+        node:
+          description: The node of the endpoint.
+          $ref: '#/components/schemas/transaction-origin-node'
+      required:
+      - asset
+      - amount
+      - rate
+      - node
+    transaction-destination-endpoint:
+      type: object
+      properties:
+        asset:
+          description: The asset of the endpoint.
+          type: string
+        amount:
+          description: The amount of the endpoint.
+          type: string
+        rate:
+          description: The rate of the endpoint against its counter-part (origin to destination and vice-versa).
+          type: string
+        node:
+          description: The node of the endpoint.
+          $ref: '#/components/schemas/transaction-destination-node'
+      required:
+      - asset
+      - amount
+      - rate
+      - node
+    create-transaction-authorize-paypal-venmo-requirement:
+      type: object
+      properties:
+        name:
+          description: The name of the requirement.
+          type: string
+          enum:
+          - authorize:paypal
+          - authorize:venmo
+        provider:
+          description: The provider used for the authorization.
+          type: string
+          enum:
+          - braintree
+        deviceData:
+          description: The device data for fraud prevention.
+          type: string
+        tokenizedPayment:
+          description: The payload from the payment provider.
+          type: object
+          additionalProperties: true
+      required:
+      - name
+      - provider
+      - deviceData
+    metadata:
+      type: object
+      additionalProperties: true
+      minProperties: 1
+    transaction-node-account:
+      type: object
+      properties:
+        type:
+          description: The type of the node.
+          type: string
+          enum:
+          - account
+        id:
+          description: The account id.
+          type: string
+          format: uuid
+        ownerId:
+          description: The id of the user that owns the account.
+          type: string
+          format: uuid
+      required:
+      - type
+      - id
+      - ownerId
+    transaction-status-reason:
+      description: The reason why the transaction failed.
+      type: string
+      enum:
+      - apm-account-holder-data-mismatch
+      - apm-authorization-failed
+      - apm-missing-account-holder-data
+      - apm-payment-method-declined
+      - bank-account-holder-name-mismatch
+      - beneficiary-country-restricted
+      - card-declined-by-bank
+      - card-expired
+      - card-permanently-declined-by-bank
+      - card-unauthorized
+      - card-unsupported
+      - card-withdrawals-unsupported
+      - insufficient-funds
+      - pending-requests-for-information
+      - provider-maximum-limit-exceeded
+      - screening-verification-failed
+      - travel-rule-verification-failed
+      - unspecified-error
+      - velocity
+    transaction-node-crypto-address:
+      type: object
+      properties:
+        type:
+          description: The type of the node.
+          type: string
+          enum:
+          - crypto-address
+        network:
+          description: The network that the crypto address is on.
+          $ref: '#/components/schemas/string-no-edge-spaces'
+        address:
+          description: The crypto address (may not be available for deposits).
+          $ref: '#/components/schemas/string-no-edge-spaces'
+        reference:
+          description: The additional identifier (e.g., destination tag, memo, or message) for the crypto address.
+          type: string
+        execution:
+          description: The execution details for the transaction.
+          $ref: '#/components/schemas/transaction-node-crypto-address-execution'
+      required:
+      - type
+      - network
+    create-quote-node-external-account:
+      type: object
+      properties:
+        type:
+          description: The type of the node.
+          type: string
+          enum:
+          - external-account
+        id:
+          description: The external account id.
+          type: string
+          format: uuid
+        network:
+          allOf:
+          - $ref: '#/components/schemas/string-no-edge-spaces'
+          - description: The network used for the transaction with the external account.
+      required:
+      - type
+      - id
+    subdivision-code-for-request:
+      type: string
+      pattern: ^[A-Z]{2}-[A-Z0-9]{1,3}$
+    country-code-for-request:
+      type: string
+      pattern: ^[A-Z]{2}$
+    request-for-information:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The id of the RFI.
+        type:
+          description: The type of the RFI.
+          type: string
+          enum:
+          - travel-rule
+        status:
+          description: The status of the RFI.
+          type: string
+          enum:
+          - ok
+          - pending
+          - expired
+          - failed
+        data:
+          type: object
+          additionalProperties: true
+        createdAt:
+          description: The time at which the RFI was created.
+          type: string
+          format: date-time
+        updatedAt:
+          description: The date and time when the RFI was updated.
+          type: string
+          format: date-time
+      required:
+      - id
+      - type
+      - status
+      - createdAt
+      - updatedAt
+    feedback:
+      description: A feedback message with a code and human-readable description.
+      type: object
+      properties:
+        code:
+          description: A short string with a brief explanation about the code reported.
+          type: string
+        message:
+          description: A human-readable message providing more details.
+          type: string
+        details:
+          description: Additional information about the feedback reported.
+          type: object
+          additionalProperties: true
+      required:
+      - code
+      - message
+    transaction-node-apm:
+      type: object
+      properties:
+        type:
+          description: The type of the node.
+          type: string
+          enum:
+          - apm
+        method:
+          description: The alternative payment method to be used in the operation.
+          enum:
+          - apple-pay
+          - paypal
+          - venmo
+      required:
+      - type
+      - method
+    error:
+      description: The error information.
+      allOf:
+      - $ref: '#/components/schemas/feedback'
+    transaction-fees:
+      type: array
+      items:
+        type: object
+        properties:
+          type:
+            description: The type of the fee.
+            type: string
+            enum:
+            - deposit
+            - exchange
+            - network
+            - withdrawal
+          code:
+            description: The code of the fee.
+            type: string
+          asset:
+            description: The asset in which the fee is denominated.
+            type: string
+          amount:
+            description: The amount of the fee.
+            type: string
+          percentage:
+            description: The percentage of the fee, if the amount was calculated from a percentage.
+            type: string
+        required:
+        - type
+        - code
+        - asset
+        - amount
+    create-quote-node-account:
+      type: object
+      properties:
+        type:
+          description: The type of the node.
+          type: string
+          enum:
+          - account
+        id:
+          description: The account id.
+          type: string
+          format: uuid
+      required:
+      - type
+      - id
+    create-transaction-authorize-apple-pay-requirement:
+      type: object
+      properties:
+        name:
+          description: The name of the requirement.
+          type: string
+          enum:
+          - authorize:apple-pay
+        provider:
+          description: The provider used for the authorization.
+          type: string
+          enum:
+          - checkout
+        deviceData:
+          description: The device data for fraud prevention.
+          type: string
+        tokenizedPayment:
+          description: The payload from the payment provider.
+          type: object
+          additionalProperties: true
+      required:
+      - name
+      - provider
+      - deviceData
+      - tokenizedPayment
+    transaction-denomination:
+      type: object
+      properties:
+        asset:
+          description: The asset in which the transaction is denominated.
+          type: string
+        amount:
+          description: The amount of the transaction.
+          type: string
+        rate:
+          description: The rate against the specified target (origin or destination).
+          type: string
+        target:
+          description: Whether this exact amount should be paid by the origin or received by the destination.
+          type: string
+          enum:
+          - origin
+          - destination
+      required:
+      - asset
+      - amount
+      - rate
+      - target
+    quote:
+      type: object
+      properties:
+        id:
+          description: The id of the quote.
+          type: string
+          format: uuid
+        origin:
+          description: The origin of the quote.
+          $ref: '#/components/schemas/quote-origin-endpoint'
+        destination:
+          description: The destination of the quote.
+          $ref: '#/components/schemas/quote-destination-endpoint'
+        denomination:
+          description: The denomination of the quote.
+          $ref: '#/components/schemas/transaction-denomination'
+        fees:
+          description: The fees of the quote.
+          $ref: '#/components/schemas/transaction-fees'
+        requirements:
+          description: The requirements the user must address when attempting to create the transaction with this quote.
+          $ref: '#/components/schemas/quote-requirements'
+        expiresAt:
+          description: The time at which the quote expires.
+          type: string
+          format: date-time
+      required:
+      - id
+      - origin
+      - destination
+      - denomination
+      - fees
+      - requirements
+      - expiresAt
+    webhook-event:
+      description: The webhook event information.
+      type: object
+      properties:
+        id:
+          description: The id of the event.
+          type: string
+          format: uuid
+        type:
+          description: The type of event.
+          type: string
+        createdAt:
+          description: The date and time when the event was created.
+          type: string
+          format: date-time
+        data:
+          description: The event payload.
+          type: object
+      required:
+      - id
+      - type
+      - createdAt
+      - data
+    quote-origin-node:
+      type: object
+      discriminator:
+        propertyName: type
+        mapping:
+          account: '#/components/schemas/transaction-node-account'
+          external-account: '#/components/schemas/transaction-node-external-account'
+          bank-address: '#/components/schemas/transaction-node-bank-address'
+          apm: '#/components/schemas/transaction-node-apm'
+          crypto-address: '#/components/schemas/transaction-node-crypto-address'
+      oneOf:
+      - title: Account
+        $ref: '#/components/schemas/transaction-node-account'
+      - title: External account
+        $ref: '#/components/schemas/transaction-node-external-account'
+      - title: Alternative payment method
+        $ref: '#/components/schemas/transaction-node-apm'
+    transaction-origin-node:
+      type: object
+      discriminator:
+        propertyName: type
+        mapping:
+          account: '#/components/schemas/transaction-node-account'
+          external-account: '#/components/schemas/transaction-node-external-account'
+          bank-address: '#/components/schemas/transaction-node-bank-address'
+          apm: '#/components/schemas/transaction-node-apm'
+          crypto-address: '#/components/schemas/transaction-node-crypto-address'
+      oneOf:
+      - title: Account
+        $ref: '#/components/schemas/transaction-node-account'
+      - title: External account
+        $ref: '#/components/schemas/transaction-node-external-account'
+      - title: Bank address
+        $ref: '#/components/schemas/transaction-node-bank-address'
+      - title: Alternative payment method
+        $ref: '#/components/schemas/transaction-node-apm'
+      - title: Crypto address
+        $ref: '#/components/schemas/transaction-node-crypto-address'
+    transaction-node-crypto-address-execution-onchain:
+      type: object
+      properties:
+        mode:
+          description: The mode of execution.
+          type: string
+          enum:
+          - onchain
+        transactionHash:
+          description: The hash of the transaction in the blockchain.
+          $ref: '#/components/schemas/string-no-edge-spaces'
+      required:
+      - mode
+    quote-origin-endpoint:
+      type: object
+      properties:
+        asset:
+          description: The asset of the endpoint.
+          type: string
+        amount:
+          description: The amount of the endpoint.
+          type: string
+        rate:
+          description: The rate of the endpoint against its counter-part (origin to destination and vice-versa).
+          type: string
+        node:
+          description: The node of the endpoint.
+          $ref: '#/components/schemas/quote-origin-node'
+      required:
+      - asset
+      - amount
+      - rate
+      - node
+    non-zero-decimal-amount:
+      type: string
+      pattern: ^(?!0+(\.0+)?$)\d+(\.\d+)?$
+    pagination:
+      description: The pagination information.
+      type: object
+      properties:
+        first:
+          description: The URL to the first set of results.
+          type: string
+          format: uri
+        prev:
+          description: The URL to the previous set of results.
+          type: string
+          format: uri
+        next:
+          description: The URL to the next set of results.
+          type: string
+          format: uri
+    quote-destination-endpoint:
+      type: object
+      properties:
+        asset:
+          description: The asset of the endpoint.
+          type: string
+        amount:
+          description: The amount of the endpoint.
+          type: string
+        rate:
+          description: The rate of the endpoint against its counter-part (origin to destination and vice-versa).
+          type: string
+        node:
+          description: The node of the endpoint.
+          $ref: '#/components/schemas/quote-destination-node'
+      required:
+      - asset
+      - amount
+      - rate
+      - node
+    create-quote-node-apm:
+      type: object
+      properties:
+        type:
+          description: The type of the node.
+          type: string
+          enum:
+          - apm
+        method:
+          description: The alternative payment method to be used in the operation.
+          enum:
+          - apple-pay
+          - paypal
+          - venmo
+      required:
+      - type
+      - method
+    quote-destination-node:
+      type: object
+      discriminator:
+        propertyName: type
+        mapping:
+          account: '#/components/schemas/transaction-node-account'
+          external-account: '#/components/schemas/transaction-node-external-account'
+          crypto-address: '#/components/schemas/transaction-node-crypto-address'
+      oneOf:
+      - title: Account
+        $ref: '#/components/schemas/transaction-node-account'
+      - title: External account
+        $ref: '#/components/schemas/transaction-node-external-account'
+      - title: Alternative payment method
+        $ref: '#/components/schemas/transaction-node-apm'
+      - title: Crypto address
+        $ref: '#/components/schemas/transaction-node-crypto-address'
+    create-quote-origin-node:
+      type: object
+      discriminator:
+        propertyName: type
+        mapping:
+          account: '#/components/schemas/create-quote-node-account'
+          external-account: '#/components/schemas/create-quote-node-external-account'
+          apm: '#/components/schemas/create-quote-node-apm'
+      oneOf:
+      - title: Account
+        $ref: '#/components/schemas/create-quote-node-account'
+      - title: External account
+        $ref: '#/components/schemas/create-quote-node-external-account'
+      - title: Alternative payment method
+        $ref: '#/components/schemas/create-quote-node-apm'
+      required:
+      - type
+  parameters:
+    x-on-behalf-of:
+      name: X-On-Behalf-Of
+      description: The subject on whose behalf the operation is being performed.
+      in: header
+      schema:
+        type: string
+        pattern: ^(user|client)\s[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$
+      examples:
+        User Identifier:
+          value: user cd21b26d-35d2-408a-9201-b8fdbef7a604
+        Client Identifier:
+          value: client 3fa85f64-5717-4562-b3fc-2c963f66afa6
+    x-uphold-user-city:
+      name: X-Uphold-User-City
+      description: Contains the name of the city of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        User City:
+          value: San Francisco
+    pagination-per-page:
+      name: perPage
+      description: The number of items per page.
+      in: query
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 100
+        default: 10
+      examples:
+        10 Items Per Page:
+          value: 10
+    x-uphold-user-origin:
+      name: X-Uphold-User-Origin
+      description: Contains the origin of the request made by the end user.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        Origin:
+          value: https://uphold.com
+    request-for-information-id:
+      name: requestForInformationId
+      description: The request for information id.
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      examples:
+        Request for Information ID:
+          value: adaf5731-b80a-4079-8561-c77597ac59d2
+    webhook-id:
+      name: webhook-id
+      description: The unique identifier of the webhook.
+      in: header
+      required: true
+      schema:
+        type: string
+      examples:
+        Webhook ID:
+          value: msg_p5jXN8AQM9LWM0D4loKWxJek
+    transaction-id:
+      name: transactionId
+      description: The transaction id.
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      examples:
+        Transaction ID:
+          value: 623000c8-9bdf-4a2b-aa3d-6a6b44a7f6a0
+    account-id:
+      name: accountId
+      description: The account id.
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      examples:
+        Account Identifier:
+          value: 555a99a1-620d-4431-a0ac-b43e1aad2bdc
+    webhook-timestamp:
+      name: webhook-timestamp
+      description: The timestamp of the webhook, in seconds after the Unix epoch.
+      in: header
+      required: true
+      schema:
+        type: integer
+      examples:
+        Webhook Timestamp:
+          value: 1614265330
+    x-uphold-user-ip:
+      name: X-Uphold-User-Ip
+      description: Contains the IP of the end user that is requesting the operation.
+      in: header
+      schema:
+        oneOf:
+        - title: IPv4
+          type: string
+          format: ipv4
+        - title: IPv6
+          type: string
+          format: ipv6
+      examples:
+        User Ip:
+          value: 47.174.97.164
+    x-uphold-user-country:
+      name: X-Uphold-User-Country
+      description: Contains the code of the country of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/country-code-for-request'
+      examples:
+        User Country:
+          value: US
+    x-uphold-user-agent:
+      name: X-Uphold-User-Agent
+      description: Contains the user agent of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        User Agent:
+          value: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36
+    webhook-signature:
+      name: webhook-signature
+      description: The signature of the webhook.
+      in: header
+      required: true
+      schema:
+        type: string
+      examples:
+        Webhook Signature:
+          value: v1,Hw8/adTzfYtjPGhuBahfmGhUROG3AvEKH3mvkeK791Q=
+    x-uphold-user-subdivision:
+      name: X-Uphold-User-Subdivision
+      description: Contains the code of the subdivision of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/subdivision-code-for-request'
+      examples:
+        User Subdivision:
+          value: US-CA
+  responses:
+    create-transaction-not-found-response:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Quote Not Found:
+              value:
+                code: entity_not_found
+                message: The quote cannot be found
+                details:
+                  entity: quote
+            Destination Not Found:
+              value:
+                code: entity_not_found
+                message: The destination cannot be found
+                details:
+                  entity: account
+                  context: body
+                  property: destination
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    too-many-requests:
+      description: Too Many Requests.
+      headers:
+        Retry-After:
+          description: The number of seconds to wait before making a new request.
+          schema:
+            type: integer
+            format: int32
+          examples:
+            Retry After:
+              value: 60
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Too Many Requests:
+              value:
+                code: too_many_requests
+                message: Try again later
+    transaction-not-found-response:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Transaction Not Found:
+              value:
+                code: entity_not_found
+                message: The transaction cannot be found
+                details:
+                  entity: transaction
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    forbidden:
+      description: Forbidden.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Token Insufficient Scopes:
+              value:
+                code: token_insufficient_scopes
+                message: Authorization failed due to insufficient scopes
+                details:
+                  security:
+                  - scheme: OAuth
+                    schemeScopes:
+                    - required:scope_1
+                    - required:scope_2
+                    tokenScopes:
+                    - token:scope
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-transaction-not-found-response:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Transaction Not Found:
+              value:
+                code: entity_not_found
+                message: The transaction cannot be found
+                details:
+                  entity: transaction
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    list-transaction-requests-for-information-response:
+      description: Requests for information retrieved.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              requestsForInformation:
+                type: array
+                items:
+                  $ref: '#/components/schemas/request-for-information'
+            required:
+            - requestsForInformation
+          examples:
+            Requests for Information Retrieved:
+              value:
+                requestsForInformation:
+                - id: 3f6d0c1e-a1bf-4b25-9802-2a3ee492d3c8
+                  type: travel-rule
+                  status: pending
+                  createdAt: '2024-07-25T10:00:00.000Z'
+                  updatedAt: '2024-07-30T10:00:00.000Z'
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    update-transaction-request-for-information-response:
+      description: Request for information updated.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              requestForInformation:
+                $ref: '#/components/schemas/request-for-information'
+            required:
+            - requestForInformation
+          examples:
+            Request for Information Updated:
+              value:
+                requestForInformation:
+                  id: 3f6d0c1e-a1bf-4b25-9802-2a3ee492d3c8
+                  type: travel-rule
+                  status: ok
+                  data:
+                    originatorProof:
+                      type: self-declaration
+                      did: did:pkh:xrpl:0:rExampleAddress123456789
+                      address: xrpl:0:rExampleAddress123456789
+                      attestation: I hereby declare that the blockchain address rExampleAddress123456789 is under my own control and ownership.
+                      confirmed: true
+                      status: verified
+                    transactionAsset:
+                      caip19: xrpl:0/slip44:144
+                    transactionAmount: '4000000'
+                    originatorEqualsBeneficiary: true
+                    beneficiaryVASPdid: did:ethr:0xExampleVASPAddress000000000000000000000000
+                    originatorVASPdid: did:pkh:xrpl:0:rExampleAddress123456789
+                    beneficiary: {}
+                    originator:
+                      originatorPersons:
+                      - naturalPerson:
+                          name:
+                            nameIdentifier:
+                            - primaryIdentifier: Doe
+                              secondaryIdentifier: John
+                              nameIdentifierType: LEGL
+                  createdAt: '2024-07-25T10:00:00.000Z'
+                  updatedAt: '2024-07-30T10:00:00.000Z'
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-transaction-request-for-information-not-found-response:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Request for Information Not Found:
+              value:
+                code: entity_not_found
+                message: The request for information cannot be found
+                details:
+                  entity: request-for-information
+            Transaction Not Found:
+              value:
+                code: entity_not_found
+                message: The transaction cannot be found
+                details:
+                  entity: transaction
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    create-transaction-conflict-response:
+      description: Business logic error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Insufficient Balance:
+              value:
+                code: insufficient_balance
+                message: The origin does not have enough balance to perform the transaction
+                details:
+                  context: body
+                  property: origin
+            Missing User Context:
+              value:
+                code: operation_not_allowed
+                message: Request not allowed due to missing user context
+                details:
+                  reasons:
+                  - missing-user-ip-header
+                  - missing-user-agent-header
+            Missing Return URL:
+              value:
+                code: operation_not_allowed
+                message: Transaction not allowed due to a missing return URL
+                details:
+                  reasons:
+                  - missing-return-url
+            Duplicate Withdrawal:
+              value:
+                code: operation_not_allowed
+                message: Transaction not allowed due to a duplicate withdrawal
+                details:
+                  reasons:
+                  - duplicate-withdrawal
+            Processing Failure:
+              value:
+                code: operation_not_allowed
+                message: Transaction not allowed due to a processing failure
+                details:
+                  reasons:
+                  - card-unauthorized
+            User Capability Failure:
+              value:
+                code: user_capability_failure
+                message: The user has capability constraints
+                details:
+                  capability:
+                    code: trades
+                    requirements:
+                    - user-must-submit-identity
+                    restrictions: []
+              summary: User capability failure test
+            Amount Exceeds Periodic Limit:
+              value:
+                code: transaction_amount_invalid
+                message: The amount exceeds the daily limit
+                details:
+                  context: body
+                  property: denomination
+                  rule: amount-exceeds-daily-limit
+                  limit:
+                    maximumAmount: '100.00'
+                    remainingAmount: '80.00'
+            Amount Maximum Limit Exceeded:
+              value:
+                code: transaction_amount_invalid
+                message: The amount maximum limit was exceeded
+                details:
+                  context: body
+                  property: denomination
+                  rule: maximum-limit-exceeded
+                  limit:
+                    maximumAmount: 150
+            Amount Minimum Limit Not Met:
+              value:
+                code: transaction_amount_invalid
+                message: The amount minimum limit was not met
+                details:
+                  context: body
+                  property: denomination
+                  rule: minimum-limit-not-met
+                  limit:
+                    minimumAmount: 0.85
+            Unspecified Error:
+              value:
+                code: operation_not_allowed
+                message: Transaction not allowed due to an unspecified error
+                details:
+                  reasons:
+                  - unspecified-error
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-transaction-response:
+      description: Transaction retrieved.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              transaction:
+                $ref: '#/components/schemas/transaction'
+            required:
+            - transaction
+          examples:
+            Transaction Retrieved:
+              value:
+                transaction:
+                  id: 623000c8-9bdf-4a2b-aa3d-6a6b44a7f6a0
+                  origin:
+                    amount: '100.00'
+                    asset: GBP
+                    rate: '47619.04761904762'
+                    node:
+                      type: account
+                      id: b98e4f0d-a67d-4126-a99d-666f7e0315d9
+                      ownerId: e4ce04dc-67b7-4e9f-af91-482cb6f9fc4a
+                  destination:
+                    amount: '0.0021'
+                    asset: BTC
+                    rate: '0.000021'
+                    node:
+                      type: account
+                      id: 555a99a1-620d-4431-a0ac-b43e1aad2bdc
+                      ownerId: e4ce04dc-67b7-4e9f-af91-482cb6f9fc4a
+                  denomination:
+                    amount: '100.00'
+                    asset: GBP
+                    target: origin
+                    rate: '1'
+                  fees: []
+                  status: completed
+                  quotedAt: '2024-07-24T15:02:39.000Z'
+                  createdAt: '2024-07-24T15:22:39.000Z'
+                  updatedAt: '2024-07-24T15:33:08.000Z'
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    bad-request:
+      description: Bad Request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Invalid Request:
+              value:
+                code: request_invalid
+                message: The request has missing or invalid parameters
+                details:
+                  context: <context>
+                  violations:
+                  - property: <property>
+                    rule: required
+                  - property: <property>
+                    rule: type
+                    ruleParams:
+                      type: string
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    create-transaction-response:
+      description: Transaction created.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              transaction:
+                $ref: '#/components/schemas/transaction'
+              errors:
+                description: Additional contextual errors that occurred while processing the request.
+                type: object
+                properties:
+                  metadata:
+                    allOf:
+                    - $ref: '#/components/schemas/error'
+                    - description: Error related to metadata processing.
+            required:
+            - transaction
+          examples:
+            Trade Transaction Created:
+              value:
+                transaction:
+                  id: 623000c8-9bdf-4a2b-aa3d-6a6b44a7f6a0
+                  origin:
+                    amount: '100.00'
+                    asset: GBP
+                    rate: '47619.04761904762'
+                    node:
+                      type: account
+                      id: b98e4f0d-a67d-4126-a99d-666f7e0315d9
+                      ownerId: e4ce04dc-67b7-4e9f-af91-482cb6f9fc4a
+                  destination:
+                    amount: '0.0021'
+                    asset: BTC
+                    rate: '0.000021'
+                    node:
+                      type: account
+                      id: 555a99a1-620d-4431-a0ac-b43e1aad2bdc
+                      ownerId: e4ce04dc-67b7-4e9f-af91-482cb6f9fc4a
+                  denomination:
+                    amount: '100.00'
+                    asset: GBP
+                    target: origin
+                    rate: '1'
+                  fees: []
+                  status: processing
+                  quotedAt: '2024-07-24T15:02:39.000Z'
+                  createdAt: '2024-07-24T15:22:39.000Z'
+                  updatedAt: '2024-07-24T15:32:39.000Z'
+            Transaction Created With Metadata Error:
+              value:
+                transaction:
+                  id: 623000c8-9bdf-4a2b-aa3d-6a6b44a7f6a0
+                  origin:
+                    amount: '100.00'
+                    asset: GBP
+                    rate: '47619.04761904762'
+                    node:
+                      type: account
+                      id: b98e4f0d-a67d-4126-a99d-666f7e0315d9
+                      ownerId: e4ce04dc-67b7-4e9f-af91-482cb6f9fc4a
+                  destination:
+                    amount: '0.0021'
+                    asset: BTC
+                    rate: '0.000021'
+                    node:
+                      type: account
+                      id: 555a99a1-620d-4431-a0ac-b43e1aad2bdc
+                      ownerId: e4ce04dc-67b7-4e9f-af91-482cb6f9fc4a
+                  denomination:
+                    amount: '100.00'
+                    asset: GBP
+                    target: origin
+                    rate: '1'
+                  fees: []
+                  status: processing
+                  quotedAt: '2024-07-24T15:02:39.000Z'
+                  createdAt: '2024-07-24T15:22:39.000Z'
+                  updatedAt: '2024-07-24T15:32:39.000Z'
+                errors:
+                  metadata:
+                    code: content_too_large
+                    message: The entity metadata size is greater than maximum size limit
+                    details:
+                      threshold:
+                        unit: characters
+                        limit: 1024
+            Deposit From External Account Created (Card):
+              value:
+                transaction:
+                  id: 623000c8-9bdf-4a2b-aa3d-6a6b44a7f6a0
+                  origin:
+                    amount: '100.00'
+                    asset: GBP
+                    rate: '47619.04761904762'
+                    node:
+                      type: external-account
+                      id: b98e4f0d-a67d-4126-a99d-666f7e0315d9
+                      confirmationUrl: https://authentication-devices.sandbox.checkout.com/sessions-interceptor/sid_zrih63pnk6ietkpuerqiyd5zga
+                      ownerId: e4ce04dc-67b7-4e9f-af91-482cb6f9fc4a
+                  destination:
+                    amount: '0.0021'
+                    asset: BTC
+                    rate: '0.000021'
+                    node:
+                      type: account
+                      id: 555a99a1-620d-4431-a0ac-b43e1aad2bdc
+                      ownerId: e4ce04dc-67b7-4e9f-af91-482cb6f9fc4a
+                  denomination:
+                    amount: '100.00'
+                    asset: GBP
+                    target: origin
+                    rate: '1'
+                  fees: []
+                  status: processing
+                  quotedAt: '2024-07-24T15:02:39.000Z'
+                  createdAt: '2024-07-24T15:22:39.000Z'
+                  updatedAt: '2024-07-24T15:32:39.000Z'
+            Withdrawal To External Account Created:
+              value:
+                transaction:
+                  id: 623000c8-9bdf-4a2b-aa3d-6a6b44a7f6a0
+                  origin:
+                    amount: '100.00'
+                    asset: GBP
+                    rate: '47619.04761904762'
+                    node:
+                      type: account
+                      id: b98e4f0d-a67d-4126-a99d-666f7e0315d9
+                      ownerId: e4ce04dc-67b7-4e9f-af91-482cb6f9fc4a
+                  destination:
+                    amount: '0.0021'
+                    asset: BTC
+                    rate: '0.000021'
+                    node:
+                      type: external-account
+                      id: 555a99a1-620d-4431-a0ac-b43e1aad2bdc
+                      ownerId: e4ce04dc-67b7-4e9f-af91-482cb6f9fc4a
+                  denomination:
+                    amount: '100.00'
+                    asset: GBP
+                    target: origin
+                    rate: '1'
+                  fees: []
+                  status: processing
+                  quotedAt: '2024-07-24T15:02:39.000Z'
+                  createdAt: '2024-07-24T15:22:39.000Z'
+                  updatedAt: '2024-07-24T15:32:39.000Z'
+            Withdrawal to Crypto Address Created (On-chain):
+              value:
+                transaction:
+                  id: 623000c8-9bdf-4a2b-aa3d-6a6b44a7f6a0
+                  origin:
+                    amount: '0.00121023'
+                    asset: BTC
+                    rate: '0.00002629253259492961'
+                    node:
+                      type: account
+                      id: b98e4f0d-a67d-4126-a99d-666f7e0315d9
+                      ownerId: e4ce04dc-67b7-4e9f-af91-482cb6f9fc4a
+                  destination:
+                    amount: '0.00121023'
+                    asset: BTC
+                    rate: '1'
+                    node:
+                      type: crypto-address
+                      address: 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
+                      network: bitcoin
+                      execution:
+                        mode: onchain
+                        transactionHash: c555dc3f57478014298929b95639b9e5d9b75d4d91e16620c839b47cfefe0c76
+                  denomination:
+                    amount: '100.00'
+                    asset: GBP
+                    target: origin
+                    rate: '0.00001210225938333485'
+                  fees: []
+                  status: processing
+                  quotedAt: '2024-07-24T15:02:39.000Z'
+                  createdAt: '2024-07-24T15:22:39.000Z'
+                  updatedAt: '2024-07-24T15:32:39.000Z'
+            Withdrawal to Crypto Address Created (Off-chain):
+              value:
+                transaction:
+                  id: 623000c8-9bdf-4a2b-aa3d-6a6b44a7f6a0
+                  origin:
+                    amount: '0.00121023'
+                    asset: BTC
+                    rate: '0.00002629253259492961'
+                    node:
+                      type: account
+                      id: b98e4f0d-a67d-4126-a99d-666f7e0315d9
+                      ownerId: e4ce04dc-67b7-4e9f-af91-482cb6f9fc4a
+                  destination:
+                    amount: '0.00121023'
+                    asset: BTC
+                    rate: '1'
+                    node:
+                      type: crypto-address
+                      address: 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
+                      network: bitcoin
+                      execution:
+                        mode: offchain
+                        accountId: d4c0dabb-79f1-4aec-9850-8bd6981275d5
+                        accountOwnerId: 459762a5-fab0-43d1-9b55-1c92135779f9
+                  denomination:
+                    amount: '100.00'
+                    asset: GBP
+                    target: origin
+                    rate: '0.00001210225938333485'
+                  fees: []
+                  status: processing
+                  quotedAt: '2024-07-24T15:02:39.000Z'
+                  createdAt: '2024-07-24T15:22:39.000Z'
+                  updatedAt: '2024-07-24T15:32:39.000Z'
+            Withdrawal to Crypto Address Created (Simulated):
+              value:
+                transaction:
+                  id: 623000c8-9bdf-4a2b-aa3d-6a6b44a7f6a0
+                  origin:
+                    amount: '0.00121023'
+                    asset: BTC
+                    rate: '0.00002629253259492961'
+                    node:
+                      type: account
+                      id: b98e4f0d-a67d-4126-a99d-666f7e0315d9
+                      ownerId: e4ce04dc-67b7-4e9f-af91-482cb6f9fc4a
+                  destination:
+                    amount: '0.00121023'
+                    asset: BTC
+                    rate: '1'
+                    node:
+                      type: crypto-address
+                      address: 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
+                      network: bitcoin
+                      execution:
+                        mode: simulated
+                        transactionHash: c555dc3f57478014298929b95639b9e5d9b75d4d91e16620c839b47cfefe0c76
+                  denomination:
+                    amount: '100.00'
+                    asset: GBP
+                    target: origin
+                    rate: '0.00001210225938333485'
+                  fees: []
+                  status: processing
+                  quotedAt: '2024-07-24T15:02:39.000Z'
+                  createdAt: '2024-07-24T15:22:39.000Z'
+                  updatedAt: '2024-07-24T15:32:39.000Z'
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    create-quote-conflict-response:
+      description: Business logic error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Origin Asset Missing Sell Feature:
+              value:
+                code: asset_feature_not_available
+                message: The 'sell' feature is not available for the origin asset
+                details:
+                  context: body
+                  property: origin
+                  feature: sell
+            Destination Asset Missing Buy Feature:
+              value:
+                code: asset_feature_not_available
+                message: The 'buy' feature is not available for the destination asset
+                details:
+                  context: body
+                  property: destination
+                  feature: buy
+            Transaction Node Invalid:
+              value:
+                code: transaction_node_invalid
+                message: The origin node is invalid
+            Destination External Account Missing Withdraw Feature:
+              value:
+                code: transaction_node_invalid
+                message: The destination external account lacks 'withdraw' feature
+            Destination External Account Network Not Supported:
+              value:
+                code: transaction_node_invalid
+                message: The destination external account does not support the specified network
+            Crypto Address Invalid:
+              value:
+                code: crypto_address_invalid
+                message: The crypto address is invalid
+                details:
+                  context: body
+                  property: destination.address
+            Crypto Address Reference Missing:
+              value:
+                code: crypto_address_invalid
+                message: The crypto address reference is missing
+                details:
+                  context: body
+                  property: destination.reference
+            Crypto Address Reference Invalid:
+              value:
+                code: crypto_address_invalid
+                message: The crypto address reference is invalid
+                details:
+                  context: body
+                  property: destination.reference
+            Amount Maximum Limit Exceeded:
+              value:
+                code: transaction_amount_invalid
+                message: The amount maximum limit was exceeded
+                details:
+                  context: body
+                  property: denomination
+                  rule: maximum-limit-exceeded
+                  limit:
+                    maximumAmount: 150
+            Amount Minimum Limit Not Met:
+              value:
+                code: transaction_amount_invalid
+                message: The amount minimum limit was not met
+                details:
+                  context: body
+                  property: denomination
+                  rule: minimum-limit-not-met
+                  limit:
+                    minimumAmount: 0.85
+            Amount Not Available Due To Unsettled Funds:
+              value:
+                code: transaction_amount_invalid
+                message: The amount is invalid due to unsettled funds
+                details:
+                  context: body
+                  property: denomination
+                  rule: transacting-unsettled-funds
+                  unsettledFunds:
+                    settlementAt: '2024-07-26T13:00:00.000Z'
+                    shortfallAmount: '0.95'
+                    reasons:
+                    - pending-ach-deposit-settlement
+            User Capability Failure:
+              value:
+                code: user_capability_failure
+                message: The user has capability constraints
+                details:
+                  capability:
+                    code: trades
+                    requirements:
+                    - user-must-submit-identity
+                    restrictions: []
+            Node Type Not Configured For Organization:
+              value:
+                code: operation_not_allowed
+                message: Destination node type 'crypto-address' is not configured for your organization
+                details:
+                  reasons:
+                  - permission-denied
+            Changing TTL Not Allowed For Organization:
+              value:
+                code: operation_not_allowed
+                message: Changing the ttl is not allowed for your organization
+                details:
+                  reasons:
+                  - permission-denied
+            TTL Not Within Allowed Range:
+              value:
+                code: number_invalid
+                message: The number must be greater than or equal to 18000
+                details:
+                  context: body
+                  property: ttl
+                  rule: greater-than-or-equal-to-threshold
+                  threshold:
+                    limit: 18000
+            Amount Exceeds Periodic Limit:
+              value:
+                code: transaction_amount_invalid
+                message: The amount exceeds the daily limit
+                details:
+                  context: body
+                  property: denomination
+                  rule: amount-exceeds-daily-limit
+                  limit:
+                    maximumAmount: '100.00'
+                    remainingAmount: '80.00'
+            Unspecified Error:
+              value:
+                code: operation_not_allowed
+                message: Transaction not allowed due to an unspecified error
+                details:
+                  reasons:
+                  - unspecified-error
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-transaction-request-for-information-response:
+      description: Request for information retrieved.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              requestForInformation:
+                $ref: '#/components/schemas/request-for-information'
+            required:
+            - requestForInformation
+          examples:
+            Request for Information Retrieved:
+              value:
+                requestForInformation:
+                  id: 3f6d0c1e-a1bf-4b25-9802-2a3ee492d3c8
+                  type: travel-rule
+                  status: pending
+                  createdAt: '2024-07-25T10:00:00.000Z'
+                  updatedAt: '2024-07-30T10:00:00.000Z'
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    create-quote-response:
+      description: Quote created.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              quote:
+                $ref: '#/components/schemas/quote'
+            required:
+            - quote
+          examples:
+            Trade Quote Created:
+              value:
+                quote:
+                  id: 623000c8-9bdf-4a2b-aa3d-6a6b44a7f6a0
+                  origin:
+                    amount: '100.00'
+                    asset: GBP
+                    rate: '47619.04761904762'
+                    node:
+                      type: account
+                      id: b98e4f0d-a67d-4126-a99d-666f7e0315d9
+                      ownerId: e4ce04dc-67b7-4e9f-af91-482cb6f9fc4a
+                  destination:
+                    amount: '0.0021'
+                    asset: BTC
+                    rate: '0.000021'
+                    node:
+                      type: account
+                      id: 555a99a1-620d-4431-a0ac-b43e1aad2bdc
+                      ownerId: e4ce04dc-67b7-4e9f-af91-482cb6f9fc4a
+                  denomination:
+                    amount: '100.00'
+                    asset: GBP
+                    target: origin
+                    rate: '1'
+                  fees: []
+                  requirements: []
+                  expiresAt: '2024-07-24T15:22:39.000Z'
+            Deposit From APM Quote Created:
+              value:
+                quote:
+                  id: 623000c8-9bdf-4a2b-aa3d-6a6b44a7f6a0
+                  origin:
+                    amount: '50.00'
+                    asset: GBP
+                    rate: '80000.00'
+                    node:
+                      type: apm
+                      method: paypal
+                  destination:
+                    amount: '0.000625'
+                    asset: BTC
+                    rate: '0.0000125'
+                    node:
+                      type: account
+                      id: 555a99a1-620d-4431-a0ac-b43e1aad2bdc
+                      ownerId: e4ce04dc-67b7-4e9f-af91-482cb6f9fc4a
+                  denomination:
+                    amount: '50.00'
+                    asset: GBP
+                    target: origin
+                    rate: '1'
+                  fees: []
+                  requirements:
+                  - authorize:paypal
+                  expiresAt: '2024-07-24T15:22:39.000Z'
+            Deposit From External Account Quote Created:
+              value:
+                quote:
+                  id: 623000c8-9bdf-4a2b-aa3d-6a6b44a7f6a0
+                  origin:
+                    amount: '100.00'
+                    asset: GBP
+                    rate: '47619.04761904762'
+                    node:
+                      type: external-account
+                      id: b98e4f0d-a67d-4126-a99d-666f7e0315d9
+                      ownerId: e4ce04dc-67b7-4e9f-af91-482cb6f9fc4a
+                  destination:
+                    amount: '0.0021'
+                    asset: BTC
+                    rate: '0.000021'
+                    node:
+                      type: account
+                      id: 555a99a1-620d-4431-a0ac-b43e1aad2bdc
+                      ownerId: e4ce04dc-67b7-4e9f-af91-482cb6f9fc4a
+                  denomination:
+                    amount: '100.00'
+                    asset: GBP
+                    target: origin
+                    rate: '1'
+                  fees: []
+                  requirements: []
+                  expiresAt: '2024-07-24T15:22:39.000Z'
+            Withdrawal To APM Quote Created:
+              value:
+                quote:
+                  id: 623000c8-9bdf-4a2b-aa3d-6a6b44a7f6a0
+                  origin:
+                    amount: '100.00'
+                    asset: GBP
+                    rate: '1'
+                    node:
+                      type: account
+                      id: b98e4f0d-a67d-4126-a99d-666f7e0315d9
+                      ownerId: e4ce04dc-67b7-4e9f-af91-482cb6f9fc4a
+                  destination:
+                    amount: '100.00'
+                    asset: GBP
+                    rate: '1'
+                    node:
+                      type: apm
+                      method: paypal
+                  denomination:
+                    amount: '100.00'
+                    asset: GBP
+                    target: origin
+                    rate: '1'
+                  fees: []
+                  requirements:
+                  - authorize:paypal
+                  expiresAt: '2024-07-24T15:22:39.000Z'
+            Withdrawal To External Account Quote Created:
+              value:
+                quote:
+                  id: 623000c8-9bdf-4a2b-aa3d-6a6b44a7f6a0
+                  origin:
+                    amount: '100.00'
+                    asset: GBP
+                    rate: '47619.04761904762'
+                    node:
+                      type: account
+                      id: b98e4f0d-a67d-4126-a99d-666f7e0315d9
+                      ownerId: e4ce04dc-67b7-4e9f-af91-482cb6f9fc4a
+                  destination:
+                    amount: '0.0021'
+                    asset: BTC
+                    rate: '0.000021'
+                    node:
+                      type: external-account
+                      id: 555a99a1-620d-4431-a0ac-b43e1aad2bdc
+                      ownerId: e4ce04dc-67b7-4e9f-af91-482cb6f9fc4a
+                  denomination:
+                    amount: '100.00'
+                    asset: GBP
+                    target: origin
+                    rate: '1'
+                  fees: []
+                  requirements: []
+                  expiresAt: '2024-07-24T15:22:39.000Z'
+            Withdrawal to Crypto Address Quote Created (On-chain):
+              value:
+                quote:
+                  id: 623000c8-9bdf-4a2b-aa3d-6a6b44a7f6a0
+                  origin:
+                    amount: '0.00121023'
+                    asset: BTC
+                    rate: '0.00002629253259492961'
+                    node:
+                      type: account
+                      id: b98e4f0d-a67d-4126-a99d-666f7e0315d9
+                      ownerId: e4ce04dc-67b7-4e9f-af91-482cb6f9fc4a
+                  destination:
+                    amount: '0.00121023'
+                    asset: BTC
+                    rate: '1'
+                    node:
+                      type: crypto-address
+                      address: 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
+                      network: bitcoin
+                      execution:
+                        mode: onchain
+                  denomination:
+                    amount: '100.00'
+                    asset: GBP
+                    target: origin
+                    rate: '0.00001210225938333485'
+                  fees: []
+                  requirements: []
+                  expiresAt: '2024-07-24T15:22:39.000Z'
+            Withdrawal to Crypto Address Quote Created (Off-chain):
+              value:
+                quote:
+                  id: 623000c8-9bdf-4a2b-aa3d-6a6b44a7f6a0
+                  origin:
+                    amount: '0.00121023'
+                    asset: BTC
+                    rate: '0.00002629253259492961'
+                    node:
+                      type: account
+                      id: b98e4f0d-a67d-4126-a99d-666f7e0315d9
+                      ownerId: e4ce04dc-67b7-4e9f-af91-482cb6f9fc4a
+                  destination:
+                    amount: '0.00121023'
+                    asset: BTC
+                    rate: '1'
+                    node:
+                      type: crypto-address
+                      address: 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
+                      network: bitcoin
+                      execution:
+                        mode: offchain
+                        accountId: d4c0dabb-79f1-4aec-9850-8bd6981275d5
+                        accountOwnerId: 459762a5-fab0-43d1-9b55-1c92135779f9
+                  denomination:
+                    amount: '100.00'
+                    asset: GBP
+                    target: origin
+                    rate: '0.00001210225938333485'
+                  fees: []
+                  requirements: []
+                  expiresAt: '2024-07-24T15:22:39.000Z'
+            Withdrawal to Crypto Address Quote Created (Simulated):
+              value:
+                quote:
+                  id: 623000c8-9bdf-4a2b-aa3d-6a6b44a7f6a0
+                  origin:
+                    amount: '0.00121023'
+                    asset: BTC
+                    rate: '0.00002629253259492961'
+                    node:
+                      type: account
+                      id: b98e4f0d-a67d-4126-a99d-666f7e0315d9
+                      ownerId: e4ce04dc-67b7-4e9f-af91-482cb6f9fc4a
+                  destination:
+                    amount: '0.00121023'
+                    asset: BTC
+                    rate: '1'
+                    node:
+                      type: crypto-address
+                      address: 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
+                      network: bitcoin
+                      execution:
+                        mode: simulated
+                  denomination:
+                    amount: '100.00'
+                    asset: GBP
+                    target: origin
+                    rate: '0.00001210225938333485'
+                  fees: []
+                  requirements: []
+                  expiresAt: '2024-07-24T15:22:39.000Z'
+            Withdrawal Quote With Travel Rule:
+              value:
+                quote:
+                  id: 623000c8-9bdf-4a2b-aa3d-6a6b44a7f6a0
+                  origin:
+                    amount: '0.00121023'
+                    asset: BTC
+                    rate: '0.00002629253259492961'
+                    node:
+                      type: account
+                      id: b98e4f0d-a67d-4126-a99d-666f7e0315d9
+                      ownerId: e4ce04dc-67b7-4e9f-af91-482cb6f9fc4a
+                  destination:
+                    amount: '0.00121023'
+                    asset: BTC
+                    rate: '1'
+                    node:
+                      type: crypto-address
+                      address: 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
+                      network: bitcoin
+                  denomination:
+                    amount: '100.00'
+                    asset: GBP
+                    target: origin
+                    rate: '0.00001210225938333485'
+                  fees: []
+                  requirements:
+                  - travel-rule
+                  expiresAt: '2024-07-24T15:22:39.000Z'
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    unauthorized:
+      description: Unauthorized.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Token Expired:
+              value:
+                code: token_expired
+                message: The access token has expired
+            Token Invalid:
+              value:
+                code: token_invalid
+                message: The access token is invalid
+            Token Revoked:
+              value:
+                code: token_revoked
+                message: The access token has been revoked
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    list-transactions-response:
+      description: Transactions retrieved.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              transactions:
+                type: array
+                items:
+                  $ref: '#/components/schemas/transaction'
+              pagination:
+                $ref: '#/components/schemas/pagination'
+            required:
+            - transactions
+            - pagination
+          examples:
+            Transactions Retrieved:
+              value:
+                transactions:
+                - id: 623000c8-9bdf-4a2b-aa3d-6a6b44a7f6a0
+                  origin:
+                    amount: '100.00'
+                    asset: GBP
+                    rate: '47619.04761904762'
+                    node:
+                      type: account
+                      id: b98e4f0d-a67d-4126-a99d-666f7e0315d9
+                      ownerId: e4ce04dc-67b7-4e9f-af91-482cb6f9fc4a
+                  destination:
+                    amount: '0.0021'
+                    asset: BTC
+                    rate: '0.000021'
+                    node:
+                      type: account
+                      id: 555a99a1-620d-4431-a0ac-b43e1aad2bdc
+                      ownerId: e4ce04dc-67b7-4e9f-af91-482cb6f9fc4a
+                  denomination:
+                    amount: '100.00'
+                    asset: GBP
+                    target: origin
+                    rate: '1'
+                  fees: []
+                  status: completed
+                  quotedAt: '2024-07-24T15:02:39.000Z'
+                  createdAt: '2024-07-24T15:22:39.000Z'
+                  updatedAt: '2024-07-24T15:33:08.000Z'
+                pagination:
+                  first: https://api.enterprise.uphold.com/core/transactions?page=1&perPage=1
+                  next: https://api.enterprise.uphold.com/core/transactions?page=2&perPage=1
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    update-transaction-request-for-information-not-found-response:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Request for Information Not Found:
+              value:
+                code: entity_not_found
+                message: The request for information cannot be found
+                details:
+                  entity: request-for-information
+            Transaction Not Found:
+              value:
+                code: entity_not_found
+                message: The transaction cannot be found
+                details:
+                  entity: transaction
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    list-account-transactions-not-found-response:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Account Not Found:
+              value:
+                code: entity_not_found
+                message: The account cannot be found
+                details:
+                  entity: account
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    list-account-transactions-response:
+      description: Transactions retrieved.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              transactions:
+                type: array
+                items:
+                  $ref: '#/components/schemas/transaction'
+              pagination:
+                $ref: '#/components/schemas/pagination'
+            required:
+            - transactions
+            - pagination
+          examples:
+            Transactions Retrieved:
+              value:
+                transactions:
+                - id: 623000c8-9bdf-4a2b-aa3d-6a6b44a7f6a0
+                  origin:
+                    amount: '100.00'
+                    asset: GBP
+                    rate: '47619.04761904762'
+                    node:
+                      type: account
+                      id: b98e4f0d-a67d-4126-a99d-666f7e0315d9
+                      ownerId: e4ce04dc-67b7-4e9f-af91-482cb6f9fc4a
+                  destination:
+                    amount: '0.0021'
+                    asset: BTC
+                    rate: '0.000021'
+                    node:
+                      type: account
+                      id: 555a99a1-620d-4431-a0ac-b43e1aad2bdc
+                      ownerId: e4ce04dc-67b7-4e9f-af91-482cb6f9fc4a
+                  denomination:
+                    amount: '100.00'
+                    asset: GBP
+                    target: origin
+                    rate: '1'
+                  fees: []
+                  status: completed
+                  quotedAt: '2024-07-24T15:02:39.000Z'
+                  createdAt: '2024-07-24T15:22:39.000Z'
+                  updatedAt: '2024-07-24T15:33:08.000Z'
+                pagination:
+                  first: https://api.enterprise.uphold.com/core/accounts/555a99a1-620d-4431-a0ac-b43e1aad2bdc/transactions?page=1&perPage=1
+                  next: https://api.enterprise.uphold.com/core/accounts/555a99a1-620d-4431-a0ac-b43e1aad2bdc/transactions?page=2&perPage=1
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    create-quote-not-found-response:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Denomination Asset Not Found:
+              value:
+                code: entity_not_found
+                message: The denomination asset cannot be found
+                details:
+                  entity: asset
+                  context: body
+                  property: denomination.asset
+            Origin Not Found:
+              value:
+                code: entity_not_found
+                message: The origin cannot be found
+                details:
+                  entity: account
+                  context: body
+                  property: origin
+            Destination Not Found:
+              value:
+                code: entity_not_found
+                message: The destination cannot be found
+                details:
+                  entity: account
+                  context: body
+                  property: destination
+            Rail For Destination Asset And Network Not Found:
+              value:
+                code: entity_not_found
+                message: A rail for the specified destination asset and network cannot be found
+                details:
+                  entity: rail
+                  context: body
+                  property: destination
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    update-transaction-request-for-information-conflict-response:
+      description: Business logic error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Updates Not Allowed:
+              value:
+                code: operation_not_allowed
+                message: The current status of the request for information does not allow updates
+                details:
+                  reasons: request-for-information-update-not-allowed
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+  requestBodies:
+    update-transaction-request-for-information-request-body:
+      content:
+        application/json:
+          schema:
+            oneOf:
+            - title: Travel Rule
+              description: The Travel Rule data needed to resolve the RFI.
+              type: object
+              properties:
+                data:
+                  type: object
+                  additionalProperties: true
+                  minProperties: 1
+              required:
+              - data
+          examples:
+            Update Travel Rule Request for Information:
+              value:
+                data:
+                  proof:
+                    type: self-declaration
+                    did: did:pkh:xrpl:0:rExampleAddress123456789
+                    address: xrpl:0:rExampleAddress123456789
+                    attestation: I hereby declare that the blockchain address rExampleAddress123456789 is under my own control and ownership.
+                    confirmed: true
+                    status: verified
+                    txUpdate:
+                      originatorProof:
+                        type: self-declaration
+                        did: did:pkh:xrpl:0:rExampleAddress123456789
+                        address: xrpl:0:rExampleAddress123456789
+                        attestation: I hereby declare that the blockchain address rExampleAddress123456789 is under my own control and ownership.
+                        confirmed: true
+                        status: verified
+                      transactionAsset:
+                        caip19: xrpl:0/slip44:144
+                      transactionAmount: '4000000'
+                      originatorEqualsBeneficiary: true
+                      beneficiaryVASPdid: did:ethr:0xExampleVASPAddress000000000000000000000000
+                      originatorVASPdid: did:pkh:xrpl:0:rExampleAddress123456789
+                      beneficiary: {}
+                      originator:
+                        originatorPersons:
+                        - naturalPerson:
+                            name:
+                              nameIdentifier:
+                              - primaryIdentifier: Doe
+                                secondaryIdentifier: John
+                                nameIdentifierType: LEGL
+                  errors: []
+                  status: pending
+                  valid: true
+                  value:
+                    amountDecimal: 4
+                    asset: XRP-XRP
+                    customer:
+                      name: John Doe
+                      type: natural
+                    source:
+                    - rExampleAddress123456789
+                    agent:
+                      type: WALLET
+                      verified: true
+                      did: did:pkh:xrpl:0:rExampleAddress123456789
+                    counterparty:
+                      name: John Doe
+                      type: self
+                      did: did:key:zExampleKeyDid123456789
+                      verified: true
+                    assetPrice:
+                      price: 1.23
+                      currency: USD
+                  ivms101:
+                    originator:
+                      originatorPersons:
+                      - naturalPerson:
+                          name:
+                            nameIdentifier:
+                            - primaryIdentifier: Doe
+                              secondaryIdentifier: John
+                              nameIdentifierType: LEGL
+    create-transaction-request-body:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              quoteId:
+                description: The quote ID to commit.
+                type: string
+                format: uuid
+              params:
+                oneOf:
+                - type: object
+                  description: Additional parameters required to create the transaction.
+                  properties:
+                    travelRule:
+                      description: The travel rule data needed to create the transaction.
+                      type: object
+                    requirements:
+                      description: The requirements data needed to create the transaction.
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/create-transaction-requirement'
+                    returnUrl:
+                      description: The URL to redirect after the 3DS authorization flow. Deprecated in favor of `requirements`.
+                      deprecated: true
+                      type: string
+                      format: uri
+                      pattern: ^[a-zA-Z][a-zA-Z0-9+\-.]*:\/\/[^\s]+$
+              metadata:
+                description: Additional data for the transaction.
+                $ref: '#/components/schemas/metadata'
+            required:
+            - quoteId
+          examples:
+            Create Transaction:
+              value:
+                quoteId: 623000c8-9bdf-4a2b-aa3d-6a6b44a7f6a0
+                metadata:
+                  externalId: 123
+            Create Card Deposit Transaction:
+              value:
+                quoteId: 623000c8-9bdf-4a2b-aa3d-6a6b44a7f6a0
+                params:
+                  requirements:
+                  - name: authorize:3ds
+                    returnUrl: https://example.com/redirect
+                metadata:
+                  externalId: 123
+    create-quote-request-body:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              origin:
+                $ref: '#/components/schemas/create-quote-origin-node'
+              destination:
+                $ref: '#/components/schemas/create-quote-destination-node'
+              denomination:
+                type: object
+                properties:
+                  asset:
+                    description: The asset in which the transaction is denominated.
+                    type: string
+                  amount:
+                    allOf:
+                    - $ref: '#/components/schemas/non-zero-decimal-amount'
+                    - description: The amount of the transaction.
+                  target:
+                    description: Whether this exact amount should be paid by the origin or received by the destination.
+                    type: string
+                    enum:
+                    - origin
+                    - destination
+                    default: origin
+                required:
+                - asset
+                - amount
+              ttl:
+                description: The time-to-live for the quote in milliseconds.
+                type: integer
+                minimum: 1
+            required:
+            - origin
+            - destination
+            - denomination
+          examples:
+            Trade - Buy 100£ of BTC using GBP:
+              value:
+                origin:
+                  type: account
+                  id: b98e4f0d-a67d-4126-a99d-666f7e0315d9
+                destination:
+                  type: account
+                  id: 555a99a1-620d-4431-a0ac-b43e1aad2bdc
+                denomination:
+                  asset: GBP
+                  amount: '100.00'
+                  target: origin
+            Trade - Buy 100£ worth of ETH using BTC:
+              value:
+                origin:
+                  type: account
+                  id: 555a99a1-620d-4431-a0ac-b43e1aad2bdc
+                destination:
+                  type: account
+                  id: 38778db4-7ad5-4353-88b8-07e93eb1e02e
+                denomination:
+                  asset: GBP
+                  amount: '100.00'
+                  target: origin
+            Trade - Sell ETH to buy exactly 0.001 BTC:
+              value:
+                origin:
+                  type: account
+                  id: 38778db4-7ad5-4353-88b8-07e93eb1e02e
+                destination:
+                  type: account
+                  id: 555a99a1-620d-4431-a0ac-b43e1aad2bdc
+                denomination:
+                  asset: BTC
+                  amount: '0.001'
+                  target: destination
+            Deposit - 50£ from an APM:
+              value:
+                origin:
+                  type: apm
+                  method: paypal
+                destination:
+                  type: account
+                  id: 555a99a1-620d-4431-a0ac-b43e1aad2bdc
+                denomination:
+                  asset: GBP
+                  amount: '50.00'
+                  target: origin
+            Deposit - 50£ from an external account:
+              value:
+                origin:
+                  type: external-account
+                  id: 555a99a1-620d-4431-a0ac-b43e1aad2bdc
+                destination:
+                  type: account
+                  id: 38778db4-7ad5-4353-88b8-07e93eb1e02e
+                denomination:
+                  asset: GBP
+                  amount: '50.00'
+                  target: origin
+            Withdraw - 50£ to an external account:
+              value:
+                origin:
+                  type: account
+                  id: 38778db4-7ad5-4353-88b8-07e93eb1e02e
+                destination:
+                  type: external-account
+                  id: 555a99a1-620d-4431-a0ac-b43e1aad2bdc
+                denomination:
+                  asset: GBP
+                  amount: '50.00'
+                  target: origin
+            Withdraw - 50£ to an APM:
+              value:
+                origin:
+                  type: account
+                  id: 38778db4-7ad5-4353-88b8-07e93eb1e02e
+                destination:
+                  type: apm
+                  method: paypal
+                denomination:
+                  asset: GBP
+                  amount: '50.00'
+                  target: origin
+            Withdraw - 100£ to a crypto address:
+              value:
+                origin:
+                  type: account
+                  id: 555a99a1-620d-4431-a0ac-b43e1aad2bdc
+                destination:
+                  type: crypto-address
+                  asset: BTC
+                  network: bitcoin
+                  address: 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
+                denomination:
+                  asset: GBP
+                  amount: '100.00'
+                  target: origin
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: OAuth 2.0 authentication.
+      flows:
+        clientCredentials:
+          tokenUrl: /core/oauth2/token
+          scopes:
+            core.users:act-on-behalf-of: Grants access to act on behalf of a user
+            core.users:create: Grants access to create users
+            core.users:read: Grants access to view users
+            core.users:delete: Grants access to delete users
+            core.users.metadata:read: Grants access to view user metadata
+            core.users.metadata:write: Grants access to modify user metadata
+            core.kyc:read: Grants access to view KYC processes
+            core.kyc.profile:update: Grants access to update profile KYC process
+            core.kyc.address:update: Grants access to update address KYC process
+            core.kyc.email:update: Grants access to update email KYC process
+            core.kyc.phone:update: Grants access to update phone KYC process
+            core.kyc.identity:update: Grants access to update identity KYC process
+            core.kyc.proof-of-address:update: Grants access to update proof-of-address KYC process
+            core.kyc.customer-due-diligence:update: Grants access to update customer due diligence KYC process
+            core.kyc.enhanced-due-diligence:update: Grants access to update enhanced due diligence KYC process
+            core.kyc.crypto-risk-assessment:update: Grants access to update crypto risk assessment KYC process
+            core.kyc.self-categorization-statement:update: Grants access to update self-categorization statement KYC process
+            core.kyc.tax-details:update: Grants access to update tax details KYC process
+            core.capabilities:read: Grants access to view user capabilities
+            core.terms-of-service:read: Grants access to view terms of service
+            core.terms-of-service:accept: Grants access to accept terms of service
+            core.files:create: Grants access to create files
+            core.files:read: Grants access to view files
+            core.files.metadata:read: Grants access to view files metadata
+            core.files.metadata:write: Grants access to modify files metadata
+            core.accounts:create: Grants access to create accounts
+            core.accounts:read: Grants access to view accounts
+            core.accounts:update: Grants access to update accounts
+            core.accounts:archive: Grants access to archive accounts
+            core.accounts:deposit-method: Grants access to deposit method needed for depositing into accounts
+            core.accounts:use-test-helpers: Grants access to test helpers of accounts
+            core.accounts.metadata:read: Grants access to view accounts metadata
+            core.accounts.metadata:write: Grants access to modify accounts metadata
+            core.assets:use-test-helpers: Grants access to test helpers of assets
+            core.external-accounts:create: Grants access to create external accounts
+            core.external-accounts:read: Grants access to view external accounts
+            core.external-accounts:update: Grants access to update external accounts
+            core.external-accounts:delete: Grants access to delete external accounts
+            core.external-accounts.metadata:read: Grants access to view external accounts metadata
+            core.external-accounts.metadata:write: Grants access to modify external accounts metadata
+            core.transactions:create: Grants access to commit quotes
+            core.transactions:read: Grants access to view transactions
+            core.transactions.metadata:read: Grants access to view transactions metadata
+            core.transactions.metadata:write: Grants access to modify transactions metadata
+            core.transactions.requests-for-information:read: Grants access to view transactions requests for information
+            core.transactions.requests-for-information:update: Grants access to update transactions requests for information
+            core.portfolio:read: Grants access to view portfolio overview, performance, and historical balance
+            core.statements:read: Grants access to read statements
+            core.webhooks:management-link: Grants access to create webhook management links

@@ -1,0 +1,1358 @@
+openapi: 3.2.0
+info:
+  version: 0.1.0
+  title: Core Users API
+  description: The Core API provides essential building blocks that empower businesses to embed financial services into their applications.
+  contact:
+    name: Uphold API Team
+    email: developers@uphold.com
+    url: https://developer.uphold.com
+servers:
+- url: https://api.enterprise.sandbox.uphold.com
+  description: Sandbox
+- url: https://api.enterprise.uphold.com
+  description: Production
+security:
+- OAuth2: []
+tags:
+- name: Users
+  description: Users.
+paths:
+  /core/users:
+    post:
+      operationId: core.create-user
+      summary: Create user
+      description: Create a new user.
+      tags:
+      - Users
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - client
+      security:
+      - OAuth2:
+        - core.users:create
+      parameters:
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      requestBody:
+        $ref: '#/components/requestBodies/create-user-request-body'
+      responses:
+        '201':
+          $ref: '#/components/responses/create-user-response'
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '409':
+          $ref: '#/components/responses/create-user-conflict-response'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+  /core/users/me:
+    get:
+      operationId: core.get-user
+      summary: Get user
+      description: Retrieve an existing user.
+      tags:
+      - Users
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - user:business
+            - user:individual
+      security:
+      - OAuth2:
+        - core.users:read
+      parameters:
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      responses:
+        '200':
+          $ref: '#/components/responses/get-user-response'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+    delete:
+      operationId: core.delete-user
+      summary: Delete user
+      description: Delete an existing user.
+      tags:
+      - Users
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - user:business
+            - user:individual
+      security:
+      - OAuth2:
+        - core.users:delete
+      parameters:
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      requestBody:
+        $ref: '#/components/requestBodies/delete-user-request-body'
+      responses:
+        '204':
+          $ref: '#/components/responses/delete-user-response'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '409':
+          $ref: '#/components/responses/delete-user-conflict-response'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+webhooks:
+  core.user.created:
+    post:
+      operationId: core.user-created
+      summary: User created
+      description: A new user has been created.
+      tags:
+      - Users
+      parameters:
+      - $ref: '#/components/parameters/webhook-id'
+      - $ref: '#/components/parameters/webhook-timestamp'
+      - $ref: '#/components/parameters/webhook-signature'
+      requestBody:
+        description: User created event.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/user-webhook-event'
+            examples:
+              Individual User Created:
+                value:
+                  id: 123e4567-e89b-12d3-a456-426614174000
+                  type: core.user.created
+                  createdAt: '2021-01-01T00:00:00.000Z'
+                  data:
+                    user:
+                      id: cd21b26d-35d2-408a-9201-b8fdbef7a604
+                      type: individual
+                      email: john.doe@uphold.com
+                      primaryCitizenship: GB
+                      address:
+                        country: GB
+                        subdivision: GB-MAN
+                      createdAt: '2024-03-13T20:20:39.000Z'
+                      updatedAt: '2024-03-13T20:20:39.000Z'
+              Business User Created:
+                value:
+                  id: 123e4567-e89b-12d3-a456-426614174001
+                  type: core.user.created
+                  createdAt: '2021-01-01T00:00:00.000Z'
+                  data:
+                    user:
+                      id: ab34c56d-78e9-0123-4567-89abcdef0123
+                      type: business
+                      email: acme-corp@uphold.com
+                      address:
+                        country: US
+                        subdivision: US-FL
+                        city: Miami
+                        line1: 1234 Palm Tree Blvd
+                        postalCode: '33125'
+                      createdAt: '2024-03-13T20:20:39.000Z'
+                      updatedAt: '2024-03-13T20:20:39.000Z'
+      responses:
+        '200':
+          description: Return a 200 status to indicate that the data was received successfully.
+  core.user.deleted:
+    post:
+      operationId: core.user-deleted
+      summary: User deleted
+      description: A user has been deleted.
+      tags:
+      - Users
+      parameters:
+      - $ref: '#/components/parameters/webhook-id'
+      - $ref: '#/components/parameters/webhook-timestamp'
+      - $ref: '#/components/parameters/webhook-signature'
+      requestBody:
+        description: User deleted event.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/user-webhook-event'
+            examples:
+              User Deleted:
+                value:
+                  id: 123e4567-e89b-12d3-a456-426614174000
+                  type: core.user.deleted
+                  createdAt: '2021-01-01T00:00:00.000Z'
+                  data:
+                    user:
+                      id: cd21b26d-35d2-408a-9201-b8fdbef7a604
+                      type: individual
+                      email: john.doe@uphold.com
+                      fullName: John Doe
+                      birthdate: '1987-01-01'
+                      primaryCitizenship: GB
+                      address:
+                        country: GB
+                        subdivision: GB-MAN
+                        city: Manchester
+                        line1: 1 High Street
+                        line2: Northern Quarter
+                        postalCode: M4 1AA
+                      phone:
+                        number: '+447911123456'
+                        country: GB
+                      createdAt: '2024-03-13T20:20:39.000Z'
+                      updatedAt: '2024-03-13T20:20:39.000Z'
+      responses:
+        '200':
+          description: Return a 200 status to indicate that the data was received successfully.
+components:
+  schemas:
+    webhook-event:
+      description: The webhook event information.
+      type: object
+      properties:
+        id:
+          description: The id of the event.
+          type: string
+          format: uuid
+        type:
+          description: The type of event.
+          type: string
+        createdAt:
+          description: The date and time when the event was created.
+          type: string
+          format: date-time
+        data:
+          description: The event payload.
+          type: object
+      required:
+      - id
+      - type
+      - createdAt
+      - data
+    user-type-business:
+      type: object
+      properties:
+        id:
+          description: The id of the user.
+          type: string
+          format: uuid
+        type:
+          description: The type of the user.
+          type: string
+          enum:
+          - business
+        name:
+          description: The legal name of the business.
+          type: string
+        email:
+          description: The email address.
+          type: string
+          format: email
+        address:
+          allOf:
+          - $ref: '#/components/schemas/address'
+          - type: object
+            required:
+            - country
+        partnerOnboardedAt:
+          description: The date and time when the user was onboarded by the partner.
+          type: string
+          format: date-time
+          deprecated: true
+        createdAt:
+          description: The time at which the user was created.
+          type: string
+          format: date-time
+        updatedAt:
+          description: The time at which the user was last updated.
+          type: string
+          format: date-time
+      required:
+      - id
+      - type
+      - email
+      - createdAt
+      - updatedAt
+    user:
+      type: object
+      discriminator:
+        propertyName: type
+        mapping:
+          individual: '#/components/schemas/user-type-individual'
+          business: '#/components/schemas/user-type-business'
+      oneOf:
+      - title: Individual
+        $ref: '#/components/schemas/user-type-individual'
+      - title: Business
+        $ref: '#/components/schemas/user-type-business'
+    feedback:
+      description: A feedback message with a code and human-readable description.
+      type: object
+      properties:
+        code:
+          description: A short string with a brief explanation about the code reported.
+          type: string
+        message:
+          description: A human-readable message providing more details.
+          type: string
+        details:
+          description: Additional information about the feedback reported.
+          type: object
+          additionalProperties: true
+      required:
+      - code
+      - message
+    user-type-individual:
+      type: object
+      properties:
+        id:
+          description: The id of the user.
+          type: string
+          format: uuid
+        type:
+          description: The type of the user.
+          type: string
+          enum:
+          - individual
+        email:
+          description: The email address.
+          type: string
+          format: email
+        fullName:
+          description: The full legal name.
+          type: string
+        birthdate:
+          description: The date of birth.
+          type: string
+        primaryCitizenship:
+          description: The citizenship country.
+          type: string
+        citizenshipCountry:
+          description: The citizenship country. Deprecated in favor of `primaryCitizenship`.
+          type: string
+          deprecated: true
+        address:
+          allOf:
+          - $ref: '#/components/schemas/address'
+          - type: object
+            description: The address of residency.
+            required:
+            - country
+        phone:
+          description: The phone number.
+          type: object
+          properties:
+            number:
+              description: The E.164 formatted phone number.
+              type: string
+            country:
+              description: The country code of the phone number.
+              type: string
+          required:
+          - number
+          - country
+        partnerOnboardedAt:
+          description: The date and time when the user was onboarded by the partner.
+          type: string
+          format: date-time
+          deprecated: true
+        createdAt:
+          description: The time at which the user was created.
+          type: string
+          format: date-time
+        updatedAt:
+          description: The time at which the user was last updated.
+          type: string
+          format: date-time
+      required:
+      - id
+      - type
+      - email
+      - address
+      - primaryCitizenship
+      - createdAt
+      - updatedAt
+    delete-user-review:
+      type: object
+      properties:
+        review:
+          type: object
+          properties:
+            reason:
+              description: The reason code for deleting the user.
+              type: string
+              enum:
+              - business-decision
+              - closure-per-user-request
+              - compliance-violation
+              - fraud-violation
+              - other
+            note:
+              allOf:
+              - $ref: '#/components/schemas/string-no-edge-spaces'
+              - description: Additional notes about the deletion of the user.
+                type: string
+          required:
+          - reason
+      required:
+      - review
+    address:
+      description: The address information.
+      type: object
+      properties:
+        country:
+          description: The country of the address.
+          type: string
+        subdivision:
+          description: The subdivision of the address.
+          type: string
+        city:
+          description: The city of the address.
+          type: string
+        line1:
+          description: The first line of the address.
+          type: string
+        line2:
+          description: The second line of the address.
+          type: string
+        postalCode:
+          description: The postal code of the address.
+          type: string
+    terms-of-service-code-general:
+      type: string
+      enum:
+      - general-us-hq
+      - general-gb-fca
+      - general-pt-bop
+      - general-lt-fcs
+      - general-bs-scb
+    user-webhook-event:
+      allOf:
+      - $ref: '#/components/schemas/webhook-event'
+      - type: object
+        properties:
+          data:
+            type: object
+            properties:
+              user:
+                $ref: '#/components/schemas/user'
+            required:
+            - user
+    string-no-edge-spaces:
+      type: string
+      pattern: ^\S.*\S$|^\S$
+    error:
+      description: The error information.
+      allOf:
+      - $ref: '#/components/schemas/feedback'
+    metadata:
+      type: object
+      additionalProperties: true
+      minProperties: 1
+    address-for-request:
+      description: The address information.
+      type: object
+      properties:
+        country:
+          allOf:
+          - $ref: '#/components/schemas/country-code-for-request'
+          - description: The country of the address.
+        subdivision:
+          allOf:
+          - $ref: '#/components/schemas/subdivision-code-for-request'
+          - description: The subdivision of the address.
+        city:
+          allOf:
+          - $ref: '#/components/schemas/string-no-edge-spaces'
+          - description: The city of the address.
+            type: string
+            maxLength: 100
+        line1:
+          allOf:
+          - $ref: '#/components/schemas/string-no-edge-spaces'
+          - description: The first line of the address.
+            type: string
+            maxLength: 150
+        line2:
+          allOf:
+          - $ref: '#/components/schemas/string-no-edge-spaces'
+          - description: The second line of the address.
+            type: string
+            maxLength: 100
+        postalCode:
+          allOf:
+          - $ref: '#/components/schemas/string-no-edge-spaces'
+          - description: The postal code of the address.
+            type: string
+            maxLength: 20
+    subdivision-code-for-request:
+      type: string
+      pattern: ^[A-Z]{2}-[A-Z0-9]{1,3}$
+    country-code-for-request:
+      type: string
+      pattern: ^[A-Z]{2}$
+    string-at-least-two-words-no-edge-spaces:
+      type: string
+      pattern: ^\S+\s+\S+(\s+\S+)*$
+    create-user-type-business:
+      title: Business
+      type: object
+      properties:
+        type:
+          description: The type of the user.
+          type: string
+          enum:
+          - business
+        email:
+          description: The email address.
+          type: string
+          format: email
+          maxLength: 255
+        country:
+          allOf:
+          - $ref: '#/components/schemas/country-code-for-request'
+          - description: The country of residency.
+        subdivision:
+          allOf:
+          - $ref: '#/components/schemas/subdivision-code-for-request'
+          - description: The subdivision of residency.
+        legalEntityType:
+          type: string
+          description: Business legal form/classification
+          enum:
+          - government-entity
+          - non-profit
+          - partnership
+          - private-limited-company
+          - public-company
+          - sole-proprietor
+        termsOfService:
+          allOf:
+          - $ref: '#/components/schemas/terms-of-service-code-general'
+          - description: The general terms of service the user agreed to.
+        partnerOnboardedAt:
+          description: The date and time when the user was onboarded by the partner.
+          type: string
+          format: date-time
+          deprecated: true
+        metadata:
+          description: Additional data for the user.
+          $ref: '#/components/schemas/metadata'
+      required:
+      - type
+      - email
+      - country
+      - legalEntityType
+      - termsOfService
+    create-user-type-individual:
+      type: object
+      properties:
+        type:
+          description: The type of the user.
+          type: string
+          enum:
+          - individual
+      required:
+      - type
+      oneOf:
+      - title: Individual
+        type: object
+        additionalProperties: false
+        properties:
+          type:
+            description: The type of the user.
+            type: string
+            enum:
+            - individual
+          email:
+            description: The email address.
+            type: string
+            format: email
+            maxLength: 254
+          termsOfService:
+            allOf:
+            - $ref: '#/components/schemas/terms-of-service-code-general'
+            - description: The general terms of service the user agreed to.
+          phone:
+            description: The phone number.
+            type: object
+            properties:
+              number:
+                description: The E.164 formatted phone number.
+                type: string
+                pattern: ^\+[0-9]{1,15}$
+              country:
+                allOf:
+                - $ref: '#/components/schemas/country-code-for-request'
+                - description: 'The country code of the phone number.
+
+                    It must be a ISO alpha-2 code that is used to disambiguate phone numbers with the same dialing code.'
+            required:
+            - number
+            - country
+          fullName:
+            allOf:
+            - $ref: '#/components/schemas/string-at-least-two-words-no-edge-spaces'
+            - description: The full legal name.
+              type: string
+              maxLength: 200
+          birthdate:
+            description: The date of birth.
+            type: string
+            format: date
+          primaryCitizenship:
+            allOf:
+            - $ref: '#/components/schemas/country-code-for-request'
+            - description: The citizenship country.
+          address:
+            allOf:
+            - $ref: '#/components/schemas/address-for-request'
+            - description: The address of residency.
+              type: object
+              required:
+              - country
+          metadata:
+            description: Additional data for the user.
+            $ref: '#/components/schemas/metadata'
+        required:
+        - type
+        - email
+        - termsOfService
+        - primaryCitizenship
+        - address
+      - title: Individual (legacy)
+        type: object
+        additionalProperties: false
+        properties:
+          type:
+            description: The type of the user.
+            type: string
+            enum:
+            - individual
+          email:
+            description: The email address.
+            type: string
+            format: email
+            maxLength: 254
+          termsOfService:
+            allOf:
+            - $ref: '#/components/schemas/terms-of-service-code-general'
+            - description: The general terms of service the user agreed to.
+          citizenshipCountry:
+            allOf:
+            - $ref: '#/components/schemas/country-code-for-request'
+            - description: The citizenship country.
+              deprecated: true
+          country:
+            allOf:
+            - $ref: '#/components/schemas/country-code-for-request'
+            - description: The country of residency.
+              deprecated: true
+          subdivision:
+            allOf:
+            - $ref: '#/components/schemas/subdivision-code-for-request'
+            - description: The subdivision of residency.
+              deprecated: true
+          partnerOnboardedAt:
+            description: The date and time when the user was onboarded by the partner.
+            type: string
+            format: date-time
+            deprecated: true
+          metadata:
+            description: Additional data for the user.
+            $ref: '#/components/schemas/metadata'
+        required:
+        - type
+        - email
+        - termsOfService
+        - citizenshipCountry
+        - country
+  responses:
+    get-user-response:
+      description: User retrieved.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              user:
+                $ref: '#/components/schemas/user'
+            required:
+            - user
+          examples:
+            Individual User Retrieved:
+              value:
+                user:
+                  id: cd21b26d-35d2-408a-9201-b8fdbef7a604
+                  type: individual
+                  email: john.doe@uphold.com
+                  fullName: John Doe
+                  birthdate: '1987-01-01'
+                  primaryCitizenship: GB
+                  address:
+                    country: GB
+                    subdivision: GB-MAN
+                    city: Manchester
+                    line1: 1 High Street
+                    line2: Northern Quarter
+                    postalCode: M4 1AA
+                  createdAt: '2024-03-13T20:20:39.000Z'
+                  updatedAt: '2024-03-13T20:20:39.000Z'
+            Business User Retrieved:
+              value:
+                user:
+                  id: ab34c56d-78e9-0123-4567-89abcdef0123
+                  type: business
+                  email: acme-corp@uphold.com
+                  name: ACME Corporation
+                  address:
+                    country: US
+                    subdivision: US-FL
+                    city: Miami
+                    line1: 1234 Palm Tree Blvd
+                    postalCode: '33125'
+                  createdAt: '2024-03-13T20:20:39.000Z'
+                  updatedAt: '2024-03-13T20:20:39.000Z'
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    forbidden:
+      description: Forbidden.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Token Insufficient Scopes:
+              value:
+                code: token_insufficient_scopes
+                message: Authorization failed due to insufficient scopes
+                details:
+                  security:
+                  - scheme: OAuth
+                    schemeScopes:
+                    - required:scope_1
+                    - required:scope_2
+                    tokenScopes:
+                    - token:scope
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    too-many-requests:
+      description: Too Many Requests.
+      headers:
+        Retry-After:
+          description: The number of seconds to wait before making a new request.
+          schema:
+            type: integer
+            format: int32
+          examples:
+            Retry After:
+              value: 60
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Too Many Requests:
+              value:
+                code: too_many_requests
+                message: Try again later
+    delete-user-conflict-response:
+      description: Business logic error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            User Has Balance:
+              value:
+                code: user_has_balance
+                message: The user has balance and cannot be deleted
+            User Has Pending Transactions:
+              value:
+                code: user_has_pending_transactions
+                message: The user has pending transactions and cannot be deleted
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    bad-request:
+      description: Bad Request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Invalid Request:
+              value:
+                code: request_invalid
+                message: The request has missing or invalid parameters
+                details:
+                  context: <context>
+                  violations:
+                  - property: <property>
+                    rule: required
+                  - property: <property>
+                    rule: type
+                    ruleParams:
+                      type: string
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    create-user-conflict-response:
+      description: Business logic error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Name Contains Invalid Characters:
+              value:
+                code: invalid_characters
+                message: The request has invalid characters
+                details:
+                  context: body
+                  property: fullName
+            User Underage:
+              value:
+                code: date_invalid
+                message: The date must be older than or equal to 18 years ago
+                details:
+                  context: body
+                  property: birthdate
+                  rule: difference-greater-than-or-equal-to-threshold
+                  threshold:
+                    limit: 18
+                    unit: years
+            User Overage:
+              value:
+                code: date_invalid
+                message: The date must be newer than or equal to 100 years from now
+                details:
+                  context: body
+                  property: birthdate
+                  rule: difference-less-than-or-equal-to-threshold
+                  threshold:
+                    limit: 100
+                    unit: years
+            Primary Citizenship Not Supported:
+              value:
+                code: country_not_supported
+                message: The country is not supported
+                details:
+                  context: body
+                  property: primaryCitizenship
+            Address Country Not Supported:
+              value:
+                code: country_not_supported
+                message: The country is not supported
+                details:
+                  context: body
+                  property: address.country
+            Address Subdivision Not Supported:
+              value:
+                code: subdivision_not_supported
+                message: The subdivision is not supported
+                details:
+                  context: body
+                  property: address.subdivision
+            Address Subdivision Required For Country:
+              value:
+                code: subdivision_required
+                message: The subdivision is required for the selected country
+                details:
+                  context: body
+                  property: address.subdivision
+            Address PO Box Not Allowed:
+              value:
+                code: po_boxes_not_allowed
+                message: PO boxes are not allowed
+            Address Postal Code Invalid:
+              value:
+                code: postal_code_invalid
+                message: The postal code is invalid
+                details:
+                  context: body
+                  property: address.postalCode
+            Email Incorrect or Disallowed:
+              value:
+                code: email_incorrect_or_disallowed
+                message: The email is incorrect or disallowed
+            Email Already Exists:
+              value:
+                code: email_already_exists
+                message: The provided email is already in use by another user
+            Phone Already Exists:
+              value:
+                code: phone_already_exists
+                message: The provided phone is already in use by another user
+            Phone Invalid:
+              value:
+                code: phone_invalid
+                message: The phone number is invalid
+            Phone Country Not Supported:
+              value:
+                code: country_not_supported
+                message: The country is not supported
+                details:
+                  context: body
+                  property: phone.country
+            Terms Of Service Mismatch:
+              value:
+                code: terms_of_service_mismatch
+                message: The terms of service passed in the request does not match the one that should have been accepted
+            Invalid Partner Onboarded At:
+              value:
+                code: date_invalid
+                message: The date must be in the past
+                details:
+                  context: body
+                  property: partnerOnboardedAt
+                  rule: difference-greater-than-threshold
+                  threshold:
+                    limit: 0
+            Missing User Context:
+              value:
+                code: operation_not_allowed
+                message: Request not allowed due to missing user context
+                details:
+                  reasons:
+                  - missing-user-ip-header
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    create-user-response:
+      description: User created.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              user:
+                $ref: '#/components/schemas/user'
+              errors:
+                description: Additional contextual errors that occurred while processing the request.
+                type: object
+                properties:
+                  metadata:
+                    allOf:
+                    - $ref: '#/components/schemas/error'
+                    - description: Error related to metadata processing.
+            required:
+            - user
+          examples:
+            Complete Individual User Created:
+              value:
+                user:
+                  id: cd21b26d-35d2-408a-9201-b8fdbef7a604
+                  type: individual
+                  email: john.doe@uphold.com
+                  fullName: John Doe
+                  birthdate: '1987-01-01'
+                  primaryCitizenship: GB
+                  address:
+                    country: GB
+                    subdivision: GB-MAN
+                    city: Manchester
+                    line1: 1 High Street
+                    line2: Northern Quarter
+                    postalCode: M4 1AA
+                  phone:
+                    number: '+447400123456'
+                    country: GB
+                  createdAt: '2024-03-13T20:20:39.000Z'
+                  updatedAt: '2024-03-13T20:20:39.000Z'
+            Individual User Created:
+              value:
+                user:
+                  id: cd21b26d-35d2-408a-9201-b8fdbef7a604
+                  type: individual
+                  email: john.doe@uphold.com
+                  primaryCitizenship: GB
+                  address:
+                    country: GB
+                    subdivision: GB-MAN
+                  createdAt: '2024-03-13T20:20:39.000Z'
+                  updatedAt: '2024-03-13T20:20:39.000Z'
+            Business User Created:
+              value:
+                user:
+                  id: 4237b7f2-4658-4183-ab56-b2fc4ecd7b7f
+                  type: business
+                  email: acme-corp@uphold.com
+                  address:
+                    country: GB
+                    subdivision: GB-MAN
+                  createdAt: '2024-03-13T20:20:39.000Z'
+                  updatedAt: '2024-03-13T20:20:39.000Z'
+            Individual User Created With Metadata Error:
+              value:
+                user:
+                  id: cd21b26d-35d2-408a-9201-b8fdbef7a604
+                  type: individual
+                  email: john.doe@uphold.com
+                  primaryCitizenship: GB
+                  address:
+                    country: GB
+                    subdivision: GB-MAN
+                  createdAt: '2024-03-13T20:20:39.000Z'
+                  updatedAt: '2024-03-13T20:20:39.000Z'
+                errors:
+                  metadata:
+                    code: content_too_large
+                    message: The entity metadata size is greater than maximum size limit
+                    details:
+                      threshold:
+                        unit: characters
+                        limit: 1024
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    unauthorized:
+      description: Unauthorized.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Token Expired:
+              value:
+                code: token_expired
+                message: The access token has expired
+            Token Invalid:
+              value:
+                code: token_invalid
+                message: The access token is invalid
+            Token Revoked:
+              value:
+                code: token_revoked
+                message: The access token has been revoked
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    delete-user-response:
+      description: User deleted.
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+  parameters:
+    x-on-behalf-of:
+      name: X-On-Behalf-Of
+      description: The subject on whose behalf the operation is being performed.
+      in: header
+      schema:
+        type: string
+        pattern: ^(user|client)\s[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$
+      examples:
+        User Identifier:
+          value: user cd21b26d-35d2-408a-9201-b8fdbef7a604
+        Client Identifier:
+          value: client 3fa85f64-5717-4562-b3fc-2c963f66afa6
+    webhook-id:
+      name: webhook-id
+      description: The unique identifier of the webhook.
+      in: header
+      required: true
+      schema:
+        type: string
+      examples:
+        Webhook ID:
+          value: msg_p5jXN8AQM9LWM0D4loKWxJek
+    webhook-timestamp:
+      name: webhook-timestamp
+      description: The timestamp of the webhook, in seconds after the Unix epoch.
+      in: header
+      required: true
+      schema:
+        type: integer
+      examples:
+        Webhook Timestamp:
+          value: 1614265330
+    x-uphold-user-country:
+      name: X-Uphold-User-Country
+      description: Contains the code of the country of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/country-code-for-request'
+      examples:
+        User Country:
+          value: US
+    x-uphold-user-agent:
+      name: X-Uphold-User-Agent
+      description: Contains the user agent of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        User Agent:
+          value: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36
+    x-uphold-user-city:
+      name: X-Uphold-User-City
+      description: Contains the name of the city of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        User City:
+          value: San Francisco
+    x-uphold-user-ip:
+      name: X-Uphold-User-Ip
+      description: Contains the IP of the end user that is requesting the operation.
+      in: header
+      schema:
+        oneOf:
+        - title: IPv4
+          type: string
+          format: ipv4
+        - title: IPv6
+          type: string
+          format: ipv6
+      examples:
+        User Ip:
+          value: 47.174.97.164
+    webhook-signature:
+      name: webhook-signature
+      description: The signature of the webhook.
+      in: header
+      required: true
+      schema:
+        type: string
+      examples:
+        Webhook Signature:
+          value: v1,Hw8/adTzfYtjPGhuBahfmGhUROG3AvEKH3mvkeK791Q=
+    x-uphold-user-origin:
+      name: X-Uphold-User-Origin
+      description: Contains the origin of the request made by the end user.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        Origin:
+          value: https://uphold.com
+    x-uphold-user-subdivision:
+      name: X-Uphold-User-Subdivision
+      description: Contains the code of the subdivision of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/subdivision-code-for-request'
+      examples:
+        User Subdivision:
+          value: US-CA
+  requestBodies:
+    delete-user-request-body:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/delete-user-review'
+          examples:
+            Delete User:
+              value:
+                review:
+                  reason: closure-per-user-request
+                  note: User requested account closure
+    create-user-request-body:
+      content:
+        application/json:
+          schema:
+            allOf:
+            - type: object
+              properties:
+                type:
+                  description: The type of the user.
+                  type: string
+                  default: individual
+            - type: object
+              discriminator:
+                propertyName: type
+                mapping:
+                  individual: '#/components/schemas/create-user-type-individual'
+                  business: '#/components/schemas/create-user-type-business'
+              oneOf:
+              - $ref: '#/components/schemas/create-user-type-individual'
+              - $ref: '#/components/schemas/create-user-type-business'
+              required:
+              - type
+          examples:
+            Create Complete Individual User:
+              value:
+                type: individual
+                email: john.doe@uphold.com
+                termsOfService: general-gb-fca
+                fullName: John Doe
+                birthdate: '1987-01-01'
+                primaryCitizenship: GB
+                address:
+                  country: GB
+                  subdivision: GB-MAN
+                  city: Manchester
+                  line1: 1 High Street
+                  line2: Northern Quarter
+                  postalCode: M4 1AA
+                phone:
+                  number: '+447400123456'
+                  country: GB
+            Create Individual User:
+              value:
+                type: individual
+                email: john.doe@uphold.com
+                termsOfService: general-gb-fca
+                primaryCitizenship: GB
+                address:
+                  country: GB
+                  subdivision: GB-MAN
+                metadata:
+                  externalId: 123
+            Create Business User:
+              value:
+                type: business
+                email: acme-corp@uphold.com
+                termsOfService: general-gb-fca
+                country: GB
+                subdivision: GB-MAN
+                legalEntityType: private-limited-company
+                metadata:
+                  externalId: 123
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: OAuth 2.0 authentication.
+      flows:
+        clientCredentials:
+          tokenUrl: /core/oauth2/token
+          scopes:
+            core.users:act-on-behalf-of: Grants access to act on behalf of a user
+            core.users:create: Grants access to create users
+            core.users:read: Grants access to view users
+            core.users:delete: Grants access to delete users
+            core.users.metadata:read: Grants access to view user metadata
+            core.users.metadata:write: Grants access to modify user metadata
+            core.kyc:read: Grants access to view KYC processes
+            core.kyc.profile:update: Grants access to update profile KYC process
+            core.kyc.address:update: Grants access to update address KYC process
+            core.kyc.email:update: Grants access to update email KYC process
+            core.kyc.phone:update: Grants access to update phone KYC process
+            core.kyc.identity:update: Grants access to update identity KYC process
+            core.kyc.proof-of-address:update: Grants access to update proof-of-address KYC process
+            core.kyc.customer-due-diligence:update: Grants access to update customer due diligence KYC process
+            core.kyc.enhanced-due-diligence:update: Grants access to update enhanced due diligence KYC process
+            core.kyc.crypto-risk-assessment:update: Grants access to update crypto risk assessment KYC process
+            core.kyc.self-categorization-statement:update: Grants access to update self-categorization statement KYC process
+            core.kyc.tax-details:update: Grants access to update tax details KYC process
+            core.capabilities:read: Grants access to view user capabilities
+            core.terms-of-service:read: Grants access to view terms of service
+            core.terms-of-service:accept: Grants access to accept terms of service
+            core.files:create: Grants access to create files
+            core.files:read: Grants access to view files
+            core.files.metadata:read: Grants access to view files metadata
+            core.files.metadata:write: Grants access to modify files metadata
+            core.accounts:create: Grants access to create accounts
+            core.accounts:read: Grants access to view accounts
+            core.accounts:update: Grants access to update accounts
+            core.accounts:archive: Grants access to archive accounts
+            core.accounts:deposit-method: Grants access to deposit method needed for depositing into accounts
+            core.accounts:use-test-helpers: Grants access to test helpers of accounts
+            core.accounts.metadata:read: Grants access to view accounts metadata
+            core.accounts.metadata:write: Grants access to modify accounts metadata
+            core.assets:use-test-helpers: Grants access to test helpers of assets
+            core.external-accounts:create: Grants access to create external accounts
+            core.external-accounts:read: Grants access to view external accounts
+            core.external-accounts:update: Grants access to update external accounts
+            core.external-accounts:delete: Grants access to delete external accounts
+            core.external-accounts.metadata:read: Grants access to view external accounts metadata
+            core.external-accounts.metadata:write: Grants access to modify external accounts metadata
+            core.transactions:create: Grants access to commit quotes
+            core.transactions:read: Grants access to view transactions
+            core.transactions.metadata:read: Grants access to view transactions metadata
+            core.transactions.metadata:write: Grants access to modify transactions metadata
+            core.transactions.requests-for-information:read: Grants access to view transactions requests for information
+            core.transactions.requests-for-information:update: Grants access to update transactions requests for information
+            core.portfolio:read: Grants access to view portfolio overview, performance, and historical balance
+            core.statements:read: Grants access to read statements
+            core.webhooks:management-link: Grants access to create webhook management links

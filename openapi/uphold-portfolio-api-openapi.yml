@@ -1,0 +1,1672 @@
+openapi: 3.2.0
+info:
+  version: 0.1.0
+  title: Core Portfolio API
+  description: The Core API provides essential building blocks that empower businesses to embed financial services into their applications.
+  contact:
+    name: Uphold API Team
+    email: developers@uphold.com
+    url: https://developer.uphold.com
+servers:
+- url: https://api.enterprise.sandbox.uphold.com
+  description: Sandbox
+- url: https://api.enterprise.uphold.com
+  description: Production
+security:
+- OAuth2: []
+tags:
+- name: Portfolio
+  description: Portfolio.
+paths:
+  /core/portfolio:
+    get:
+      operationId: core.get-portfolio-overview
+      summary: Get overview
+      description: Retrieves an overview of the portfolio, including the total portfolio value and a breakdown of individual holdings.
+      tags:
+      - Portfolio
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - user:business
+            - user:individual
+      security:
+      - OAuth2:
+        - core.portfolio:read
+      parameters:
+      - $ref: '#/components/parameters/denomination'
+      - $ref: '#/components/parameters/portfolio-include-base'
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      responses:
+        '200':
+          $ref: '#/components/responses/get-portfolio-overview-response'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/get-portfolio-overview-not-found-response'
+        '409':
+          $ref: '#/components/responses/get-portfolio-overview-conflict-response'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+  /core/portfolio/performance:
+    get:
+      operationId: core.get-portfolio-performance
+      summary: Get performance
+      description: Retrieves the performance of the portfolio, including the average cost, total invested, and unrealized gains (gains and losses).
+      tags:
+      - Portfolio
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - user:individual
+      security:
+      - OAuth2:
+        - core.portfolio:read
+      parameters:
+      - $ref: '#/components/parameters/denomination'
+      - $ref: '#/components/parameters/portfolio-performance-interval'
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      responses:
+        '200':
+          $ref: '#/components/responses/get-portfolio-performance-response'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/get-portfolio-performance-not-found-response'
+        '409':
+          $ref: '#/components/responses/get-portfolio-performance-conflict-response'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+  /core/portfolio/historical-balance:
+    get:
+      operationId: core.get-portfolio-historical-balance
+      summary: Get historical balance
+      description: Retrieves the historical balance of the portfolio, including the total and available balance over time.
+      tags:
+      - Portfolio
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - user:business
+            - user:individual
+      security:
+      - OAuth2:
+        - core.portfolio:read
+      parameters:
+      - $ref: '#/components/parameters/denomination'
+      - $ref: '#/components/parameters/portfolio-historical-balance-interval'
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      responses:
+        '200':
+          $ref: '#/components/responses/get-portfolio-historical-balance-response'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/get-portfolio-historical-balance-not-found-response'
+        '409':
+          $ref: '#/components/responses/get-portfolio-historical-balance-conflict-response'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+  /core/portfolio/assets/{asset}/performance:
+    get:
+      operationId: core.get-portfolio-asset-performance
+      summary: Get asset performance
+      description: Retrieves the performance of an asset in the portfolio, including the average cost, total invested, and unrealized gains (gains and losses).
+      tags:
+      - Portfolio
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - user:individual
+      security:
+      - OAuth2:
+        - core.portfolio:read
+      parameters:
+      - $ref: '#/components/parameters/asset-code'
+      - $ref: '#/components/parameters/denomination'
+      - $ref: '#/components/parameters/portfolio-performance-interval'
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      responses:
+        '200':
+          $ref: '#/components/responses/get-portfolio-asset-performance-response'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/get-portfolio-asset-performance-not-found-response'
+        '409':
+          $ref: '#/components/responses/get-portfolio-asset-performance-conflict-response'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+  /core/portfolio/assets/_mget/performance:
+    post:
+      operationId: core.get-portfolio-many-assets-performance
+      summary: Get many assets performance
+      description: Retrieves the performance of multiple assets in the portfolio, including the average cost, total invested, and unrealized gains (gains and losses) for each asset.
+      tags:
+      - Portfolio
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - user:individual
+      security:
+      - OAuth2:
+        - core.portfolio:read
+      parameters:
+      - $ref: '#/components/parameters/denomination'
+      - $ref: '#/components/parameters/portfolio-performance-interval'
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      requestBody:
+        $ref: '#/components/requestBodies/get-portfolio-many-assets-performance-request-body'
+      responses:
+        '200':
+          $ref: '#/components/responses/get-portfolio-many-assets-performance-response'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/get-portfolio-many-assets-performance-not-found-response'
+        '409':
+          $ref: '#/components/responses/get-portfolio-many-assets-performance-conflict-response'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+  /core/portfolio/assets/{asset}/historical-balance:
+    get:
+      operationId: core.get-portfolio-asset-historical-balance
+      summary: Get asset historical balance
+      description: Retrieves the historical balance of a specific asset in the portfolio, including the total and available balance over time.
+      tags:
+      - Portfolio
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - user:business
+            - user:individual
+      security:
+      - OAuth2:
+        - core.portfolio:read
+      parameters:
+      - $ref: '#/components/parameters/asset-code'
+      - $ref: '#/components/parameters/denomination'
+      - $ref: '#/components/parameters/portfolio-historical-balance-interval'
+      - $ref: '#/components/parameters/portfolio-include-base'
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      responses:
+        '200':
+          $ref: '#/components/responses/get-portfolio-asset-historical-balance-response'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/get-portfolio-asset-historical-balance-not-found-response'
+        '409':
+          $ref: '#/components/responses/get-portfolio-asset-historical-balance-conflict-response'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+  /core/portfolio/accounts/{accountId}/performance:
+    get:
+      operationId: core.get-portfolio-account-performance
+      summary: Get account performance
+      description: Retrieves the performance of an account in the portfolio, including the average cost, total invested, and unrealized gains (gains and losses).
+      tags:
+      - Portfolio
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - user:individual
+      security:
+      - OAuth2:
+        - core.portfolio:read
+      parameters:
+      - $ref: '#/components/parameters/account-id'
+      - $ref: '#/components/parameters/denomination'
+      - $ref: '#/components/parameters/portfolio-performance-interval'
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      responses:
+        '200':
+          $ref: '#/components/responses/get-portfolio-account-performance-response'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/get-portfolio-account-performance-not-found-response'
+        '409':
+          $ref: '#/components/responses/get-portfolio-account-performance-conflict-response'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+  /core/portfolio/accounts/_mget/performance:
+    post:
+      operationId: core.get-portfolio-many-accounts-performance
+      summary: Get many accounts performance
+      description: Retrieves the performance of multiple accounts in the portfolio, including the average cost, total invested, and unrealized gains (gains and losses) for each account.
+      tags:
+      - Portfolio
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - user:individual
+      security:
+      - OAuth2:
+        - core.portfolio:read
+      parameters:
+      - $ref: '#/components/parameters/denomination'
+      - $ref: '#/components/parameters/portfolio-performance-interval'
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      requestBody:
+        $ref: '#/components/requestBodies/get-many-accounts-request-body'
+      responses:
+        '200':
+          $ref: '#/components/responses/get-portfolio-many-accounts-performance-response'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/get-portfolio-many-accounts-performance-not-found-response'
+        '409':
+          $ref: '#/components/responses/get-portfolio-many-accounts-performance-conflict-response'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+  /core/portfolio/accounts/{accountId}/historical-balance:
+    get:
+      operationId: core.get-portfolio-account-historical-balance
+      summary: Get account historical balance
+      description: Retrieves the historical balance of a specific account, including the total and available balance over time.
+      tags:
+      - Portfolio
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - user:business
+            - user:individual
+      security:
+      - OAuth2:
+        - core.portfolio:read
+      parameters:
+      - $ref: '#/components/parameters/account-id'
+      - $ref: '#/components/parameters/denomination'
+      - $ref: '#/components/parameters/portfolio-historical-balance-interval'
+      - $ref: '#/components/parameters/portfolio-include-base'
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      responses:
+        '200':
+          $ref: '#/components/responses/get-portfolio-account-historical-balance-response'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/get-portfolio-account-historical-balance-not-found-response'
+        '409':
+          $ref: '#/components/responses/get-portfolio-account-historical-balance-conflict-response'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+components:
+  schemas:
+    portfolio-holding:
+      type: object
+      properties:
+        asset:
+          type: string
+          description: Asset code.
+        total:
+          type: string
+          description: Total amount of the asset.
+        available:
+          type: string
+          description: Available amount of the asset.
+        baseTotal:
+          type: string
+          description: Base asset total amount.
+        baseAvailable:
+          type: string
+          description: Base asset available amount.
+      required:
+      - asset
+      - total
+      - available
+    portfolio-performance-overview:
+      type: object
+      properties:
+        totalInvested:
+          type: string
+          format: decimal
+          description: The total amount invested in the portfolio.
+        unrealizedGains:
+          type: string
+          format: decimal
+          description: The unrealized gains or losses of the portfolio.
+      required:
+      - totalInvested
+      - unrealizedGains
+    portfolio-overview:
+      type: object
+      properties:
+        summary:
+          type: object
+          properties:
+            total:
+              type: string
+              description: Total portfolio value.
+            available:
+              type: string
+              description: Available portfolio value.
+          required:
+          - total
+          - available
+        holdings:
+          type: array
+          items:
+            $ref: '#/components/schemas/portfolio-holding'
+      required:
+      - summary
+      - holdings
+    feedback:
+      description: A feedback message with a code and human-readable description.
+      type: object
+      properties:
+        code:
+          description: A short string with a brief explanation about the code reported.
+          type: string
+        message:
+          description: A human-readable message providing more details.
+          type: string
+        details:
+          description: Additional information about the feedback reported.
+          type: object
+          additionalProperties: true
+      required:
+      - code
+      - message
+    portfolio-performance:
+      type: object
+      properties:
+        averagePricePaid:
+          type: string
+          description: The average cost of the portfolio.
+        totalInvested:
+          type: string
+          description: The total amount invested in the portfolio.
+        unrealizedGains:
+          type: string
+          description: The unrealized gains or losses of the portfolio.
+      required:
+      - averagePricePaid
+      - totalInvested
+      - unrealizedGains
+    portfolio-historical-balance:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          description: The timestamp for the balance entry.
+        balance:
+          type: object
+          properties:
+            total:
+              type: string
+              description: The total balance at the given timestamp.
+            available:
+              type: string
+              description: The available balance at the given timestamp.
+            baseTotal:
+              type: string
+              description: Base asset total amount.
+            baseAvailable:
+              type: string
+              description: Base asset available amount.
+          required:
+          - total
+          - available
+      required:
+      - timestamp
+    string-no-edge-spaces:
+      type: string
+      pattern: ^\S.*\S$|^\S$
+    error:
+      description: The error information.
+      allOf:
+      - $ref: '#/components/schemas/feedback'
+    portfolio-historical-balance-overview:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          description: The timestamp for the balance entry.
+        balance:
+          type: object
+          properties:
+            total:
+              type: string
+              description: The total balance at the given timestamp.
+            available:
+              type: string
+              description: The available balance at the given timestamp.
+          required:
+          - total
+          - available
+      required:
+      - timestamp
+    subdivision-code-for-request:
+      type: string
+      pattern: ^[A-Z]{2}-[A-Z0-9]{1,3}$
+    country-code-for-request:
+      type: string
+      pattern: ^[A-Z]{2}$
+  responses:
+    get-portfolio-performance-response:
+      description: Portfolio performance retrieved.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              performance:
+                $ref: '#/components/schemas/portfolio-performance-overview'
+            required:
+            - performance
+          examples:
+            Portfolio Performance Retrieved:
+              value:
+                performance:
+                  totalInvested: '1276.64'
+                  unrealizedGains: '14.25'
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-portfolio-overview-conflict-response:
+      description: Business logic error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Denomination Asset Not Supported:
+              value:
+                code: asset_not_supported
+                message: The denomination asset is not supported
+                details:
+                  context: query
+                  property: denomination
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-portfolio-asset-historical-balance-not-found-response:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Asset Not Found:
+              value:
+                code: entity_not_found
+                message: The asset cannot be found
+                details:
+                  entity: asset
+            Denomination Asset Not Found:
+              value:
+                code: entity_not_found
+                message: The denomination asset cannot be found
+                details:
+                  context: query
+                  property: denomination
+                  entity: asset
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    forbidden:
+      description: Forbidden.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Token Insufficient Scopes:
+              value:
+                code: token_insufficient_scopes
+                message: Authorization failed due to insufficient scopes
+                details:
+                  security:
+                  - scheme: OAuth
+                    schemeScopes:
+                    - required:scope_1
+                    - required:scope_2
+                    tokenScopes:
+                    - token:scope
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-portfolio-asset-historical-balance-response:
+      description: Portfolio asset historical balance retrieved.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              historicalBalance:
+                type: array
+                items:
+                  $ref: '#/components/schemas/portfolio-historical-balance'
+                minItems: 1
+            required:
+            - historicalBalance
+          examples:
+            Portfolio Account Historical Balance Retrieved:
+              value:
+                historicalBalance:
+                - timestamp: '2020-01-01T00:00:00.000Z'
+                  balance:
+                    total: '1000.00'
+                    available: '950.00'
+                - timestamp: '2020-01-02T00:00:00.000Z'
+                  balance:
+                    total: '1200.00'
+                    available: '1150.00'
+            Portfolio Account Historical Balance With Base Asset Amounts Retrieved:
+              value:
+                historicalBalance:
+                - timestamp: '2020-01-01T00:00:00.000Z'
+                  balance:
+                    total: '1600.83'
+                    available: '1500.83'
+                    baseTotal: '0.01493'
+                    baseAvailable: '0.01399'
+                - timestamp: '2020-01-02T00:00:00.000Z'
+                  balance:
+                    total: '1800.50'
+                    available: '1750.00'
+                    baseTotal: '0.01679'
+                    baseAvailable: '0.01632'
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-portfolio-many-assets-performance-not-found-response:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Denomination Asset Not Found:
+              value:
+                code: entity_not_found
+                message: The denomination asset cannot be found
+                details:
+                  context: query
+                  property: denomination
+                  entity: asset
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-portfolio-historical-balance-conflict-response:
+      description: Business logic error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Denomination Asset Not Supported:
+              value:
+                code: asset_not_supported
+                message: The denomination asset is not supported
+                details:
+                  context: query
+                  property: denomination
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-portfolio-overview-not-found-response:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Denomination Asset Not Found:
+              value:
+                code: entity_not_found
+                message: The denomination asset cannot be found
+                details:
+                  context: query
+                  property: denomination
+                  entity: asset
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    too-many-requests:
+      description: Too Many Requests.
+      headers:
+        Retry-After:
+          description: The number of seconds to wait before making a new request.
+          schema:
+            type: integer
+            format: int32
+          examples:
+            Retry After:
+              value: 60
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Too Many Requests:
+              value:
+                code: too_many_requests
+                message: Try again later
+    get-portfolio-account-historical-balance-response:
+      description: Portfolio account historical balance retrieved.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              historicalBalance:
+                type: array
+                items:
+                  $ref: '#/components/schemas/portfolio-historical-balance'
+                minItems: 1
+            required:
+            - historicalBalance
+          examples:
+            Portfolio Account Historical Balance Retrieved:
+              value:
+                historicalBalance:
+                - timestamp: '2020-01-01T00:00:00.000Z'
+                  balance:
+                    total: '1000.00'
+                    available: '950.00'
+                - timestamp: '2020-01-02T00:00:00.000Z'
+                  balance:
+                    total: '1200.00'
+                    available: '1150.00'
+            Portfolio Account Historical Balance With Base Asset Amounts Retrieved:
+              value:
+                historicalBalance:
+                - timestamp: '2020-01-01T00:00:00.000Z'
+                  balance:
+                    total: '1600.83'
+                    available: '1500.83'
+                    baseTotal: '0.01493'
+                    baseAvailable: '0.01399'
+                - timestamp: '2020-01-02T00:00:00.000Z'
+                  balance:
+                    total: '1800.50'
+                    available: '1750.00'
+                    baseTotal: '0.01679'
+                    baseAvailable: '0.01632'
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-portfolio-many-assets-performance-response:
+      description: Portfolio assets performance retrieved.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              performance:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/portfolio-performance'
+            required:
+            - performance
+          examples:
+            Portfolio Many Assets Performance Retrieved:
+              value:
+                performance:
+                  BTC:
+                    averagePricePaid: '105072.09875643805'
+                    totalInvested: '33.0399214539619448225'
+                    unrealizedGains: '0.6314908505483631995'
+                  ETH:
+                    averagePricePaid: '2669.976380967428798325'
+                    totalInvested: '1357.120000000000000000167043982957931375'
+                    unrealizedGains: '-22.963157915861059182307399536837431375'
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-portfolio-account-historical-balance-conflict-response:
+      description: Business logic error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Denomination Asset Not Supported:
+              value:
+                code: asset_not_supported
+                message: The denomination asset is not supported
+                details:
+                  context: query
+                  property: denomination
+                  entity: asset
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-portfolio-account-performance-conflict-response:
+      description: Business logic error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Denomination Asset Not Supported:
+              value:
+                code: asset_not_supported
+                message: The denomination asset is not supported
+                details:
+                  context: query
+                  property: denomination
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-portfolio-asset-performance-not-found-response:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Asset Not Found:
+              value:
+                code: entity_not_found
+                message: The asset cannot be found
+                details:
+                  entity: asset
+            Denomination Asset Not Found:
+              value:
+                code: entity_not_found
+                message: The denomination asset cannot be found
+                details:
+                  context: query
+                  property: denomination
+                  entity: asset
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-portfolio-many-accounts-performance-conflict-response:
+      description: Business logic error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Denomination Asset Not Supported:
+              value:
+                code: asset_not_supported
+                message: The denomination asset is not supported
+                details:
+                  context: query
+                  property: denomination
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-portfolio-many-accounts-performance-response:
+      description: Portfolio accounts performance retrieved.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              performance:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/portfolio-performance'
+            required:
+            - performance
+          examples:
+            Portfolio Many Accounts Performance Retrieved:
+              value:
+                performance:
+                  e4c1cbff-28a7-4602-9661-169e42040c22:
+                    averagePricePaid: '2491.73'
+                    totalInvested: '1266.51'
+                    unrealizedGains: '-21.55'
+                  a9ef84a1-45c3-4796-8002-297dc57ac85d:
+                    averagePricePaid: '107929.90'
+                    totalInvested: '33.93'
+                    unrealizedGains: '-0.33'
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-portfolio-overview-response:
+      description: Portfolio overview retrieved.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/portfolio-overview'
+          examples:
+            Portfolio Overview Retrieved:
+              value:
+                summary:
+                  total: '68312.82'
+                  available: '68312.82'
+                holdings:
+                - asset: BTC
+                  total: '33.52'
+                  available: '33.52'
+                - asset: ETH
+                  total: '1231.44'
+                  available: '1231.44'
+                - asset: GBP
+                  total: '67047.86'
+                  available: '67047.86'
+            Portfolio Overview With Base Asset Amounts Retrieved:
+              value:
+                summary:
+                  total: '68312.82'
+                  available: '68312.82'
+                holdings:
+                - asset: BTC
+                  total: '33.52'
+                  available: '33.52'
+                  baseTotal: '0.00031445'
+                  baseAvailable: '0.00031445'
+                - asset: ETH
+                  total: '1231.44'
+                  available: '1231.44'
+                  baseTotal: '0.508289140560961235'
+                  baseAvailable: '0.508289140560961235'
+                - asset: GBP
+                  total: '67047.86'
+                  available: '67047.86'
+                  baseTotal: '48909.02'
+                  baseAvailable: '48909.02'
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-portfolio-many-assets-performance-conflict-response:
+      description: Business logic error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Denomination Asset Not Supported:
+              value:
+                code: asset_not_supported
+                message: The denomination asset is not supported
+                details:
+                  context: query
+                  property: denomination
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-portfolio-account-historical-balance-not-found-response:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Account Not Found:
+              value:
+                code: entity_not_found
+                message: The account cannot be found
+                details:
+                  entity: account
+            Denomination Asset Not Found:
+              value:
+                code: entity_not_found
+                message: The denomination asset cannot be found
+                details:
+                  context: query
+                  property: denomination
+                  entity: asset
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-portfolio-historical-balance-not-found-response:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Denomination Asset Not Found:
+              value:
+                code: entity_not_found
+                message: The denomination asset cannot be found
+                details:
+                  context: query
+                  property: denomination
+                  entity: asset
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-portfolio-many-accounts-performance-not-found-response:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Denomination Asset Not Found:
+              value:
+                code: entity_not_found
+                message: The denomination asset cannot be found
+                details:
+                  context: query
+                  property: denomination
+                  entity: asset
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-portfolio-asset-performance-conflict-response:
+      description: Business logic error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Denomination Asset Not Supported:
+              value:
+                code: asset_not_supported
+                message: The denomination asset is not supported
+                details:
+                  context: query
+                  property: denomination
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-portfolio-account-performance-response:
+      description: Portfolio account performance retrieved.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              performance:
+                $ref: '#/components/schemas/portfolio-performance'
+            required:
+            - performance
+          examples:
+            Portfolio Performance Retrieved:
+              value:
+                performance:
+                  averagePricePaid: '2445.52'
+                  totalInvested: '1243.02'
+                  unrealizedGains: '14.66'
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-portfolio-asset-historical-balance-conflict-response:
+      description: Business logic error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Denomination Asset Not Supported:
+              value:
+                code: asset_not_supported
+                message: The denomination asset is not supported
+                details:
+                  context: query
+                  property: denomination
+                  entity: asset
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-portfolio-performance-conflict-response:
+      description: Business logic error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Denomination Asset Not Supported:
+              value:
+                code: asset_not_supported
+                message: The denomination asset is not supported
+                details:
+                  context: query
+                  property: denomination
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-portfolio-historical-balance-response:
+      description: Portfolio historical balance retrieved.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              historicalBalance:
+                type: array
+                items:
+                  $ref: '#/components/schemas/portfolio-historical-balance-overview'
+                minItems: 1
+            required:
+            - historicalBalance
+          examples:
+            Portfolio Account Historical Balance Retrieved:
+              value:
+                historicalBalance:
+                - timestamp: '2025-06-25T09:50:00.000Z'
+                  balance:
+                    total: '67785.67'
+                    available: '67785.67'
+                - timestamp: '2025-06-25T10:00:00.000Z'
+                  balance:
+                    total: '67801.77'
+                    available: '67801.77'
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-portfolio-asset-performance-response:
+      description: Portfolio asset performance retrieved.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              performance:
+                $ref: '#/components/schemas/portfolio-performance'
+            required:
+            - performance
+          examples:
+            Portfolio Performance Retrieved:
+              value:
+                performance:
+                  averagePricePaid: '105072.09875643805'
+                  totalInvested: '33.0399214539619448225'
+                  unrealizedGains: '0.6314908505483631995'
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    unauthorized:
+      description: Unauthorized.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Token Expired:
+              value:
+                code: token_expired
+                message: The access token has expired
+            Token Invalid:
+              value:
+                code: token_invalid
+                message: The access token is invalid
+            Token Revoked:
+              value:
+                code: token_revoked
+                message: The access token has been revoked
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-portfolio-account-performance-not-found-response:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Account Not Found:
+              value:
+                code: entity_not_found
+                message: The account cannot be found
+                details:
+                  entity: account
+            Denomination Asset Not Found:
+              value:
+                code: entity_not_found
+                message: The denomination asset cannot be found
+                details:
+                  context: query
+                  property: denomination
+                  entity: asset
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-portfolio-performance-not-found-response:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Denomination Asset Not Found:
+              value:
+                code: entity_not_found
+                message: The denomination asset cannot be found
+                details:
+                  context: query
+                  property: denomination
+                  entity: asset
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+  parameters:
+    asset-code:
+      name: asset
+      description: The asset code.
+      in: path
+      required: true
+      schema:
+        type: string
+        minLength: 1
+      examples:
+        BTC Asset:
+          value: BTC
+    x-on-behalf-of:
+      name: X-On-Behalf-Of
+      description: The subject on whose behalf the operation is being performed.
+      in: header
+      schema:
+        type: string
+        pattern: ^(user|client)\s[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$
+      examples:
+        User Identifier:
+          value: user cd21b26d-35d2-408a-9201-b8fdbef7a604
+        Client Identifier:
+          value: client 3fa85f64-5717-4562-b3fc-2c963f66afa6
+    portfolio-include-base:
+      name: includeBase
+      description: Whether to include total and available amounts denominated in the base asset, in addition to the selected denomination.
+      in: query
+      required: false
+      schema:
+        type: boolean
+        default: false
+    x-uphold-user-country:
+      name: X-Uphold-User-Country
+      description: Contains the code of the country of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/country-code-for-request'
+      examples:
+        User Country:
+          value: US
+    x-uphold-user-agent:
+      name: X-Uphold-User-Agent
+      description: Contains the user agent of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        User Agent:
+          value: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36
+    account-id:
+      name: accountId
+      description: The account id.
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      examples:
+        Account Identifier:
+          value: 555a99a1-620d-4431-a0ac-b43e1aad2bdc
+    x-uphold-user-city:
+      name: X-Uphold-User-City
+      description: Contains the name of the city of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        User City:
+          value: San Francisco
+    x-uphold-user-ip:
+      name: X-Uphold-User-Ip
+      description: Contains the IP of the end user that is requesting the operation.
+      in: header
+      schema:
+        oneOf:
+        - title: IPv4
+          type: string
+          format: ipv4
+        - title: IPv6
+          type: string
+          format: ipv6
+      examples:
+        User Ip:
+          value: 47.174.97.164
+    portfolio-historical-balance-interval:
+      name: interval
+      description: The interval for the portfolio historical data.
+      in: query
+      required: false
+      schema:
+        type: string
+        enum:
+        - one-hour
+        - one-day
+        - one-week
+        - one-month
+        - one-year
+        default: one-day
+    x-uphold-user-origin:
+      name: X-Uphold-User-Origin
+      description: Contains the origin of the request made by the end user.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        Origin:
+          value: https://uphold.com
+    denomination:
+      name: denomination
+      description: Specifies the asset code to use as the denomination for value conversion. If not provided, USD is used by default.
+      in: query
+      required: false
+      schema:
+        type: string
+        minLength: 1
+        default: USD
+      examples:
+        BTC Asset:
+          value: BTC
+    portfolio-performance-interval:
+      name: interval
+      description: The interval for the portfolio performance.
+      in: query
+      required: false
+      schema:
+        type: string
+        enum:
+        - one-hour
+        - one-day
+        - all-time
+        default: one-day
+    x-uphold-user-subdivision:
+      name: X-Uphold-User-Subdivision
+      description: Contains the code of the subdivision of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/subdivision-code-for-request'
+      examples:
+        User Subdivision:
+          value: US-CA
+  requestBodies:
+    get-many-accounts-request-body:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              ids:
+                description: The account IDs to retrieve.
+                type: array
+                minItems: 1
+                maxItems: 100
+                items:
+                  type: string
+                  format: uuid
+            required:
+            - ids
+          examples:
+            Get Many Accounts:
+              value:
+                ids:
+                - e4c1cbff-28a7-4602-9661-169e42040c22
+                - a9ef84a1-45c3-4796-8002-297dc57ac85d
+    get-portfolio-many-assets-performance-request-body:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              codes:
+                description: The asset codes to retrieve.
+                type: array
+                minItems: 1
+                maxItems: 100
+                items:
+                  type: string
+                  minLength: 1
+            required:
+            - codes
+          examples:
+            Get Many Assets:
+              value:
+                codes:
+                - BTC
+                - ETH
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: OAuth 2.0 authentication.
+      flows:
+        clientCredentials:
+          tokenUrl: /core/oauth2/token
+          scopes:
+            core.users:act-on-behalf-of: Grants access to act on behalf of a user
+            core.users:create: Grants access to create users
+            core.users:read: Grants access to view users
+            core.users:delete: Grants access to delete users
+            core.users.metadata:read: Grants access to view user metadata
+            core.users.metadata:write: Grants access to modify user metadata
+            core.kyc:read: Grants access to view KYC processes
+            core.kyc.profile:update: Grants access to update profile KYC process
+            core.kyc.address:update: Grants access to update address KYC process
+            core.kyc.email:update: Grants access to update email KYC process
+            core.kyc.phone:update: Grants access to update phone KYC process
+            core.kyc.identity:update: Grants access to update identity KYC process
+            core.kyc.proof-of-address:update: Grants access to update proof-of-address KYC process
+            core.kyc.customer-due-diligence:update: Grants access to update customer due diligence KYC process
+            core.kyc.enhanced-due-diligence:update: Grants access to update enhanced due diligence KYC process
+            core.kyc.crypto-risk-assessment:update: Grants access to update crypto risk assessment KYC process
+            core.kyc.self-categorization-statement:update: Grants access to update self-categorization statement KYC process
+            core.kyc.tax-details:update: Grants access to update tax details KYC process
+            core.capabilities:read: Grants access to view user capabilities
+            core.terms-of-service:read: Grants access to view terms of service
+            core.terms-of-service:accept: Grants access to accept terms of service
+            core.files:create: Grants access to create files
+            core.files:read: Grants access to view files
+            core.files.metadata:read: Grants access to view files metadata
+            core.files.metadata:write: Grants access to modify files metadata
+            core.accounts:create: Grants access to create accounts
+            core.accounts:read: Grants access to view accounts
+            core.accounts:update: Grants access to update accounts
+            core.accounts:archive: Grants access to archive accounts
+            core.accounts:deposit-method: Grants access to deposit method needed for depositing into accounts
+            core.accounts:use-test-helpers: Grants access to test helpers of accounts
+            core.accounts.metadata:read: Grants access to view accounts metadata
+            core.accounts.metadata:write: Grants access to modify accounts metadata
+            core.assets:use-test-helpers: Grants access to test helpers of assets
+            core.external-accounts:create: Grants access to create external accounts
+            core.external-accounts:read: Grants access to view external accounts
+            core.external-accounts:update: Grants access to update external accounts
+            core.external-accounts:delete: Grants access to delete external accounts
+            core.external-accounts.metadata:read: Grants access to view external accounts metadata
+            core.external-accounts.metadata:write: Grants access to modify external accounts metadata
+            core.transactions:create: Grants access to commit quotes
+            core.transactions:read: Grants access to view transactions
+            core.transactions.metadata:read: Grants access to view transactions metadata
+            core.transactions.metadata:write: Grants access to modify transactions metadata
+            core.transactions.requests-for-information:read: Grants access to view transactions requests for information
+            core.transactions.requests-for-information:update: Grants access to update transactions requests for information
+            core.portfolio:read: Grants access to view portfolio overview, performance, and historical balance
+            core.statements:read: Grants access to read statements
+            core.webhooks:management-link: Grants access to create webhook management links

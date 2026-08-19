@@ -1,0 +1,3251 @@
+openapi: 3.2.0
+info:
+  version: 0.1.0
+  title: Core Accounts API
+  description: The Core API provides essential building blocks that empower businesses to embed financial services into their applications.
+  contact:
+    name: Uphold API Team
+    email: developers@uphold.com
+    url: https://developer.uphold.com
+servers:
+- url: https://api.enterprise.sandbox.uphold.com
+  description: Sandbox
+- url: https://api.enterprise.uphold.com
+  description: Production
+security:
+- OAuth2: []
+tags:
+- name: Accounts
+  description: Accounts.
+paths:
+  /core/accounts:
+    get:
+      operationId: core.list-accounts
+      summary: List accounts
+      description: List accounts owned by a user.
+      tags:
+      - Accounts
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - user:business
+            - user:individual
+      security:
+      - OAuth2:
+        - core.accounts:read
+      parameters:
+      - $ref: '#/components/parameters/list-accounts-asset-code-filter'
+      - $ref: '#/components/parameters/pagination-per-page'
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      responses:
+        '200':
+          $ref: '#/components/responses/list-accounts-response'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+    post:
+      operationId: core.create-account
+      summary: Create account
+      description: Create a new account.
+      tags:
+      - Accounts
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - user:business
+            - user:individual
+      security:
+      - OAuth2:
+        - core.accounts:create
+      parameters:
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      requestBody:
+        $ref: '#/components/requestBodies/create-account-request-body'
+      responses:
+        '201':
+          $ref: '#/components/responses/create-account-response'
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/asset-not-found-response'
+        '409':
+          $ref: '#/components/responses/create-account-conflict-response'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+  /core/accounts/defaults:
+    get:
+      operationId: core.list-default-accounts
+      summary: List default accounts
+      description: List the default account for each asset owned by a user.
+      tags:
+      - Accounts
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - user:business
+            - user:individual
+      security:
+      - OAuth2:
+        - core.accounts:read
+      parameters:
+      - $ref: '#/components/parameters/list-default-accounts-asset-code-filter'
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      responses:
+        '200':
+          $ref: '#/components/responses/list-default-accounts-response'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+  /core/accounts/{accountId}:
+    get:
+      operationId: core.get-account
+      summary: Get account
+      description: Retrieve an existing account by id.
+      tags:
+      - Accounts
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - user:business
+            - user:individual
+      security:
+      - OAuth2:
+        - core.accounts:read
+      parameters:
+      - $ref: '#/components/parameters/account-id'
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      responses:
+        '200':
+          $ref: '#/components/responses/get-account-response'
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/get-account-not-found-response'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+    patch:
+      operationId: core.update-account
+      summary: Update account
+      description: Update an existing account.
+      tags:
+      - Accounts
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - user:business
+            - user:individual
+      security:
+      - OAuth2:
+        - core.accounts:update
+      parameters:
+      - $ref: '#/components/parameters/account-id'
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      requestBody:
+        $ref: '#/components/requestBodies/update-account-request-body'
+      responses:
+        '200':
+          $ref: '#/components/responses/update-account-response'
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/update-account-not-found-response'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+    delete:
+      operationId: core.archive-account
+      summary: Archive account
+      description: Archive an existing account.
+      tags:
+      - Accounts
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - user:business
+            - user:individual
+      security:
+      - OAuth2:
+        - core.accounts:archive
+      parameters:
+      - $ref: '#/components/parameters/account-id'
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      responses:
+        '204':
+          $ref: '#/components/responses/archive-account-response'
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/archive-account-not-found-response'
+        '409':
+          $ref: '#/components/responses/archive-account-conflict-response'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+  /core/accounts/{accountId}/deposit-method:
+    get:
+      operationId: core.get-account-deposit-method
+      summary: Get account deposit method
+      description: Gets deposit method for depositing into an account externally.
+      tags:
+      - Accounts
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - user:business
+            - user:individual
+      security:
+      - OAuth2:
+        - core.accounts:deposit-method
+      parameters:
+      - $ref: '#/components/parameters/account-id'
+      - $ref: '#/components/parameters/account-deposit-method-type'
+      - $ref: '#/components/parameters/account-deposit-method-asset'
+      - $ref: '#/components/parameters/account-deposit-method-network'
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      responses:
+        '200':
+          $ref: '#/components/responses/get-account-deposit-method-response'
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/get-account-deposit-method-account-not-found-response'
+        '409':
+          $ref: '#/components/responses/get-account-deposit-method-conflict-response'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+    put:
+      operationId: core.setup-account-deposit-method
+      summary: Set up account deposit method
+      description: Sets up a deposit method for depositing into an account externally.
+      tags:
+      - Accounts
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - user:business
+            - user:individual
+      security:
+      - OAuth2:
+        - core.accounts:deposit-method
+      parameters:
+      - $ref: '#/components/parameters/account-id'
+      - $ref: '#/components/parameters/account-deposit-method-type'
+      - $ref: '#/components/parameters/account-deposit-method-asset'
+      - $ref: '#/components/parameters/account-deposit-method-network'
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      responses:
+        '200':
+          $ref: '#/components/responses/setup-account-deposit-method-response'
+        '201':
+          $ref: '#/components/responses/setup-account-deposit-method-response'
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/setup-account-deposit-method-account-not-found-response'
+        '409':
+          $ref: '#/components/responses/setup-account-deposit-method-conflict-response'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+  /core/accounts/test-helpers/bank-deposits:
+    post:
+      operationId: core.simulate-bank-deposit
+      summary: Simulate bank deposit
+      description: Simulate an incoming bank deposit for testing purposes.
+      tags:
+      - Accounts
+      security:
+      - OAuth2:
+        - core.accounts:use-test-helpers
+      x-uphold:
+        operation:
+          notImplementedIn:
+          - production
+        security:
+          OAuth2:
+            subjects:
+            - user:business
+            - user:individual
+      parameters:
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      requestBody:
+        $ref: '#/components/requestBodies/simulate-bank-deposit-request-body'
+      responses:
+        '202':
+          $ref: '#/components/responses/simulate-bank-deposit-response'
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/simulate-bank-deposit-not-found-response'
+        '409':
+          $ref: '#/components/responses/simulate-bank-deposit-conflict-response'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+  /core/accounts/test-helpers/crypto-deposits:
+    post:
+      operationId: core.simulate-crypto-deposit
+      summary: Simulate crypto deposit
+      description: Simulate an incoming crypto deposit for testing purposes.
+      tags:
+      - Accounts
+      security:
+      - OAuth2:
+        - core.accounts:use-test-helpers
+      x-uphold:
+        operation:
+          notImplementedIn:
+          - production
+        security:
+          OAuth2:
+            subjects:
+            - user:business
+            - user:individual
+      parameters:
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      requestBody:
+        $ref: '#/components/requestBodies/simulate-crypto-deposit-request-body'
+      responses:
+        '202':
+          $ref: '#/components/responses/simulate-crypto-deposit-response'
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/simulate-crypto-deposit-not-found-response'
+        '409':
+          $ref: '#/components/responses/simulate-crypto-deposit-conflict-response'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+webhooks:
+  core.account.created:
+    post:
+      operationId: core.account-created
+      summary: Account Created
+      description: An account has been created.
+      tags:
+      - Accounts
+      parameters:
+      - $ref: '#/components/parameters/webhook-id'
+      - $ref: '#/components/parameters/webhook-timestamp'
+      - $ref: '#/components/parameters/webhook-signature'
+      requestBody:
+        description: Account created event.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/account-webhook-event'
+            examples:
+              Account Created:
+                value:
+                  id: 123e4567-e89b-12d3-a456-426614174000
+                  type: core.account.created
+                  createdAt: '2021-01-01T00:00:00.000Z'
+                  data:
+                    account:
+                      id: 555a99a1-620d-4431-a0ac-b43e1aad2bdc
+                      ownerId: 1e32fca3-23f7-40ed-bc1b-de10c790182d
+                      label: My BTC account
+                      asset: BTC
+                      balance:
+                        total: '0'
+                        available: '0'
+                      createdAt: '2024-06-01T00:00:00.000Z'
+                      updatedAt: '2024-07-15T00:00:00.000Z'
+      responses:
+        '200':
+          description: Return a 200 status to indicate that the data was received successfully.
+  core.account.balance-changed:
+    post:
+      operationId: core.account-balance-changed
+      summary: Account Balance Changed
+      description: The balance of an account has changed.
+      tags:
+      - Accounts
+      parameters:
+      - $ref: '#/components/parameters/webhook-id'
+      - $ref: '#/components/parameters/webhook-timestamp'
+      - $ref: '#/components/parameters/webhook-signature'
+      requestBody:
+        description: Account balance changed event.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/account-webhook-event'
+            examples:
+              Account Balance Changed:
+                value:
+                  id: 123e4567-e89b-12d3-a456-426614174000
+                  type: core.account.balance.changed
+                  createdAt: '2021-01-01T00:00:00.000Z'
+                  data:
+                    account:
+                      id: 555a99a1-620d-4431-a0ac-b43e1aad2bdc
+                      ownerId: 1e32fca3-23f7-40ed-bc1b-de10c790182d
+                      label: My BTC account
+                      asset: BTC
+                      balance:
+                        total: '0.5'
+                        available: '0.3'
+                      createdAt: '2024-06-01T00:00:00.000Z'
+                      updatedAt: '2024-07-15T00:00:00.000Z'
+      responses:
+        '200':
+          description: Return a 200 status to indicate that the data was received successfully.
+  core.account.archived:
+    post:
+      operationId: core.account-archived
+      summary: Account archived
+      description: An account has been archived.
+      tags:
+      - Accounts
+      parameters:
+      - $ref: '#/components/parameters/webhook-id'
+      - $ref: '#/components/parameters/webhook-timestamp'
+      - $ref: '#/components/parameters/webhook-signature'
+      requestBody:
+        description: Account archived event.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/account-webhook-event'
+            examples:
+              Account Archived:
+                value:
+                  id: 123e4567-e89b-12d3-a456-426614174000
+                  type: core.account.archived
+                  createdAt: '2021-01-01T00:00:00.000Z'
+                  data:
+                    account:
+                      id: 555a99a1-620d-4431-a0ac-b43e1aad2bdc
+                      ownerId: 1e32fca3-23f7-40ed-bc1b-de10c790182d
+                      label: My BTC account
+                      asset: BTC
+                      balance:
+                        total: '0'
+                        available: '0'
+                      createdAt: '2024-06-01T00:00:00.000Z'
+                      updatedAt: '2024-07-15T00:00:00.000Z'
+      responses:
+        '200':
+          description: Return a 200 status to indicate that the data was received successfully.
+  core.account.unarchived:
+    post:
+      operationId: core.account-unarchived
+      summary: Account unarchived
+      description: An account has been unarchived.
+      tags:
+      - Accounts
+      parameters:
+      - $ref: '#/components/parameters/webhook-id'
+      - $ref: '#/components/parameters/webhook-timestamp'
+      - $ref: '#/components/parameters/webhook-signature'
+      requestBody:
+        description: Account unarchived event.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/account-webhook-event'
+            examples:
+              Account Unarchived:
+                value:
+                  id: 123e4567-e89b-12d3-a456-426614174000
+                  type: core.account.unarchived
+                  createdAt: '2021-01-01T00:00:00.000Z'
+                  data:
+                    account:
+                      id: 555a99a1-620d-4431-a0ac-b43e1aad2bdc
+                      ownerId: 1e32fca3-23f7-40ed-bc1b-de10c790182d
+                      label: My BTC account
+                      asset: BTC
+                      balance:
+                        total: '0'
+                        available: '0'
+                      createdAt: '2024-06-01T00:00:00.000Z'
+                      updatedAt: '2024-07-15T00:00:00.000Z'
+      responses:
+        '200':
+          description: Return a 200 status to indicate that the data was received successfully.
+components:
+  responses:
+    update-account-not-found-response:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Account Not Found:
+              value:
+                code: entity_not_found
+                message: The account cannot be found
+                details:
+                  entity: account
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    too-many-requests:
+      description: Too Many Requests.
+      headers:
+        Retry-After:
+          description: The number of seconds to wait before making a new request.
+          schema:
+            type: integer
+            format: int32
+          examples:
+            Retry After:
+              value: 60
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Too Many Requests:
+              value:
+                code: too_many_requests
+                message: Try again later
+    simulate-bank-deposit-response:
+      description: Bank deposit simulated.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              bankDeposit:
+                type: object
+                discriminator:
+                  propertyName: network
+                  mapping:
+                    fps: '#/components/schemas/simulate-bank-deposit-fps'
+                    sepa: '#/components/schemas/simulate-bank-deposit-sepa'
+                    ach: '#/components/schemas/simulate-bank-deposit-ach'
+                    fednow: '#/components/schemas/simulate-bank-deposit-fednow'
+                    rtp: '#/components/schemas/simulate-bank-deposit-rtp'
+                    wire: '#/components/schemas/simulate-bank-deposit-wire'
+                oneOf:
+                - title: FPS
+                  $ref: '#/components/schemas/simulate-bank-deposit-fps'
+                - title: SEPA
+                  $ref: '#/components/schemas/simulate-bank-deposit-sepa'
+                - title: ACH
+                  $ref: '#/components/schemas/simulate-bank-deposit-ach'
+                - title: FedNow
+                  $ref: '#/components/schemas/simulate-bank-deposit-fednow'
+                - title: RTP
+                  $ref: '#/components/schemas/simulate-bank-deposit-rtp'
+                - title: Wire
+                  $ref: '#/components/schemas/simulate-bank-deposit-wire'
+            required:
+            - bankDeposit
+          examples:
+            FPS Bank Deposit Accepted:
+              value:
+                bankDeposit:
+                  network: fps
+                  sortCode: '123456'
+                  accountNumber: '12345678'
+                  reference: UH12345678
+                  asset: GBP
+                  amount: '100'
+                  remitter:
+                    name: John Doe
+                    sortCode: '654321'
+                    accountNumber: '87654321'
+            SEPA Bank Deposit Accepted:
+              value:
+                bankDeposit:
+                  network: sepa
+                  iban: AT487954841229809844
+                  reference: UH12345678
+                  asset: EUR
+                  amount: '100'
+                  remitter:
+                    name: John Doe
+                    bic: LHVBEE22
+                    iban: DE89370400440532013000
+            ACH Bank Deposit Accepted:
+              value:
+                bankDeposit:
+                  network: ach
+                  accountNumber: '378928485630'
+                  routingNumber: 021214891
+                  asset: USD
+                  amount: '123'
+                  remitter:
+                    name: John Doe
+                    accountNumber: '987654321'
+                    routingNumber: 021214891
+                    secCode: CCD
+                    transactionType: Push
+                    serviceType: SameDay
+            FedNow Bank Deposit Accepted:
+              value:
+                bankDeposit:
+                  network: fednow
+                  accountNumber: '378928485630'
+                  asset: USD
+                  amount: '150'
+                  remitter:
+                    name: John Doe
+                    accountNumber: '1234567890'
+                    routingNumber: 026009593
+            RTP Bank Deposit Accepted:
+              value:
+                bankDeposit:
+                  network: rtp
+                  accountNumber: '378928485630'
+                  asset: USD
+                  amount: '150'
+                  remitter:
+                    name: John Doe
+                    accountNumber: '1234567890'
+                    routingNumber: 026009593
+            Wire Bank Deposit Accepted:
+              value:
+                bankDeposit:
+                  network: wire
+                  accountNumber: '378928485630'
+                  amount: '200'
+                  asset: USD
+                  remitter:
+                    name: John Doe
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    create-account-response:
+      description: Account created.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              account:
+                $ref: '#/components/schemas/account'
+              errors:
+                description: Additional contextual errors that occurred while processing the request.
+                type: object
+                properties:
+                  metadata:
+                    allOf:
+                    - $ref: '#/components/schemas/error'
+                    - description: Error related to metadata processing.
+            required:
+            - account
+          examples:
+            Account Created:
+              value:
+                account:
+                  id: 555a99a1-620d-4431-a0ac-b43e1aad2bdc
+                  ownerId: 1e32fca3-23f7-40ed-bc1b-de10c790182d
+                  label: My BTC account
+                  asset: BTC
+                  balance:
+                    total: '0'
+                    available: '0'
+                  createdAt: '2024-06-01T00:00:00.000Z'
+                  updatedAt: '2024-07-15T00:00:00.000Z'
+            Account Created With Metadata Error:
+              value:
+                account:
+                  id: 555a99a1-620d-4431-a0ac-b43e1aad2bdc
+                  ownerId: 1e32fca3-23f7-40ed-bc1b-de10c790182d
+                  label: My BTC account
+                  asset: BTC
+                  balance:
+                    total: '0'
+                    available: '0'
+                  createdAt: '2024-06-01T00:00:00.000Z'
+                  updatedAt: '2024-07-15T00:00:00.000Z'
+                errors:
+                  metadata:
+                    code: content_too_large
+                    message: The entity metadata size is greater than maximum size limit
+                    details:
+                      threshold:
+                        unit: characters
+                        limit: 1024
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-account-deposit-method-response:
+      description: Deposit method retrieved.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              depositMethod:
+                $ref: '#/components/schemas/account-deposit-method'
+            required:
+            - depositMethod
+          examples:
+            Bitcoin Crypto Deposit Method:
+              value:
+                depositMethod:
+                  type: crypto
+                  status: ok
+                  details:
+                    asset: BTC
+                    network: bitcoin
+                    address: tb1qktapuxvq6u39n7tc4sfkp9q8vwecrqza7xeqhn
+                    addressFormats:
+                    - format: native-segwit
+                      value: tb1qktapuxvq6u39n7tc4sfkp9q8vwecrqza7xeqhn
+                    - format: wrapped-segwit
+                      value: 2MzJXEZeyJV4jMHxkeGY7x88DPpF15p78ks
+            Stellar Crypto Deposit Method:
+              value:
+                depositMethod:
+                  type: crypto
+                  status: ok
+                  details:
+                    asset: XLM
+                    network: stellar
+                    address: GC3ZSJ3K2HKSN7MKK2SXNFBELR5Y5WE5HMVDO7UG6SQE55DEJY55BYWK
+                    addressFormats:
+                    - format: pubkey-hash
+                      value: GC3ZSJ3K2HKSN7MKK2SXNFBELR5Y5WE5HMVDO7UG6SQE55DEJY55BYWK
+                    reference: 0123456789
+            FPS Bank Deposit Method:
+              value:
+                depositMethod:
+                  type: bank
+                  status: ok
+                  details:
+                    network: fps
+                    asset: GBP
+                    beneficiary: John Doe
+                    bankName: Example Bank
+                    bankAddress:
+                      line1: 123 Bank Street
+                      line2: London, United Kingdom
+                    sortCode: '123456'
+                    accountNumber: '12345678'
+                    reference: UH12345678
+            SEPA Bank Deposit Method:
+              value:
+                depositMethod:
+                  type: bank
+                  status: ok
+                  details:
+                    network: sepa
+                    asset: EUR
+                    beneficiary: John Doe
+                    bankName: Example Bank
+                    bankAddress:
+                      line1: 123 Bank Street
+                      line2: Vienna, Austria
+                    bic: EXAAAT2K
+                    iban: AT487954841229809844
+                    reference: UH12345678
+            ACH Bank Deposit Method:
+              value:
+                depositMethod:
+                  type: bank
+                  status: ok
+                  details:
+                    network: ach
+                    asset: USD
+                    beneficiary: John Doe
+                    bankName: Cross River Bank
+                    bankAddress:
+                      line1: 2 Riverview Dr
+                      line2: Fort Lee, NJ 07024
+                    routingNumber: 021214891
+                    accountNumber: '377876871270'
+                    accountType: checking
+                    secondaryNetworks:
+                    - fednow
+                    - wire
+            FedNow/RTP Bank Deposit Method:
+              value:
+                depositMethod:
+                  type: bank
+                  status: ok
+                  details:
+                    network: fednow
+                    asset: USD
+                    beneficiary: John Doe
+                    bankName: Cross River Bank
+                    bankAddress:
+                      line1: 2 Riverview Dr
+                      line2: Fort Lee, NJ 07024
+                    routingNumber: 021214891
+                    accountNumber: '377876871270'
+                    accountType: checking
+                    secondaryNetworks:
+                    - ach
+                    - wire
+            Wire Bank Deposit Method:
+              value:
+                depositMethod:
+                  type: bank
+                  status: ok
+                  details:
+                    network: wire
+                    asset: USD
+                    beneficiary: John Doe
+                    bankName: Cross River Bank
+                    bankAddress:
+                      line1: 2 Riverview Dr
+                      line2: Fort Lee, NJ 07024
+                    routingNumber: 021214891
+                    accountNumber: '377876871270'
+                    accountType: checking
+                    secondaryNetworks:
+                    - ach
+                    - fednow
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    setup-account-deposit-method-response:
+      description: Deposit method set up.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              depositMethod:
+                $ref: '#/components/schemas/account-deposit-method'
+            required:
+            - depositMethod
+          examples:
+            Bitcoin Crypto Deposit Method:
+              value:
+                depositMethod:
+                  type: crypto
+                  status: ok
+                  details:
+                    asset: BTC
+                    network: bitcoin
+                    address: tb1qktapuxvq6u39n7tc4sfkp9q8vwecrqza7xeqhn
+                    addressFormats:
+                    - format: native-segwit
+                      value: tb1qktapuxvq6u39n7tc4sfkp9q8vwecrqza7xeqhn
+                    - format: wrapped-segwit
+                      value: 2MzJXEZeyJV4jMHxkeGY7x88DPpF15p78ks
+            Stellar Crypto Deposit Method:
+              value:
+                depositMethod:
+                  type: crypto
+                  status: ok
+                  details:
+                    asset: XLM
+                    network: stellar
+                    address: GC3ZSJ3K2HKSN7MKK2SXNFBELR5Y5WE5HMVDO7UG6SQE55DEJY55BYWK
+                    addressFormats:
+                    - format: pubkey-hash
+                      value: GC3ZSJ3K2HKSN7MKK2SXNFBELR5Y5WE5HMVDO7UG6SQE55DEJY55BYWK
+                    reference: 0123456789
+            FPS Bank Deposit Method:
+              value:
+                depositMethod:
+                  type: bank
+                  status: ok
+                  details:
+                    network: fps
+                    asset: GBP
+                    beneficiary: John Doe
+                    bankName: Example Bank
+                    bankAddress:
+                      line1: 123 Bank Street
+                      line2: London, United Kingdom
+                    sortCode: '123456'
+                    accountNumber: '12345678'
+                    reference: UH12345678
+            SEPA Bank Deposit Method:
+              value:
+                depositMethod:
+                  type: bank
+                  status: ok
+                  details:
+                    network: sepa
+                    asset: EUR
+                    beneficiary: John Doe
+                    bankName: Example Bank
+                    bankAddress:
+                      line1: Rua Augusta 100
+                      line2: Lisbon, Portugal
+                    bic: EXAAAT2K
+                    iban: AT487954841229809844
+                    reference: UH12345678
+            ACH Bank Deposit Method:
+              value:
+                depositMethod:
+                  type: bank
+                  status: ok
+                  details:
+                    network: ach
+                    asset: USD
+                    beneficiary: John Doe
+                    bankName: Cross River Bank
+                    bankAddress:
+                      line1: 2 Riverview Dr
+                      line2: Fort Lee, NJ 07024
+                    routingNumber: 021214891
+                    accountNumber: '377876871270'
+                    accountType: checking
+                    secondaryNetworks:
+                    - fednow
+                    - wire
+            FedNow/RTP Bank Deposit Method:
+              value:
+                depositMethod:
+                  type: bank
+                  status: ok
+                  details:
+                    network: fednow
+                    asset: USD
+                    beneficiary: John Doe
+                    bankName: Cross River Bank
+                    bankAddress:
+                      line1: 2 Riverview Dr
+                      line2: Fort Lee, NJ 07024
+                    routingNumber: 021214891
+                    accountNumber: '377876871270'
+                    accountType: checking
+                    secondaryNetworks:
+                    - ach
+                    - wire
+            Wire Bank Deposit Method:
+              value:
+                depositMethod:
+                  type: bank
+                  status: ok
+                  details:
+                    network: wire
+                    asset: USD
+                    beneficiary: John Doe
+                    bankName: Cross River Bank
+                    bankAddress:
+                      line1: 2 Riverview Dr
+                      line2: Fort Lee, NJ 07024
+                    routingNumber: 021214891
+                    accountNumber: '377876871270'
+                    accountType: checking
+                    secondaryNetworks:
+                    - ach
+                    - fednow
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    archive-account-not-found-response:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Account Not Found:
+              value:
+                code: entity_not_found
+                message: The account cannot be found
+                details:
+                  entity: account
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    list-accounts-response:
+      description: Accounts retrieved.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              accounts:
+                type: array
+                items:
+                  $ref: '#/components/schemas/account'
+              pagination:
+                $ref: '#/components/schemas/pagination'
+            required:
+            - accounts
+            - pagination
+          examples:
+            Accounts Retrieved:
+              value:
+                accounts:
+                - id: 555a99a1-620d-4431-a0ac-b43e1aad2bdc
+                  ownerId: 1e32fca3-23f7-40ed-bc1b-de10c790182d
+                  label: My BTC account
+                  asset: BTC
+                  balance:
+                    total: '0.0015'
+                    available: '0.0015'
+                  createdAt: '2024-06-01T00:00:00.000Z'
+                  updatedAt: '2024-07-15T00:00:00.000Z'
+                - id: 38778db4-7ad5-4353-88b8-07e93eb1e02e
+                  ownerId: 1e32fca3-23f7-40ed-bc1b-de10c790182d
+                  label: My ETH account
+                  asset: ETH
+                  balance:
+                    total: '0.04'
+                    available: '0.039'
+                  createdAt: '2024-07-01T00:00:00.000Z'
+                  updatedAt: '2024-07-10T00:00:00.000Z'
+                pagination:
+                  first: https://api.enterprise.uphold.com/core/accounts?page=1&perPage=2
+                  next: https://api.enterprise.uphold.com/core/accounts?page=2&perPage=2
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-account-response:
+      description: Account retrieved.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              account:
+                $ref: '#/components/schemas/account'
+            required:
+            - account
+          examples:
+            Account Retrieved:
+              value:
+                account:
+                  id: 555a99a1-620d-4431-a0ac-b43e1aad2bdc
+                  ownerId: 1e32fca3-23f7-40ed-bc1b-de10c790182d
+                  label: My BTC account
+                  asset: BTC
+                  balance:
+                    total: '0.0015'
+                    available: '0.0015'
+                  createdAt: '2024-06-01T00:00:00.000Z'
+                  updatedAt: '2024-07-15T00:00:00.000Z'
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    setup-account-deposit-method-account-not-found-response:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Account Not Found:
+              value:
+                code: entity_not_found
+                message: The account cannot be found
+                details:
+                  entity: account
+            Rail Not Found:
+              value:
+                code: entity_not_found
+                message: A rail for the specified type, asset and network cannot be found
+                details:
+                  entity: rail
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    forbidden:
+      description: Forbidden.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Token Insufficient Scopes:
+              value:
+                code: token_insufficient_scopes
+                message: Authorization failed due to insufficient scopes
+                details:
+                  security:
+                  - scheme: OAuth
+                    schemeScopes:
+                    - required:scope_1
+                    - required:scope_2
+                    tokenScopes:
+                    - token:scope
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    simulate-bank-deposit-not-found-response:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Deposit Method Not Found:
+              value:
+                code: entity_not_found
+                message: The account deposit method cannot be found
+                details:
+                  entity: depositMethod
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    simulate-crypto-deposit-response:
+      description: Crypto deposit simulated.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              cryptoDeposit:
+                type: object
+                properties:
+                  network:
+                    description: The crypto network used to process the simulated deposit.
+                    type: string
+                  address:
+                    description: The destination crypto address for the simulated deposit transaction.
+                    type: string
+                  reference:
+                    description: The destination additional identifier (e.g., destination tag, memo, or message) required for some networks such as XRP (Ripple), XLM (Stellar), EOS, and others.
+                    type: string
+                  asset:
+                    description: The asset of the simulated deposit transaction.
+                    type: string
+                  amount:
+                    description: The amount that was deposited in the simulation.
+                    type: string
+                  remitter:
+                    description: The simulated sender's crypto account information.
+                    type: object
+                    properties:
+                      addresses:
+                        description: The crypto addresses from which the simulated funds were sent.
+                        type: array
+                        items:
+                          type: string
+                required:
+                - network
+                - address
+                - amount
+                - asset
+            required:
+            - cryptoDeposit
+          examples:
+            BTC Crypto Deposit Accepted:
+              value:
+                cryptoDeposit:
+                  network: bitcoin
+                  address: tb1qjq4tvyjxkhpp0fp8lh8w3hhzwn4zue38hjjpkq
+                  asset: BTC
+                  amount: '0.001'
+            XLM Crypto Deposit Accepted:
+              value:
+                cryptoDeposit:
+                  network: stellar
+                  address: GBPA3UQXMRWQALXUQBD66ZHX3Z7HQGHCTSMSNDHGRGHJPD7MYFGLYEC2
+                  asset: XLM
+                  amount: '10'
+                  reference: '67809592'
+            XRP Crypto Deposit With Remitter Addresses Accepted:
+              value:
+                cryptoDeposit:
+                  network: xrp-ledger
+                  address: rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh
+                  asset: XRP
+                  amount: '2'
+                  reference: '67809592'
+                  remitter:
+                    addresses:
+                    - rD1syZmPdF6dRTpLfovfmiH4tMe56zxdYb
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    create-account-conflict-response:
+      description: Business logic error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Asset Not Supported:
+              value:
+                code: asset_not_supported
+                message: The asset is not supported
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    simulate-crypto-deposit-conflict-response:
+      description: Business logic error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Crypto Address Invalid:
+              value:
+                code: crypto_address_invalid
+                message: The crypto address is invalid
+                details:
+                  context: body
+                  property: address
+            Rail Missing Deposit Feature:
+              value:
+                code: rail_feature_not_available
+                message: The 'deposit' feature is not available for the rail
+                details:
+                  feature: deposit
+            Amount Minimum Limit Not Met:
+              value:
+                code: transaction_amount_invalid
+                message: The amount minimum limit was not met
+                details:
+                  context: body
+                  property: amount
+                  rule: minimum-limit-not-met
+                  threshold:
+                    value: 10
+            Remitter Addresses Invalid:
+              value:
+                code: crypto_address_invalid
+                message: The crypto address is invalid
+                details:
+                  context: body
+                  property: remitter.addresses
+            Remitter Addresses Limit Exceeded:
+              value:
+                code: crypto_address_invalid
+                message: The number of addresses must be less than or equal to 1
+                details:
+                  context: body
+                  property: remitter.addresses,
+                  threshold:
+                    limit: 1
+            Remitter And Recipient Cannot Match:
+              value:
+                code: remitter_and_recipient_cannot_match
+                message: The remitter and recipient cannot match
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    simulate-bank-deposit-conflict-response:
+      description: Business logic error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Asset Not Supported:
+              value:
+                code: asset_not_supported
+                message: The asset is not supported
+                details:
+                  context: body
+                  property: asset
+            Amount Minimum Limit Not Met:
+              value:
+                code: transaction_amount_invalid
+                message: The amount minimum limit was not met
+                details:
+                  context: body
+                  property: amount
+                  rule: minimum-limit-not-met
+                  threshold:
+                    value: 10
+            Remitter And Recipient Cannot Match:
+              value:
+                code: remitter_and_recipient_cannot_match
+                message: The remitter and recipient cannot match
+            Remitter IBAN Invalid:
+              value:
+                code: invalid_number
+                message: The remitter IBAN is invalid
+                details:
+                  context: body
+                  property: remitter.iban
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    asset-not-found-response:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Asset Not Found:
+              value:
+                code: entity_not_found
+                message: The asset cannot be found
+                details:
+                  entity: asset
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    archive-account-response:
+      description: Account archived.
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    bad-request:
+      description: Bad Request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Invalid Request:
+              value:
+                code: request_invalid
+                message: The request has missing or invalid parameters
+                details:
+                  context: <context>
+                  violations:
+                  - property: <property>
+                    rule: required
+                  - property: <property>
+                    rule: type
+                    ruleParams:
+                      type: string
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    list-default-accounts-response:
+      description: Default accounts retrieved.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              accounts:
+                type: array
+                items:
+                  $ref: '#/components/schemas/account'
+            required:
+            - accounts
+          examples:
+            Default Accounts Retrieved:
+              value:
+                accounts:
+                - id: 555a99a1-620d-4431-a0ac-b43e1aad2bdc
+                  ownerId: 1e32fca3-23f7-40ed-bc1b-de10c790182d
+                  label: My BTC account
+                  asset: BTC
+                  balance:
+                    total: '0.0015'
+                    available: '0.0015'
+                  createdAt: '2024-06-01T00:00:00Z'
+                  updatedAt: '2024-07-15T00:00:00Z'
+                - id: 38778db4-7ad5-4353-88b8-07e93eb1e02e
+                  ownerId: 1e32fca3-23f7-40ed-bc1b-de10c790182d
+                  label: My ETH account
+                  asset: ETH
+                  balance:
+                    total: '0.04'
+                    available: '0.039'
+                  createdAt: '2024-07-01T00:00:00Z'
+                  updatedAt: '2024-07-10T00:00:00Z'
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-account-deposit-method-conflict-response:
+      description: Business logic error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Rail Missing Deposit Feature:
+              value:
+                code: rail_feature_not_available
+                message: The 'deposit' feature is not available for the rail
+                details:
+                  feature: deposit
+            Account Asset Missing Buy Feature:
+              value:
+                code: asset_feature_not_available
+                message: The 'buy' feature is not available for the account asset
+                details:
+                  context: path
+                  property: accountId
+                  feature: buy
+            Account Asset Missing Transfer Feature:
+              value:
+                code: asset_feature_not_available
+                message: The 'transfer' feature is not available for the account asset
+                details:
+                  context: path
+                  property: accountId
+                  feature: transfer
+            Deposits Available Only To Default Account:
+              value:
+                code: rail_constraint_violated
+                message: Deposits for this rail are only available to the default account
+                details:
+                  rule: allowed-deposit-accounts
+            User Capability Failure:
+              value:
+                code: user_capability_failure
+                message: The user has capability constraints
+                details:
+                  capability:
+                    code: deposits
+                    requirements: []
+                    restrictions:
+                    - user-status-not-valid
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    update-account-response:
+      description: Account updated.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              account:
+                $ref: '#/components/schemas/account'
+            required:
+            - account
+          examples:
+            Account Updated:
+              value:
+                account:
+                  id: 555a99a1-620d-4431-a0ac-b43e1aad2bdc
+                  ownerId: 1e32fca3-23f7-40ed-bc1b-de10c790182d
+                  label: My BTC long-term
+                  asset: BTC
+                  balance:
+                    total: '0.0015'
+                    available: '0.0015'
+                  createdAt: '2024-06-01T00:00:00.000Z'
+                  updatedAt: '2024-07-15T00:00:00.000Z'
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    setup-account-deposit-method-conflict-response:
+      description: Business logic error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Rail Missing Deposit Feature:
+              value:
+                code: rail_feature_not_available
+                message: The 'deposit' feature is not available for the rail
+                details:
+                  feature: deposit
+            Account Asset Missing Buy Feature:
+              value:
+                code: asset_feature_not_available
+                message: The 'buy' feature is not available for the account asset
+                details:
+                  context: path
+                  property: accountId
+                  feature: buy
+            Account Asset Missing Transfer Feature:
+              value:
+                code: asset_feature_not_available
+                message: The 'transfer' feature is not available for the account asset
+                details:
+                  context: path
+                  property: accountId
+                  feature: transfer
+            Deposits Available Only To Default Account:
+              value:
+                code: rail_constraint_violated
+                message: Deposits for this rail are only available to the default account
+                details:
+                  rule: allowed-deposit-accounts
+            User Capability Failure:
+              value:
+                code: user_capability_failure
+                message: The user has capability constraints
+                details:
+                  capability:
+                    code: deposits
+                    requirements: []
+                    restrictions:
+                    - user-status-not-valid
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    unauthorized:
+      description: Unauthorized.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Token Expired:
+              value:
+                code: token_expired
+                message: The access token has expired
+            Token Invalid:
+              value:
+                code: token_invalid
+                message: The access token is invalid
+            Token Revoked:
+              value:
+                code: token_revoked
+                message: The access token has been revoked
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    archive-account-conflict-response:
+      description: Business logic error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Account Has Balance:
+              value:
+                code: account_has_balance
+                message: The account has balance and cannot be archived
+            Account Has Pending Transactions:
+              value:
+                code: account_has_pending_transactions
+                message: The account has pending transactions and cannot be archived
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    simulate-crypto-deposit-not-found-response:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Deposit Method Not Found:
+              value:
+                code: entity_not_found
+                message: The account deposit method cannot be found
+                details:
+                  entity: depositMethod
+            Rail Not Found:
+              value:
+                code: entity_not_found
+                message: A rail for the specified type, asset and network cannot be found
+                details:
+                  entity: rail
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-account-deposit-method-account-not-found-response:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Account Not Found:
+              value:
+                code: entity_not_found
+                message: The account cannot be found
+                details:
+                  entity: account
+            Rail Not Found:
+              value:
+                code: entity_not_found
+                message: A rail for the specified type, asset and network cannot be found
+                details:
+                  entity: rail
+            Deposit Method Not Found:
+              value:
+                code: entity_not_found
+                message: A deposit method for the specified type, asset and network cannot be found
+                details:
+                  entity: depositMethod
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-account-not-found-response:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Account Not Found:
+              value:
+                code: entity_not_found
+                message: The account cannot be found
+                details:
+                  entity: account
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+  schemas:
+    account-deposit-method:
+      type: object
+      properties:
+        type:
+          allOf:
+          - $ref: '#/components/schemas/account-deposit-method-type'
+          - description: The deposit method type.
+        status:
+          description: The status of the deposit method.
+          type: string
+          enum:
+          - processing
+          - ok
+          - failed
+        details:
+          description: The details of the deposit method based on the type and network.
+          oneOf:
+          - title: Crypto
+            $ref: '#/components/schemas/account-deposit-method-details-crypto'
+          - title: Bank (FPS)
+            $ref: '#/components/schemas/account-deposit-method-details-bank-fps'
+          - title: Bank (SEPA)
+            $ref: '#/components/schemas/account-deposit-method-details-bank-sepa'
+          - title: Bank (US Rails)
+            $ref: '#/components/schemas/account-deposit-method-details-bank-us-rails'
+      required:
+      - type
+      - status
+    account:
+      type: object
+      properties:
+        id:
+          description: The id of the account.
+          type: string
+          format: uuid
+        ownerId:
+          description: The id of the user that owns the account.
+          type: string
+          format: uuid
+        label:
+          description: The label of the account.
+          type: string
+        asset:
+          description: The asset in which the account is denominated.
+          type: string
+        balance:
+          description: The balance of the account.
+          type: object
+          properties:
+            total:
+              description: The total balance of the account.
+              type: string
+            available:
+              description: The available balance of the account.
+              type: string
+          required:
+          - total
+          - available
+        createdAt:
+          description: The time at which the account was created.
+          type: string
+          format: date-time
+        updatedAt:
+          description: The last time at which the account was updated.
+          type: string
+          format: date-time
+      required:
+      - id
+      - ownerId
+      - label
+      - asset
+      - balance
+      - createdAt
+      - updatedAt
+    account-label-for-request:
+      allOf:
+      - $ref: '#/components/schemas/string-no-edge-spaces'
+      - type: string
+        description: The label of the account.
+        maxLength: 140
+    string-no-edge-spaces:
+      type: string
+      pattern: ^\S.*\S$|^\S$
+    simulate-bank-deposit-fednow-for-request:
+      type: object
+      additionalProperties: false
+      properties:
+        network:
+          description: The network used to process the bank transfer.
+          type: string
+          enum:
+          - fednow
+        accountNumber:
+          allOf:
+          - $ref: '#/components/schemas/non-zero-account-number-us'
+          - description: The account number of the destination bank account where funds will be deposited.
+        amount:
+          allOf:
+          - $ref: '#/components/schemas/non-zero-decimal-amount'
+          - description: The amount to be deposited into the destination account.
+        remitter:
+          description: The information about the external bank account holder who is sending the funds.
+          type: object
+          additionalProperties: false
+          minProperties: 1
+          properties:
+            name:
+              allOf:
+              - $ref: '#/components/schemas/string-no-edge-spaces'
+              - description: The full name of the account holder sending the funds. Defaults to the authenticated user's name if not provided.
+                type: string
+                maxLength: 200
+            accountNumber:
+              allOf:
+              - $ref: '#/components/schemas/non-zero-account-number-us'
+              - description: The account number of the sender's bank account. A random value will be generated if not provided.
+            routingNumber:
+              allOf:
+              - $ref: '#/components/schemas/string-no-edge-spaces'
+              - description: The nine-digit routing number of the sender's bank. A random value will be generated if not provided.
+                type: string
+                pattern: ^\d{9}$
+      required:
+      - network
+      - accountNumber
+      - amount
+    simulate-bank-deposit-fps:
+      type: object
+      properties:
+        network:
+          description: The payment network used to process the simulated deposit.
+          type: string
+          enum:
+          - fps
+        sortCode:
+          description: The sort code of the destination account that received the simulated deposit.
+          type: string
+        accountNumber:
+          description: The account number of the destination account that received the simulated deposit.
+          type: string
+        asset:
+          description: The asset of the simulated deposit transaction.
+          type: string
+        amount:
+          description: The amount that was deposited in the simulation.
+          type: string
+        reference:
+          description: The payment reference used for the simulated deposit, if one was provided.
+          type: string
+        remitter:
+          description: The details of the simulated sender's bank account information.
+          type: object
+          properties:
+            name:
+              description: The full name of the simulated sender.
+              type: string
+            sortCode:
+              description: The sort code of the simulated sender's bank branch.
+              type: string
+            accountNumber:
+              description: The account number of the simulated sender's bank account.
+              type: string
+          required:
+          - name
+          - sortCode
+          - accountNumber
+      required:
+      - network
+      - sortCode
+      - accountNumber
+      - asset
+      - amount
+      - remitter
+    simulate-bank-deposit-sepa-for-request:
+      type: object
+      properties:
+        network:
+          description: The network used to process the bank transfer.
+          type: string
+          enum:
+          - sepa
+        iban:
+          allOf:
+          - $ref: '#/components/schemas/string-no-edge-spaces'
+          - description: The deposit destination virtual IBAN.
+            type: string
+            pattern: ^[A-Z]{2}[0-9]{2}[A-Z0-9]{4}[0-9]{7}([A-Z0-9]?){0,16}$
+        asset:
+          allOf:
+          - $ref: '#/components/schemas/string-no-edge-spaces'
+          - description: The bank account settlement asset.
+        amount:
+          allOf:
+          - $ref: '#/components/schemas/non-zero-decimal-amount'
+          - description: The amount to be deposited into the destination account.
+        reference:
+          allOf:
+          - $ref: '#/components/schemas/string-no-edge-spaces'
+          - description: 'A unique identifier indicating the specific account where the funds should be credited.
+
+              If omitted, funds will be credited to the user''s default account.'
+        remitter:
+          description: Information about the bank deposit sender.
+          type: object
+          additionalProperties: false
+          minProperties: 1
+          properties:
+            name:
+              allOf:
+              - $ref: '#/components/schemas/string-no-edge-spaces'
+              - description: The deposit sender's full name. Defaults to the authenticated user's name if not provided.
+                type: string
+                maxLength: 200
+            bic:
+              allOf:
+              - $ref: '#/components/schemas/string-no-edge-spaces'
+              - description: The sender's bank BIC. A random value will be generated if not provided.
+                type: string
+                pattern: ^[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$
+            iban:
+              allOf:
+              - $ref: '#/components/schemas/string-no-edge-spaces'
+              - description: The sender's IBAN. A random value will be generated if not provided.
+                type: string
+                pattern: ^[A-Z]{2}[0-9]{2}[A-Z0-9]{4}[0-9]{7}([A-Z0-9]?){0,16}$
+      required:
+      - network
+      - iban
+      - asset
+      - amount
+    simulate-bank-deposit-fps-for-request:
+      type: object
+      properties:
+        network:
+          description: The network used to process the bank transfer.
+          type: string
+          enum:
+          - fps
+        sortCode:
+          allOf:
+          - $ref: '#/components/schemas/string-no-edge-spaces'
+          - description: The six-digit sort code of the destination bank account where funds will be deposited.
+            type: string
+            pattern: ^\d{6}$
+        accountNumber:
+          allOf:
+          - $ref: '#/components/schemas/non-zero-account-number-fps'
+          - description: The account number of the destination bank account where funds will be deposited.
+        asset:
+          allOf:
+          - $ref: '#/components/schemas/string-no-edge-spaces'
+          - description: The user's account settlement asset.
+        amount:
+          allOf:
+          - $ref: '#/components/schemas/non-zero-decimal-amount'
+          - description: The amount to be deposited into the destination account.
+        reference:
+          allOf:
+          - $ref: '#/components/schemas/string-no-edge-spaces'
+          - description: 'A unique identifier indicating the specific account where the funds should be credited.
+
+              If omitted, funds will be credited to the user''s default account.'
+        remitter:
+          description: Information about the bank deposit sender.
+          type: object
+          additionalProperties: false
+          minProperties: 1
+          properties:
+            name:
+              allOf:
+              - $ref: '#/components/schemas/string-no-edge-spaces'
+              - description: The deposit sender's full name. Defaults to the authenticated user's name if not provided.
+                type: string
+                maxLength: 200
+            sortCode:
+              allOf:
+              - $ref: '#/components/schemas/string-no-edge-spaces'
+              - description: The six-digit sort code of the sender's bank branch. A random value will be generated if not provided.
+                type: string
+                pattern: ^\d{6}$
+            accountNumber:
+              allOf:
+              - $ref: '#/components/schemas/string-no-edge-spaces'
+              - description: The account number of the sender's bank account. A random value will be generated if not provided.
+                type: string
+                pattern: ^\d{8}$
+      required:
+      - network
+      - sortCode
+      - accountNumber
+      - asset
+      - amount
+    simulate-bank-deposit-rtp:
+      type: object
+      properties:
+        network:
+          description: The payment network used to process the simulated deposit.
+          type: string
+          enum:
+          - rtp
+        accountNumber:
+          description: The account number of the destination account that received the simulated deposit.
+          type: string
+        asset:
+          description: The asset of the simulated deposit transaction.
+          type: string
+        amount:
+          description: The amount that was deposited in the simulation.
+          type: string
+        remitter:
+          description: The details of the simulated sender's bank account information.
+          type: object
+          properties:
+            name:
+              description: The full name of the simulated account holder who sent the funds.
+              type: string
+            accountNumber:
+              description: The account number of the simulated sender's bank account.
+              type: string
+            routingNumber:
+              description: The routing number of the simulated sender's bank.
+              type: string
+          required:
+          - name
+      required:
+      - network
+      - accountNumber
+      - asset
+      - amount
+      - remitter
+    simulate-bank-deposit-fednow:
+      type: object
+      properties:
+        network:
+          description: The payment network used to process the simulated deposit.
+          type: string
+          enum:
+          - fednow
+        accountNumber:
+          description: The account number of the destination account that received the simulated deposit.
+          type: string
+        asset:
+          description: The asset of the simulated deposit transaction.
+          type: string
+        amount:
+          description: The amount that was deposited in the simulation.
+          type: string
+        remitter:
+          description: The details of the simulated sender's bank account information.
+          type: object
+          properties:
+            name:
+              description: The full name of the simulated account holder who sent the funds.
+              type: string
+            accountNumber:
+              description: The account number of the simulated sender's bank account.
+              type: string
+            routingNumber:
+              description: The routing number of the simulated sender's bank.
+              type: string
+          required:
+          - name
+      required:
+      - network
+      - accountNumber
+      - asset
+      - amount
+      - remitter
+    metadata:
+      type: object
+      additionalProperties: true
+      minProperties: 1
+    account-deposit-method-type:
+      type: string
+      enum:
+      - crypto
+      - bank
+    account-deposit-method-details-bank-fps:
+      allOf:
+      - $ref: '#/components/schemas/account-deposit-method-details-bank-base'
+      - type: object
+        properties:
+          network:
+            enum:
+            - fps
+          sortCode:
+            description: The sort code to use for the FPS transfer.
+            type: string
+          accountNumber:
+            description: The account number to use for the FPS transfer.
+            type: string
+          reference:
+            description: The additional identifier to include with the FPS transfer description.
+            type: string
+        required:
+        - accountNumber
+        - sortCode
+    simulate-bank-deposit-sepa:
+      type: object
+      properties:
+        network:
+          description: The payment network used to process the simulated deposit.
+          type: string
+          enum:
+          - sepa
+        iban:
+          description: The IBAN of the destination account that received the simulated deposit.
+          type: string
+        asset:
+          description: The bank account settlement asset.
+          type: string
+        amount:
+          description: The amount that was deposited in the simulation.
+          type: string
+        reference:
+          description: The payment reference used for the simulated deposit, if one was provided.
+          type: string
+        remitter:
+          description: The details of the simulated sender's bank account information.
+          type: object
+          properties:
+            name:
+              description: The full name of the simulated sender.
+              type: string
+            bic:
+              description: The simulated sender's bank BIC.
+              type: string
+            iban:
+              description: The simulated sender's IBAN.
+              type: string
+          required:
+          - name
+          - bic
+          - iban
+      required:
+      - network
+      - iban
+      - asset
+      - amount
+      - remitter
+    subdivision-code-for-request:
+      type: string
+      pattern: ^[A-Z]{2}-[A-Z0-9]{1,3}$
+    country-code-for-request:
+      type: string
+      pattern: ^[A-Z]{2}$
+    account-deposit-method-details-bank-sepa:
+      allOf:
+      - $ref: '#/components/schemas/account-deposit-method-details-bank-base'
+      - type: object
+        properties:
+          network:
+            enum:
+            - sepa
+          bic:
+            description: The bank's BIC for the SEPA transfer.
+            type: string
+          iban:
+            description: The destination IBAN for the SEPA transfer.
+            type: string
+          reference:
+            description: The reference code to include in the SEPA transfer description field.
+            type: string
+        required:
+        - bic
+        - iban
+        - reference
+    account-deposit-method-details-crypto:
+      type: object
+      properties:
+        network:
+          description: The network to use for the crypto transaction.
+          type: string
+        asset:
+          description: The asset to use for the crypto transaction.
+          type: string
+        address:
+          description: The destination address to use for the crypto transaction.
+          type: string
+        addressFormats:
+          description: The different address formats available for the crypto transaction.
+          type: array
+          items:
+            type: object
+            properties:
+              format:
+                allOf:
+                - $ref: '#/components/schemas/account-deposit-method-detail-crypto-format'
+                - description: The format type of the address.
+              value:
+                description: The address value in the specified format.
+                type: string
+            required:
+            - format
+            - value
+          minItems: 1
+        reference:
+          description: The additional identifier to include with the transaction, usually added in the memo or tag fields depending on the network.
+          type: string
+      required:
+      - address
+      - addressFormats
+      - asset
+      - network
+    feedback:
+      description: A feedback message with a code and human-readable description.
+      type: object
+      properties:
+        code:
+          description: A short string with a brief explanation about the code reported.
+          type: string
+        message:
+          description: A human-readable message providing more details.
+          type: string
+        details:
+          description: Additional information about the feedback reported.
+          type: object
+          additionalProperties: true
+      required:
+      - code
+      - message
+    account-deposit-method-detail-crypto-format:
+      type: string
+      enum:
+      - native-segwit
+      - wrapped-segwit
+      - pubkey-hash
+    account-webhook-event:
+      allOf:
+      - $ref: '#/components/schemas/webhook-event'
+      - type: object
+        properties:
+          data:
+            type: object
+            properties:
+              account:
+                $ref: '#/components/schemas/account'
+            required:
+            - account
+    non-zero-account-number-fps:
+      type: string
+      pattern: ^(?!0+$)[0-9]{6,8}$
+    simulate-bank-deposit-rtp-for-request:
+      type: object
+      additionalProperties: false
+      properties:
+        network:
+          description: The network used to process the bank transfer.
+          type: string
+          enum:
+          - rtp
+        accountNumber:
+          allOf:
+          - $ref: '#/components/schemas/non-zero-account-number-us'
+          - description: The account number of the destination bank account where funds will be deposited.
+        amount:
+          allOf:
+          - $ref: '#/components/schemas/non-zero-decimal-amount'
+          - description: The amount to be deposited into the destination account.
+        remitter:
+          description: The information about the external bank account holder who is sending the funds.
+          type: object
+          additionalProperties: false
+          minProperties: 1
+          properties:
+            name:
+              allOf:
+              - $ref: '#/components/schemas/string-no-edge-spaces'
+              - description: The full name of the account holder sending the funds. Defaults to the authenticated user's name if not provided.
+                type: string
+                maxLength: 200
+            accountNumber:
+              allOf:
+              - $ref: '#/components/schemas/non-zero-account-number-us'
+              - description: The account number of the sender's bank account. A random value will be generated if not provided.
+            routingNumber:
+              allOf:
+              - $ref: '#/components/schemas/string-no-edge-spaces'
+              - description: The nine-digit routing number of the sender's bank. A random value will be generated if not provided.
+                type: string
+                pattern: ^\d{9}$
+      required:
+      - network
+      - accountNumber
+      - amount
+    account-deposit-method-details-bank-base:
+      type: object
+      properties:
+        network:
+          description: The bank network to use for the bank transfer.
+          type: string
+        asset:
+          description: The asset to use for the bank transfer.
+          type: string
+        beneficiary:
+          description: The bank transfer's beneficiary name.
+          type: string
+        bankName:
+          description: The bank name the account belongs to.
+          type: string
+        bankAddress:
+          description: The bank address the account belongs to.
+          type: object
+          properties:
+            line1:
+              description: The first line of the bank address.
+              type: string
+            line2:
+              description: The second line of the bank address.
+              type: string
+          required:
+          - line1
+      required:
+      - asset
+      - network
+      - beneficiary
+      - bankName
+      - bankAddress
+    error:
+      description: The error information.
+      allOf:
+      - $ref: '#/components/schemas/feedback'
+    simulate-bank-deposit-wire:
+      type: object
+      properties:
+        network:
+          description: The payment network used to process the simulated deposit.
+          type: string
+          enum:
+          - wire
+        accountNumber:
+          description: The account number of the destination account that received the simulated deposit.
+          type: string
+        amount:
+          description: The amount that was deposited in the simulation.
+          type: string
+        asset:
+          description: The asset of the simulated deposit transaction.
+          type: string
+        remitter:
+          description: The remitter of the wire transfer.
+          type: object
+          properties:
+            name:
+              description: The remitter's full name.
+              type: string
+            address1:
+              description: The remitter's first address line.
+              type: string
+            address2:
+              description: The remitter's second address line.
+              type: string
+            idCode:
+              description: The remitter's identification code.
+              type: string
+            identifier:
+              description: The remitter's identifier.
+              type: string
+          required:
+          - name
+      required:
+      - network
+      - accountNumber
+      - amount
+      - asset
+    simulate-bank-deposit-wire-for-request:
+      type: object
+      additionalProperties: false
+      properties:
+        network:
+          description: The network used to process the bank transfer.
+          type: string
+          enum:
+          - wire
+        accountNumber:
+          allOf:
+          - $ref: '#/components/schemas/non-zero-account-number-us'
+          - description: The account number of the destination bank account where funds will be deposited.
+        amount:
+          allOf:
+          - $ref: '#/components/schemas/non-zero-decimal-amount'
+          - description: The amount to be deposited into the destination account.
+        remitter:
+          description: Information about the remitter of the wire transfer.
+          type: object
+          additionalProperties: false
+          minProperties: 1
+          properties:
+            name:
+              allOf:
+              - $ref: '#/components/schemas/string-no-edge-spaces'
+              - description: The remitter's full name.
+                type: string
+                maxLength: 200
+            address1:
+              allOf:
+              - $ref: '#/components/schemas/string-no-edge-spaces'
+              - description: The remitter's first address line.
+                type: string
+            address2:
+              allOf:
+              - $ref: '#/components/schemas/string-no-edge-spaces'
+              - description: The remitter's second address line.
+                type: string
+            idCode:
+              allOf:
+              - $ref: '#/components/schemas/string-no-edge-spaces'
+              - description: The remitter's identification code.
+                type: string
+            identifier:
+              allOf:
+              - $ref: '#/components/schemas/string-no-edge-spaces'
+              - description: The remitter's identifier.
+                type: string
+          required:
+          - name
+      required:
+      - network
+      - accountNumber
+      - amount
+    webhook-event:
+      description: The webhook event information.
+      type: object
+      properties:
+        id:
+          description: The id of the event.
+          type: string
+          format: uuid
+        type:
+          description: The type of event.
+          type: string
+        createdAt:
+          description: The date and time when the event was created.
+          type: string
+          format: date-time
+        data:
+          description: The event payload.
+          type: object
+      required:
+      - id
+      - type
+      - createdAt
+      - data
+    non-zero-decimal-amount:
+      type: string
+      pattern: ^(?!0+(\.0+)?$)\d+(\.\d+)?$
+    simulate-bank-deposit-ach-for-request:
+      type: object
+      additionalProperties: false
+      properties:
+        network:
+          description: The network used to process the bank transfer.
+          type: string
+          enum:
+          - ach
+        accountNumber:
+          allOf:
+          - $ref: '#/components/schemas/non-zero-account-number-us'
+          - description: The account number of the destination bank account where funds will be deposited.
+        routingNumber:
+          allOf:
+          - $ref: '#/components/schemas/string-no-edge-spaces'
+          - description: The nine-digit routing number of the destination bank account.
+            type: string
+            pattern: ^\d{9}$
+        amount:
+          allOf:
+          - $ref: '#/components/schemas/non-zero-decimal-amount'
+          - description: The amount to be deposited into the destination account.
+        remitter:
+          description: The information about the external bank account holder who is sending the funds.
+          type: object
+          additionalProperties: false
+          minProperties: 1
+          properties:
+            name:
+              allOf:
+              - $ref: '#/components/schemas/string-no-edge-spaces'
+              - description: The full name of the account holder sending the funds. Defaults to the authenticated user's name if not provided.
+                type: string
+                maxLength: 200
+            accountNumber:
+              allOf:
+              - $ref: '#/components/schemas/non-zero-account-number-us'
+              - description: The account number of the sender's bank account. A random value will be generated if not provided.
+            routingNumber:
+              allOf:
+              - $ref: '#/components/schemas/string-no-edge-spaces'
+              - description: The nine-digit routing number of the sender's bank. A random value will be generated if not provided.
+                type: string
+                pattern: ^\d{9}$
+            secCode:
+              allOf:
+              - $ref: '#/components/schemas/string-no-edge-spaces'
+              - description: The SEC code for the ACH transaction. Defaults to WEB if not provided.
+                type: string
+                enum:
+                - CCD
+                - PPD
+                - WEB
+            transactionType:
+              allOf:
+              - $ref: '#/components/schemas/string-no-edge-spaces'
+              - description: The transaction type for the ACH transfer. Defaults to Push if not provided.
+                type: string
+                enum:
+                - Pull
+                - Push
+            serviceType:
+              allOf:
+              - $ref: '#/components/schemas/string-no-edge-spaces'
+              - description: The service type for the ACH transfer. Defaults to SameDay if not provided.
+                type: string
+                enum:
+                - Standard
+                - SameDay
+      required:
+      - network
+      - accountNumber
+      - routingNumber
+      - amount
+    account-deposit-method-details-bank-us-rails:
+      allOf:
+      - $ref: '#/components/schemas/account-deposit-method-details-bank-base'
+      - type: object
+        properties:
+          network:
+            enum:
+            - ach
+            - fednow
+            - rtp
+            - wire
+          routingNumber:
+            description: The routing number to use for the bank transfer.
+            type: string
+          accountNumber:
+            description: The account number to use for the bank transfer.
+            type: string
+          accountType:
+            description: The account type to use for the bank transfer.
+            type: string
+            enum:
+            - checking
+          secondaryNetworks:
+            description: The secondary networks that the bank account can be used with.
+            type: array
+            items:
+              type: string
+              enum:
+              - ach
+              - fednow
+              - rtp
+              - wire
+        required:
+        - routingNumber
+        - accountNumber
+        - accountType
+    simulate-bank-deposit-ach:
+      type: object
+      properties:
+        network:
+          description: The payment network used to process the simulated deposit.
+          type: string
+          enum:
+          - ach
+        accountNumber:
+          description: The account number of the destination account that received the simulated deposit.
+          type: string
+        routingNumber:
+          description: The routing number of the destination account that received the simulated deposit.
+          type: string
+        asset:
+          description: The asset of the simulated deposit transaction.
+          type: string
+        amount:
+          description: The amount that was deposited in the simulation.
+          type: string
+        remitter:
+          description: The details of the simulated sender's bank account information.
+          type: object
+          properties:
+            name:
+              description: The full name of the simulated account holder who sent the funds.
+              type: string
+            accountNumber:
+              description: The account number of the simulated sender's bank account.
+              type: string
+            routingNumber:
+              description: The routing number of the simulated sender's bank.
+              type: string
+            secCode:
+              description: The SEC code used for the ACH transaction.
+              type: string
+              enum:
+              - CCD
+              - PPD
+              - WEB
+            transactionType:
+              description: The transaction type for the ACH transfer.
+              type: string
+              enum:
+              - Pull
+              - Push
+            serviceType:
+              description: The service type for the ACH transfer.
+              type: string
+              enum:
+              - Standard
+              - SameDay
+          required:
+          - name
+      required:
+      - network
+      - accountNumber
+      - routingNumber
+      - asset
+      - amount
+      - remitter
+    pagination:
+      description: The pagination information.
+      type: object
+      properties:
+        first:
+          description: The URL to the first set of results.
+          type: string
+          format: uri
+        prev:
+          description: The URL to the previous set of results.
+          type: string
+          format: uri
+        next:
+          description: The URL to the next set of results.
+          type: string
+          format: uri
+    non-zero-account-number-us:
+      type: string
+      pattern: ^(?!0+$)[0-9]{4,17}$
+  parameters:
+    x-on-behalf-of:
+      name: X-On-Behalf-Of
+      description: The subject on whose behalf the operation is being performed.
+      in: header
+      schema:
+        type: string
+        pattern: ^(user|client)\s[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$
+      examples:
+        User Identifier:
+          value: user cd21b26d-35d2-408a-9201-b8fdbef7a604
+        Client Identifier:
+          value: client 3fa85f64-5717-4562-b3fc-2c963f66afa6
+    x-uphold-user-city:
+      name: X-Uphold-User-City
+      description: Contains the name of the city of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        User City:
+          value: San Francisco
+    pagination-per-page:
+      name: perPage
+      description: The number of items per page.
+      in: query
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 100
+        default: 10
+      examples:
+        10 Items Per Page:
+          value: 10
+    x-uphold-user-origin:
+      name: X-Uphold-User-Origin
+      description: Contains the origin of the request made by the end user.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        Origin:
+          value: https://uphold.com
+    webhook-id:
+      name: webhook-id
+      description: The unique identifier of the webhook.
+      in: header
+      required: true
+      schema:
+        type: string
+      examples:
+        Webhook ID:
+          value: msg_p5jXN8AQM9LWM0D4loKWxJek
+    account-deposit-method-asset:
+      name: asset
+      in: query
+      description: The asset to use for the deposit.
+      required: true
+      schema:
+        type: string
+    account-id:
+      name: accountId
+      description: The account id.
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      examples:
+        Account Identifier:
+          value: 555a99a1-620d-4431-a0ac-b43e1aad2bdc
+    webhook-timestamp:
+      name: webhook-timestamp
+      description: The timestamp of the webhook, in seconds after the Unix epoch.
+      in: header
+      required: true
+      schema:
+        type: integer
+      examples:
+        Webhook Timestamp:
+          value: 1614265330
+    account-deposit-method-type:
+      name: type
+      in: query
+      description: The type of the deposit method.
+      required: true
+      schema:
+        $ref: '#/components/schemas/account-deposit-method-type'
+    x-uphold-user-ip:
+      name: X-Uphold-User-Ip
+      description: Contains the IP of the end user that is requesting the operation.
+      in: header
+      schema:
+        oneOf:
+        - title: IPv4
+          type: string
+          format: ipv4
+        - title: IPv6
+          type: string
+          format: ipv6
+      examples:
+        User Ip:
+          value: 47.174.97.164
+    list-default-accounts-asset-code-filter:
+      name: asset
+      description: Filter default accounts by asset code.
+      in: query
+      style: form
+      explode: false
+      required: false
+      schema:
+        type: array
+        uniqueItems: true
+        maxItems: 100
+        items:
+          type: string
+          minLength: 1
+      examples:
+        BTC Asset:
+          value:
+          - BTC
+    account-deposit-method-network:
+      name: network
+      in: query
+      description: The network to use for the deposit.
+      required: true
+      schema:
+        type: string
+    x-uphold-user-country:
+      name: X-Uphold-User-Country
+      description: Contains the code of the country of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/country-code-for-request'
+      examples:
+        User Country:
+          value: US
+    list-accounts-asset-code-filter:
+      name: asset
+      description: Filter accounts by asset code.
+      in: query
+      style: form
+      explode: false
+      required: false
+      schema:
+        type: array
+        maxItems: 100
+        uniqueItems: true
+        items:
+          type: string
+          minLength: 1
+      examples:
+        BTC Asset:
+          value:
+          - BTC
+    x-uphold-user-agent:
+      name: X-Uphold-User-Agent
+      description: Contains the user agent of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        User Agent:
+          value: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36
+    webhook-signature:
+      name: webhook-signature
+      description: The signature of the webhook.
+      in: header
+      required: true
+      schema:
+        type: string
+      examples:
+        Webhook Signature:
+          value: v1,Hw8/adTzfYtjPGhuBahfmGhUROG3AvEKH3mvkeK791Q=
+    x-uphold-user-subdivision:
+      name: X-Uphold-User-Subdivision
+      description: Contains the code of the subdivision of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/subdivision-code-for-request'
+      examples:
+        User Subdivision:
+          value: US-CA
+  requestBodies:
+    simulate-crypto-deposit-request-body:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              network:
+                allOf:
+                - $ref: '#/components/schemas/string-no-edge-spaces'
+                - description: The crypto network used to process the simulated deposit.
+              address:
+                allOf:
+                - $ref: '#/components/schemas/string-no-edge-spaces'
+                - description: The destination crypto address for the simulated deposit transaction.
+              reference:
+                allOf:
+                - $ref: '#/components/schemas/string-no-edge-spaces'
+                - description: The destination additional identifier (e.g., destination tag, memo, or message) required for some networks such as XRP (Ripple), XLM (Stellar), EOS, and others.
+              asset:
+                allOf:
+                - $ref: '#/components/schemas/string-no-edge-spaces'
+                - description: The asset of the simulated deposit transaction.
+              amount:
+                allOf:
+                - $ref: '#/components/schemas/non-zero-decimal-amount'
+                - description: The amount that was deposited in the simulation.
+              remitter:
+                description: The simulated sender's crypto account information.
+                type: object
+                additionalProperties: false
+                minProperties: 1
+                properties:
+                  addresses:
+                    description: The crypto addresses from which the simulated funds were sent.
+                    type: array
+                    minItems: 1
+                    uniqueItems: true
+                    items:
+                      $ref: '#/components/schemas/string-no-edge-spaces'
+            required:
+            - network
+            - address
+            - amount
+            - asset
+          examples:
+            Simulate BTC Crypto Deposit:
+              value:
+                network: bitcoin
+                address: tb1qjq4tvyjxkhpp0fp8lh8w3hhzwn4zue38hjjpkq
+                asset: BTC
+                amount: '0.001'
+            Simulate BTC Crypto Deposit With Remitter Addresses:
+              value:
+                network: bitcoin
+                address: tb1qjq4tvyjxkhpp0fp8lh8w3hhzwn4zue38hjjpkq
+                asset: BTC
+                amount: '0.001'
+                remitter:
+                  addresses:
+                  - 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
+                  - 3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy
+            Simulate XLM Crypto Deposit:
+              value:
+                network: stellar
+                address: GBPA3UQXMRWQALXUQBD66ZHX3Z7HQGHCTSMSNDHGRGHJPD7MYFGLYEC2
+                asset: XLM
+                amount: '10'
+                reference: '67809592'
+            Simulate XRP Crypto Deposit:
+              value:
+                network: xrp-ledger
+                address: rfBtmHiLwwWH5maH2PT78GxubrSydRF9aY
+                asset: XRP
+                amount: '5'
+                reference: '12345'
+                remitter:
+                  addresses:
+                  - rD1syZmPdF6dRTpLfovfmiH4tMe56zxdYb
+    create-account-request-body:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              label:
+                $ref: '#/components/schemas/account-label-for-request'
+              asset:
+                description: The asset in which the account will be denominated.
+                type: string
+              metadata:
+                description: Additional data for the account.
+                $ref: '#/components/schemas/metadata'
+            required:
+            - label
+            - asset
+          examples:
+            Create Account:
+              value:
+                label: My BTC account
+                asset: BTC
+                metadata:
+                  externalId: 123
+    update-account-request-body:
+      content:
+        application/json:
+          schema:
+            type: object
+            additionalProperties: false
+            minProperties: 1
+            properties:
+              label:
+                $ref: '#/components/schemas/account-label-for-request'
+          examples:
+            Update Account:
+              value:
+                label: My BTC long-term
+    simulate-bank-deposit-request-body:
+      content:
+        application/json:
+          schema:
+            type: object
+            discriminator:
+              propertyName: network
+              mapping:
+                fps: '#/components/schemas/simulate-bank-deposit-fps-for-request'
+                sepa: '#/components/schemas/simulate-bank-deposit-sepa-for-request'
+                ach: '#/components/schemas/simulate-bank-deposit-ach-for-request'
+                fednow: '#/components/schemas/simulate-bank-deposit-fednow-for-request'
+                rtp: '#/components/schemas/simulate-bank-deposit-rtp-for-request'
+                wire: '#/components/schemas/simulate-bank-deposit-wire-for-request'
+            oneOf:
+            - title: FPS
+              $ref: '#/components/schemas/simulate-bank-deposit-fps-for-request'
+            - title: SEPA
+              $ref: '#/components/schemas/simulate-bank-deposit-sepa-for-request'
+            - title: ACH
+              $ref: '#/components/schemas/simulate-bank-deposit-ach-for-request'
+            - title: FedNow
+              $ref: '#/components/schemas/simulate-bank-deposit-fednow-for-request'
+            - title: RTP
+              $ref: '#/components/schemas/simulate-bank-deposit-rtp-for-request'
+            - title: Wire
+              $ref: '#/components/schemas/simulate-bank-deposit-wire-for-request'
+            required:
+            - network
+          examples:
+            Simulate FPS Bank Deposit:
+              value:
+                network: fps
+                sortCode: '123456'
+                accountNumber: '12345678'
+                reference: UH12345678
+                asset: GBP
+                amount: '100'
+                remitter:
+                  name: John Doe
+                  sortCode: '654321'
+                  accountNumber: '87654321'
+            Simulate SEPA Bank Deposit:
+              value:
+                network: sepa
+                iban: AT487954841229809844
+                reference: UH12345678
+                asset: EUR
+                amount: '100'
+                remitter:
+                  name: John Doe
+                  bic: LHVBEE22
+                  iban: DE89370400440532013000
+            Simulate ACH Bank Deposit:
+              value:
+                network: ach
+                accountNumber: '378928485630'
+                routingNumber: 021214891
+                amount: '123'
+                remitter:
+                  name: John Doe
+                  accountNumber: '987654321'
+                  routingNumber: 021214891
+                  secCode: CCD
+                  transactionType: Push
+                  serviceType: SameDay
+            Simulate FedNow Bank Deposit:
+              value:
+                network: fednow
+                accountNumber: '378928485630'
+                amount: '150'
+                remitter:
+                  name: John Doe
+                  accountNumber: '1234567890'
+                  routingNumber: 026009593
+            Simulate RTP Bank Deposit:
+              value:
+                network: rtp
+                accountNumber: '378928485630'
+                amount: '150'
+                remitter:
+                  name: John Doe
+                  accountNumber: '1234567890'
+                  routingNumber: 026009593
+            Simulate Wire Bank Deposit:
+              value:
+                network: wire
+                accountNumber: '378928485630'
+                amount: '200'
+                remitter:
+                  name: John Doe
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: OAuth 2.0 authentication.
+      flows:
+        clientCredentials:
+          tokenUrl: /core/oauth2/token
+          scopes:
+            core.users:act-on-behalf-of: Grants access to act on behalf of a user
+            core.users:create: Grants access to create users
+            core.users:read: Grants access to view users
+            core.users:delete: Grants access to delete users
+            core.users.metadata:read: Grants access to view user metadata
+            core.users.metadata:write: Grants access to modify user metadata
+            core.kyc:read: Grants access to view KYC processes
+            core.kyc.profile:update: Grants access to update profile KYC process
+            core.kyc.address:update: Grants access to update address KYC process
+            core.kyc.email:update: Grants access to update email KYC process
+            core.kyc.phone:update: Grants access to update phone KYC process
+            core.kyc.identity:update: Grants access to update identity KYC process
+            core.kyc.proof-of-address:update: Grants access to update proof-of-address KYC process
+            core.kyc.customer-due-diligence:update: Grants access to update customer due diligence KYC process
+            core.kyc.enhanced-due-diligence:update: Grants access to update enhanced due diligence KYC process
+            core.kyc.crypto-risk-assessment:update: Grants access to update crypto risk assessment KYC process
+            core.kyc.self-categorization-statement:update: Grants access to update self-categorization statement KYC process
+            core.kyc.tax-details:update: Grants access to update tax details KYC process
+            core.capabilities:read: Grants access to view user capabilities
+            core.terms-of-service:read: Grants access to view terms of service
+            core.terms-of-service:accept: Grants access to accept terms of service
+            core.files:create: Grants access to create files
+            core.files:read: Grants access to view files
+            core.files.metadata:read: Grants access to view files metadata
+            core.files.metadata:write: Grants access to modify files metadata
+            core.accounts:create: Grants access to create accounts
+            core.accounts:read: Grants access to view accounts
+            core.accounts:update: Grants access to update accounts
+            core.accounts:archive: Grants access to archive accounts
+            core.accounts:deposit-method: Grants access to deposit method needed for depositing into accounts
+            core.accounts:use-test-helpers: Grants access to test helpers of accounts
+            core.accounts.metadata:read: Grants access to view accounts metadata
+            core.accounts.metadata:write: Grants access to modify accounts metadata
+            core.assets:use-test-helpers: Grants access to test helpers of assets
+            core.external-accounts:create: Grants access to create external accounts
+            core.external-accounts:read: Grants access to view external accounts
+            core.external-accounts:update: Grants access to update external accounts
+            core.external-accounts:delete: Grants access to delete external accounts
+            core.external-accounts.metadata:read: Grants access to view external accounts metadata
+            core.external-accounts.metadata:write: Grants access to modify external accounts metadata
+            core.transactions:create: Grants access to commit quotes
+            core.transactions:read: Grants access to view transactions
+            core.transactions.metadata:read: Grants access to view transactions metadata
+            core.transactions.metadata:write: Grants access to modify transactions metadata
+            core.transactions.requests-for-information:read: Grants access to view transactions requests for information
+            core.transactions.requests-for-information:update: Grants access to update transactions requests for information
+            core.portfolio:read: Grants access to view portfolio overview, performance, and historical balance
+            core.statements:read: Grants access to read statements
+            core.webhooks:management-link: Grants access to create webhook management links

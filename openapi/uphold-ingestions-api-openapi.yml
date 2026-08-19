@@ -1,0 +1,851 @@
+openapi: 3.2.0
+info:
+  version: 0.1.0
+  title: KYC Connectors Ingestions API
+  description: The KYC Connectors API offers a set of endpoints to enable ingestion of KYC data via third-party connectors.
+  contact:
+    name: Uphold API Team
+    email: developer@uphold.com
+    url: https://developer.uphold.com
+servers:
+- url: https://api.enterprise.sandbox.uphold.com
+  description: Sandbox
+- url: https://api.enterprise.uphold.com
+  description: Production
+security:
+- OAuth2: []
+tags:
+- name: Ingestions
+paths: {}
+webhooks:
+  kyc-connector.sumsub.ingestion.created:
+    post:
+      operationId: kyc-connector.sumsub-ingestion-created
+      summary: Sumsub ingestion created
+      description: A new Sumsub ingestion has been created.
+      tags:
+      - Ingestions
+      parameters:
+      - $ref: '#/components/parameters/webhook-id'
+      - $ref: '#/components/parameters/webhook-timestamp'
+      - $ref: '#/components/parameters/webhook-signature'
+      requestBody:
+        description: Sumsub ingestion created event.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/sumsub-ingestion-webhook-event'
+            examples:
+              Sumsub Ingestion Created:
+                value:
+                  id: 123e4567-e89b-12d3-a456-426614174000
+                  type: kyc-connector.sumsub.ingestion.created
+                  createdAt: '2021-01-01T00:00:00.000Z'
+                  data:
+                    ingestion:
+                      id: 019b2184-1ca9-7dd6-b7a5-ec242def68b0
+                      userId: 123e4567-e89b-12d3-a456-426614174000
+                      status: queued
+                      processes:
+                      - identity
+                      - proof-of-address
+                      provider: sumsub
+                      parameters:
+                        shareToken: _act-sbx-jwt-eyJhbGciOiJub25lIn0.eyJqdGkiOiJ0ZXN0IiwidXJsIjoiaHR0cHM6Ly9leGFtcGxlLmNvbSJ9.
+                      createdAt: '2026-01-15T14:23:01.819Z'
+                      updatedAt: '2026-01-15T14:23:01.819Z'
+      responses:
+        '200':
+          description: Return a 200 status to indicate that the data was received successfully.
+  kyc-connector.sumsub.ingestion.status-changed:
+    post:
+      operationId: kyc-connector.sumsub-ingestion-status-changed
+      summary: Sumsub ingestion status changed
+      description: The Sumsub ingestion status has been changed.
+      tags:
+      - Ingestions
+      parameters:
+      - $ref: '#/components/parameters/webhook-id'
+      - $ref: '#/components/parameters/webhook-timestamp'
+      - $ref: '#/components/parameters/webhook-signature'
+      requestBody:
+        description: Sumsub ingestion status changed event.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/sumsub-ingestion-webhook-event'
+            examples:
+              Sumsub Ingestion Status Changed:
+                value:
+                  id: 123e4567-e89b-12d3-a456-426614174000
+                  type: kyc-connector.sumsub.ingestion.status-changed
+                  createdAt: '2021-01-01T00:00:00.000Z'
+                  data:
+                    ingestion:
+                      id: 019b218f-f235-79d3-866c-f56215e515e2
+                      userId: 123e4567-e89b-12d3-a456-426614174000
+                      status: finished
+                      processes:
+                      - identity
+                      - proof-of-address
+                      provider: sumsub
+                      parameters:
+                        shareToken: _act-sbx-jwt-eyJhbGciOiJub25lIn0.eyJqdGkiOiJ0ZXN0IiwidXJsIjoiaHR0cHM6Ly9leGFtcGxlLmNvbSJ9.
+                      result:
+                        identity:
+                          status: completed
+                          data:
+                            document:
+                              type: passport
+                              number: 7700225VH
+                              country: GB
+                              expiresAt: '2026-03-13'
+                            person:
+                              givenName: John
+                              familyName: Doe
+                              birthdate: '1987-01-01'
+                              gender: male
+                            verifiedAt: '2020-01-01T00:00:00.000Z'
+                          files:
+                          - id: 123e4567-e89b-12d3-a456-426614174000
+                            category: document
+                            context: photo-document-front
+                            contentType: image/png
+                            size: 204800
+                            providerDetails:
+                              fileId: '732150141'
+                        proofOfAddress:
+                          status: failed
+                          error:
+                            code: provider_data_not_available
+                            message: Profile data not available in Sumsub applicant info
+                      startedAt: '2025-12-15T10:17:45.113Z'
+                      finishedAt: '2025-12-15T10:18:33.241Z'
+                      createdAt: '2025-12-15T10:17:44.911Z'
+                      updatedAt: '2025-12-15T10:18:33.241Z'
+      responses:
+        '200':
+          description: Return a 200 status to indicate that the data was received successfully.
+  kyc-connector.veriff.ingestion.created:
+    post:
+      operationId: kyc-connector.veriff-ingestion-created
+      summary: Veriff ingestion created
+      description: A new Veriff ingestion has been created.
+      tags:
+      - Ingestions
+      parameters:
+      - $ref: '#/components/parameters/webhook-id'
+      - $ref: '#/components/parameters/webhook-timestamp'
+      - $ref: '#/components/parameters/webhook-signature'
+      requestBody:
+        description: Veriff ingestion created event.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/veriff-ingestion-webhook-event'
+            examples:
+              Veriff Ingestion Created:
+                value:
+                  id: 123e4567-e89b-12d3-a456-426614174000
+                  type: kyc-connector.veriff.ingestion.created
+                  createdAt: '2021-01-01T00:00:00.000Z'
+                  data:
+                    ingestion:
+                      id: 019b2184-1ca9-7dd6-b7a5-ec242def68b0
+                      userId: 123e4567-e89b-12d3-a456-426614174000
+                      status: queued
+                      processes:
+                      - profile
+                      - address
+                      - identity
+                      - proof-of-address
+                      provider: veriff
+                      parameters:
+                        sessions:
+                        - processes:
+                          - profile
+                          - identity
+                          sessionId: 550e8400-e29b-41d4-a716-446655440000
+                          integrationName: integration-abc123
+                        - processes:
+                          - address
+                          - proof-of-address
+                          sessionId: 661f9511-f30c-52e5-b827-557766551111
+                          integrationName: integration-def456
+                      createdAt: '2026-01-15T14:23:01.819Z'
+                      updatedAt: '2026-01-15T14:23:01.819Z'
+      responses:
+        '200':
+          description: Return a 200 status to indicate that the data was received successfully.
+  kyc-connector.veriff.ingestion.status-changed:
+    post:
+      operationId: kyc-connector.veriff-ingestion-status-changed
+      summary: Veriff ingestion status changed
+      description: The Veriff ingestion status has been changed.
+      tags:
+      - Ingestions
+      parameters:
+      - $ref: '#/components/parameters/webhook-id'
+      - $ref: '#/components/parameters/webhook-timestamp'
+      - $ref: '#/components/parameters/webhook-signature'
+      requestBody:
+        description: Veriff ingestion status changed event.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/veriff-ingestion-webhook-event'
+            examples:
+              Veriff Ingestion Status Changed:
+                value:
+                  id: 123e4567-e89b-12d3-a456-426614174000
+                  type: kyc-connector.veriff.ingestion.status-changed
+                  createdAt: '2021-01-01T00:00:00.000Z'
+                  data:
+                    ingestion:
+                      id: 019b218f-f235-79d3-866c-f56215e515e2
+                      userId: 123e4567-e89b-12d3-a456-426614174000
+                      status: finished
+                      processes:
+                      - profile
+                      - address
+                      - identity
+                      - proof-of-address
+                      provider: veriff
+                      parameters:
+                        sessions:
+                        - processes:
+                          - profile
+                          - identity
+                          sessionId: 550e8400-e29b-41d4-a716-446655440000
+                          integrationName: integration-abc123
+                        - processes:
+                          - address
+                          - proof-of-address
+                          sessionId: 661f9511-f30c-52e5-b827-557766551111
+                          integrationName: integration-def456
+                      result:
+                        profile:
+                          status: completed
+                          data:
+                            fullName: John Doe
+                            birthdate: '1987-01-01'
+                            birthplace:
+                              town: London
+                              country: GB
+                            primaryCitizenship: GB
+                        address:
+                          status: completed
+                          data:
+                            country: GB
+                            city: London
+                            line1: 123 Main St
+                            postalCode: SW1A 1AA
+                        identity:
+                          status: completed
+                          data:
+                            document:
+                              type: passport
+                              number: 7700225VH
+                              country: GB
+                              expiresAt: '2026-03-13'
+                            person:
+                              givenName: John
+                              familyName: Doe
+                              birthdate: '1987-01-01'
+                              gender: male
+                            verifiedAt: '2020-01-01T00:00:00.000Z'
+                          files:
+                          - id: 123e4567-e89b-12d3-a456-426614174000
+                            category: document
+                            context: photo-document-front
+                            contentType: image/png
+                            size: 204800
+                            providerDetails:
+                              mediaId: media-abc123
+                        proofOfAddress:
+                          status: completed
+                          data:
+                            person:
+                              givenName: John
+                              familyName: Doe
+                              address:
+                                country: GB
+                                city: London
+                                line1: 123 Main St
+                                postalCode: SW1A 1AA
+                            verifiedAt: '2020-01-01T00:00:00.000Z'
+                          files:
+                          - id: 234f5678-f90c-23e4-b567-537725285111
+                            category: document
+                            context: proof-of-address
+                            contentType: image/png
+                            size: 153600
+                            providerDetails:
+                              mediaId: media-def456
+                      startedAt: '2025-12-15T10:17:45.113Z'
+                      finishedAt: '2025-12-15T10:18:33.241Z'
+                      createdAt: '2025-12-15T10:17:44.911Z'
+                      updatedAt: '2025-12-15T10:18:33.241Z'
+      responses:
+        '200':
+          description: Return a 200 status to indicate that the data was received successfully.
+components:
+  schemas:
+    webhook-event:
+      description: The webhook event information.
+      type: object
+      properties:
+        id:
+          description: The id of the event.
+          type: string
+          format: uuid
+        type:
+          description: The type of event.
+          type: string
+        createdAt:
+          description: The date and time when the event was created.
+          type: string
+          format: date-time
+        data:
+          description: The event payload.
+          type: object
+      required:
+      - id
+      - type
+      - createdAt
+      - data
+    sumsub-ingestion:
+      allOf:
+      - $ref: '#/components/schemas/ingestion'
+      - type: object
+        properties:
+          processes:
+            type: array
+            default:
+            - profile
+            - address
+            - identity
+            - proof-of-address
+            items:
+              $ref: '#/components/schemas/sumsub-ingestion-process'
+          parameters:
+            type: object
+            properties:
+              shareToken:
+                description: The Sumsub shareable token.
+                type: string
+            required:
+            - shareToken
+          result:
+            type: object
+            properties:
+              profile:
+                description: The profile process result.
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/ingestion-result-process-status'
+                  data:
+                    $ref: '#/components/schemas/ingestion-result-profile-data'
+                  error:
+                    $ref: '#/components/schemas/sumsub-ingestion-result-process-error'
+                required:
+                - status
+              address:
+                description: The address process result.
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/ingestion-result-process-status'
+                  data:
+                    $ref: '#/components/schemas/ingestion-result-address-data'
+                  error:
+                    $ref: '#/components/schemas/sumsub-ingestion-result-process-error'
+                required:
+                - status
+              identity:
+                description: The identity process result.
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/ingestion-result-process-status'
+                  data:
+                    $ref: '#/components/schemas/ingestion-result-identity-data'
+                  files:
+                    $ref: '#/components/schemas/ingestion-result-process-files'
+                  error:
+                    $ref: '#/components/schemas/sumsub-ingestion-result-process-error'
+                required:
+                - status
+              proofOfAddress:
+                description: The proof-of-address process result.
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/ingestion-result-process-status'
+                  data:
+                    $ref: '#/components/schemas/ingestion-result-proof-of-address-data'
+                  files:
+                    $ref: '#/components/schemas/ingestion-result-process-files'
+                  error:
+                    $ref: '#/components/schemas/sumsub-ingestion-result-process-error'
+                required:
+                - status
+    ingestion-result-profile-data:
+      description: The extracted profile data.
+      type: object
+      properties:
+        fullName:
+          description: The full legal name.
+          type: string
+        birthdate:
+          description: The date of birth.
+          type: string
+          format: date
+        birthplace:
+          description: The place of birth.
+          type: object
+          properties:
+            town:
+              description: The birth town.
+              type: string
+            country:
+              description: The birth country.
+              type: string
+        primaryCitizenship:
+          description: The primary citizenship country.
+          type: string
+    ingestion-result-address-data:
+      allOf:
+      - $ref: '#/components/schemas/address'
+      - description: The extracted address data.
+    veriff-ingestion-process:
+      type: string
+      enum:
+      - profile
+      - address
+      - identity
+      - proof-of-address
+    sumsub-ingestion-result-process-error:
+      allOf:
+      - $ref: '#/components/schemas/ingestion-result-process-error'
+      - type: object
+        properties:
+          code:
+            type: string
+            enum:
+            - unknown_error
+            - workflow_error
+            - provider_data_readiness_timeout_exceeded
+            - provider_data_not_available
+            - provider_data_invalid
+            - provider_file_download_failed
+            - dependent_process_failed
+            - operation_not_allowed
+            - sumsub_client_error
+            - sumsub_applicant_review_state_invalid
+    veriff-ingestion-result-process-error:
+      allOf:
+      - $ref: '#/components/schemas/ingestion-result-process-error'
+      - type: object
+        properties:
+          code:
+            type: string
+            enum:
+            - unknown_error
+            - workflow_error
+            - provider_data_readiness_timeout_exceeded
+            - provider_data_not_available
+            - provider_data_invalid
+            - provider_data_recheck_failed
+            - provider_file_download_failed
+            - dependent_process_failed
+            - operation_not_allowed
+            - veriff_client_error
+            - veriff_session_not_approved
+    address:
+      description: The address information.
+      type: object
+      properties:
+        country:
+          description: The country of the address.
+          type: string
+        subdivision:
+          description: The subdivision of the address.
+          type: string
+        city:
+          description: The city of the address.
+          type: string
+        line1:
+          description: The first line of the address.
+          type: string
+        line2:
+          description: The second line of the address.
+          type: string
+        postalCode:
+          description: The postal code of the address.
+          type: string
+    veriff-ingestion-webhook-event:
+      allOf:
+      - $ref: '#/components/schemas/webhook-event'
+      - type: object
+        properties:
+          data:
+            type: object
+            properties:
+              ingestion:
+                $ref: '#/components/schemas/veriff-ingestion'
+            required:
+            - ingestion
+    ingestion-result-process-files:
+      type: array
+      description: The list of files downloaded during ingestion related to the process.
+      items:
+        type: object
+        properties:
+          id:
+            description: The identifier of the file.
+            type: string
+          category:
+            description: The category of the file.
+            type: string
+            enum:
+            - document
+            - image
+            - video
+          context:
+            description: The context of the file in relation to the process.
+            type: string
+          contentType:
+            description: The content-type of the file.
+            type: string
+          size:
+            description: The size of the file in bytes.
+            type: integer
+            minimum: 0
+          providerDetails:
+            description: Provider-specific details about the file.
+            type: object
+            additionalProperties: true
+    sumsub-ingestion-webhook-event:
+      allOf:
+      - $ref: '#/components/schemas/webhook-event'
+      - type: object
+        properties:
+          data:
+            type: object
+            properties:
+              ingestion:
+                $ref: '#/components/schemas/sumsub-ingestion'
+            required:
+            - ingestion
+    ingestion-result-process-error:
+      description: The error information associated with the process.
+      type: object
+      properties:
+        code:
+          type: string
+          description: The error code.
+        message:
+          description: A human-readable message providing more details about the error.
+          type: string
+        hint:
+          description: A human-readable message providing hints to resolve the error.
+          type: string
+        step:
+          description: The step where the error occurred.
+          type: string
+          enum:
+          - fetch-provider-data
+          - download-provider-files
+          - update-kyc-process
+        details:
+          description: Additional information about the error reported.
+          type: object
+          additionalProperties: true
+    veriff-session:
+      description: A Veriff session used for data ingestion.
+      type: object
+      properties:
+        processes:
+          description: The processes this session provides data for.
+          type: array
+          items:
+            $ref: '#/components/schemas/veriff-ingestion-process'
+        sessionId:
+          description: The Veriff session identifier.
+          type: string
+          format: uuid
+        integrationName:
+          description: The integration name within the provider config.
+          type: string
+      required:
+      - processes
+      - sessionId
+      - integrationName
+    ingestion-result-process-status:
+      description: The status associated with the process.
+      type: string
+      enum:
+      - processing
+      - completed
+      - failed
+    sumsub-ingestion-process:
+      type: string
+      enum:
+      - profile
+      - address
+      - identity
+      - proof-of-address
+    ingestion-result-identity-data:
+      description: The extracted identity data.
+      type: object
+      properties:
+        document:
+          description: The identity document information.
+          type: object
+          properties:
+            type:
+              description: The type of the document.
+              type: string
+              enum:
+              - driving-license
+              - id-card
+              - passport
+              - residence-permit
+              - unsupported
+            number:
+              description: The number of the document.
+              type: string
+            country:
+              description: The country of the document.
+              type: string
+            expiresAt:
+              description: The expiration date of the document.
+              type: string
+              format: date
+        person:
+          description: The person information.
+          type: object
+          properties:
+            givenName:
+              description: The person's given name.
+              type: string
+            familyName:
+              description: The person's family name or surname.
+              type: string
+            address:
+              $ref: '#/components/schemas/address'
+            birthdate:
+              description: The person's date of birth.
+              type: string
+              format: date
+            gender:
+              description: The person's gender
+              type: string
+              enum:
+              - female
+              - male
+        verifiedAt:
+          description: The date and time when the identity was verified.
+          type: string
+          format: date-time
+    ingestion:
+      type: object
+      properties:
+        id:
+          description: The id of the ingestion.
+          type: string
+        userId:
+          description: The identifier of the user associated with the ingestion.
+          type: string
+        status:
+          description: The status of the ingestion.
+          type: string
+          enum:
+          - queued
+          - running
+          - finished
+        processes:
+          description: The list of processes requested to ingest.
+          type: array
+          items:
+            type: string
+        provider:
+          description: The provider of the ingestion.
+          type: string
+        parameters:
+          description: The parameters associated with the ingestion.
+          type: object
+        result:
+          description: The result of each process associated with the ingestion.
+          type: object
+        createdAt:
+          description: The time at which the ingestion was created.
+          type: string
+          format: date-time
+        updatedAt:
+          description: The time at which the ingestion was last updated.
+          type: string
+          format: date-time
+        startedAt:
+          description: The time at which the ingestion was started.
+          type: string
+          format: date-time
+        finishedAt:
+          description: The time at which the ingestion was finished.
+          type: string
+          format: date-time
+      required:
+      - id
+      - userId
+      - status
+      - processes
+      - provider
+      - parameters
+      - createdAt
+      - updatedAt
+    veriff-ingestion:
+      allOf:
+      - $ref: '#/components/schemas/ingestion'
+      - type: object
+        properties:
+          processes:
+            type: array
+            default:
+            - profile
+            - address
+            - identity
+            - proof-of-address
+            items:
+              $ref: '#/components/schemas/veriff-ingestion-process'
+          parameters:
+            type: object
+            properties:
+              sessions:
+                description: The Veriff sessions used for data ingestion.
+                type: array
+                items:
+                  $ref: '#/components/schemas/veriff-session'
+            required:
+            - sessions
+          result:
+            type: object
+            properties:
+              profile:
+                description: The profile process result.
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/ingestion-result-process-status'
+                  data:
+                    $ref: '#/components/schemas/ingestion-result-profile-data'
+                  error:
+                    $ref: '#/components/schemas/veriff-ingestion-result-process-error'
+                required:
+                - status
+              address:
+                description: The address process result.
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/ingestion-result-process-status'
+                  data:
+                    $ref: '#/components/schemas/ingestion-result-address-data'
+                  error:
+                    $ref: '#/components/schemas/veriff-ingestion-result-process-error'
+                required:
+                - status
+              identity:
+                description: The identity process result.
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/ingestion-result-process-status'
+                  data:
+                    $ref: '#/components/schemas/ingestion-result-identity-data'
+                  files:
+                    $ref: '#/components/schemas/ingestion-result-process-files'
+                  error:
+                    $ref: '#/components/schemas/veriff-ingestion-result-process-error'
+                required:
+                - status
+              proofOfAddress:
+                description: The proof-of-address process result.
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/ingestion-result-process-status'
+                  data:
+                    $ref: '#/components/schemas/ingestion-result-proof-of-address-data'
+                  files:
+                    $ref: '#/components/schemas/ingestion-result-process-files'
+                  error:
+                    $ref: '#/components/schemas/veriff-ingestion-result-process-error'
+                required:
+                - status
+    ingestion-result-proof-of-address-data:
+      description: The extracted proof-of-address data.
+      type: object
+      properties:
+        person:
+          description: The person information.
+          type: object
+          properties:
+            givenName:
+              description: The person's given name.
+              type: string
+            familyName:
+              description: The person's family name or surname.
+              type: string
+            address:
+              $ref: '#/components/schemas/address'
+        verifiedAt:
+          description: The date and time when the proof-of-address was verified.
+          type: string
+          format: date-time
+  parameters:
+    webhook-id:
+      name: webhook-id
+      description: The unique identifier of the webhook.
+      in: header
+      required: true
+      schema:
+        type: string
+      examples:
+        Webhook ID:
+          value: msg_p5jXN8AQM9LWM0D4loKWxJek
+    webhook-timestamp:
+      name: webhook-timestamp
+      description: The timestamp of the webhook, in seconds after the Unix epoch.
+      in: header
+      required: true
+      schema:
+        type: integer
+      examples:
+        Webhook Timestamp:
+          value: 1614265330
+    webhook-signature:
+      name: webhook-signature
+      description: The signature of the webhook.
+      in: header
+      required: true
+      schema:
+        type: string
+      examples:
+        Webhook Signature:
+          value: v1,Hw8/adTzfYtjPGhuBahfmGhUROG3AvEKH3mvkeK791Q=
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: OAuth 2.0 authentication
+      flows:
+        clientCredentials:
+          tokenUrl: /core/oauth2/token
+          scopes:
+            kyc-connector.sumsub.ingestions:create: Grants access to create a Sumsub ingestion.
+            kyc-connector.sumsub.ingestions:read: Grants access to view Sumsub ingestions.
+            kyc-connector.veriff.ingestions:create: Grants access to create a Veriff ingestion.
+            kyc-connector.veriff.ingestions:read: Grants access to view Veriff ingestions.
+            kyc-connector.veriff.config:read: Grants access to view the Veriff provider configuration.
+            kyc-connector.veriff.config:write: Grants access to create or update the Veriff provider configuration.

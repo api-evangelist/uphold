@@ -1,0 +1,1808 @@
+openapi: 3.2.0
+info:
+  version: 0.1.0
+  title: KYC Connectors Veriff API
+  description: The KYC Connectors API offers a set of endpoints to enable ingestion of KYC data via third-party connectors.
+  contact:
+    name: Uphold API Team
+    email: developer@uphold.com
+    url: https://developer.uphold.com
+servers:
+- url: https://api.enterprise.sandbox.uphold.com
+  description: Sandbox
+- url: https://api.enterprise.uphold.com
+  description: Production
+security:
+- OAuth2: []
+tags:
+- name: Veriff
+  description: Veriff KYC Connector.
+paths:
+  /kyc-connector/veriff/ingestions:
+    post:
+      operationId: kyc-connector.create-veriff-ingestion
+      summary: Create Veriff ingestion
+      description: Create a new Veriff ingestion.
+      tags:
+      - Veriff
+      security:
+      - OAuth2:
+        - kyc-connector.veriff.ingestions:create
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - user:individual
+      parameters:
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      requestBody:
+        $ref: '#/components/requestBodies/create-veriff-ingestion-request-body'
+      responses:
+        '201':
+          $ref: '#/components/responses/create-veriff-ingestion-response'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '409':
+          $ref: '#/components/responses/create-veriff-ingestion-conflict-response'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+    get:
+      operationId: kyc-connector.list-veriff-ingestions
+      summary: List Veriff ingestions
+      description: List Veriff ingestions made by a user.
+      tags:
+      - Veriff
+      security:
+      - OAuth2:
+        - kyc-connector.veriff.ingestions:read
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - user:individual
+      parameters:
+      - $ref: '#/components/parameters/pagination-per-page'
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      responses:
+        '200':
+          $ref: '#/components/responses/list-veriff-ingestions-response'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+  /kyc-connector/veriff/ingestions/{ingestionId}:
+    get:
+      operationId: kyc-connector.get-veriff-ingestion
+      summary: Get Veriff ingestion
+      description: Retrieve an existing Veriff ingestion by id.
+      tags:
+      - Veriff
+      security:
+      - OAuth2:
+        - kyc-connector.veriff.ingestions:read
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - user:individual
+      parameters:
+      - $ref: '#/components/parameters/ingestion-id'
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      responses:
+        '200':
+          $ref: '#/components/responses/get-veriff-ingestion-response'
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/get-veriff-ingestion-not-found-response'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+  /kyc-connector/veriff/config:
+    put:
+      operationId: kyc-connector.set-veriff-config
+      summary: Set Veriff config
+      description: Create or update the Veriff provider configuration for the organization.
+      tags:
+      - Veriff
+      security:
+      - OAuth2:
+        - kyc-connector.veriff.config:write
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - client
+      parameters:
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      requestBody:
+        $ref: '#/components/requestBodies/set-veriff-config-request-body'
+      responses:
+        '200':
+          $ref: '#/components/responses/set-veriff-config-response'
+        '400':
+          $ref: '#/components/responses/set-veriff-config-bad-request-response'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+    get:
+      operationId: kyc-connector.get-veriff-config
+      summary: Get Veriff config
+      description: Retrieve the Veriff provider configuration for the organization.
+      tags:
+      - Veriff
+      security:
+      - OAuth2:
+        - kyc-connector.veriff.config:read
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - client
+      parameters:
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      responses:
+        '200':
+          $ref: '#/components/responses/get-veriff-config-response'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/get-veriff-config-not-found-response'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+webhooks:
+  kyc-connector.veriff.ingestion.created:
+    post:
+      operationId: kyc-connector.veriff-ingestion-created
+      summary: Veriff ingestion created
+      description: A new Veriff ingestion has been created.
+      tags:
+      - Veriff
+      parameters:
+      - $ref: '#/components/parameters/webhook-id'
+      - $ref: '#/components/parameters/webhook-timestamp'
+      - $ref: '#/components/parameters/webhook-signature'
+      requestBody:
+        description: Veriff ingestion created event.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/veriff-ingestion-webhook-event'
+            examples:
+              Veriff Ingestion Created:
+                value:
+                  id: 123e4567-e89b-12d3-a456-426614174000
+                  type: kyc-connector.veriff.ingestion.created
+                  createdAt: '2021-01-01T00:00:00.000Z'
+                  data:
+                    ingestion:
+                      id: 019b2184-1ca9-7dd6-b7a5-ec242def68b0
+                      userId: 123e4567-e89b-12d3-a456-426614174000
+                      status: queued
+                      processes:
+                      - profile
+                      - address
+                      - identity
+                      - proof-of-address
+                      provider: veriff
+                      parameters:
+                        sessions:
+                        - processes:
+                          - profile
+                          - identity
+                          sessionId: 550e8400-e29b-41d4-a716-446655440000
+                          integrationName: integration-abc123
+                        - processes:
+                          - address
+                          - proof-of-address
+                          sessionId: 661f9511-f30c-52e5-b827-557766551111
+                          integrationName: integration-def456
+                      createdAt: '2026-01-15T14:23:01.819Z'
+                      updatedAt: '2026-01-15T14:23:01.819Z'
+      responses:
+        '200':
+          description: Return a 200 status to indicate that the data was received successfully.
+  kyc-connector.veriff.ingestion.status-changed:
+    post:
+      operationId: kyc-connector.veriff-ingestion-status-changed
+      summary: Veriff ingestion status changed
+      description: The Veriff ingestion status has been changed.
+      tags:
+      - Veriff
+      parameters:
+      - $ref: '#/components/parameters/webhook-id'
+      - $ref: '#/components/parameters/webhook-timestamp'
+      - $ref: '#/components/parameters/webhook-signature'
+      requestBody:
+        description: Veriff ingestion status changed event.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/veriff-ingestion-webhook-event'
+            examples:
+              Veriff Ingestion Status Changed:
+                value:
+                  id: 123e4567-e89b-12d3-a456-426614174000
+                  type: kyc-connector.veriff.ingestion.status-changed
+                  createdAt: '2021-01-01T00:00:00.000Z'
+                  data:
+                    ingestion:
+                      id: 019b218f-f235-79d3-866c-f56215e515e2
+                      userId: 123e4567-e89b-12d3-a456-426614174000
+                      status: finished
+                      processes:
+                      - profile
+                      - address
+                      - identity
+                      - proof-of-address
+                      provider: veriff
+                      parameters:
+                        sessions:
+                        - processes:
+                          - profile
+                          - identity
+                          sessionId: 550e8400-e29b-41d4-a716-446655440000
+                          integrationName: integration-abc123
+                        - processes:
+                          - address
+                          - proof-of-address
+                          sessionId: 661f9511-f30c-52e5-b827-557766551111
+                          integrationName: integration-def456
+                      result:
+                        profile:
+                          status: completed
+                          data:
+                            fullName: John Doe
+                            birthdate: '1987-01-01'
+                            birthplace:
+                              town: London
+                              country: GB
+                            primaryCitizenship: GB
+                        address:
+                          status: completed
+                          data:
+                            country: GB
+                            city: London
+                            line1: 123 Main St
+                            postalCode: SW1A 1AA
+                        identity:
+                          status: completed
+                          data:
+                            document:
+                              type: passport
+                              number: 7700225VH
+                              country: GB
+                              expiresAt: '2026-03-13'
+                            person:
+                              givenName: John
+                              familyName: Doe
+                              birthdate: '1987-01-01'
+                              gender: male
+                            verifiedAt: '2020-01-01T00:00:00.000Z'
+                          files:
+                          - id: 123e4567-e89b-12d3-a456-426614174000
+                            category: document
+                            context: photo-document-front
+                            contentType: image/png
+                            size: 204800
+                            providerDetails:
+                              mediaId: media-abc123
+                        proofOfAddress:
+                          status: completed
+                          data:
+                            person:
+                              givenName: John
+                              familyName: Doe
+                              address:
+                                country: GB
+                                city: London
+                                line1: 123 Main St
+                                postalCode: SW1A 1AA
+                            verifiedAt: '2020-01-01T00:00:00.000Z'
+                          files:
+                          - id: 234f5678-f90c-23e4-b567-537725285111
+                            category: document
+                            context: proof-of-address
+                            contentType: image/png
+                            size: 153600
+                            providerDetails:
+                              mediaId: media-def456
+                      startedAt: '2025-12-15T10:17:45.113Z'
+                      finishedAt: '2025-12-15T10:18:33.241Z'
+                      createdAt: '2025-12-15T10:17:44.911Z'
+                      updatedAt: '2025-12-15T10:18:33.241Z'
+      responses:
+        '200':
+          description: Return a 200 status to indicate that the data was received successfully.
+components:
+  schemas:
+    webhook-event:
+      description: The webhook event information.
+      type: object
+      properties:
+        id:
+          description: The id of the event.
+          type: string
+          format: uuid
+        type:
+          description: The type of event.
+          type: string
+        createdAt:
+          description: The date and time when the event was created.
+          type: string
+          format: date-time
+        data:
+          description: The event payload.
+          type: object
+      required:
+      - id
+      - type
+      - createdAt
+      - data
+    veriff-session-for-request:
+      description: A Veriff session for creating an ingestion.
+      type: object
+      properties:
+        processes:
+          description: The processes this session provides data for. If omitted, the processes will be determined from the integration configuration.
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/veriff-ingestion-process'
+        sessionId:
+          description: The Veriff session identifier.
+          type: string
+          format: uuid
+        integrationName:
+          allOf:
+          - $ref: '#/components/schemas/string-no-edge-spaces'
+          - description: The integration name within the provider config.
+      required:
+      - sessionId
+      - integrationName
+    ingestion-result-profile-data:
+      description: The extracted profile data.
+      type: object
+      properties:
+        fullName:
+          description: The full legal name.
+          type: string
+        birthdate:
+          description: The date of birth.
+          type: string
+          format: date
+        birthplace:
+          description: The place of birth.
+          type: object
+          properties:
+            town:
+              description: The birth town.
+              type: string
+            country:
+              description: The birth country.
+              type: string
+        primaryCitizenship:
+          description: The primary citizenship country.
+          type: string
+    ingestion-result-address-data:
+      allOf:
+      - $ref: '#/components/schemas/address'
+      - description: The extracted address data.
+    veriff-ingestion-process:
+      type: string
+      enum:
+      - profile
+      - address
+      - identity
+      - proof-of-address
+    feedback:
+      description: A feedback message with a code and human-readable description.
+      type: object
+      properties:
+        code:
+          description: A short string with a brief explanation about the code reported.
+          type: string
+        message:
+          description: A human-readable message providing more details.
+          type: string
+        details:
+          description: Additional information about the feedback reported.
+          type: object
+          additionalProperties: true
+      required:
+      - code
+      - message
+    veriff-integration-config-for-request:
+      description: A Veriff integration configuration for creating or updating provider config.
+      type: object
+      properties:
+        name:
+          allOf:
+          - $ref: '#/components/schemas/string-no-edge-spaces'
+          - description: The name of the integration.
+        apiKey:
+          description: The API key for this integration. If not provided, the current API key will be kept.
+          type: string
+        sharedSecretKey:
+          description: The shared secret key for this integration. If not provided, the current shared secret key will be kept.
+          type: string
+        processes:
+          description: The KYC processes supported by this integration.
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/veriff-ingestion-process'
+      required:
+      - name
+      - processes
+    veriff-ingestion-result-process-error:
+      allOf:
+      - $ref: '#/components/schemas/ingestion-result-process-error'
+      - type: object
+        properties:
+          code:
+            type: string
+            enum:
+            - unknown_error
+            - workflow_error
+            - provider_data_readiness_timeout_exceeded
+            - provider_data_not_available
+            - provider_data_invalid
+            - provider_data_recheck_failed
+            - provider_file_download_failed
+            - dependent_process_failed
+            - operation_not_allowed
+            - veriff_client_error
+            - veriff_session_not_approved
+    pagination:
+      description: The pagination information.
+      type: object
+      properties:
+        first:
+          description: The URL to the first set of results.
+          type: string
+          format: uri
+        prev:
+          description: The URL to the previous set of results.
+          type: string
+          format: uri
+        next:
+          description: The URL to the next set of results.
+          type: string
+          format: uri
+    address:
+      description: The address information.
+      type: object
+      properties:
+        country:
+          description: The country of the address.
+          type: string
+        subdivision:
+          description: The subdivision of the address.
+          type: string
+        city:
+          description: The city of the address.
+          type: string
+        line1:
+          description: The first line of the address.
+          type: string
+        line2:
+          description: The second line of the address.
+          type: string
+        postalCode:
+          description: The postal code of the address.
+          type: string
+    veriff-ingestion-webhook-event:
+      allOf:
+      - $ref: '#/components/schemas/webhook-event'
+      - type: object
+        properties:
+          data:
+            type: object
+            properties:
+              ingestion:
+                $ref: '#/components/schemas/veriff-ingestion'
+            required:
+            - ingestion
+    string-no-edge-spaces:
+      type: string
+      pattern: ^\S.*\S$|^\S$
+    error:
+      description: The error information.
+      allOf:
+      - $ref: '#/components/schemas/feedback'
+    ingestion-result-process-files:
+      type: array
+      description: The list of files downloaded during ingestion related to the process.
+      items:
+        type: object
+        properties:
+          id:
+            description: The identifier of the file.
+            type: string
+          category:
+            description: The category of the file.
+            type: string
+            enum:
+            - document
+            - image
+            - video
+          context:
+            description: The context of the file in relation to the process.
+            type: string
+          contentType:
+            description: The content-type of the file.
+            type: string
+          size:
+            description: The size of the file in bytes.
+            type: integer
+            minimum: 0
+          providerDetails:
+            description: Provider-specific details about the file.
+            type: object
+            additionalProperties: true
+    ingestion-result-process-error:
+      description: The error information associated with the process.
+      type: object
+      properties:
+        code:
+          type: string
+          description: The error code.
+        message:
+          description: A human-readable message providing more details about the error.
+          type: string
+        hint:
+          description: A human-readable message providing hints to resolve the error.
+          type: string
+        step:
+          description: The step where the error occurred.
+          type: string
+          enum:
+          - fetch-provider-data
+          - download-provider-files
+          - update-kyc-process
+        details:
+          description: Additional information about the error reported.
+          type: object
+          additionalProperties: true
+    veriff-session:
+      description: A Veriff session used for data ingestion.
+      type: object
+      properties:
+        processes:
+          description: The processes this session provides data for.
+          type: array
+          items:
+            $ref: '#/components/schemas/veriff-ingestion-process'
+        sessionId:
+          description: The Veriff session identifier.
+          type: string
+          format: uuid
+        integrationName:
+          description: The integration name within the provider config.
+          type: string
+      required:
+      - processes
+      - sessionId
+      - integrationName
+    veriff-integration-config:
+      description: A Veriff integration configuration.
+      type: object
+      properties:
+        name:
+          description: The name of the integration.
+          type: string
+        apiKey:
+          description: The API key for this integration.
+          type: string
+        sharedSecretKey:
+          description: The shared secret key for this integration.
+          type: string
+        processes:
+          description: The KYC processes supported by this integration.
+          type: array
+          items:
+            $ref: '#/components/schemas/veriff-ingestion-process'
+      required:
+      - name
+      - processes
+    ingestion-result-process-status:
+      description: The status associated with the process.
+      type: string
+      enum:
+      - processing
+      - completed
+      - failed
+    ingestion-result-identity-data:
+      description: The extracted identity data.
+      type: object
+      properties:
+        document:
+          description: The identity document information.
+          type: object
+          properties:
+            type:
+              description: The type of the document.
+              type: string
+              enum:
+              - driving-license
+              - id-card
+              - passport
+              - residence-permit
+              - unsupported
+            number:
+              description: The number of the document.
+              type: string
+            country:
+              description: The country of the document.
+              type: string
+            expiresAt:
+              description: The expiration date of the document.
+              type: string
+              format: date
+        person:
+          description: The person information.
+          type: object
+          properties:
+            givenName:
+              description: The person's given name.
+              type: string
+            familyName:
+              description: The person's family name or surname.
+              type: string
+            address:
+              $ref: '#/components/schemas/address'
+            birthdate:
+              description: The person's date of birth.
+              type: string
+              format: date
+            gender:
+              description: The person's gender
+              type: string
+              enum:
+              - female
+              - male
+        verifiedAt:
+          description: The date and time when the identity was verified.
+          type: string
+          format: date-time
+    subdivision-code-for-request:
+      type: string
+      pattern: ^[A-Z]{2}-[A-Z0-9]{1,3}$
+    ingestion:
+      type: object
+      properties:
+        id:
+          description: The id of the ingestion.
+          type: string
+        userId:
+          description: The identifier of the user associated with the ingestion.
+          type: string
+        status:
+          description: The status of the ingestion.
+          type: string
+          enum:
+          - queued
+          - running
+          - finished
+        processes:
+          description: The list of processes requested to ingest.
+          type: array
+          items:
+            type: string
+        provider:
+          description: The provider of the ingestion.
+          type: string
+        parameters:
+          description: The parameters associated with the ingestion.
+          type: object
+        result:
+          description: The result of each process associated with the ingestion.
+          type: object
+        createdAt:
+          description: The time at which the ingestion was created.
+          type: string
+          format: date-time
+        updatedAt:
+          description: The time at which the ingestion was last updated.
+          type: string
+          format: date-time
+        startedAt:
+          description: The time at which the ingestion was started.
+          type: string
+          format: date-time
+        finishedAt:
+          description: The time at which the ingestion was finished.
+          type: string
+          format: date-time
+      required:
+      - id
+      - userId
+      - status
+      - processes
+      - provider
+      - parameters
+      - createdAt
+      - updatedAt
+    veriff-ingestion:
+      allOf:
+      - $ref: '#/components/schemas/ingestion'
+      - type: object
+        properties:
+          processes:
+            type: array
+            default:
+            - profile
+            - address
+            - identity
+            - proof-of-address
+            items:
+              $ref: '#/components/schemas/veriff-ingestion-process'
+          parameters:
+            type: object
+            properties:
+              sessions:
+                description: The Veriff sessions used for data ingestion.
+                type: array
+                items:
+                  $ref: '#/components/schemas/veriff-session'
+            required:
+            - sessions
+          result:
+            type: object
+            properties:
+              profile:
+                description: The profile process result.
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/ingestion-result-process-status'
+                  data:
+                    $ref: '#/components/schemas/ingestion-result-profile-data'
+                  error:
+                    $ref: '#/components/schemas/veriff-ingestion-result-process-error'
+                required:
+                - status
+              address:
+                description: The address process result.
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/ingestion-result-process-status'
+                  data:
+                    $ref: '#/components/schemas/ingestion-result-address-data'
+                  error:
+                    $ref: '#/components/schemas/veriff-ingestion-result-process-error'
+                required:
+                - status
+              identity:
+                description: The identity process result.
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/ingestion-result-process-status'
+                  data:
+                    $ref: '#/components/schemas/ingestion-result-identity-data'
+                  files:
+                    $ref: '#/components/schemas/ingestion-result-process-files'
+                  error:
+                    $ref: '#/components/schemas/veriff-ingestion-result-process-error'
+                required:
+                - status
+              proofOfAddress:
+                description: The proof-of-address process result.
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/ingestion-result-process-status'
+                  data:
+                    $ref: '#/components/schemas/ingestion-result-proof-of-address-data'
+                  files:
+                    $ref: '#/components/schemas/ingestion-result-process-files'
+                  error:
+                    $ref: '#/components/schemas/veriff-ingestion-result-process-error'
+                required:
+                - status
+    country-code-for-request:
+      type: string
+      pattern: ^[A-Z]{2}$
+    veriff-provider-config:
+      description: The Veriff provider configuration.
+      type: object
+      properties:
+        integrations:
+          description: The list of Veriff integration configurations.
+          type: array
+          items:
+            $ref: '#/components/schemas/veriff-integration-config'
+        createdAt:
+          description: The time at which the provider config was created.
+          type: string
+          format: date-time
+        updatedAt:
+          description: The time at which the provider config was last updated.
+          type: string
+          format: date-time
+      required:
+      - integrations
+      - createdAt
+      - updatedAt
+    ingestion-result-proof-of-address-data:
+      description: The extracted proof-of-address data.
+      type: object
+      properties:
+        person:
+          description: The person information.
+          type: object
+          properties:
+            givenName:
+              description: The person's given name.
+              type: string
+            familyName:
+              description: The person's family name or surname.
+              type: string
+            address:
+              $ref: '#/components/schemas/address'
+        verifiedAt:
+          description: The date and time when the proof-of-address was verified.
+          type: string
+          format: date-time
+  responses:
+    get-veriff-config-response:
+      description: Veriff config retrieved.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              config:
+                $ref: '#/components/schemas/veriff-provider-config'
+            required:
+            - config
+          examples:
+            Veriff Config Retrieved:
+              value:
+                config:
+                  integrations:
+                  - name: integration-abc123
+                    apiKey: 4e0a****
+                    sharedSecretKey: b622****
+                    processes:
+                    - profile
+                    - address
+                    - identity
+                    - proof-of-address
+                  createdAt: '2026-01-15T14:23:01.819Z'
+                  updatedAt: '2026-01-15T14:23:01.819Z'
+            Veriff Config Retrieved With Multiple Integrations:
+              value:
+                config:
+                  integrations:
+                  - name: integration-abc123
+                    apiKey: 4e0a****
+                    sharedSecretKey: b622****
+                    processes:
+                    - profile
+                    - identity
+                  - name: integration-def456
+                    apiKey: 7f1b****
+                    sharedSecretKey: d934****
+                    processes:
+                    - address
+                  createdAt: '2026-01-15T14:23:01.819Z'
+                  updatedAt: '2026-01-15T14:23:01.819Z'
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    forbidden:
+      description: Forbidden.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Token Insufficient Scopes:
+              value:
+                code: token_insufficient_scopes
+                message: Authorization failed due to insufficient scopes
+                details:
+                  security:
+                  - scheme: OAuth
+                    schemeScopes:
+                    - required:scope_1
+                    - required:scope_2
+                    tokenScopes:
+                    - token:scope
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    too-many-requests:
+      description: Too Many Requests.
+      headers:
+        Retry-After:
+          description: The number of seconds to wait before making a new request.
+          schema:
+            type: integer
+            format: int32
+          examples:
+            Retry After:
+              value: 60
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Too Many Requests:
+              value:
+                code: too_many_requests
+                message: Try again later
+    set-veriff-config-bad-request-response:
+      description: Bad Request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Invalid Provider Config:
+              value:
+                code: request_invalid
+                message: The provider config has invalid parameters
+                details:
+                  context: body
+                  violations:
+                  - property: integrations.0.name
+                    rule: required
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    create-veriff-ingestion-conflict-response:
+      description: Conflict.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Kyc Connector Not Configured:
+              value:
+                code: operation_not_allowed
+                message: The KYC connector is not configured for this organization
+                details:
+                  reasons:
+                  - provider-not-configured
+            Ingestion Not Supported By Provider Config:
+              value:
+                code: operation_not_allowed
+                message: 'Session specifies processes that are not supported by the integration configuration: "proof-of-address"'
+                details:
+                  reasons:
+                  - ingestion-not-supported-by-provider-config
+            Ingestion Process Not Resolvable:
+              value:
+                code: operation_not_allowed
+                message: Process "identity" is not covered by any session in the ingestion parameters
+                details:
+                  reasons:
+                  - ingestion-process-not-resolvable
+            Duplicate Session:
+              value:
+                code: operation_not_allowed
+                message: Each session must reference a unique session ID
+                details:
+                  reasons:
+                  - duplicate-session
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    bad-request:
+      description: Bad Request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Invalid Request:
+              value:
+                code: request_invalid
+                message: The request has missing or invalid parameters
+                details:
+                  context: <context>
+                  violations:
+                  - property: <property>
+                    rule: required
+                  - property: <property>
+                    rule: type
+                    ruleParams:
+                      type: string
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    list-veriff-ingestions-response:
+      description: Veriff ingestions retrieved.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              ingestions:
+                type: array
+                items:
+                  $ref: '#/components/schemas/veriff-ingestion'
+              pagination:
+                $ref: '#/components/schemas/pagination'
+            required:
+            - ingestions
+            - pagination
+          examples:
+            Ingestions Retrieved:
+              value:
+                ingestions:
+                - id: 019b2184-1ca9-7dd6-b7a5-ec242def68b0
+                  userId: 123e4567-e89b-12d3-a456-426614174000
+                  status: queued
+                  processes:
+                  - profile
+                  - address
+                  - identity
+                  - proof-of-address
+                  provider: veriff
+                  parameters:
+                    sessions:
+                    - processes:
+                      - profile
+                      - identity
+                      sessionId: 550e8400-e29b-41d4-a716-446655440000
+                      integrationName: integration-abc123
+                    - processes:
+                      - address
+                      - proof-of-address
+                      sessionId: 661f9511-f30c-52e5-b827-557766551111
+                      integrationName: integration-def456
+                  createdAt: '2026-01-15T14:23:01.819Z'
+                  updatedAt: '2026-01-15T14:23:01.819Z'
+                - id: 019b218f-f235-79d3-866c-f56215e515e2
+                  userId: 123e4567-e89b-12d3-a456-426614174000
+                  status: finished
+                  processes:
+                  - profile
+                  - address
+                  - identity
+                  - proof-of-address
+                  provider: veriff
+                  parameters:
+                    sessions:
+                    - processes:
+                      - profile
+                      - identity
+                      sessionId: 550e8400-e29b-41d4-a716-446655440000
+                      integrationName: integration-abc123
+                    - processes:
+                      - address
+                      - proof-of-address
+                      sessionId: 661f9511-f30c-52e5-b827-557766551111
+                      integrationName: integration-def456
+                  result:
+                    profile:
+                      status: completed
+                      data:
+                        fullName: John Doe
+                        birthdate: '1987-01-01'
+                        birthplace:
+                          town: London
+                          country: GB
+                        primaryCitizenship: GB
+                    address:
+                      status: completed
+                      data:
+                        country: GB
+                        city: London
+                        line1: 123 Main St
+                        postalCode: SW1A 1AA
+                    identity:
+                      status: completed
+                      data:
+                        document:
+                          type: passport
+                          number: 7700225VH
+                          country: GB
+                          expiresAt: '2026-03-13'
+                        person:
+                          givenName: John
+                          familyName: Doe
+                          birthdate: '1987-01-01'
+                          gender: male
+                        verifiedAt: '2020-01-01T00:00:00.000Z'
+                      files:
+                      - id: 123e4567-e89b-12d3-a456-426614174000
+                        category: document
+                        context: photo-document-front
+                        contentType: image/png
+                        size: 204800
+                        providerDetails:
+                          mediaId: media-abc123
+                    proofOfAddress:
+                      status: completed
+                      data:
+                        person:
+                          givenName: John
+                          familyName: Doe
+                          address:
+                            country: GB
+                            city: London
+                            line1: 123 Main St
+                            postalCode: SW1A 1AA
+                        verifiedAt: '2020-01-01T00:00:00.000Z'
+                      files:
+                      - id: 234f5678-f90c-23e4-b567-537725285111
+                        category: document
+                        context: proof-of-address
+                        contentType: image/png
+                        size: 153600
+                        providerDetails:
+                          mediaId: media-def456
+                  startedAt: '2025-12-15T10:17:45.113Z'
+                  finishedAt: '2025-12-15T10:18:33.241Z'
+                  createdAt: '2025-12-15T10:17:44.911Z'
+                  updatedAt: '2025-12-15T10:18:33.241Z'
+                pagination:
+                  first: https://api.enterprise.uphold.com/kyc-connector/veriff/ingestions?perPage=2
+                  next: https://api.enterprise.uphold.com/kyc-connector/veriff/ingestions?cursor=019b2184-1ca9-7dd6-b7a5-ec242def68b0&perPage=2
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-veriff-config-not-found-response:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Veriff Config Not Found:
+              value:
+                code: entity_not_found
+                message: The provider config cannot be found
+                details:
+                  entity: provider-config
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    create-veriff-ingestion-response:
+      description: Veriff ingestion created.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              ingestion:
+                $ref: '#/components/schemas/veriff-ingestion'
+            required:
+            - ingestion
+          examples:
+            Veriff Ingestion Created:
+              value:
+                ingestion:
+                  id: 019b2184-1ca9-7dd6-b7a5-ec242def68b0
+                  userId: 123e4567-e89b-12d3-a456-426614174000
+                  status: queued
+                  processes:
+                  - profile
+                  - address
+                  - identity
+                  provider: veriff
+                  parameters:
+                    sessions:
+                    - processes:
+                      - profile
+                      - address
+                      - identity
+                      sessionId: 550e8400-e29b-41d4-a716-446655440000
+                      integrationName: integration-abc123
+                  createdAt: '2026-01-15T14:23:01.819Z'
+                  updatedAt: '2026-01-15T14:23:01.819Z'
+            Veriff Ingestion Created With Multiple Sessions:
+              value:
+                ingestion:
+                  id: 019b2184-1ca9-7dd6-b7a5-ec242def68b0
+                  userId: 123e4567-e89b-12d3-a456-426614174000
+                  status: queued
+                  processes:
+                  - profile
+                  - address
+                  - identity
+                  - proof-of-address
+                  provider: veriff
+                  parameters:
+                    sessions:
+                    - processes:
+                      - profile
+                      - identity
+                      sessionId: 550e8400-e29b-41d4-a716-446655440000
+                      integrationName: integration-abc123
+                    - processes:
+                      - address
+                      - proof-of-address
+                      sessionId: 661f9511-f30c-52e5-b827-557766551111
+                      integrationName: integration-def456
+                  createdAt: '2026-01-15T14:23:01.819Z'
+                  updatedAt: '2026-01-15T14:23:01.819Z'
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    set-veriff-config-response:
+      description: Veriff config created or updated.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              config:
+                $ref: '#/components/schemas/veriff-provider-config'
+            required:
+            - config
+          examples:
+            Veriff Config Set:
+              value:
+                config:
+                  integrations:
+                  - name: integration-abc123
+                    apiKey: 4e0a****
+                    sharedSecretKey: b622****
+                    processes:
+                    - profile
+                    - address
+                    - identity
+                    - proof-of-address
+                  createdAt: '2026-01-15T14:23:01.819Z'
+                  updatedAt: '2026-01-15T14:25:00.000Z'
+            Veriff Config Set With Multiple Integrations:
+              value:
+                config:
+                  integrations:
+                  - name: integration-abc123
+                    apiKey: 4e0a****
+                    sharedSecretKey: b622****
+                    processes:
+                    - profile
+                    - identity
+                  - name: integration-def456
+                    apiKey: 7f1b****
+                    sharedSecretKey: d934****
+                    processes:
+                    - address
+                  createdAt: '2026-01-15T14:23:01.819Z'
+                  updatedAt: '2026-01-15T14:25:00.000Z'
+            Veriff Config Updated With Keys Omitted:
+              value:
+                config:
+                  integrations:
+                  - name: integration-abc123
+                    apiKey: 4e0a****
+                    sharedSecretKey: b622****
+                    processes:
+                    - profile
+                    - identity
+                  - name: integration-def456
+                    apiKey: 7f1b****
+                    sharedSecretKey: d934****
+                    processes:
+                    - address
+                  - name: integration-ghi789
+                    apiKey: 8c2d****
+                    sharedSecretKey: 3a7f****
+                    processes:
+                    - identity
+                    - proof-of-address
+                  createdAt: '2026-01-15T14:23:01.819Z'
+                  updatedAt: '2026-01-15T14:25:00.000Z'
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    unauthorized:
+      description: Unauthorized.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Token Expired:
+              value:
+                code: token_expired
+                message: The access token has expired
+            Token Invalid:
+              value:
+                code: token_invalid
+                message: The access token is invalid
+            Token Revoked:
+              value:
+                code: token_revoked
+                message: The access token has been revoked
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-veriff-ingestion-not-found-response:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Veriff Ingestion Not Found:
+              value:
+                code: entity_not_found
+                message: The ingestion cannot be found
+                details:
+                  entity: ingestion
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-veriff-ingestion-response:
+      description: Veriff ingestion retrieved.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              ingestion:
+                $ref: '#/components/schemas/veriff-ingestion'
+            required:
+            - ingestion
+          examples:
+            Veriff Ingestion Retrieved:
+              value:
+                ingestion:
+                  id: 019b218f-f235-79d3-866c-f56215e515e2
+                  userId: 123e4567-e89b-12d3-a456-426614174000
+                  status: finished
+                  processes:
+                  - profile
+                  - address
+                  - identity
+                  - proof-of-address
+                  provider: veriff
+                  parameters:
+                    sessions:
+                    - processes:
+                      - profile
+                      - identity
+                      sessionId: 550e8400-e29b-41d4-a716-446655440000
+                      integrationName: integration-abc123
+                    - processes:
+                      - address
+                      - proof-of-address
+                      sessionId: 661f9511-f30c-52e5-b827-557766551111
+                      integrationName: integration-def456
+                  result:
+                    profile:
+                      status: completed
+                      data:
+                        fullName: John Doe
+                        birthdate: '1987-01-01'
+                        birthplace:
+                          town: London
+                          country: GB
+                        primaryCitizenship: GB
+                    address:
+                      status: completed
+                      data:
+                        country: GB
+                        city: London
+                        line1: 123 Main St
+                        postalCode: SW1A 1AA
+                    identity:
+                      status: completed
+                      data:
+                        document:
+                          type: passport
+                          number: 7700225VH
+                          country: GB
+                          expiresAt: '2026-03-13'
+                        person:
+                          givenName: John
+                          familyName: Doe
+                          birthdate: '1987-01-01'
+                          gender: male
+                        verifiedAt: '2020-01-01T00:00:00.000Z'
+                      files:
+                      - id: 123e4567-e89b-12d3-a456-426614174000
+                        category: document
+                        context: photo-document-front
+                        contentType: image/png
+                        size: 204800
+                        providerDetails:
+                          mediaId: media-abc123
+                    proofOfAddress:
+                      status: completed
+                      data:
+                        person:
+                          givenName: John
+                          familyName: Doe
+                          address:
+                            country: GB
+                            city: London
+                            line1: 123 Main St
+                            postalCode: SW1A 1AA
+                        verifiedAt: '2020-01-01T00:00:00.000Z'
+                      files:
+                      - id: 234f5678-f90c-23e4-b567-537725285111
+                        category: document
+                        context: proof-of-address
+                        contentType: image/png
+                        size: 153600
+                        providerDetails:
+                          mediaId: media-def456
+                  startedAt: '2025-12-15T10:17:45.113Z'
+                  finishedAt: '2025-12-15T10:18:33.241Z'
+                  createdAt: '2025-12-15T10:17:44.911Z'
+                  updatedAt: '2025-12-15T10:18:33.241Z'
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+  parameters:
+    x-on-behalf-of:
+      name: X-On-Behalf-Of
+      description: The subject on whose behalf the operation is being performed.
+      in: header
+      schema:
+        type: string
+        pattern: ^(user|client)\s[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$
+      examples:
+        User Identifier:
+          value: user cd21b26d-35d2-408a-9201-b8fdbef7a604
+        Client Identifier:
+          value: client 3fa85f64-5717-4562-b3fc-2c963f66afa6
+    webhook-id:
+      name: webhook-id
+      description: The unique identifier of the webhook.
+      in: header
+      required: true
+      schema:
+        type: string
+      examples:
+        Webhook ID:
+          value: msg_p5jXN8AQM9LWM0D4loKWxJek
+    webhook-timestamp:
+      name: webhook-timestamp
+      description: The timestamp of the webhook, in seconds after the Unix epoch.
+      in: header
+      required: true
+      schema:
+        type: integer
+      examples:
+        Webhook Timestamp:
+          value: 1614265330
+    x-uphold-user-country:
+      name: X-Uphold-User-Country
+      description: Contains the code of the country of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/country-code-for-request'
+      examples:
+        User Country:
+          value: US
+    x-uphold-user-agent:
+      name: X-Uphold-User-Agent
+      description: Contains the user agent of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        User Agent:
+          value: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36
+    x-uphold-user-city:
+      name: X-Uphold-User-City
+      description: Contains the name of the city of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        User City:
+          value: San Francisco
+    ingestion-id:
+      name: ingestionId
+      description: The ingestion id.
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      examples:
+        Ingestion ID:
+          value: 09f398a9-03be-4a44-bc68-6b8ef00800f1
+    x-uphold-user-ip:
+      name: X-Uphold-User-Ip
+      description: Contains the IP of the end user that is requesting the operation.
+      in: header
+      schema:
+        oneOf:
+        - title: IPv4
+          type: string
+          format: ipv4
+        - title: IPv6
+          type: string
+          format: ipv6
+      examples:
+        User Ip:
+          value: 47.174.97.164
+    webhook-signature:
+      name: webhook-signature
+      description: The signature of the webhook.
+      in: header
+      required: true
+      schema:
+        type: string
+      examples:
+        Webhook Signature:
+          value: v1,Hw8/adTzfYtjPGhuBahfmGhUROG3AvEKH3mvkeK791Q=
+    pagination-per-page:
+      name: perPage
+      description: The number of items per page.
+      in: query
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 100
+        default: 10
+      examples:
+        10 Items Per Page:
+          value: 10
+    x-uphold-user-origin:
+      name: X-Uphold-User-Origin
+      description: Contains the origin of the request made by the end user.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        Origin:
+          value: https://uphold.com
+    x-uphold-user-subdivision:
+      name: X-Uphold-User-Subdivision
+      description: Contains the code of the subdivision of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/subdivision-code-for-request'
+      examples:
+        User Subdivision:
+          value: US-CA
+  requestBodies:
+    set-veriff-config-request-body:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              integrations:
+                description: The list of Veriff integration configurations.
+                type: array
+                minItems: 1
+                items:
+                  $ref: '#/components/schemas/veriff-integration-config-for-request'
+            required:
+            - integrations
+          examples:
+            Set Veriff Config:
+              value:
+                integrations:
+                - name: integration-abc123
+                  apiKey: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                  sharedSecretKey: f0e1d2c3-b4a5-6789-0fed-cba987654321
+                  processes:
+                  - profile
+                  - address
+                  - identity
+                  - proof-of-address
+            Set Veriff Config With Multiple Integrations:
+              value:
+                integrations:
+                - name: integration-abc123
+                  apiKey: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                  sharedSecretKey: f0e1d2c3-b4a5-6789-0fed-cba987654321
+                  processes:
+                  - profile
+                  - identity
+                - name: integration-def456
+                  apiKey: b2c3d4e5-f6a7-8901-bcde-f12345678901
+                  sharedSecretKey: e1d2c3b4-a5f6-7890-fedc-ba9876543210
+                  processes:
+                  - address
+            Update Veriff Config With Keys Omitted:
+              value:
+                integrations:
+                - name: integration-abc123
+                  processes:
+                  - profile
+                  - identity
+                - name: integration-def456
+                  processes:
+                  - address
+                - name: integration-ghi789
+                  apiKey: c3d4e5f6-a7b8-9012-cdef-123456789012
+                  sharedSecretKey: d4e5f6a7-b8c9-0123-defa-234567890123
+                  processes:
+                  - identity
+                  - proof-of-address
+    create-veriff-ingestion-request-body:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              processes:
+                description: List of KYC processes to ingest.
+                type: array
+                minItems: 1
+                uniqueItems: true
+                items:
+                  $ref: '#/components/schemas/veriff-ingestion-process'
+              sessions:
+                description: The Veriff sessions to process.
+                type: array
+                minItems: 1
+                items:
+                  $ref: '#/components/schemas/veriff-session-for-request'
+            required:
+            - sessions
+          examples:
+            Create Veriff Ingestion:
+              value:
+                processes:
+                - identity
+                sessions:
+                - processes:
+                  - identity
+                  sessionId: 550e8400-e29b-41d4-a716-446655440000
+                  integrationName: integration-abc123
+            Create Veriff Ingestion With Multiple Sessions:
+              value:
+                processes:
+                - profile
+                - address
+                - identity
+                - proof-of-address
+                sessions:
+                - processes:
+                  - profile
+                  - identity
+                  sessionId: 550e8400-e29b-41d4-a716-446655440000
+                  integrationName: integration-abc123
+                - processes:
+                  - address
+                  - proof-of-address
+                  sessionId: 661f9511-f30c-52e5-b827-557766551111
+                  integrationName: integration-def456
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: OAuth 2.0 authentication
+      flows:
+        clientCredentials:
+          tokenUrl: /core/oauth2/token
+          scopes:
+            kyc-connector.sumsub.ingestions:create: Grants access to create a Sumsub ingestion.
+            kyc-connector.sumsub.ingestions:read: Grants access to view Sumsub ingestions.
+            kyc-connector.veriff.ingestions:create: Grants access to create a Veriff ingestion.
+            kyc-connector.veriff.ingestions:read: Grants access to view Veriff ingestions.
+            kyc-connector.veriff.config:read: Grants access to view the Veriff provider configuration.
+            kyc-connector.veriff.config:write: Grants access to create or update the Veriff provider configuration.

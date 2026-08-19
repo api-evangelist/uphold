@@ -1,0 +1,575 @@
+openapi: 3.2.0
+info:
+  version: 0.1.0
+  title: Widget Travel rule API
+  description: The Widgets API provides resources to interact with the widgets.
+  contact:
+    name: Uphold API Team
+    email: developer@uphold.com
+    url: https://developer.uphold.com
+servers:
+- url: https://api.enterprise.sandbox.uphold.com
+  description: Sandbox
+- url: https://api.enterprise.uphold.com
+  description: Production
+security:
+- OAuth2: []
+tags:
+- name: Travel rule
+  description: Travel rule.
+paths:
+  /widgets/travel-rule/sessions:
+    post:
+      operationId: widgets.create-travel-rule-widget-session
+      summary: Create session
+      description: Create a new session for the Travel Rule Widget.
+      tags:
+      - Travel rule
+      x-uphold:
+        security:
+          OAuth2:
+            subjects:
+            - user:business
+            - user:individual
+      security:
+      - OAuth2:
+        - widgets.travel-rule.sessions:create
+      parameters:
+      - $ref: '#/components/parameters/x-on-behalf-of'
+      - $ref: '#/components/parameters/x-uphold-user-ip'
+      - $ref: '#/components/parameters/x-uphold-user-agent'
+      - $ref: '#/components/parameters/x-uphold-user-origin'
+      - $ref: '#/components/parameters/x-uphold-user-country'
+      - $ref: '#/components/parameters/x-uphold-user-subdivision'
+      - $ref: '#/components/parameters/x-uphold-user-city'
+      requestBody:
+        $ref: '#/components/requestBodies/create-travel-rule-widget-session-request-body'
+      responses:
+        '201':
+          $ref: '#/components/responses/create-travel-rule-widget-session-response'
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/create-travel-rule-widget-session-not-found-response'
+        '409':
+          $ref: '#/components/responses/create-travel-rule-widget-session-conflict-response'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+components:
+  parameters:
+    x-on-behalf-of:
+      name: X-On-Behalf-Of
+      description: The subject on whose behalf the operation is being performed.
+      in: header
+      schema:
+        type: string
+        pattern: ^(user|client)\s[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$
+      examples:
+        User Identifier:
+          value: user cd21b26d-35d2-408a-9201-b8fdbef7a604
+        Client Identifier:
+          value: client 3fa85f64-5717-4562-b3fc-2c963f66afa6
+    x-uphold-user-country:
+      name: X-Uphold-User-Country
+      description: Contains the code of the country of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/country-code-for-request'
+      examples:
+        User Country:
+          value: US
+    x-uphold-user-agent:
+      name: X-Uphold-User-Agent
+      description: Contains the user agent of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        User Agent:
+          value: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36
+    x-uphold-user-city:
+      name: X-Uphold-User-City
+      description: Contains the name of the city of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        User City:
+          value: San Francisco
+    x-uphold-user-ip:
+      name: X-Uphold-User-Ip
+      description: Contains the IP of the end user that is requesting the operation.
+      in: header
+      schema:
+        oneOf:
+        - title: IPv4
+          type: string
+          format: ipv4
+        - title: IPv6
+          type: string
+          format: ipv6
+      examples:
+        User Ip:
+          value: 47.174.97.164
+    x-uphold-user-origin:
+      name: X-Uphold-User-Origin
+      description: Contains the origin of the request made by the end user.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        Origin:
+          value: https://uphold.com
+    x-uphold-user-subdivision:
+      name: X-Uphold-User-Subdivision
+      description: Contains the code of the subdivision of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/subdivision-code-for-request'
+      examples:
+        User Subdivision:
+          value: US-CA
+  schemas:
+    create-travel-rule-widget-session-deposit-form-flow:
+      type: object
+      properties:
+        flow:
+          description: The flow of the Travel Rule widget session.
+          type: string
+          enum:
+          - deposit-form
+        data:
+          description: The data for the deposit form flow.
+          type: object
+          properties:
+            requestForInformationId:
+              description: The request for information id to create the session for.
+              type: string
+              format: uuid
+          required:
+          - requestForInformationId
+      required:
+      - flow
+      - data
+    create-travel-rule-widget-session-withdrawal-form-flow:
+      type: object
+      properties:
+        flow:
+          description: The flow of the Travel Rule widget session.
+          type: string
+          enum:
+          - withdrawal-form
+        data:
+          description: The data for the withdrawal form flow.
+          type: object
+          properties:
+            quoteId:
+              description: The quote id to create the session for.
+              type: string
+              format: uuid
+          required:
+          - quoteId
+      required:
+      - flow
+      - data
+    feedback:
+      description: A feedback message with a code and human-readable description.
+      type: object
+      properties:
+        code:
+          description: A short string with a brief explanation about the code reported.
+          type: string
+        message:
+          description: A human-readable message providing more details.
+          type: string
+        details:
+          description: Additional information about the feedback reported.
+          type: object
+          additionalProperties: true
+      required:
+      - code
+      - message
+    travel-rule-widget-session-data-notabene:
+      type: object
+      properties:
+        provider:
+          type: string
+          description: The provider of the Travel Rule service.
+          enum:
+          - notabene
+        parameters:
+          type: object
+          description: The parameters for the Travel Rule provider.
+          properties:
+            init:
+              type: object
+              description: The configuration options.
+              properties:
+                authToken:
+                  description: The authentication token.
+                  type: string
+                nodeUrl:
+                  description: The node URL.
+                  type: string
+              required:
+              - authToken
+              - nodeUrl
+            options:
+              type: object
+              description: The transaction options.
+              additionalProperties: true
+            transaction:
+              type: object
+              description: The transaction details.
+              additionalProperties: true
+          required:
+          - init
+          - options
+          - transaction
+      required:
+      - provider
+      - parameters
+    travel-rule-widget-session:
+      type: object
+      properties:
+        flow:
+          type: string
+          description: The flow of the Travel Rule widget session.
+          enum:
+          - deposit-form
+          - withdrawal-form
+        url:
+          description: The URL of the widget session that should be opened.
+          type: string
+          format: uri
+        token:
+          description: The token identifying the authenticated user.
+          type: string
+        data:
+          type: object
+          discriminator:
+            propertyName: provider
+            mapping:
+              notabene: '#/components/schemas/travel-rule-widget-session-data-notabene'
+          oneOf:
+          - title: Notabene
+            $ref: '#/components/schemas/travel-rule-widget-session-data-notabene'
+      required:
+      - flow
+      - url
+      - token
+      - data
+    string-no-edge-spaces:
+      type: string
+      pattern: ^\S.*\S$|^\S$
+    error:
+      description: The error information.
+      allOf:
+      - $ref: '#/components/schemas/feedback'
+    subdivision-code-for-request:
+      type: string
+      pattern: ^[A-Z]{2}-[A-Z0-9]{1,3}$
+    country-code-for-request:
+      type: string
+      pattern: ^[A-Z]{2}$
+  responses:
+    forbidden:
+      description: Forbidden.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Token Insufficient Scopes:
+              value:
+                code: token_insufficient_scopes
+                message: Authorization failed due to insufficient scopes
+                details:
+                  security:
+                  - scheme: OAuth
+                    schemeScopes:
+                    - required:scope_1
+                    - required:scope_2
+                    tokenScopes:
+                    - token:scope
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    create-travel-rule-widget-session-not-found-response:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Quote Not Found:
+              value:
+                code: entity_not_found
+                message: The quote cannot be found
+                details:
+                  entity: quote
+            Request For Information Not Found:
+              value:
+                code: entity_not_found
+                message: The request for information cannot be found
+                details:
+                  entity: request-for-information
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    too-many-requests:
+      description: Too Many Requests.
+      headers:
+        Retry-After:
+          description: The number of seconds to wait before making a new request.
+          schema:
+            type: integer
+            format: int32
+          examples:
+            Retry After:
+              value: 60
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Too Many Requests:
+              value:
+                code: too_many_requests
+                message: Try again later
+    create-travel-rule-widget-session-response:
+      description: Session created.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              session:
+                $ref: '#/components/schemas/travel-rule-widget-session'
+            required:
+            - session
+          examples:
+            Deposit Form Session Created:
+              value:
+                session:
+                  flow: deposit-form
+                  url: https://travel-rule.enterprise.uphold.com/
+                  token: GEbRxBN...edjnXbL
+                  data:
+                    provider: notabene
+                    parameters:
+                      init:
+                        authToken: eyJhbGc...6oX8QoM
+                        nodeUrl: https://api.notabene.id
+                      options:
+                        proofs:
+                          fallbacks:
+                          - self-declaration
+                          reuseProof: true
+                          deminimis:
+                            currency: EUR
+                            proofTypes: []
+                            threshold: 1000
+                      transaction:
+                        amountDecimal: 1.23
+                        asset: XRP-XRP
+                        customer:
+                          name: John Doe
+                          type: natural
+                        source:
+                        - rDkjqf1YFGjt39ZrRQu9gMqcNEBmcQaXyC
+            Withdrawal Form Session Created:
+              value:
+                session:
+                  flow: withdrawal-form
+                  url: https://travel-rule.enterprise.uphold.com/
+                  token: GEbRxBN...edjnXbL
+                  data:
+                    provider: notabene
+                    parameters:
+                      init:
+                        authToken: eyJhbGc...6oX8QoM
+                        nodeUrl: https://api.notabene.id
+                      options:
+                        allowedAgentTypes:
+                        - WALLET
+                        - VASP
+                        allowedCounterpartyTypes:
+                        - natural
+                        - legal
+                        - self
+                        counterpartyAssist: false
+                        proofs:
+                          deminimis:
+                            currency: USD
+                            proofTypes: []
+                            threshold: 1000
+                          fallbacks:
+                          - self-declaration
+                          reuseProof: true
+                        vasps:
+                          addUnknown: true
+                      transaction:
+                        amountDecimal: 1.23
+                        asset: XRP-XRP
+                        destination: rBUN3thXZqVk7czm8huFaahNkL4LMByATd
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    bad-request:
+      description: Bad Request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Invalid Request:
+              value:
+                code: request_invalid
+                message: The request has missing or invalid parameters
+                details:
+                  context: <context>
+                  violations:
+                  - property: <property>
+                    rule: required
+                  - property: <property>
+                    rule: type
+                    ruleParams:
+                      type: string
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    create-travel-rule-widget-session-conflict-response:
+      description: Business logic error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Quote Missing Travel Rule Requirement:
+              value:
+                code: operation_not_allowed
+                message: The quote does not require travel rule
+                details:
+                  reasons:
+                  - quote-missing-travel-rule-requirement
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    unauthorized:
+      description: Unauthorized.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Token Expired:
+              value:
+                code: token_expired
+                message: The access token has expired
+            Token Invalid:
+              value:
+                code: token_invalid
+                message: The access token is invalid
+            Token Revoked:
+              value:
+                code: token_revoked
+                message: The access token has been revoked
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+  requestBodies:
+    create-travel-rule-widget-session-request-body:
+      content:
+        application/json:
+          schema:
+            type: object
+            discriminator:
+              propertyName: flow
+              mapping:
+                deposit-form: '#/components/schemas/create-travel-rule-widget-session-deposit-form-flow'
+                withdrawal-form: '#/components/schemas/create-travel-rule-widget-session-withdrawal-form-flow'
+            oneOf:
+            - title: Deposit form
+              $ref: '#/components/schemas/create-travel-rule-widget-session-deposit-form-flow'
+            - title: Withdrawal form
+              $ref: '#/components/schemas/create-travel-rule-widget-session-withdrawal-form-flow'
+            required:
+            - flow
+          examples:
+            Create Deposit Form Session:
+              value:
+                flow: deposit-form
+                data:
+                  requestForInformationId: a5280aa4-4bff-4f5c-a0a5-0431771b5705
+            Create Withdrawal Form Session:
+              value:
+                flow: withdrawal-form
+                data:
+                  quoteId: 623000c8-9bdf-4a2b-aa3d-6a6b44a7f6a0
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: OAuth 2.0
+      flows:
+        clientCredentials:
+          tokenUrl: /core/oauth2/token
+          scopes:
+            widgets.payment.sessions:create: Grants access to create payment widget sessions.
+            widgets.travel-rule.sessions:create: Grants access to create Travel Rule widget sessions.
+            widgets.kyc.sessions:create: Grants access to create KYC widget sessions.
