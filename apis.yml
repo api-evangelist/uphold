@@ -15,7 +15,7 @@ image: https://cdn.prod.website-files.com/65116a8935747aeda81c6865/65a8ffa13ea10
 url: https://raw.githubusercontent.com/api-evangelist/uphold/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:secondary-market
-specificationVersion: '0.21'
+specificationVersion: '0.23'
 created: '2026-08-05'
 modified: '2026-08-05'
 tags:
