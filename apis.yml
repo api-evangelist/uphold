@@ -20,6 +20,21 @@ created: '2026-08-05'
 modified: '2026-08-05'
 tags:
 - Company
+- Cryptocurrency
+- Digital Assets
+- Payments
+- Banking
+- Fintech
+- KYC
+- Compliance
+- Crypto Exchange
+- Market Data
+- Embedded Finance
+- Travel Rule
+- Webhook
+- agent-native
+tags_raw:
+- Company
 - cryptocurrency
 - digital-assets
 - payments
@@ -42,6 +57,10 @@ apis:
   humanURL: https://uphold.com/developer/api/documentation/
   baseURL: https://api.uphold.com/v0
   tags:
+  - Market Data
+  - Cryptocurrency
+  - Digital Assets
+  tags_raw:
   - market-data
   - cryptocurrency
   - digital-assets
@@ -60,6 +79,9 @@ apis:
   baseURL: https://developer.uphold.com/mcp
   tags:
   - agent-native
+  - MCP
+  tags_raw:
+  - agent-native
   - mcp
   properties:
   - type: MCPServer
@@ -76,6 +98,8 @@ apis:
   humanURL: https://developer.uphold.com/rest-apis/core-api/concepts
   baseURL: https://api.enterprise.uphold.com
   tags:
+  - Account
+  tags_raw:
   - Accounts
   properties:
   - type: OpenAPI
@@ -276,6 +300,8 @@ apis:
   humanURL: https://developer.uphold.com/rest-apis/core-api/concepts
   baseURL: https://api.enterprise.uphold.com
   tags:
+  - External Accounts
+  tags_raw:
   - External accounts
   properties:
   - type: OpenAPI
@@ -316,6 +342,8 @@ apis:
   humanURL: https://developer.uphold.com/rest-apis/core-api/concepts
   baseURL: https://api.enterprise.uphold.com
   tags:
+  - File
+  tags_raw:
   - Files
   properties:
   - type: OpenAPI
@@ -355,7 +383,8 @@ apis:
   description: General.
   humanURL: https://developer.uphold.com/rest-apis/core-api/concepts
   baseURL: https://api.enterprise.uphold.com
-  tags:
+  tags: []
+  tags_raw:
   - General
   properties:
   - type: OpenAPI
@@ -756,6 +785,8 @@ apis:
   humanURL: https://developer.uphold.com/rest-apis/core-api/concepts
   baseURL: https://api.enterprise.uphold.com
   tags:
+  - Terms of Service
+  tags_raw:
   - Terms of service
   properties:
   - type: OpenAPI
@@ -796,6 +827,8 @@ apis:
   humanURL: https://developer.uphold.com/rest-apis/core-api/concepts
   baseURL: https://api.enterprise.uphold.com
   tags:
+  - Transaction
+  tags_raw:
   - Transactions
   properties:
   - type: OpenAPI
@@ -836,6 +869,8 @@ apis:
   humanURL: https://developer.uphold.com/rest-apis/core-api/concepts
   baseURL: https://api.enterprise.uphold.com
   tags:
+  - Travel Rule
+  tags_raw:
   - Travel rule
   properties:
   - type: OpenAPI
@@ -876,6 +911,8 @@ apis:
   humanURL: https://developer.uphold.com/rest-apis/core-api/concepts
   baseURL: https://api.enterprise.uphold.com
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
@@ -956,6 +993,8 @@ apis:
   humanURL: https://developer.uphold.com/rest-apis/core-api/concepts
   baseURL: https://api.enterprise.uphold.com
   tags:
+  - Webhook
+  tags_raw:
   - Webhooks
   properties:
   - type: OpenAPI
