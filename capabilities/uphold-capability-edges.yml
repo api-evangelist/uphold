@@ -1,0 +1,88 @@
+slug: uphold
+provider: Uphold
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Banking & Capital Markets
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 7
+edges:
+- tag: KYC
+  spec_file: uphold-kyc-api-openapi.yml
+  capability_id: BC-1300.20
+  capability_id_l1: BC-1300
+  capability_name: KYC & Customer Due Diligence Management
+  confidence: 0.95
+  evidence: PATCH /core/kyc/processes/customer-due-diligence  'Update customer due diligence'; PATCH /core/kyc/processes/enhanced-due-diligence;
+    schema 'kyc-screening'
+  reason: Operations drive KYC process steps — identity, proof-of-address, CDD, EDD, risk assessment and
+    screening — which is exactly KYC & Customer Due Diligence Management for a regulated financial institution.
+- tag: Sumsub
+  spec_file: uphold-sumsub-api-openapi.yml
+  capability_id: BC-1300.20
+  capability_id_l1: BC-1300
+  capability_name: KYC & Customer Due Diligence Management
+  confidence: 0.85
+  evidence: '''The KYC Connectors API offers a set of endpoints to enable ingestion of KYC data via third-party
+    connectors.''; schemas ''ingestion-result-identity-data'', ''ingestion-result-proof-of-address-data'''
+  reason: Ingests identity, profile and proof-of-address verification results from the Sumsub KYC vendor
+    into the platform — third-party-sourced customer due diligence data, not generic file transfer.
+- tag: Veriff
+  spec_file: uphold-veriff-api-openapi.yml
+  capability_id: BC-1300.20
+  capability_id_l1: BC-1300
+  capability_name: KYC & Customer Due Diligence Management
+  confidence: 0.85
+  evidence: POST /kyc-connector/veriff/ingestions 'Create Veriff ingestion'; schemas 'ingestion-result-identity-data',
+    'ingestion-result-proof-of-address-data', 'veriff-session'
+  reason: Configures and ingests identity-verification results from the Veriff KYC provider, feeding customer
+    due diligence data for the platform's customers.
+- tag: KYC sharing
+  spec_file: uphold-kyc-sharing-api-openapi.yml
+  capability_id: BC-1300.20
+  capability_id_l1: BC-1300
+  capability_name: KYC & Customer Due Diligence Management
+  confidence: 0.78
+  evidence: '''The Topper API offers a set of endpoints to enable sharing of Know Your Customer (KYC)
+    information.''; POST /topper/kyc-sharing/identify-user'
+  reason: Sharing verified KYC/identity data about a user between the platform and a partner supports
+    customer due diligence and identity verification; sub-capability KYC/CDD fits, though the surface
+    is thin (identify user, create session).
+- tag: Webhooks
+  spec_file: uphold-webhooks-api-openapi.yml
+  capability_id: BC-4270.80
+  capability_id_l1: BC-4270
+  capability_name: Webhook & Event Subscription Management
+  confidence: 0.75
+  evidence: POST /core/webhooks/management-link  core.create-webhook-management-link  Request webhook
+    management link
+  reason: Technical webhook subscription plumbing for partner developers; maps to webhook & event subscription
+    management rather than any banking business capability.
+- tag: Transactions
+  spec_file: uphold-transactions-api-openapi.yml
+  capability_id: BC-1340.10
+  capability_id_l1: BC-1340
+  capability_name: Payment Initiation Management
+  confidence: 0.72
+  evidence: POST /core/transactions 'Create transaction'; POST /core/transactions/quote 'Create quote';
+    schemas 'transaction-origin-node', 'transaction-destination-node', 'transaction-node-crypto-address-execution-onchain'
+  reason: Capture, quoting, authorisation-requirement handling and tracking of value transfers between
+    accounts, external accounts and crypto addresses — payment instruction initiation and execution for
+    a money-movement platform.
+- tag: Users
+  spec_file: uphold-users-api-openapi.yml
+  capability_id: BC-1300
+  capability_id_l1: BC-1300
+  capability_name: Banking Customer Management
+  confidence: 0.72
+  evidence: POST /core/users 'Create user'; schemas 'create-user-type-individual', 'create-user-type-business',
+    'terms-of-service-code-general', 'delete-user-review'
+  reason: Creation, retrieval and deletion of individual and business customer records (with address and
+    terms acceptance) on a regulated financial platform — banking customer management; ambiguous between
+    onboarding and customer information so only L1 asserted.
