@@ -11,6 +11,19 @@ description: >-
   legacy market-data and wallet API at api.uphold.com/v0, publishes embeddable Payment, KYC and Travel
   Rule widgets, a Svix-backed webhook event surface, a full Sandbox with test helpers, a public Postman
   workspace, an llms.txt, an A2A agent card and a documentation MCP server.
+deliveryModel:
+  model: unknown
+  open_source: unknown
+  commercial: true
+  callable_host: true
+  label: Delivery model not determined — needs a product licence on record
+  confidence: low
+  source:
+  - openapi
+  - pricing
+  - repository-unlicensed
+  generated: '2026-08-28'
+  method: derived
 image: https://cdn.prod.website-files.com/65116a8935747aeda81c6865/65a8ffa13ea101b31a905d2f_UPHOLD%20LOGO-2.png
 url: https://raw.githubusercontent.com/api-evangelist/uphold/refs/heads/main/apis.yml
 x-type: company
@@ -1035,6 +1048,10 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: IssueTracker
+  url: https://github.com/uphold/docs/issues
+- type: Releases
+  url: https://github.com/uphold/docs/releases
 - type: Overlay
   url: overlays/uphold-core-api-overlay.yaml
 - type: Website
