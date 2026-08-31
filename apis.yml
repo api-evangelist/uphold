@@ -33,17 +33,17 @@ created: '2026-08-05'
 modified: '2026-08-05'
 tags:
 - Company
-- Cryptocurrency
-- Digital Assets
+- cryptocurrency
+- digital-assets
 - Payments
-- Banking
+- banking
 - Fintech
-- KYC
+- kyc
 - Compliance
-- Crypto Exchange
+- crypto-exchange
 - Market Data
-- Embedded Finance
-- Travel Rule
+- embedded-finance
+- travel-rule
 - Webhook
 - agent-native
 tags_raw:
@@ -71,8 +71,8 @@ apis:
   baseURL: https://api.uphold.com/v0
   tags:
   - Market Data
-  - Cryptocurrency
-  - Digital Assets
+  - cryptocurrency
+  - digital-assets
   tags_raw:
   - market-data
   - cryptocurrency
@@ -313,7 +313,7 @@ apis:
   humanURL: https://developer.uphold.com/rest-apis/core-api/concepts
   baseURL: https://api.enterprise.uphold.com
   tags:
-  - External Accounts
+  - External accounts
   tags_raw:
   - External accounts
   properties:
@@ -798,7 +798,7 @@ apis:
   humanURL: https://developer.uphold.com/rest-apis/core-api/concepts
   baseURL: https://api.enterprise.uphold.com
   tags:
-  - Terms of Service
+  - Terms of service
   tags_raw:
   - Terms of service
   properties:
@@ -882,7 +882,7 @@ apis:
   humanURL: https://developer.uphold.com/rest-apis/core-api/concepts
   baseURL: https://api.enterprise.uphold.com
   tags:
-  - Travel Rule
+  - Travel rule
   tags_raw:
   - Travel rule
   properties:
