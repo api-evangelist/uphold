@@ -24,6 +24,21 @@ deliveryModel:
   - repository-unlicensed
   generated: '2026-08-28'
   method: derived
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  - scopes
+  - security
+  - sandbox
+  generated: '2026-09-02'
+  method: derived
 image: https://cdn.prod.website-files.com/65116a8935747aeda81c6865/65a8ffa13ea101b31a905d2f_UPHOLD%20LOGO-2.png
 url: https://raw.githubusercontent.com/api-evangelist/uphold/refs/heads/main/apis.yml
 x-type: company

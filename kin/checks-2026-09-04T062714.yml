@@ -1,17 +1,17 @@
 ---
 kin_checks:
   slug: uphold
-  schema_version: 0.17.2
-  scored_at: '2026-09-01'
-  run_ts: 2026-09-01T063623
+  schema_version: 0.18.2
+  scored_at: '2026-09-04'
+  run_ts: 2026-09-04T062714
   note: Actionable checks only (missed + partial). earned/na are every other check
-    in rubric/scoring-0.17.2.yml; counts below let you verify that.
+    in rubric/scoring-0.18.2.yml; counts below let you verify that.
   counts:
-    total: 130
-    earned: 56
+    total: 132
+    earned: 55
     partial: 13
-    missed: 43
-    na: 18
+    missed: 41
+    na: 23
   checks:
   - id: maintainer_present
     status: missed
@@ -26,6 +26,8 @@ kin_checks:
     status: missed
     detail: 0 of 23 openapi documents pass
   - id: examples_present
+    status: missed
+  - id: inbound_contract_published
     status: missed
   - id: json_schema_present
     status: missed
@@ -73,12 +75,6 @@ kin_checks:
   - id: reg_named_standard_conformance
     status: missed
   - id: reg_entitlement_terms
-    status: missed
-  - id: os_security_policy
-    status: missed
-  - id: os_contribution_guide
-    status: missed
-  - id: os_code_of_conduct
     status: missed
   - id: agentic_access
     status: missed
