@@ -653,6 +653,8 @@ apis:
   humanURL: https://developer.uphold.com/rest-apis/core-api/concepts
   baseURL: https://api.enterprise.uphold.com
   tags:
+  - Payments
+  tags_raw:
   - Payment
   properties:
   - type: OpenAPI
