@@ -1,0 +1,97 @@
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-09-20'
+method: searched
+source: https://uphold.com/en-us/get-started/service-fees
+sources:
+- https://uphold.com/en-us/get-started/service-fees
+provenance:
+  tool: planning/api-economics/harvest_pricing.py
+  run: 20260920T120546
+  grounding: every price_text was found verbatim in the fetched page text
+audience: consumer
+pricing_basis: ad-valorem
+published: true
+note: Consumer-facing Uphold service fee schedule covering trading spreads, staking commissions, fiat
+  deposit/withdrawal fees and per-network crypto withdrawal fees; no API/developer pricing is given.
+plan_count: 15
+currency: USD
+plans:
+- name: Most Stablecoins trading
+  price_text: < 0.25%
+  price: 0.25
+  period: per-use
+  unit: trade value
+- name: Major Market FX trading
+  price_text: 0.3%
+  price: 0.3
+  period: per-use
+  unit: trade value
+- name: BTC, ETH trading
+  price_text: 2.05% – 2.2%
+  period: per-use
+  unit: trade value
+- name: Altcoins trading
+  price_text: 2.85% – 3.8%
+  period: per-use
+  unit: trade value
+- name: Precious Metals trading
+  price_text: 2.35% – 3.40%
+  period: per-use
+  unit: trade value
+- name: Boosted Staking commission
+  price_text: 20% - 25%
+  period: per-use
+  unit: staking rewards
+- name: Flexible Staking commission
+  price_text: 50%
+  price: 50
+  period: per-use
+  unit: staking rewards
+- name: Debit/credit card | Apple/Google/Samsung Pay deposit
+  price_text: 3.99%
+  price: 3.99
+  period: per-use
+  unit: deposit
+- name: PayPal deposit
+  price_text: 2.5% - When depositing to US dollars
+  price: 2.5
+  period: per-use
+  unit: deposit
+- name: Venmo deposit
+  price_text: 2.99%
+  price: 2.99
+  period: per-use
+  unit: deposit
+- name: Instant ACH/debit card withdrawal
+  price_text: 1.75% (Min $1)
+  currency: USD
+  period: per-use
+  unit: withdrawal
+- name: Standard ACH withdrawal
+  price_text: Free
+  period: per-use
+  unit: withdrawal
+- name: Wire deposit/withdrawal under $2,000
+  price_text: <$2,000 - $10
+  currency: USD
+  period: per-use
+  unit: wire
+- name: Crypto withdrawal fee
+  price_text: A flat fee of $0.99 applies to all crypto networks withdrawals with the exception of BTC,
+    XRP and HBAR networks
+  price: 0.99
+  currency: USD
+  period: per-use
+  unit: withdrawal
+- name: Smaller Trades Fee
+  price_text: A $0.99 Uphold Fee will be applied if the value of your trade is below $500
+  currency: USD
+  period: per-use
+  unit: trade
+rate_limit_statements:
+- 'Daily: $10 / $15,000 Weekly: $10 / $15,000 Monthly: $10 / $50,000'
+- 'Daily: $10 / $800 Weekly: $10 / $2,000 Monthly: $10 / $8,000'
+- 'Daily: $10 / $25,000 Weekly: $10 / $175,000 Monthly: $10 / $700,000'
+- Any deposit below the value of USD 0.0095 (calculated at the moment the transaction occurs) will not
+  be processed or credited to your account.
+- We hold each price open for 18 seconds.
