@@ -227,86 +227,110 @@ webhooks:
         '200':
           description: Return a 200 status to indicate that the data was received successfully.
 components:
+  parameters:
+    webhook-signature:
+      name: webhook-signature
+      description: The signature of the webhook.
+      in: header
+      required: true
+      schema:
+        type: string
+      examples:
+        Webhook Signature:
+          value: v1,Hw8/adTzfYtjPGhuBahfmGhUROG3AvEKH3mvkeK791Q=
+    x-uphold-user-origin:
+      name: X-Uphold-User-Origin
+      description: Contains the origin of the request made by the end user.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        Origin:
+          value: https://uphold.com
+    x-uphold-user-subdivision:
+      name: X-Uphold-User-Subdivision
+      description: Contains the code of the subdivision of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/subdivision-code-for-request'
+      examples:
+        User Subdivision:
+          value: US-CA
+    webhook-id:
+      name: webhook-id
+      description: The unique identifier of the webhook.
+      in: header
+      required: true
+      schema:
+        type: string
+      examples:
+        Webhook ID:
+          value: msg_p5jXN8AQM9LWM0D4loKWxJek
+    x-on-behalf-of:
+      name: X-On-Behalf-Of
+      description: The subject on whose behalf the operation is being performed.
+      in: header
+      schema:
+        type: string
+        pattern: ^(user|client)\s[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$
+      examples:
+        User Identifier:
+          value: user cd21b26d-35d2-408a-9201-b8fdbef7a604
+        Client Identifier:
+          value: client 3fa85f64-5717-4562-b3fc-2c963f66afa6
+    x-uphold-user-agent:
+      name: X-Uphold-User-Agent
+      description: Contains the user agent of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        User Agent:
+          value: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36
+    webhook-timestamp:
+      name: webhook-timestamp
+      description: The timestamp of the webhook, in seconds after the Unix epoch.
+      in: header
+      required: true
+      schema:
+        type: integer
+      examples:
+        Webhook Timestamp:
+          value: 1614265330
+    x-uphold-user-country:
+      name: X-Uphold-User-Country
+      description: Contains the code of the country of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/country-code-for-request'
+      examples:
+        User Country:
+          value: US
+    x-uphold-user-ip:
+      name: X-Uphold-User-Ip
+      description: Contains the IP of the end user that is requesting the operation.
+      in: header
+      schema:
+        oneOf:
+        - title: IPv4
+          type: string
+          format: ipv4
+        - title: IPv6
+          type: string
+          format: ipv6
+      examples:
+        User Ip:
+          value: 47.174.97.164
+    x-uphold-user-city:
+      name: X-Uphold-User-City
+      description: Contains the name of the city of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        User City:
+          value: San Francisco
   schemas:
-    webhook-event:
-      description: The webhook event information.
-      type: object
-      properties:
-        id:
-          description: The id of the event.
-          type: string
-          format: uuid
-        type:
-          description: The type of event.
-          type: string
-        createdAt:
-          description: The date and time when the event was created.
-          type: string
-          format: date-time
-        data:
-          description: The event payload.
-          type: object
-      required:
-      - id
-      - type
-      - createdAt
-      - data
-    user-type-business:
-      type: object
-      properties:
-        id:
-          description: The id of the user.
-          type: string
-          format: uuid
-        type:
-          description: The type of the user.
-          type: string
-          enum:
-          - business
-        name:
-          description: The legal name of the business.
-          type: string
-        email:
-          description: The email address.
-          type: string
-          format: email
-        address:
-          allOf:
-          - $ref: '#/components/schemas/address'
-          - type: object
-            required:
-            - country
-        partnerOnboardedAt:
-          description: The date and time when the user was onboarded by the partner.
-          type: string
-          format: date-time
-          deprecated: true
-        createdAt:
-          description: The time at which the user was created.
-          type: string
-          format: date-time
-        updatedAt:
-          description: The time at which the user was last updated.
-          type: string
-          format: date-time
-      required:
-      - id
-      - type
-      - email
-      - createdAt
-      - updatedAt
-    user:
-      type: object
-      discriminator:
-        propertyName: type
-        mapping:
-          individual: '#/components/schemas/user-type-individual'
-          business: '#/components/schemas/user-type-business'
-      oneOf:
-      - title: Individual
-        $ref: '#/components/schemas/user-type-individual'
-      - title: Business
-        $ref: '#/components/schemas/user-type-business'
     feedback:
       description: A feedback message with a code and human-readable description.
       type: object
@@ -324,6 +348,46 @@ components:
       required:
       - code
       - message
+    metadata:
+      type: object
+      additionalProperties: true
+      minProperties: 1
+    address-for-request:
+      description: The address information.
+      type: object
+      properties:
+        country:
+          allOf:
+          - $ref: '#/components/schemas/country-code-for-request'
+          - description: The country of the address.
+        subdivision:
+          allOf:
+          - $ref: '#/components/schemas/subdivision-code-for-request'
+          - description: The subdivision of the address.
+        city:
+          allOf:
+          - $ref: '#/components/schemas/string-no-edge-spaces'
+          - description: The city of the address.
+            type: string
+            maxLength: 100
+        line1:
+          allOf:
+          - $ref: '#/components/schemas/string-no-edge-spaces'
+          - description: The first line of the address.
+            type: string
+            maxLength: 150
+        line2:
+          allOf:
+          - $ref: '#/components/schemas/string-no-edge-spaces'
+          - description: The second line of the address.
+            type: string
+            maxLength: 100
+        postalCode:
+          allOf:
+          - $ref: '#/components/schemas/string-no-edge-spaces'
+          - description: The postal code of the address.
+            type: string
+            maxLength: 20
     user-type-individual:
       type: object
       properties:
@@ -394,30 +458,21 @@ components:
       - primaryCitizenship
       - createdAt
       - updatedAt
-    delete-user-review:
+    country-code-for-request:
+      type: string
+      pattern: ^[A-Z]{2}$
+    user:
       type: object
-      properties:
-        review:
-          type: object
-          properties:
-            reason:
-              description: The reason code for deleting the user.
-              type: string
-              enum:
-              - business-decision
-              - closure-per-user-request
-              - compliance-violation
-              - fraud-violation
-              - other
-            note:
-              allOf:
-              - $ref: '#/components/schemas/string-no-edge-spaces'
-              - description: Additional notes about the deletion of the user.
-                type: string
-          required:
-          - reason
-      required:
-      - review
+      discriminator:
+        propertyName: type
+        mapping:
+          individual: '#/components/schemas/user-type-individual'
+          business: '#/components/schemas/user-type-business'
+      oneOf:
+      - title: Individual
+        $ref: '#/components/schemas/user-type-individual'
+      - title: Business
+        $ref: '#/components/schemas/user-type-business'
     address:
       description: The address information.
       type: object
@@ -440,132 +495,9 @@ components:
         postalCode:
           description: The postal code of the address.
           type: string
-    terms-of-service-code-general:
-      type: string
-      enum:
-      - general-us-hq
-      - general-gb-fca
-      - general-pt-bop
-      - general-lt-fcs
-      - general-bs-scb
-    user-webhook-event:
-      allOf:
-      - $ref: '#/components/schemas/webhook-event'
-      - type: object
-        properties:
-          data:
-            type: object
-            properties:
-              user:
-                $ref: '#/components/schemas/user'
-            required:
-            - user
     string-no-edge-spaces:
       type: string
       pattern: ^\S.*\S$|^\S$
-    error:
-      description: The error information.
-      allOf:
-      - $ref: '#/components/schemas/feedback'
-    metadata:
-      type: object
-      additionalProperties: true
-      minProperties: 1
-    address-for-request:
-      description: The address information.
-      type: object
-      properties:
-        country:
-          allOf:
-          - $ref: '#/components/schemas/country-code-for-request'
-          - description: The country of the address.
-        subdivision:
-          allOf:
-          - $ref: '#/components/schemas/subdivision-code-for-request'
-          - description: The subdivision of the address.
-        city:
-          allOf:
-          - $ref: '#/components/schemas/string-no-edge-spaces'
-          - description: The city of the address.
-            type: string
-            maxLength: 100
-        line1:
-          allOf:
-          - $ref: '#/components/schemas/string-no-edge-spaces'
-          - description: The first line of the address.
-            type: string
-            maxLength: 150
-        line2:
-          allOf:
-          - $ref: '#/components/schemas/string-no-edge-spaces'
-          - description: The second line of the address.
-            type: string
-            maxLength: 100
-        postalCode:
-          allOf:
-          - $ref: '#/components/schemas/string-no-edge-spaces'
-          - description: The postal code of the address.
-            type: string
-            maxLength: 20
-    subdivision-code-for-request:
-      type: string
-      pattern: ^[A-Z]{2}-[A-Z0-9]{1,3}$
-    country-code-for-request:
-      type: string
-      pattern: ^[A-Z]{2}$
-    string-at-least-two-words-no-edge-spaces:
-      type: string
-      pattern: ^\S+\s+\S+(\s+\S+)*$
-    create-user-type-business:
-      title: Business
-      type: object
-      properties:
-        type:
-          description: The type of the user.
-          type: string
-          enum:
-          - business
-        email:
-          description: The email address.
-          type: string
-          format: email
-          maxLength: 255
-        country:
-          allOf:
-          - $ref: '#/components/schemas/country-code-for-request'
-          - description: The country of residency.
-        subdivision:
-          allOf:
-          - $ref: '#/components/schemas/subdivision-code-for-request'
-          - description: The subdivision of residency.
-        legalEntityType:
-          type: string
-          description: Business legal form/classification
-          enum:
-          - government-entity
-          - non-profit
-          - partnership
-          - private-limited-company
-          - public-company
-          - sole-proprietor
-        termsOfService:
-          allOf:
-          - $ref: '#/components/schemas/terms-of-service-code-general'
-          - description: The general terms of service the user agreed to.
-        partnerOnboardedAt:
-          description: The date and time when the user was onboarded by the partner.
-          type: string
-          format: date-time
-          deprecated: true
-        metadata:
-          description: Additional data for the user.
-          $ref: '#/components/schemas/metadata'
-      required:
-      - type
-      - email
-      - country
-      - legalEntityType
-      - termsOfService
     create-user-type-individual:
       type: object
       properties:
@@ -689,7 +621,372 @@ components:
         - termsOfService
         - citizenshipCountry
         - country
+    terms-of-service-code-general:
+      type: string
+      enum:
+      - general-us-hq
+      - general-gb-fca
+      - general-pt-bop
+      - general-lt-fcs
+      - general-bs-scb
+    error:
+      description: The error information.
+      allOf:
+      - $ref: '#/components/schemas/feedback'
+    create-user-type-business:
+      title: Business
+      type: object
+      properties:
+        type:
+          description: The type of the user.
+          type: string
+          enum:
+          - business
+        email:
+          description: The email address.
+          type: string
+          format: email
+          maxLength: 255
+        country:
+          allOf:
+          - $ref: '#/components/schemas/country-code-for-request'
+          - description: The country of residency.
+        subdivision:
+          allOf:
+          - $ref: '#/components/schemas/subdivision-code-for-request'
+          - description: The subdivision of residency.
+        legalEntityType:
+          type: string
+          description: Business legal form/classification
+          enum:
+          - government-entity
+          - non-profit
+          - partnership
+          - private-limited-company
+          - public-company
+          - sole-proprietor
+        termsOfService:
+          allOf:
+          - $ref: '#/components/schemas/terms-of-service-code-general'
+          - description: The general terms of service the user agreed to.
+        partnerOnboardedAt:
+          description: The date and time when the user was onboarded by the partner.
+          type: string
+          format: date-time
+          deprecated: true
+        metadata:
+          description: Additional data for the user.
+          $ref: '#/components/schemas/metadata'
+      required:
+      - type
+      - email
+      - country
+      - legalEntityType
+      - termsOfService
+    subdivision-code-for-request:
+      type: string
+      pattern: ^[A-Z]{2}-[A-Z0-9]{1,3}$
+    string-at-least-two-words-no-edge-spaces:
+      type: string
+      pattern: ^\S+\s+\S+(\s+\S+)*$
+    user-webhook-event:
+      allOf:
+      - $ref: '#/components/schemas/webhook-event'
+      - type: object
+        properties:
+          data:
+            type: object
+            properties:
+              user:
+                $ref: '#/components/schemas/user'
+            required:
+            - user
+    user-type-business:
+      type: object
+      properties:
+        id:
+          description: The id of the user.
+          type: string
+          format: uuid
+        type:
+          description: The type of the user.
+          type: string
+          enum:
+          - business
+        name:
+          description: The legal name of the business.
+          type: string
+        email:
+          description: The email address.
+          type: string
+          format: email
+        address:
+          allOf:
+          - $ref: '#/components/schemas/address'
+          - type: object
+            required:
+            - country
+        partnerOnboardedAt:
+          description: The date and time when the user was onboarded by the partner.
+          type: string
+          format: date-time
+          deprecated: true
+        createdAt:
+          description: The time at which the user was created.
+          type: string
+          format: date-time
+        updatedAt:
+          description: The time at which the user was last updated.
+          type: string
+          format: date-time
+      required:
+      - id
+      - type
+      - email
+      - createdAt
+      - updatedAt
+    delete-user-review:
+      type: object
+      properties:
+        review:
+          type: object
+          properties:
+            reason:
+              description: The reason code for deleting the user.
+              type: string
+              enum:
+              - business-decision
+              - closure-per-user-request
+              - compliance-violation
+              - fraud-violation
+              - other
+            note:
+              allOf:
+              - $ref: '#/components/schemas/string-no-edge-spaces'
+              - description: Additional notes about the deletion of the user.
+                type: string
+          required:
+          - reason
+      required:
+      - review
+    webhook-event:
+      description: The webhook event information.
+      type: object
+      properties:
+        id:
+          description: The id of the event.
+          type: string
+          format: uuid
+        type:
+          description: The type of event.
+          type: string
+        createdAt:
+          description: The date and time when the event was created.
+          type: string
+          format: date-time
+        data:
+          description: The event payload.
+          type: object
+      required:
+      - id
+      - type
+      - createdAt
+      - data
   responses:
+    delete-user-response:
+      description: User deleted.
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    create-user-response:
+      description: User created.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              user:
+                $ref: '#/components/schemas/user'
+              errors:
+                description: Additional contextual errors that occurred while processing the request.
+                type: object
+                properties:
+                  metadata:
+                    allOf:
+                    - $ref: '#/components/schemas/error'
+                    - description: Error related to metadata processing.
+            required:
+            - user
+          examples:
+            Complete Individual User Created:
+              value:
+                user:
+                  id: cd21b26d-35d2-408a-9201-b8fdbef7a604
+                  type: individual
+                  email: john.doe@uphold.com
+                  fullName: John Doe
+                  birthdate: '1987-01-01'
+                  primaryCitizenship: GB
+                  address:
+                    country: GB
+                    subdivision: GB-MAN
+                    city: Manchester
+                    line1: 1 High Street
+                    line2: Northern Quarter
+                    postalCode: M4 1AA
+                  phone:
+                    number: '+447400123456'
+                    country: GB
+                  createdAt: '2024-03-13T20:20:39.000Z'
+                  updatedAt: '2024-03-13T20:20:39.000Z'
+            Individual User Created:
+              value:
+                user:
+                  id: cd21b26d-35d2-408a-9201-b8fdbef7a604
+                  type: individual
+                  email: john.doe@uphold.com
+                  primaryCitizenship: GB
+                  address:
+                    country: GB
+                    subdivision: GB-MAN
+                  createdAt: '2024-03-13T20:20:39.000Z'
+                  updatedAt: '2024-03-13T20:20:39.000Z'
+            Business User Created:
+              value:
+                user:
+                  id: 4237b7f2-4658-4183-ab56-b2fc4ecd7b7f
+                  type: business
+                  email: acme-corp@uphold.com
+                  address:
+                    country: GB
+                    subdivision: GB-MAN
+                  createdAt: '2024-03-13T20:20:39.000Z'
+                  updatedAt: '2024-03-13T20:20:39.000Z'
+            Individual User Created With Metadata Error:
+              value:
+                user:
+                  id: cd21b26d-35d2-408a-9201-b8fdbef7a604
+                  type: individual
+                  email: john.doe@uphold.com
+                  primaryCitizenship: GB
+                  address:
+                    country: GB
+                    subdivision: GB-MAN
+                  createdAt: '2024-03-13T20:20:39.000Z'
+                  updatedAt: '2024-03-13T20:20:39.000Z'
+                errors:
+                  metadata:
+                    code: content_too_large
+                    message: The entity metadata size is greater than maximum size limit
+                    details:
+                      threshold:
+                        unit: characters
+                        limit: 1024
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    forbidden:
+      description: Forbidden.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Token Insufficient Scopes:
+              value:
+                code: token_insufficient_scopes
+                message: Authorization failed due to insufficient scopes
+                details:
+                  security:
+                  - scheme: OAuth
+                    schemeScopes:
+                    - required:scope_1
+                    - required:scope_2
+                    tokenScopes:
+                    - token:scope
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    bad-request:
+      description: Bad Request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Invalid Request:
+              value:
+                code: request_invalid
+                message: The request has missing or invalid parameters
+                details:
+                  context: <context>
+                  violations:
+                  - property: <property>
+                    rule: required
+                  - property: <property>
+                    rule: type
+                    ruleParams:
+                      type: string
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    too-many-requests:
+      description: Too Many Requests.
+      headers:
+        Retry-After:
+          description: The number of seconds to wait before making a new request.
+          schema:
+            type: integer
+            format: int32
+          examples:
+            Retry After:
+              value: 60
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Too Many Requests:
+              value:
+                code: too_many_requests
+                message: Try again later
     get-user-response:
       description: User retrieved.
       content:
@@ -745,25 +1042,25 @@ components:
           examples:
             Request ID:
               value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-    forbidden:
-      description: Forbidden.
+    unauthorized:
+      description: Unauthorized.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
           examples:
-            Token Insufficient Scopes:
+            Token Expired:
               value:
-                code: token_insufficient_scopes
-                message: Authorization failed due to insufficient scopes
-                details:
-                  security:
-                  - scheme: OAuth
-                    schemeScopes:
-                    - required:scope_1
-                    - required:scope_2
-                    tokenScopes:
-                    - token:scope
+                code: token_expired
+                message: The access token has expired
+            Token Invalid:
+              value:
+                code: token_invalid
+                message: The access token is invalid
+            Token Revoked:
+              value:
+                code: token_revoked
+                message: The access token has been revoked
       headers:
         x-uphold-request-id:
           description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
@@ -774,35 +1071,6 @@ components:
           examples:
             Request ID:
               value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-    too-many-requests:
-      description: Too Many Requests.
-      headers:
-        Retry-After:
-          description: The number of seconds to wait before making a new request.
-          schema:
-            type: integer
-            format: int32
-          examples:
-            Retry After:
-              value: 60
-        x-uphold-request-id:
-          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
-          required: true
-          schema:
-            type: string
-            format: uuid
-          examples:
-            Request ID:
-              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-          examples:
-            Too Many Requests:
-              value:
-                code: too_many_requests
-                message: Try again later
     delete-user-conflict-response:
       description: Business logic error.
       content:
@@ -818,36 +1086,6 @@ components:
               value:
                 code: user_has_pending_transactions
                 message: The user has pending transactions and cannot be deleted
-      headers:
-        x-uphold-request-id:
-          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
-          required: true
-          schema:
-            type: string
-            format: uuid
-          examples:
-            Request ID:
-              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-    bad-request:
-      description: Bad Request.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-          examples:
-            Invalid Request:
-              value:
-                code: request_invalid
-                message: The request has missing or invalid parameters
-                details:
-                  context: <context>
-                  violations:
-                  - property: <property>
-                    rule: required
-                  - property: <property>
-                    rule: type
-                    ruleParams:
-                      type: string
       headers:
         x-uphold-request-id:
           description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
@@ -987,244 +1225,6 @@ components:
           examples:
             Request ID:
               value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-    create-user-response:
-      description: User created.
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              user:
-                $ref: '#/components/schemas/user'
-              errors:
-                description: Additional contextual errors that occurred while processing the request.
-                type: object
-                properties:
-                  metadata:
-                    allOf:
-                    - $ref: '#/components/schemas/error'
-                    - description: Error related to metadata processing.
-            required:
-            - user
-          examples:
-            Complete Individual User Created:
-              value:
-                user:
-                  id: cd21b26d-35d2-408a-9201-b8fdbef7a604
-                  type: individual
-                  email: john.doe@uphold.com
-                  fullName: John Doe
-                  birthdate: '1987-01-01'
-                  primaryCitizenship: GB
-                  address:
-                    country: GB
-                    subdivision: GB-MAN
-                    city: Manchester
-                    line1: 1 High Street
-                    line2: Northern Quarter
-                    postalCode: M4 1AA
-                  phone:
-                    number: '+447400123456'
-                    country: GB
-                  createdAt: '2024-03-13T20:20:39.000Z'
-                  updatedAt: '2024-03-13T20:20:39.000Z'
-            Individual User Created:
-              value:
-                user:
-                  id: cd21b26d-35d2-408a-9201-b8fdbef7a604
-                  type: individual
-                  email: john.doe@uphold.com
-                  primaryCitizenship: GB
-                  address:
-                    country: GB
-                    subdivision: GB-MAN
-                  createdAt: '2024-03-13T20:20:39.000Z'
-                  updatedAt: '2024-03-13T20:20:39.000Z'
-            Business User Created:
-              value:
-                user:
-                  id: 4237b7f2-4658-4183-ab56-b2fc4ecd7b7f
-                  type: business
-                  email: acme-corp@uphold.com
-                  address:
-                    country: GB
-                    subdivision: GB-MAN
-                  createdAt: '2024-03-13T20:20:39.000Z'
-                  updatedAt: '2024-03-13T20:20:39.000Z'
-            Individual User Created With Metadata Error:
-              value:
-                user:
-                  id: cd21b26d-35d2-408a-9201-b8fdbef7a604
-                  type: individual
-                  email: john.doe@uphold.com
-                  primaryCitizenship: GB
-                  address:
-                    country: GB
-                    subdivision: GB-MAN
-                  createdAt: '2024-03-13T20:20:39.000Z'
-                  updatedAt: '2024-03-13T20:20:39.000Z'
-                errors:
-                  metadata:
-                    code: content_too_large
-                    message: The entity metadata size is greater than maximum size limit
-                    details:
-                      threshold:
-                        unit: characters
-                        limit: 1024
-      headers:
-        x-uphold-request-id:
-          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
-          required: true
-          schema:
-            type: string
-            format: uuid
-          examples:
-            Request ID:
-              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-    unauthorized:
-      description: Unauthorized.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-          examples:
-            Token Expired:
-              value:
-                code: token_expired
-                message: The access token has expired
-            Token Invalid:
-              value:
-                code: token_invalid
-                message: The access token is invalid
-            Token Revoked:
-              value:
-                code: token_revoked
-                message: The access token has been revoked
-      headers:
-        x-uphold-request-id:
-          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
-          required: true
-          schema:
-            type: string
-            format: uuid
-          examples:
-            Request ID:
-              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-    delete-user-response:
-      description: User deleted.
-      headers:
-        x-uphold-request-id:
-          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
-          required: true
-          schema:
-            type: string
-            format: uuid
-          examples:
-            Request ID:
-              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-  parameters:
-    x-on-behalf-of:
-      name: X-On-Behalf-Of
-      description: The subject on whose behalf the operation is being performed.
-      in: header
-      schema:
-        type: string
-        pattern: ^(user|client)\s[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$
-      examples:
-        User Identifier:
-          value: user cd21b26d-35d2-408a-9201-b8fdbef7a604
-        Client Identifier:
-          value: client 3fa85f64-5717-4562-b3fc-2c963f66afa6
-    webhook-id:
-      name: webhook-id
-      description: The unique identifier of the webhook.
-      in: header
-      required: true
-      schema:
-        type: string
-      examples:
-        Webhook ID:
-          value: msg_p5jXN8AQM9LWM0D4loKWxJek
-    webhook-timestamp:
-      name: webhook-timestamp
-      description: The timestamp of the webhook, in seconds after the Unix epoch.
-      in: header
-      required: true
-      schema:
-        type: integer
-      examples:
-        Webhook Timestamp:
-          value: 1614265330
-    x-uphold-user-country:
-      name: X-Uphold-User-Country
-      description: Contains the code of the country of the end user that is requesting the operation.
-      in: header
-      schema:
-        $ref: '#/components/schemas/country-code-for-request'
-      examples:
-        User Country:
-          value: US
-    x-uphold-user-agent:
-      name: X-Uphold-User-Agent
-      description: Contains the user agent of the end user that is requesting the operation.
-      in: header
-      schema:
-        $ref: '#/components/schemas/string-no-edge-spaces'
-      examples:
-        User Agent:
-          value: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36
-    x-uphold-user-city:
-      name: X-Uphold-User-City
-      description: Contains the name of the city of the end user that is requesting the operation.
-      in: header
-      schema:
-        $ref: '#/components/schemas/string-no-edge-spaces'
-      examples:
-        User City:
-          value: San Francisco
-    x-uphold-user-ip:
-      name: X-Uphold-User-Ip
-      description: Contains the IP of the end user that is requesting the operation.
-      in: header
-      schema:
-        oneOf:
-        - title: IPv4
-          type: string
-          format: ipv4
-        - title: IPv6
-          type: string
-          format: ipv6
-      examples:
-        User Ip:
-          value: 47.174.97.164
-    webhook-signature:
-      name: webhook-signature
-      description: The signature of the webhook.
-      in: header
-      required: true
-      schema:
-        type: string
-      examples:
-        Webhook Signature:
-          value: v1,Hw8/adTzfYtjPGhuBahfmGhUROG3AvEKH3mvkeK791Q=
-    x-uphold-user-origin:
-      name: X-Uphold-User-Origin
-      description: Contains the origin of the request made by the end user.
-      in: header
-      schema:
-        $ref: '#/components/schemas/string-no-edge-spaces'
-      examples:
-        Origin:
-          value: https://uphold.com
-    x-uphold-user-subdivision:
-      name: X-Uphold-User-Subdivision
-      description: Contains the code of the subdivision of the end user that is requesting the operation.
-      in: header
-      schema:
-        $ref: '#/components/schemas/subdivision-code-for-request'
-      examples:
-        User Subdivision:
-          value: US-CA
   requestBodies:
     delete-user-request-body:
       content:

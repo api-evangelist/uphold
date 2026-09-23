@@ -231,30 +231,354 @@ webhooks:
         '200':
           description: Return a 200 status to indicate that the data was received successfully.
 components:
+  parameters:
+    webhook-signature:
+      name: webhook-signature
+      description: The signature of the webhook.
+      in: header
+      required: true
+      schema:
+        type: string
+      examples:
+        Webhook Signature:
+          value: v1,Hw8/adTzfYtjPGhuBahfmGhUROG3AvEKH3mvkeK791Q=
+    x-uphold-user-subdivision:
+      name: X-Uphold-User-Subdivision
+      description: Contains the code of the subdivision of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/subdivision-code-for-request'
+      examples:
+        User Subdivision:
+          value: US-CA
+    x-uphold-user-origin:
+      name: X-Uphold-User-Origin
+      description: Contains the origin of the request made by the end user.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        Origin:
+          value: https://uphold.com
+    x-on-behalf-of:
+      name: X-On-Behalf-Of
+      description: The subject on whose behalf the operation is being performed.
+      in: header
+      schema:
+        type: string
+        pattern: ^(user|client)\s[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$
+      examples:
+        User Identifier:
+          value: user cd21b26d-35d2-408a-9201-b8fdbef7a604
+        Client Identifier:
+          value: client 3fa85f64-5717-4562-b3fc-2c963f66afa6
+    webhook-id:
+      name: webhook-id
+      description: The unique identifier of the webhook.
+      in: header
+      required: true
+      schema:
+        type: string
+      examples:
+        Webhook ID:
+          value: msg_p5jXN8AQM9LWM0D4loKWxJek
+    x-uphold-user-agent:
+      name: X-Uphold-User-Agent
+      description: Contains the user agent of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        User Agent:
+          value: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36
+    webhook-timestamp:
+      name: webhook-timestamp
+      description: The timestamp of the webhook, in seconds after the Unix epoch.
+      in: header
+      required: true
+      schema:
+        type: integer
+      examples:
+        Webhook Timestamp:
+          value: 1614265330
+    pagination-per-page:
+      name: perPage
+      description: The number of items per page.
+      in: query
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 100
+        default: 10
+      examples:
+        10 Items Per Page:
+          value: 10
+    x-uphold-user-country:
+      name: X-Uphold-User-Country
+      description: Contains the code of the country of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/country-code-for-request'
+      examples:
+        User Country:
+          value: US
+    x-uphold-user-ip:
+      name: X-Uphold-User-Ip
+      description: Contains the IP of the end user that is requesting the operation.
+      in: header
+      schema:
+        oneOf:
+        - title: IPv4
+          type: string
+          format: ipv4
+        - title: IPv6
+          type: string
+          format: ipv6
+      examples:
+        User Ip:
+          value: 47.174.97.164
+    ingestion-id:
+      name: ingestionId
+      description: The ingestion id.
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      examples:
+        Ingestion ID:
+          value: 09f398a9-03be-4a44-bc68-6b8ef00800f1
+    x-uphold-user-city:
+      name: X-Uphold-User-City
+      description: Contains the name of the city of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        User City:
+          value: San Francisco
   schemas:
-    webhook-event:
-      description: The webhook event information.
+    feedback:
+      description: A feedback message with a code and human-readable description.
       type: object
       properties:
-        id:
-          description: The id of the event.
+        code:
+          description: A short string with a brief explanation about the code reported.
           type: string
-          format: uuid
-        type:
-          description: The type of event.
+        message:
+          description: A human-readable message providing more details.
           type: string
-        createdAt:
-          description: The date and time when the event was created.
+        details:
+          description: Additional information about the feedback reported.
+          type: object
+          additionalProperties: true
+      required:
+      - code
+      - message
+    ingestion-result-process-error:
+      description: The error information associated with the process.
+      type: object
+      properties:
+        code:
+          type: string
+          description: The error code.
+        message:
+          description: A human-readable message providing more details about the error.
+          type: string
+        hint:
+          description: A human-readable message providing hints to resolve the error.
+          type: string
+        step:
+          description: The step where the error occurred.
+          type: string
+          enum:
+          - fetch-provider-data
+          - download-provider-files
+          - update-kyc-process
+        details:
+          description: Additional information about the error reported.
+          type: object
+          additionalProperties: true
+    sumsub-ingestion-result-process-error:
+      allOf:
+      - $ref: '#/components/schemas/ingestion-result-process-error'
+      - type: object
+        properties:
+          code:
+            type: string
+            enum:
+            - unknown_error
+            - workflow_error
+            - provider_data_readiness_timeout_exceeded
+            - provider_data_not_available
+            - provider_data_invalid
+            - provider_file_download_failed
+            - dependent_process_failed
+            - operation_not_allowed
+            - sumsub_client_error
+            - sumsub_applicant_review_state_invalid
+    ingestion-result-process-files:
+      type: array
+      description: The list of files downloaded during ingestion related to the process.
+      items:
+        type: object
+        properties:
+          id:
+            description: The identifier of the file.
+            type: string
+          category:
+            description: The category of the file.
+            type: string
+            enum:
+            - document
+            - image
+            - video
+          context:
+            description: The context of the file in relation to the process.
+            type: string
+          contentType:
+            description: The content-type of the file.
+            type: string
+          size:
+            description: The size of the file in bytes.
+            type: integer
+            minimum: 0
+          providerDetails:
+            description: Provider-specific details about the file.
+            type: object
+            additionalProperties: true
+    ingestion-result-proof-of-address-data:
+      description: The extracted proof-of-address data.
+      type: object
+      properties:
+        person:
+          description: The person information.
+          type: object
+          properties:
+            givenName:
+              description: The person's given name.
+              type: string
+            familyName:
+              description: The person's family name or surname.
+              type: string
+            address:
+              $ref: '#/components/schemas/address'
+        verifiedAt:
+          description: The date and time when the proof-of-address was verified.
           type: string
           format: date-time
-        data:
-          description: The event payload.
+    sumsub-ingestion-process:
+      type: string
+      enum:
+      - profile
+      - address
+      - identity
+      - proof-of-address
+    country-code-for-request:
+      type: string
+      pattern: ^[A-Z]{2}$
+    address:
+      description: The address information.
+      type: object
+      properties:
+        country:
+          description: The country of the address.
+          type: string
+        subdivision:
+          description: The subdivision of the address.
+          type: string
+        city:
+          description: The city of the address.
+          type: string
+        line1:
+          description: The first line of the address.
+          type: string
+        line2:
+          description: The second line of the address.
+          type: string
+        postalCode:
+          description: The postal code of the address.
+          type: string
+    sumsub-ingestion-webhook-event:
+      allOf:
+      - $ref: '#/components/schemas/webhook-event'
+      - type: object
+        properties:
+          data:
+            type: object
+            properties:
+              ingestion:
+                $ref: '#/components/schemas/sumsub-ingestion'
+            required:
+            - ingestion
+    string-no-edge-spaces:
+      type: string
+      pattern: ^\S.*\S$|^\S$
+    ingestion-result-identity-data:
+      description: The extracted identity data.
+      type: object
+      properties:
+        document:
+          description: The identity document information.
           type: object
-      required:
-      - id
-      - type
-      - createdAt
-      - data
+          properties:
+            type:
+              description: The type of the document.
+              type: string
+              enum:
+              - driving-license
+              - id-card
+              - passport
+              - residence-permit
+              - unsupported
+            number:
+              description: The number of the document.
+              type: string
+            country:
+              description: The country of the document.
+              type: string
+            expiresAt:
+              description: The expiration date of the document.
+              type: string
+              format: date
+        person:
+          description: The person information.
+          type: object
+          properties:
+            givenName:
+              description: The person's given name.
+              type: string
+            familyName:
+              description: The person's family name or surname.
+              type: string
+            address:
+              $ref: '#/components/schemas/address'
+            birthdate:
+              description: The person's date of birth.
+              type: string
+              format: date
+            gender:
+              description: The person's gender
+              type: string
+              enum:
+              - female
+              - male
+        verifiedAt:
+          description: The date and time when the identity was verified.
+          type: string
+          format: date-time
+    ingestion-result-process-status:
+      description: The status associated with the process.
+      type: string
+      enum:
+      - processing
+      - completed
+      - failed
+    error:
+      description: The error information.
+      allOf:
+      - $ref: '#/components/schemas/feedback'
     sumsub-ingestion:
       allOf:
       - $ref: '#/components/schemas/ingestion'
@@ -360,41 +684,9 @@ components:
       allOf:
       - $ref: '#/components/schemas/address'
       - description: The extracted address data.
-    feedback:
-      description: A feedback message with a code and human-readable description.
-      type: object
-      properties:
-        code:
-          description: A short string with a brief explanation about the code reported.
-          type: string
-        message:
-          description: A human-readable message providing more details.
-          type: string
-        details:
-          description: Additional information about the feedback reported.
-          type: object
-          additionalProperties: true
-      required:
-      - code
-      - message
-    sumsub-ingestion-result-process-error:
-      allOf:
-      - $ref: '#/components/schemas/ingestion-result-process-error'
-      - type: object
-        properties:
-          code:
-            type: string
-            enum:
-            - unknown_error
-            - workflow_error
-            - provider_data_readiness_timeout_exceeded
-            - provider_data_not_available
-            - provider_data_invalid
-            - provider_file_download_failed
-            - dependent_process_failed
-            - operation_not_allowed
-            - sumsub_client_error
-            - sumsub_applicant_review_state_invalid
+    subdivision-code-for-request:
+      type: string
+      pattern: ^[A-Z]{2}-[A-Z0-9]{1,3}$
     pagination:
       description: The pagination information.
       type: object
@@ -411,171 +703,6 @@ components:
           description: The URL to the next set of results.
           type: string
           format: uri
-    address:
-      description: The address information.
-      type: object
-      properties:
-        country:
-          description: The country of the address.
-          type: string
-        subdivision:
-          description: The subdivision of the address.
-          type: string
-        city:
-          description: The city of the address.
-          type: string
-        line1:
-          description: The first line of the address.
-          type: string
-        line2:
-          description: The second line of the address.
-          type: string
-        postalCode:
-          description: The postal code of the address.
-          type: string
-    string-no-edge-spaces:
-      type: string
-      pattern: ^\S.*\S$|^\S$
-    error:
-      description: The error information.
-      allOf:
-      - $ref: '#/components/schemas/feedback'
-    ingestion-result-process-files:
-      type: array
-      description: The list of files downloaded during ingestion related to the process.
-      items:
-        type: object
-        properties:
-          id:
-            description: The identifier of the file.
-            type: string
-          category:
-            description: The category of the file.
-            type: string
-            enum:
-            - document
-            - image
-            - video
-          context:
-            description: The context of the file in relation to the process.
-            type: string
-          contentType:
-            description: The content-type of the file.
-            type: string
-          size:
-            description: The size of the file in bytes.
-            type: integer
-            minimum: 0
-          providerDetails:
-            description: Provider-specific details about the file.
-            type: object
-            additionalProperties: true
-    sumsub-ingestion-webhook-event:
-      allOf:
-      - $ref: '#/components/schemas/webhook-event'
-      - type: object
-        properties:
-          data:
-            type: object
-            properties:
-              ingestion:
-                $ref: '#/components/schemas/sumsub-ingestion'
-            required:
-            - ingestion
-    ingestion-result-process-error:
-      description: The error information associated with the process.
-      type: object
-      properties:
-        code:
-          type: string
-          description: The error code.
-        message:
-          description: A human-readable message providing more details about the error.
-          type: string
-        hint:
-          description: A human-readable message providing hints to resolve the error.
-          type: string
-        step:
-          description: The step where the error occurred.
-          type: string
-          enum:
-          - fetch-provider-data
-          - download-provider-files
-          - update-kyc-process
-        details:
-          description: Additional information about the error reported.
-          type: object
-          additionalProperties: true
-    ingestion-result-process-status:
-      description: The status associated with the process.
-      type: string
-      enum:
-      - processing
-      - completed
-      - failed
-    sumsub-ingestion-process:
-      type: string
-      enum:
-      - profile
-      - address
-      - identity
-      - proof-of-address
-    ingestion-result-identity-data:
-      description: The extracted identity data.
-      type: object
-      properties:
-        document:
-          description: The identity document information.
-          type: object
-          properties:
-            type:
-              description: The type of the document.
-              type: string
-              enum:
-              - driving-license
-              - id-card
-              - passport
-              - residence-permit
-              - unsupported
-            number:
-              description: The number of the document.
-              type: string
-            country:
-              description: The country of the document.
-              type: string
-            expiresAt:
-              description: The expiration date of the document.
-              type: string
-              format: date
-        person:
-          description: The person information.
-          type: object
-          properties:
-            givenName:
-              description: The person's given name.
-              type: string
-            familyName:
-              description: The person's family name or surname.
-              type: string
-            address:
-              $ref: '#/components/schemas/address'
-            birthdate:
-              description: The person's date of birth.
-              type: string
-              format: date
-            gender:
-              description: The person's gender
-              type: string
-              enum:
-              - female
-              - male
-        verifiedAt:
-          description: The date and time when the identity was verified.
-          type: string
-          format: date-time
-    subdivision-code-for-request:
-      type: string
-      pattern: ^[A-Z]{2}-[A-Z0-9]{1,3}$
     ingestion:
       type: object
       properties:
@@ -631,347 +758,30 @@ components:
       - parameters
       - createdAt
       - updatedAt
-    country-code-for-request:
-      type: string
-      pattern: ^[A-Z]{2}$
-    ingestion-result-proof-of-address-data:
-      description: The extracted proof-of-address data.
+    webhook-event:
+      description: The webhook event information.
       type: object
       properties:
-        person:
-          description: The person information.
-          type: object
-          properties:
-            givenName:
-              description: The person's given name.
-              type: string
-            familyName:
-              description: The person's family name or surname.
-              type: string
-            address:
-              $ref: '#/components/schemas/address'
-        verifiedAt:
-          description: The date and time when the proof-of-address was verified.
+        id:
+          description: The id of the event.
+          type: string
+          format: uuid
+        type:
+          description: The type of event.
+          type: string
+        createdAt:
+          description: The date and time when the event was created.
           type: string
           format: date-time
-  parameters:
-    x-on-behalf-of:
-      name: X-On-Behalf-Of
-      description: The subject on whose behalf the operation is being performed.
-      in: header
-      schema:
-        type: string
-        pattern: ^(user|client)\s[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$
-      examples:
-        User Identifier:
-          value: user cd21b26d-35d2-408a-9201-b8fdbef7a604
-        Client Identifier:
-          value: client 3fa85f64-5717-4562-b3fc-2c963f66afa6
-    webhook-id:
-      name: webhook-id
-      description: The unique identifier of the webhook.
-      in: header
-      required: true
-      schema:
-        type: string
-      examples:
-        Webhook ID:
-          value: msg_p5jXN8AQM9LWM0D4loKWxJek
-    webhook-timestamp:
-      name: webhook-timestamp
-      description: The timestamp of the webhook, in seconds after the Unix epoch.
-      in: header
-      required: true
-      schema:
-        type: integer
-      examples:
-        Webhook Timestamp:
-          value: 1614265330
-    x-uphold-user-country:
-      name: X-Uphold-User-Country
-      description: Contains the code of the country of the end user that is requesting the operation.
-      in: header
-      schema:
-        $ref: '#/components/schemas/country-code-for-request'
-      examples:
-        User Country:
-          value: US
-    x-uphold-user-agent:
-      name: X-Uphold-User-Agent
-      description: Contains the user agent of the end user that is requesting the operation.
-      in: header
-      schema:
-        $ref: '#/components/schemas/string-no-edge-spaces'
-      examples:
-        User Agent:
-          value: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36
-    x-uphold-user-city:
-      name: X-Uphold-User-City
-      description: Contains the name of the city of the end user that is requesting the operation.
-      in: header
-      schema:
-        $ref: '#/components/schemas/string-no-edge-spaces'
-      examples:
-        User City:
-          value: San Francisco
-    ingestion-id:
-      name: ingestionId
-      description: The ingestion id.
-      in: path
-      required: true
-      schema:
-        type: string
-        format: uuid
-      examples:
-        Ingestion ID:
-          value: 09f398a9-03be-4a44-bc68-6b8ef00800f1
-    x-uphold-user-ip:
-      name: X-Uphold-User-Ip
-      description: Contains the IP of the end user that is requesting the operation.
-      in: header
-      schema:
-        oneOf:
-        - title: IPv4
-          type: string
-          format: ipv4
-        - title: IPv6
-          type: string
-          format: ipv6
-      examples:
-        User Ip:
-          value: 47.174.97.164
-    webhook-signature:
-      name: webhook-signature
-      description: The signature of the webhook.
-      in: header
-      required: true
-      schema:
-        type: string
-      examples:
-        Webhook Signature:
-          value: v1,Hw8/adTzfYtjPGhuBahfmGhUROG3AvEKH3mvkeK791Q=
-    pagination-per-page:
-      name: perPage
-      description: The number of items per page.
-      in: query
-      schema:
-        type: integer
-        format: int32
-        minimum: 1
-        maximum: 100
-        default: 10
-      examples:
-        10 Items Per Page:
-          value: 10
-    x-uphold-user-origin:
-      name: X-Uphold-User-Origin
-      description: Contains the origin of the request made by the end user.
-      in: header
-      schema:
-        $ref: '#/components/schemas/string-no-edge-spaces'
-      examples:
-        Origin:
-          value: https://uphold.com
-    x-uphold-user-subdivision:
-      name: X-Uphold-User-Subdivision
-      description: Contains the code of the subdivision of the end user that is requesting the operation.
-      in: header
-      schema:
-        $ref: '#/components/schemas/subdivision-code-for-request'
-      examples:
-        User Subdivision:
-          value: US-CA
+        data:
+          description: The event payload.
+          type: object
+      required:
+      - id
+      - type
+      - createdAt
+      - data
   responses:
-    forbidden:
-      description: Forbidden.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-          examples:
-            Token Insufficient Scopes:
-              value:
-                code: token_insufficient_scopes
-                message: Authorization failed due to insufficient scopes
-                details:
-                  security:
-                  - scheme: OAuth
-                    schemeScopes:
-                    - required:scope_1
-                    - required:scope_2
-                    tokenScopes:
-                    - token:scope
-      headers:
-        x-uphold-request-id:
-          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
-          required: true
-          schema:
-            type: string
-            format: uuid
-          examples:
-            Request ID:
-              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-    too-many-requests:
-      description: Too Many Requests.
-      headers:
-        Retry-After:
-          description: The number of seconds to wait before making a new request.
-          schema:
-            type: integer
-            format: int32
-          examples:
-            Retry After:
-              value: 60
-        x-uphold-request-id:
-          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
-          required: true
-          schema:
-            type: string
-            format: uuid
-          examples:
-            Request ID:
-              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-          examples:
-            Too Many Requests:
-              value:
-                code: too_many_requests
-                message: Try again later
-    bad-request:
-      description: Bad Request.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-          examples:
-            Invalid Request:
-              value:
-                code: request_invalid
-                message: The request has missing or invalid parameters
-                details:
-                  context: <context>
-                  violations:
-                  - property: <property>
-                    rule: required
-                  - property: <property>
-                    rule: type
-                    ruleParams:
-                      type: string
-      headers:
-        x-uphold-request-id:
-          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
-          required: true
-          schema:
-            type: string
-            format: uuid
-          examples:
-            Request ID:
-              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-    create-sumsub-ingestion-response:
-      description: Sumsub ingestion created.
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              ingestion:
-                $ref: '#/components/schemas/sumsub-ingestion'
-            required:
-            - ingestion
-          examples:
-            Sumsub Ingestion Created:
-              value:
-                ingestion:
-                  id: 019b2184-1ca9-7dd6-b7a5-ec242def68b0
-                  userId: 123e4567-e89b-12d3-a456-426614174000
-                  status: queued
-                  processes:
-                  - identity
-                  - proof-of-address
-                  provider: sumsub
-                  parameters:
-                    shareToken: _act-sbx-jwt-eyJhbGciOiJub25lIn0.eyJqdGkiOiJ0ZXN0IiwidXJsIjoiaHR0cHM6Ly9leGFtcGxlLmNvbSJ9.
-                  createdAt: '2026-01-15T14:23:01.819Z'
-                  updatedAt: '2026-01-15T14:23:01.819Z'
-      headers:
-        x-uphold-request-id:
-          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
-          required: true
-          schema:
-            type: string
-            format: uuid
-          examples:
-            Request ID:
-              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-    get-sumsub-ingestion-response:
-      description: Sumsub ingestion retrieved.
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              ingestion:
-                $ref: '#/components/schemas/sumsub-ingestion'
-            required:
-            - ingestion
-          examples:
-            Sumsub Ingestion Retrieved:
-              value:
-                ingestion:
-                  id: 019b218f-f235-79d3-866c-f56215e515e2
-                  userId: 123e4567-e89b-12d3-a456-426614174000
-                  status: finished
-                  processes:
-                  - identity
-                  - proof-of-address
-                  provider: sumsub
-                  parameters:
-                    shareToken: _act-sbx-jwt-eyJhbGciOiJub25lIn0.eyJqdGkiOiJ0ZXN0IiwidXJsIjoiaHR0cHM6Ly9leGFtcGxlLmNvbSJ9.
-                  result:
-                    identity:
-                      status: completed
-                      data:
-                        document:
-                          type: passport
-                          number: 7700225VH
-                          country: GB
-                          expiresAt: '2026-03-13'
-                        person:
-                          givenName: John
-                          familyName: Doe
-                          birthdate: '1987-01-01'
-                          gender: male
-                        verifiedAt: '2020-01-01T00:00:00.000Z'
-                      files:
-                      - id: 123e4567-e89b-12d3-a456-426614174000
-                        category: document
-                        context: photo-document-front
-                        contentType: image/png
-                        size: 204800
-                        providerDetails:
-                          fileId: '732150141'
-                    proofOfAddress:
-                      status: failed
-                      error:
-                        code: provider_data_not_available
-                        message: Profile data not available in Sumsub applicant info
-                  startedAt: '2025-12-15T10:17:45.113Z'
-                  finishedAt: '2025-12-15T10:18:33.241Z'
-                  createdAt: '2025-12-15T10:17:44.911Z'
-                  updatedAt: '2025-12-15T10:18:33.241Z'
-      headers:
-        x-uphold-request-id:
-          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
-          required: true
-          schema:
-            type: string
-            format: uuid
-          examples:
-            Request ID:
-              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
     get-sumsub-ingestion-not-found-response:
       description: Resource not found.
       content:
@@ -985,35 +795,6 @@ components:
                 message: The ingestion cannot be found
                 details:
                   entity: ingestion
-      headers:
-        x-uphold-request-id:
-          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
-          required: true
-          schema:
-            type: string
-            format: uuid
-          examples:
-            Request ID:
-              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-    unauthorized:
-      description: Unauthorized.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-          examples:
-            Token Expired:
-              value:
-                code: token_expired
-                message: The access token has expired
-            Token Invalid:
-              value:
-                code: token_invalid
-                message: The access token is invalid
-            Token Revoked:
-              value:
-                code: token_revoked
-                message: The access token has been revoked
       headers:
         x-uphold-request-id:
           description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
@@ -1099,6 +880,225 @@ components:
                 pagination:
                   first: https://api.enterprise.uphold.com/kyc-connector/sumsub/ingestions?perPage=2
                   next: https://api.enterprise.uphold.com/kyc-connector/sumsub/ingestions?cursor=019b2184-1ca9-7dd6-b7a5-ec242def68b0&perPage=2
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    forbidden:
+      description: Forbidden.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Token Insufficient Scopes:
+              value:
+                code: token_insufficient_scopes
+                message: Authorization failed due to insufficient scopes
+                details:
+                  security:
+                  - scheme: OAuth
+                    schemeScopes:
+                    - required:scope_1
+                    - required:scope_2
+                    tokenScopes:
+                    - token:scope
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    bad-request:
+      description: Bad Request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Invalid Request:
+              value:
+                code: request_invalid
+                message: The request has missing or invalid parameters
+                details:
+                  context: <context>
+                  violations:
+                  - property: <property>
+                    rule: required
+                  - property: <property>
+                    rule: type
+                    ruleParams:
+                      type: string
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    too-many-requests:
+      description: Too Many Requests.
+      headers:
+        Retry-After:
+          description: The number of seconds to wait before making a new request.
+          schema:
+            type: integer
+            format: int32
+          examples:
+            Retry After:
+              value: 60
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Too Many Requests:
+              value:
+                code: too_many_requests
+                message: Try again later
+    unauthorized:
+      description: Unauthorized.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Token Expired:
+              value:
+                code: token_expired
+                message: The access token has expired
+            Token Invalid:
+              value:
+                code: token_invalid
+                message: The access token is invalid
+            Token Revoked:
+              value:
+                code: token_revoked
+                message: The access token has been revoked
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-sumsub-ingestion-response:
+      description: Sumsub ingestion retrieved.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              ingestion:
+                $ref: '#/components/schemas/sumsub-ingestion'
+            required:
+            - ingestion
+          examples:
+            Sumsub Ingestion Retrieved:
+              value:
+                ingestion:
+                  id: 019b218f-f235-79d3-866c-f56215e515e2
+                  userId: 123e4567-e89b-12d3-a456-426614174000
+                  status: finished
+                  processes:
+                  - identity
+                  - proof-of-address
+                  provider: sumsub
+                  parameters:
+                    shareToken: _act-sbx-jwt-eyJhbGciOiJub25lIn0.eyJqdGkiOiJ0ZXN0IiwidXJsIjoiaHR0cHM6Ly9leGFtcGxlLmNvbSJ9.
+                  result:
+                    identity:
+                      status: completed
+                      data:
+                        document:
+                          type: passport
+                          number: 7700225VH
+                          country: GB
+                          expiresAt: '2026-03-13'
+                        person:
+                          givenName: John
+                          familyName: Doe
+                          birthdate: '1987-01-01'
+                          gender: male
+                        verifiedAt: '2020-01-01T00:00:00.000Z'
+                      files:
+                      - id: 123e4567-e89b-12d3-a456-426614174000
+                        category: document
+                        context: photo-document-front
+                        contentType: image/png
+                        size: 204800
+                        providerDetails:
+                          fileId: '732150141'
+                    proofOfAddress:
+                      status: failed
+                      error:
+                        code: provider_data_not_available
+                        message: Profile data not available in Sumsub applicant info
+                  startedAt: '2025-12-15T10:17:45.113Z'
+                  finishedAt: '2025-12-15T10:18:33.241Z'
+                  createdAt: '2025-12-15T10:17:44.911Z'
+                  updatedAt: '2025-12-15T10:18:33.241Z'
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    create-sumsub-ingestion-response:
+      description: Sumsub ingestion created.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              ingestion:
+                $ref: '#/components/schemas/sumsub-ingestion'
+            required:
+            - ingestion
+          examples:
+            Sumsub Ingestion Created:
+              value:
+                ingestion:
+                  id: 019b2184-1ca9-7dd6-b7a5-ec242def68b0
+                  userId: 123e4567-e89b-12d3-a456-426614174000
+                  status: queued
+                  processes:
+                  - identity
+                  - proof-of-address
+                  provider: sumsub
+                  parameters:
+                    shareToken: _act-sbx-jwt-eyJhbGciOiJub25lIn0.eyJqdGkiOiJ0ZXN0IiwidXJsIjoiaHR0cHM6Ly9leGFtcGxlLmNvbSJ9.
+                  createdAt: '2026-01-15T14:23:01.819Z'
+                  updatedAt: '2026-01-15T14:23:01.819Z'
       headers:
         x-uphold-request-id:
           description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.

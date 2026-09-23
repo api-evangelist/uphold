@@ -40,15 +40,108 @@ paths:
         '429':
           $ref: '#/components/responses/too-many-requests'
 components:
+  schemas:
+    feedback:
+      description: A feedback message with a code and human-readable description.
+      type: object
+      properties:
+        code:
+          description: A short string with a brief explanation about the code reported.
+          type: string
+        message:
+          description: A human-readable message providing more details.
+          type: string
+        details:
+          description: Additional information about the feedback reported.
+          type: object
+          additionalProperties: true
+      required:
+      - code
+      - message
+    create-oauth2-token-client-credentials:
+      type: object
+      properties:
+        grant_type:
+          type: string
+          enum:
+          - client_credentials
+        scope:
+          description: The list of scopes, delimited with spaces.
+          type: string
+          maxLength: 4096
+      required:
+      - grant_type
+    error:
+      description: The error information.
+      allOf:
+      - $ref: '#/components/schemas/feedback'
+    oauth2-error:
+      type: object
+      properties:
+        error:
+          description: A single error code.
+          type: string
+        error_description:
+          description: A human-readable description of the error.
+          type: string
+        error_uri:
+          description: A URI to a page with more information about the error.
+          type: string
+      required:
+      - error
+    create-oauth2-token-refresh-token:
+      type: object
+      properties:
+        grant_type:
+          type: string
+          enum:
+          - refresh_token
+        refresh_token:
+          description: The refresh token string.
+          type: string
+          maxLength: 8192
+        scope:
+          description: The list of scopes, delimited with spaces.
+          type: string
+          maxLength: 4096
+      required:
+      - grant_type
+      - refresh_token
+    oauth2-token:
+      type: object
+      properties:
+        access_token:
+          type: string
+          description: The access token string issued.
+        refresh_token:
+          type: string
+          description: The refresh token string issued (only applicable to certain grant types).
+        expires_in:
+          type: integer
+          description: The number of seconds until the token expires.
+        scope:
+          description: The list of scopes, delimited with spaces.
+          type: string
+        token_type:
+          type: string
+          enum:
+          - Bearer
+      required:
+      - access_token
+      - token_type
+      - expires_in
   responses:
-    create-oauth2-token-response:
-      description: Token created successfully.
+    too-many-requests:
+      description: Too Many Requests.
       headers:
-        x-uphold-organization-id:
-          description: The organization id of the associated token.
+        Retry-After:
+          description: The number of seconds to wait before making a new request.
           schema:
-            type: string
-            format: uuid
+            type: integer
+            format: int32
+          examples:
+            Retry After:
+              value: 60
         x-uphold-request-id:
           description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
           required: true
@@ -61,39 +154,12 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/oauth2-token'
+            $ref: '#/components/schemas/error'
           examples:
-            OK:
+            Too Many Requests:
               value:
-                access_token: eyJhbGciOiJIUzI1NiIsI...
-                expires_in: 600
-                scope: users:* users.kyc:read
-                token_type: Bearer
-    create-oauth2-token-unauthorized-response:
-      description: Unauthorized.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/oauth2-error'
-          examples:
-            Invalid Authorization Header:
-              value:
-                error: invalid_client
-                error_description: Client id and secret could not be extracted from Authorization header
-            Invalid Client:
-              value:
-                error: invalid_client
-                error_description: Client does not exist or secret is incorrect
-      headers:
-        x-uphold-request-id:
-          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
-          required: true
-          schema:
-            type: string
-            format: uuid
-          examples:
-            Request ID:
-              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+                code: too_many_requests
+                message: Try again later
     create-oauth2-token-bad-request-response:
       description: Bad Request.
       content:
@@ -127,17 +193,39 @@ components:
           examples:
             Request ID:
               value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-    too-many-requests:
-      description: Too Many Requests.
-      headers:
-        Retry-After:
-          description: The number of seconds to wait before making a new request.
+    create-oauth2-token-unauthorized-response:
+      description: Unauthorized.
+      content:
+        application/json:
           schema:
-            type: integer
-            format: int32
+            $ref: '#/components/schemas/oauth2-error'
           examples:
-            Retry After:
-              value: 60
+            Invalid Authorization Header:
+              value:
+                error: invalid_client
+                error_description: Client id and secret could not be extracted from Authorization header
+            Invalid Client:
+              value:
+                error: invalid_client
+                error_description: Client does not exist or secret is incorrect
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    create-oauth2-token-response:
+      description: Token created successfully.
+      headers:
+        x-uphold-organization-id:
+          description: The organization id of the associated token.
+          schema:
+            type: string
+            format: uuid
         x-uphold-request-id:
           description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
           required: true
@@ -150,12 +238,14 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/error'
+            $ref: '#/components/schemas/oauth2-token'
           examples:
-            Too Many Requests:
+            OK:
               value:
-                code: too_many_requests
-                message: Try again later
+                access_token: eyJhbGciOiJIUzI1NiIsI...
+                expires_in: 600
+                scope: users:* users.kyc:read
+                token_type: Bearer
   requestBodies:
     create-oauth2-token-request-body:
       content:
@@ -179,96 +269,6 @@ components:
               value:
                 grant_type: client_credentials
                 scope: users:* users.kyc:read
-  schemas:
-    error:
-      description: The error information.
-      allOf:
-      - $ref: '#/components/schemas/feedback'
-    oauth2-error:
-      type: object
-      properties:
-        error:
-          description: A single error code.
-          type: string
-        error_description:
-          description: A human-readable description of the error.
-          type: string
-        error_uri:
-          description: A URI to a page with more information about the error.
-          type: string
-      required:
-      - error
-    create-oauth2-token-client-credentials:
-      type: object
-      properties:
-        grant_type:
-          type: string
-          enum:
-          - client_credentials
-        scope:
-          description: The list of scopes, delimited with spaces.
-          type: string
-          maxLength: 4096
-      required:
-      - grant_type
-    oauth2-token:
-      type: object
-      properties:
-        access_token:
-          type: string
-          description: The access token string issued.
-        refresh_token:
-          type: string
-          description: The refresh token string issued (only applicable to certain grant types).
-        expires_in:
-          type: integer
-          description: The number of seconds until the token expires.
-        scope:
-          description: The list of scopes, delimited with spaces.
-          type: string
-        token_type:
-          type: string
-          enum:
-          - Bearer
-      required:
-      - access_token
-      - token_type
-      - expires_in
-    create-oauth2-token-refresh-token:
-      type: object
-      properties:
-        grant_type:
-          type: string
-          enum:
-          - refresh_token
-        refresh_token:
-          description: The refresh token string.
-          type: string
-          maxLength: 8192
-        scope:
-          description: The list of scopes, delimited with spaces.
-          type: string
-          maxLength: 4096
-      required:
-      - grant_type
-      - refresh_token
-    feedback:
-      description: A feedback message with a code and human-readable description.
-      type: object
-      properties:
-        code:
-          description: A short string with a brief explanation about the code reported.
-          type: string
-        message:
-          description: A human-readable message providing more details.
-          type: string
-        details:
-          description: Additional information about the feedback reported.
-          type: object
-          additionalProperties: true
-      required:
-      - code
-      - message
   parameters:
     create-oauth2-token-authorization:
       name: Authorization

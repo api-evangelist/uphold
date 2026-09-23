@@ -290,30 +290,269 @@ webhooks:
         '200':
           description: Return a 200 status to indicate that the data was received successfully.
 components:
+  parameters:
+    webhook-signature:
+      name: webhook-signature
+      description: The signature of the webhook.
+      in: header
+      required: true
+      schema:
+        type: string
+      examples:
+        Webhook Signature:
+          value: v1,Hw8/adTzfYtjPGhuBahfmGhUROG3AvEKH3mvkeK791Q=
+    webhook-id:
+      name: webhook-id
+      description: The unique identifier of the webhook.
+      in: header
+      required: true
+      schema:
+        type: string
+      examples:
+        Webhook ID:
+          value: msg_p5jXN8AQM9LWM0D4loKWxJek
+    webhook-timestamp:
+      name: webhook-timestamp
+      description: The timestamp of the webhook, in seconds after the Unix epoch.
+      in: header
+      required: true
+      schema:
+        type: integer
+      examples:
+        Webhook Timestamp:
+          value: 1614265330
   schemas:
-    webhook-event:
-      description: The webhook event information.
+    ingestion-result-process-error:
+      description: The error information associated with the process.
       type: object
       properties:
-        id:
-          description: The id of the event.
+        code:
           type: string
-          format: uuid
-        type:
-          description: The type of event.
+          description: The error code.
+        message:
+          description: A human-readable message providing more details about the error.
           type: string
-        createdAt:
-          description: The date and time when the event was created.
+        hint:
+          description: A human-readable message providing hints to resolve the error.
+          type: string
+        step:
+          description: The step where the error occurred.
+          type: string
+          enum:
+          - fetch-provider-data
+          - download-provider-files
+          - update-kyc-process
+        details:
+          description: Additional information about the error reported.
+          type: object
+          additionalProperties: true
+    ingestion-result-process-files:
+      type: array
+      description: The list of files downloaded during ingestion related to the process.
+      items:
+        type: object
+        properties:
+          id:
+            description: The identifier of the file.
+            type: string
+          category:
+            description: The category of the file.
+            type: string
+            enum:
+            - document
+            - image
+            - video
+          context:
+            description: The context of the file in relation to the process.
+            type: string
+          contentType:
+            description: The content-type of the file.
+            type: string
+          size:
+            description: The size of the file in bytes.
+            type: integer
+            minimum: 0
+          providerDetails:
+            description: Provider-specific details about the file.
+            type: object
+            additionalProperties: true
+    sumsub-ingestion-result-process-error:
+      allOf:
+      - $ref: '#/components/schemas/ingestion-result-process-error'
+      - type: object
+        properties:
+          code:
+            type: string
+            enum:
+            - unknown_error
+            - workflow_error
+            - provider_data_readiness_timeout_exceeded
+            - provider_data_not_available
+            - provider_data_invalid
+            - provider_file_download_failed
+            - dependent_process_failed
+            - operation_not_allowed
+            - sumsub_client_error
+            - sumsub_applicant_review_state_invalid
+    ingestion-result-proof-of-address-data:
+      description: The extracted proof-of-address data.
+      type: object
+      properties:
+        person:
+          description: The person information.
+          type: object
+          properties:
+            givenName:
+              description: The person's given name.
+              type: string
+            familyName:
+              description: The person's family name or surname.
+              type: string
+            address:
+              $ref: '#/components/schemas/address'
+        verifiedAt:
+          description: The date and time when the proof-of-address was verified.
           type: string
           format: date-time
-        data:
-          description: The event payload.
+    sumsub-ingestion-process:
+      type: string
+      enum:
+      - profile
+      - address
+      - identity
+      - proof-of-address
+    address:
+      description: The address information.
+      type: object
+      properties:
+        country:
+          description: The country of the address.
+          type: string
+        subdivision:
+          description: The subdivision of the address.
+          type: string
+        city:
+          description: The city of the address.
+          type: string
+        line1:
+          description: The first line of the address.
+          type: string
+        line2:
+          description: The second line of the address.
+          type: string
+        postalCode:
+          description: The postal code of the address.
+          type: string
+    sumsub-ingestion-webhook-event:
+      allOf:
+      - $ref: '#/components/schemas/webhook-event'
+      - type: object
+        properties:
+          data:
+            type: object
+            properties:
+              ingestion:
+                $ref: '#/components/schemas/sumsub-ingestion'
+            required:
+            - ingestion
+    ingestion-result-identity-data:
+      description: The extracted identity data.
+      type: object
+      properties:
+        document:
+          description: The identity document information.
           type: object
-      required:
-      - id
-      - type
-      - createdAt
-      - data
+          properties:
+            type:
+              description: The type of the document.
+              type: string
+              enum:
+              - driving-license
+              - id-card
+              - passport
+              - residence-permit
+              - unsupported
+            number:
+              description: The number of the document.
+              type: string
+            country:
+              description: The country of the document.
+              type: string
+            expiresAt:
+              description: The expiration date of the document.
+              type: string
+              format: date
+        person:
+          description: The person information.
+          type: object
+          properties:
+            givenName:
+              description: The person's given name.
+              type: string
+            familyName:
+              description: The person's family name or surname.
+              type: string
+            address:
+              $ref: '#/components/schemas/address'
+            birthdate:
+              description: The person's date of birth.
+              type: string
+              format: date
+            gender:
+              description: The person's gender
+              type: string
+              enum:
+              - female
+              - male
+        verifiedAt:
+          description: The date and time when the identity was verified.
+          type: string
+          format: date-time
+    ingestion-result-process-status:
+      description: The status associated with the process.
+      type: string
+      enum:
+      - processing
+      - completed
+      - failed
+    veriff-ingestion-result-process-error:
+      allOf:
+      - $ref: '#/components/schemas/ingestion-result-process-error'
+      - type: object
+        properties:
+          code:
+            type: string
+            enum:
+            - unknown_error
+            - workflow_error
+            - provider_data_readiness_timeout_exceeded
+            - provider_data_not_available
+            - provider_data_invalid
+            - provider_data_recheck_failed
+            - provider_file_download_failed
+            - dependent_process_failed
+            - operation_not_allowed
+            - veriff_client_error
+            - veriff_session_not_approved
+    veriff-ingestion-process:
+      type: string
+      enum:
+      - profile
+      - address
+      - identity
+      - proof-of-address
+    veriff-ingestion-webhook-event:
+      allOf:
+      - $ref: '#/components/schemas/webhook-event'
+      - type: object
+        properties:
+          data:
+            type: object
+            properties:
+              ingestion:
+                $ref: '#/components/schemas/veriff-ingestion'
+            required:
+            - ingestion
     sumsub-ingestion:
       allOf:
       - $ref: '#/components/schemas/ingestion'
@@ -419,292 +658,6 @@ components:
       allOf:
       - $ref: '#/components/schemas/address'
       - description: The extracted address data.
-    veriff-ingestion-process:
-      type: string
-      enum:
-      - profile
-      - address
-      - identity
-      - proof-of-address
-    sumsub-ingestion-result-process-error:
-      allOf:
-      - $ref: '#/components/schemas/ingestion-result-process-error'
-      - type: object
-        properties:
-          code:
-            type: string
-            enum:
-            - unknown_error
-            - workflow_error
-            - provider_data_readiness_timeout_exceeded
-            - provider_data_not_available
-            - provider_data_invalid
-            - provider_file_download_failed
-            - dependent_process_failed
-            - operation_not_allowed
-            - sumsub_client_error
-            - sumsub_applicant_review_state_invalid
-    veriff-ingestion-result-process-error:
-      allOf:
-      - $ref: '#/components/schemas/ingestion-result-process-error'
-      - type: object
-        properties:
-          code:
-            type: string
-            enum:
-            - unknown_error
-            - workflow_error
-            - provider_data_readiness_timeout_exceeded
-            - provider_data_not_available
-            - provider_data_invalid
-            - provider_data_recheck_failed
-            - provider_file_download_failed
-            - dependent_process_failed
-            - operation_not_allowed
-            - veriff_client_error
-            - veriff_session_not_approved
-    address:
-      description: The address information.
-      type: object
-      properties:
-        country:
-          description: The country of the address.
-          type: string
-        subdivision:
-          description: The subdivision of the address.
-          type: string
-        city:
-          description: The city of the address.
-          type: string
-        line1:
-          description: The first line of the address.
-          type: string
-        line2:
-          description: The second line of the address.
-          type: string
-        postalCode:
-          description: The postal code of the address.
-          type: string
-    veriff-ingestion-webhook-event:
-      allOf:
-      - $ref: '#/components/schemas/webhook-event'
-      - type: object
-        properties:
-          data:
-            type: object
-            properties:
-              ingestion:
-                $ref: '#/components/schemas/veriff-ingestion'
-            required:
-            - ingestion
-    ingestion-result-process-files:
-      type: array
-      description: The list of files downloaded during ingestion related to the process.
-      items:
-        type: object
-        properties:
-          id:
-            description: The identifier of the file.
-            type: string
-          category:
-            description: The category of the file.
-            type: string
-            enum:
-            - document
-            - image
-            - video
-          context:
-            description: The context of the file in relation to the process.
-            type: string
-          contentType:
-            description: The content-type of the file.
-            type: string
-          size:
-            description: The size of the file in bytes.
-            type: integer
-            minimum: 0
-          providerDetails:
-            description: Provider-specific details about the file.
-            type: object
-            additionalProperties: true
-    sumsub-ingestion-webhook-event:
-      allOf:
-      - $ref: '#/components/schemas/webhook-event'
-      - type: object
-        properties:
-          data:
-            type: object
-            properties:
-              ingestion:
-                $ref: '#/components/schemas/sumsub-ingestion'
-            required:
-            - ingestion
-    ingestion-result-process-error:
-      description: The error information associated with the process.
-      type: object
-      properties:
-        code:
-          type: string
-          description: The error code.
-        message:
-          description: A human-readable message providing more details about the error.
-          type: string
-        hint:
-          description: A human-readable message providing hints to resolve the error.
-          type: string
-        step:
-          description: The step where the error occurred.
-          type: string
-          enum:
-          - fetch-provider-data
-          - download-provider-files
-          - update-kyc-process
-        details:
-          description: Additional information about the error reported.
-          type: object
-          additionalProperties: true
-    veriff-session:
-      description: A Veriff session used for data ingestion.
-      type: object
-      properties:
-        processes:
-          description: The processes this session provides data for.
-          type: array
-          items:
-            $ref: '#/components/schemas/veriff-ingestion-process'
-        sessionId:
-          description: The Veriff session identifier.
-          type: string
-          format: uuid
-        integrationName:
-          description: The integration name within the provider config.
-          type: string
-      required:
-      - processes
-      - sessionId
-      - integrationName
-    ingestion-result-process-status:
-      description: The status associated with the process.
-      type: string
-      enum:
-      - processing
-      - completed
-      - failed
-    sumsub-ingestion-process:
-      type: string
-      enum:
-      - profile
-      - address
-      - identity
-      - proof-of-address
-    ingestion-result-identity-data:
-      description: The extracted identity data.
-      type: object
-      properties:
-        document:
-          description: The identity document information.
-          type: object
-          properties:
-            type:
-              description: The type of the document.
-              type: string
-              enum:
-              - driving-license
-              - id-card
-              - passport
-              - residence-permit
-              - unsupported
-            number:
-              description: The number of the document.
-              type: string
-            country:
-              description: The country of the document.
-              type: string
-            expiresAt:
-              description: The expiration date of the document.
-              type: string
-              format: date
-        person:
-          description: The person information.
-          type: object
-          properties:
-            givenName:
-              description: The person's given name.
-              type: string
-            familyName:
-              description: The person's family name or surname.
-              type: string
-            address:
-              $ref: '#/components/schemas/address'
-            birthdate:
-              description: The person's date of birth.
-              type: string
-              format: date
-            gender:
-              description: The person's gender
-              type: string
-              enum:
-              - female
-              - male
-        verifiedAt:
-          description: The date and time when the identity was verified.
-          type: string
-          format: date-time
-    ingestion:
-      type: object
-      properties:
-        id:
-          description: The id of the ingestion.
-          type: string
-        userId:
-          description: The identifier of the user associated with the ingestion.
-          type: string
-        status:
-          description: The status of the ingestion.
-          type: string
-          enum:
-          - queued
-          - running
-          - finished
-        processes:
-          description: The list of processes requested to ingest.
-          type: array
-          items:
-            type: string
-        provider:
-          description: The provider of the ingestion.
-          type: string
-        parameters:
-          description: The parameters associated with the ingestion.
-          type: object
-        result:
-          description: The result of each process associated with the ingestion.
-          type: object
-        createdAt:
-          description: The time at which the ingestion was created.
-          type: string
-          format: date-time
-        updatedAt:
-          description: The time at which the ingestion was last updated.
-          type: string
-          format: date-time
-        startedAt:
-          description: The time at which the ingestion was started.
-          type: string
-          format: date-time
-        finishedAt:
-          description: The time at which the ingestion was finished.
-          type: string
-          format: date-time
-      required:
-      - id
-      - userId
-      - status
-      - processes
-      - provider
-      - parameters
-      - createdAt
-      - updatedAt
     veriff-ingestion:
       allOf:
       - $ref: '#/components/schemas/ingestion'
@@ -784,57 +737,104 @@ components:
                     $ref: '#/components/schemas/veriff-ingestion-result-process-error'
                 required:
                 - status
-    ingestion-result-proof-of-address-data:
-      description: The extracted proof-of-address data.
+    veriff-session:
+      description: A Veriff session used for data ingestion.
       type: object
       properties:
-        person:
-          description: The person information.
+        processes:
+          description: The processes this session provides data for.
+          type: array
+          items:
+            $ref: '#/components/schemas/veriff-ingestion-process'
+        sessionId:
+          description: The Veriff session identifier.
+          type: string
+          format: uuid
+        integrationName:
+          description: The integration name within the provider config.
+          type: string
+      required:
+      - processes
+      - sessionId
+      - integrationName
+    ingestion:
+      type: object
+      properties:
+        id:
+          description: The id of the ingestion.
+          type: string
+        userId:
+          description: The identifier of the user associated with the ingestion.
+          type: string
+        status:
+          description: The status of the ingestion.
+          type: string
+          enum:
+          - queued
+          - running
+          - finished
+        processes:
+          description: The list of processes requested to ingest.
+          type: array
+          items:
+            type: string
+        provider:
+          description: The provider of the ingestion.
+          type: string
+        parameters:
+          description: The parameters associated with the ingestion.
           type: object
-          properties:
-            givenName:
-              description: The person's given name.
-              type: string
-            familyName:
-              description: The person's family name or surname.
-              type: string
-            address:
-              $ref: '#/components/schemas/address'
-        verifiedAt:
-          description: The date and time when the proof-of-address was verified.
+        result:
+          description: The result of each process associated with the ingestion.
+          type: object
+        createdAt:
+          description: The time at which the ingestion was created.
           type: string
           format: date-time
-  parameters:
-    webhook-id:
-      name: webhook-id
-      description: The unique identifier of the webhook.
-      in: header
-      required: true
-      schema:
-        type: string
-      examples:
-        Webhook ID:
-          value: msg_p5jXN8AQM9LWM0D4loKWxJek
-    webhook-timestamp:
-      name: webhook-timestamp
-      description: The timestamp of the webhook, in seconds after the Unix epoch.
-      in: header
-      required: true
-      schema:
-        type: integer
-      examples:
-        Webhook Timestamp:
-          value: 1614265330
-    webhook-signature:
-      name: webhook-signature
-      description: The signature of the webhook.
-      in: header
-      required: true
-      schema:
-        type: string
-      examples:
-        Webhook Signature:
-          value: v1,Hw8/adTzfYtjPGhuBahfmGhUROG3AvEKH3mvkeK791Q=
+        updatedAt:
+          description: The time at which the ingestion was last updated.
+          type: string
+          format: date-time
+        startedAt:
+          description: The time at which the ingestion was started.
+          type: string
+          format: date-time
+        finishedAt:
+          description: The time at which the ingestion was finished.
+          type: string
+          format: date-time
+      required:
+      - id
+      - userId
+      - status
+      - processes
+      - provider
+      - parameters
+      - createdAt
+      - updatedAt
+    webhook-event:
+      description: The webhook event information.
+      type: object
+      properties:
+        id:
+          description: The id of the event.
+          type: string
+          format: uuid
+        type:
+          description: The type of event.
+          type: string
+        createdAt:
+          description: The date and time when the event was created.
+          type: string
+          format: date-time
+        data:
+          description: The event payload.
+          type: object
+      required:
+      - id
+      - type
+      - createdAt
+      - data
   securitySchemes:
     OAuth2:
       type: oauth2

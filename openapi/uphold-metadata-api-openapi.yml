@@ -187,7 +187,219 @@ paths:
         '429':
           $ref: '#/components/responses/too-many-requests'
 components:
+  schemas:
+    json-patch-with-from:
+      type: object
+      additionalProperties: false
+      properties:
+        op:
+          type: string
+          enum:
+          - move
+          - copy
+        path:
+          type: string
+        from:
+          type: string
+      required:
+      - op
+      - path
+      - from
+    feedback:
+      description: A feedback message with a code and human-readable description.
+      type: object
+      properties:
+        code:
+          description: A short string with a brief explanation about the code reported.
+          type: string
+        message:
+          description: A human-readable message providing more details.
+          type: string
+        details:
+          description: Additional information about the feedback reported.
+          type: object
+          additionalProperties: true
+      required:
+      - code
+      - message
+    metadata:
+      type: object
+      additionalProperties: true
+      minProperties: 1
+    json-patch-with-value:
+      type: object
+      additionalProperties: false
+      properties:
+        op:
+          type: string
+          enum:
+          - add
+          - replace
+          - test
+        path:
+          type: string
+        value:
+          oneOf:
+          - type: string
+          - type: number
+          - type: boolean
+          - type: object
+          - type: array
+          - type: 'null'
+      required:
+      - op
+      - path
+      - value
+    country-code-for-request:
+      type: string
+      pattern: ^[A-Z]{2}$
+    string-no-edge-spaces:
+      type: string
+      pattern: ^\S.*\S$|^\S$
+    json-patch-remove:
+      type: object
+      additionalProperties: false
+      properties:
+        op:
+          type: string
+          const: remove
+        path:
+          type: string
+      required:
+      - op
+      - path
+    error:
+      description: The error information.
+      allOf:
+      - $ref: '#/components/schemas/feedback'
+    subdivision-code-for-request:
+      type: string
+      pattern: ^[A-Z]{2}-[A-Z0-9]{1,3}$
+    json-patch-operations:
+      description: An array of RFC 6902 JSON Patch operations.
+      type: array
+      minItems: 1
+      items:
+        type: object
+        discriminator:
+          propertyName: op
+          mapping:
+            add: '#/components/schemas/json-patch-with-value'
+            copy: '#/components/schemas/json-patch-with-from'
+            move: '#/components/schemas/json-patch-with-from'
+            remove: '#/components/schemas/json-patch-remove'
+            replace: '#/components/schemas/json-patch-with-value'
+            test: '#/components/schemas/json-patch-with-value'
+        oneOf:
+        - title: Add/Replace/Test
+          $ref: '#/components/schemas/json-patch-with-value'
+        - title: Move/Copy
+          $ref: '#/components/schemas/json-patch-with-from'
+        - title: Remove
+          $ref: '#/components/schemas/json-patch-remove'
+        required:
+        - op
   parameters:
+    x-uphold-user-origin:
+      name: X-Uphold-User-Origin
+      description: Contains the origin of the request made by the end user.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        Origin:
+          value: https://uphold.com
+    x-uphold-user-subdivision:
+      name: X-Uphold-User-Subdivision
+      description: Contains the code of the subdivision of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/subdivision-code-for-request'
+      examples:
+        User Subdivision:
+          value: US-CA
+    metadata-if-none-match-any:
+      name: If-None-Match
+      description: Prevents upsert operation if there is an existing metadata revision.
+      in: header
+      style: simple
+      explode: false
+      schema:
+        type: string
+        enum:
+        - '*'
+      examples:
+        Any Revision:
+          value: '*'
+    metadata-if-none-match:
+      name: If-None-Match
+      description: Retrieves the entity metadata only if it does not match the given revision.
+      in: header
+      style: simple
+      explode: false
+      schema:
+        type: string
+        pattern: ^(?:W\/)?"([A-Fa-f0-9]{64})"$
+      examples:
+        Metadata Revision:
+          value: '"b59c6960e8c802ec287f3892b398b7b58eb4790640414f2c2b048ff22f873d72"'
+    x-on-behalf-of:
+      name: X-On-Behalf-Of
+      description: The subject on whose behalf the operation is being performed.
+      in: header
+      schema:
+        type: string
+        pattern: ^(user|client)\s[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$
+      examples:
+        User Identifier:
+          value: user cd21b26d-35d2-408a-9201-b8fdbef7a604
+        Client Identifier:
+          value: client 3fa85f64-5717-4562-b3fc-2c963f66afa6
+    x-uphold-user-agent:
+      name: X-Uphold-User-Agent
+      description: Contains the user agent of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        User Agent:
+          value: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36
+    x-uphold-user-country:
+      name: X-Uphold-User-Country
+      description: Contains the code of the country of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/country-code-for-request'
+      examples:
+        User Country:
+          value: US
+    x-uphold-user-ip:
+      name: X-Uphold-User-Ip
+      description: Contains the IP of the end user that is requesting the operation.
+      in: header
+      schema:
+        oneOf:
+        - title: IPv4
+          type: string
+          format: ipv4
+        - title: IPv6
+          type: string
+          format: ipv6
+      examples:
+        User Ip:
+          value: 47.174.97.164
+    metadata-if-match:
+      name: If-Match
+      description: Ensures conditional update by matching the current metadata revision.
+      in: header
+      style: simple
+      explode: false
+      schema:
+        type: string
+        pattern: ^(?:W\/)?"([A-Fa-f0-9]{64})"$
+      examples:
+        Metadata Revision:
+          value: '"abc123def456789012345678901234567890123456789012345678901234abcd"'
     metadata-entity:
       name: entity
       description: The type of entity whose metadata is being accessed.
@@ -204,42 +416,6 @@ components:
       examples:
         User Entity:
           value: users
-    x-on-behalf-of:
-      name: X-On-Behalf-Of
-      description: The subject on whose behalf the operation is being performed.
-      in: header
-      schema:
-        type: string
-        pattern: ^(user|client)\s[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$
-      examples:
-        User Identifier:
-          value: user cd21b26d-35d2-408a-9201-b8fdbef7a604
-        Client Identifier:
-          value: client 3fa85f64-5717-4562-b3fc-2c963f66afa6
-    metadata-if-match:
-      name: If-Match
-      description: Ensures conditional update by matching the current metadata revision.
-      in: header
-      style: simple
-      explode: false
-      schema:
-        type: string
-        pattern: ^(?:W\/)?"([A-Fa-f0-9]{64})"$
-      examples:
-        Metadata Revision:
-          value: '"abc123def456789012345678901234567890123456789012345678901234abcd"'
-    metadata-if-none-match:
-      name: If-None-Match
-      description: Retrieves the entity metadata only if it does not match the given revision.
-      in: header
-      style: simple
-      explode: false
-      schema:
-        type: string
-        pattern: ^(?:W\/)?"([A-Fa-f0-9]{64})"$
-      examples:
-        Metadata Revision:
-          value: '"b59c6960e8c802ec287f3892b398b7b58eb4790640414f2c2b048ff22f873d72"'
     metadata-entity-id:
       name: entityId
       description: The unique identifier of the entity whose metadata is being accessed.
@@ -250,24 +426,6 @@ components:
       examples:
         User ID:
           value: me
-    x-uphold-user-country:
-      name: X-Uphold-User-Country
-      description: Contains the code of the country of the end user that is requesting the operation.
-      in: header
-      schema:
-        $ref: '#/components/schemas/country-code-for-request'
-      examples:
-        User Country:
-          value: US
-    x-uphold-user-agent:
-      name: X-Uphold-User-Agent
-      description: Contains the user agent of the end user that is requesting the operation.
-      in: header
-      schema:
-        $ref: '#/components/schemas/string-no-edge-spaces'
-      examples:
-        User Agent:
-          value: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36
     x-uphold-user-city:
       name: X-Uphold-User-City
       description: Contains the name of the city of the end user that is requesting the operation.
@@ -277,52 +435,6 @@ components:
       examples:
         User City:
           value: San Francisco
-    x-uphold-user-ip:
-      name: X-Uphold-User-Ip
-      description: Contains the IP of the end user that is requesting the operation.
-      in: header
-      schema:
-        oneOf:
-        - title: IPv4
-          type: string
-          format: ipv4
-        - title: IPv6
-          type: string
-          format: ipv6
-      examples:
-        User Ip:
-          value: 47.174.97.164
-    x-uphold-user-origin:
-      name: X-Uphold-User-Origin
-      description: Contains the origin of the request made by the end user.
-      in: header
-      schema:
-        $ref: '#/components/schemas/string-no-edge-spaces'
-      examples:
-        Origin:
-          value: https://uphold.com
-    metadata-if-none-match-any:
-      name: If-None-Match
-      description: Prevents upsert operation if there is an existing metadata revision.
-      in: header
-      style: simple
-      explode: false
-      schema:
-        type: string
-        enum:
-        - '*'
-      examples:
-        Any Revision:
-          value: '*'
-    x-uphold-user-subdivision:
-      name: X-Uphold-User-Subdivision
-      description: Contains the code of the subdivision of the end user that is requesting the operation.
-      in: header
-      schema:
-        $ref: '#/components/schemas/subdivision-code-for-request'
-      examples:
-        User Subdivision:
-          value: US-CA
   responses:
     update-metadata-response:
       description: Metadata updated.
@@ -352,25 +464,38 @@ components:
               value:
                 metadata:
                   externalId: 123
-    metadata-not-found:
-      description: Resource not found.
+    metadata-precondition-failed:
+      description: Precondition failed.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
           examples:
-            Metadata Not Found:
+            Metadata Precondition Failed:
               value:
-                code: entity_not_found
-                message: The entity metadata cannot be found
-                details:
-                  entity: metadata
-            Entity Not Found:
+                code: precondition_failed
+                message: The If-Match header value does not match the current metadata
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    set-metadata-conflict-response:
+      description: Business logic error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Metadata Already Exists:
               value:
-                code: entity_not_found
-                message: The <entity> cannot be found
-                details:
-                  entity: <entity>
+                code: duplicate
+                message: The entity metadata already exists
       headers:
         x-uphold-request-id:
           description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
@@ -400,133 +525,6 @@ components:
                     - required:scope_2
                     tokenScopes:
                     - token:scope
-      headers:
-        x-uphold-request-id:
-          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
-          required: true
-          schema:
-            type: string
-            format: uuid
-          examples:
-            Request ID:
-              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-    get-metadata-response:
-      description: Metadata retrieved.
-      headers:
-        ETag:
-          $ref: '#/components/headers/metadata-etag'
-        x-uphold-request-id:
-          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
-          required: true
-          schema:
-            type: string
-            format: uuid
-          examples:
-            Request ID:
-              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              metadata:
-                $ref: '#/components/schemas/metadata'
-            required:
-            - metadata
-          examples:
-            Metadata Retrieved:
-              value:
-                metadata:
-                  externalId: 123
-    update-metadata-unprocessable-entity-response:
-      description: Unprocessable entity.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-          examples:
-            Replace Operation Path Not Found:
-              value:
-                code: json_patch_failed
-                message: The entity metadata patch operation failed to apply
-                details:
-                  operation:
-                    index: 0
-                    op: replace
-                    path: /items/10
-                  reason: 'replace operation does not apply: doc is missing path: /items/10: missing value'
-            Remove Operation Path Not Found:
-              value:
-                code: json_patch_failed
-                message: The entity metadata patch operation failed to apply
-                details:
-                  operation:
-                    index: 0
-                    op: remove
-                    path: /region
-                  reason: 'remove operation does not apply: doc is missing path: /region: missing value'
-      headers:
-        x-uphold-request-id:
-          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
-          required: true
-          schema:
-            type: string
-            format: uuid
-          examples:
-            Request ID:
-              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-    too-many-requests:
-      description: Too Many Requests.
-      headers:
-        Retry-After:
-          description: The number of seconds to wait before making a new request.
-          schema:
-            type: integer
-            format: int32
-          examples:
-            Retry After:
-              value: 60
-        x-uphold-request-id:
-          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
-          required: true
-          schema:
-            type: string
-            format: uuid
-          examples:
-            Request ID:
-              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-          examples:
-            Too Many Requests:
-              value:
-                code: too_many_requests
-                message: Try again later
-    delete-metadata-response:
-      description: Metadata deleted.
-      headers:
-        x-uphold-request-id:
-          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
-          required: true
-          schema:
-            type: string
-            format: uuid
-          examples:
-            Request ID:
-              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-    set-metadata-conflict-response:
-      description: Business logic error.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-          examples:
-            Metadata Already Exists:
-              value:
-                code: duplicate
-                message: The entity metadata already exists
       headers:
         x-uphold-request-id:
           description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
@@ -567,85 +565,62 @@ components:
           examples:
             Request ID:
               value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-    metadata-payload-too-large:
-      description: Payload too large.
+    too-many-requests:
+      description: Too Many Requests.
+      headers:
+        Retry-After:
+          description: The number of seconds to wait before making a new request.
+          schema:
+            type: integer
+            format: int32
+          examples:
+            Retry After:
+              value: 60
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
           examples:
-            Metadata Payload Too Large:
+            Too Many Requests:
               value:
-                code: content_too_large
-                message: The entity metadata size is greater than maximum size limit
+                code: too_many_requests
+                message: Try again later
+    update-metadata-unprocessable-entity-response:
+      description: Unprocessable entity.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Replace Operation Path Not Found:
+              value:
+                code: json_patch_failed
+                message: The entity metadata patch operation failed to apply
                 details:
-                  threshold:
-                    unit: characters
-                    limit: 1024
-      headers:
-        x-uphold-request-id:
-          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
-          required: true
-          schema:
-            type: string
-            format: uuid
-          examples:
-            Request ID:
-              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-    metadata-precondition-failed:
-      description: Precondition failed.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-          examples:
-            Metadata Precondition Failed:
+                  operation:
+                    index: 0
+                    op: replace
+                    path: /items/10
+                  reason: 'replace operation does not apply: doc is missing path: /items/10: missing value'
+            Remove Operation Path Not Found:
               value:
-                code: precondition_failed
-                message: The If-Match header value does not match the current metadata
-      headers:
-        x-uphold-request-id:
-          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
-          required: true
-          schema:
-            type: string
-            format: uuid
-          examples:
-            Request ID:
-              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-    get-metadata-not-modified-response:
-      description: Metadata not modified.
-      headers:
-        ETag:
-          $ref: '#/components/headers/metadata-etag'
-        x-uphold-request-id:
-          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
-          required: true
-          schema:
-            type: string
-            format: uuid
-          examples:
-            Request ID:
-              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-    unauthorized:
-      description: Unauthorized.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-          examples:
-            Token Expired:
-              value:
-                code: token_expired
-                message: The access token has expired
-            Token Invalid:
-              value:
-                code: token_invalid
-                message: The access token is invalid
-            Token Revoked:
-              value:
-                code: token_revoked
-                message: The access token has been revoked
+                code: json_patch_failed
+                message: The entity metadata patch operation failed to apply
+                details:
+                  operation:
+                    index: 0
+                    op: remove
+                    path: /region
+                  reason: 'remove operation does not apply: doc is missing path: /region: missing value'
       headers:
         x-uphold-request-id:
           description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
@@ -684,6 +659,129 @@ components:
               value:
                 metadata:
                   externalId: 123
+    delete-metadata-response:
+      description: Metadata deleted.
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    unauthorized:
+      description: Unauthorized.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Token Expired:
+              value:
+                code: token_expired
+                message: The access token has expired
+            Token Invalid:
+              value:
+                code: token_invalid
+                message: The access token is invalid
+            Token Revoked:
+              value:
+                code: token_revoked
+                message: The access token has been revoked
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    metadata-not-found:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Metadata Not Found:
+              value:
+                code: entity_not_found
+                message: The entity metadata cannot be found
+                details:
+                  entity: metadata
+            Entity Not Found:
+              value:
+                code: entity_not_found
+                message: The <entity> cannot be found
+                details:
+                  entity: <entity>
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    metadata-payload-too-large:
+      description: Payload too large.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Metadata Payload Too Large:
+              value:
+                code: content_too_large
+                message: The entity metadata size is greater than maximum size limit
+                details:
+                  threshold:
+                    unit: characters
+                    limit: 1024
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-metadata-response:
+      description: Metadata retrieved.
+      headers:
+        ETag:
+          $ref: '#/components/headers/metadata-etag'
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              metadata:
+                $ref: '#/components/schemas/metadata'
+            required:
+            - metadata
+          examples:
+            Metadata Retrieved:
+              value:
+                metadata:
+                  externalId: 123
     set-metadata-created-response:
       description: Metadata created.
       headers:
@@ -712,7 +810,39 @@ components:
               value:
                 metadata:
                   externalId: 123
+    get-metadata-not-modified-response:
+      description: Metadata not modified.
+      headers:
+        ETag:
+          $ref: '#/components/headers/metadata-etag'
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+  headers:
+    metadata-etag:
+      description: The entity metadata revision.
+      schema:
+        type: string
+        pattern: ^"[A-Fa-f0-9]{64}"$
+      examples:
+        ETag:
+          value: '"9ff2666faa58fabfc282eb90016e7182fe785d37dcdb861c6469cccaec13c876"'
   requestBodies:
+    set-metadata-request-body:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/metadata'
+          examples:
+            Set Metadata:
+              value:
+                externalId: 123
     update-metadata-request-body:
       content:
         application/json-patch+json:
@@ -733,136 +863,6 @@ components:
               value:
               - op: remove
                 path: /region
-    set-metadata-request-body:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/metadata'
-          examples:
-            Set Metadata:
-              value:
-                externalId: 123
-  schemas:
-    feedback:
-      description: A feedback message with a code and human-readable description.
-      type: object
-      properties:
-        code:
-          description: A short string with a brief explanation about the code reported.
-          type: string
-        message:
-          description: A human-readable message providing more details.
-          type: string
-        details:
-          description: Additional information about the feedback reported.
-          type: object
-          additionalProperties: true
-      required:
-      - code
-      - message
-    json-patch-with-from:
-      type: object
-      additionalProperties: false
-      properties:
-        op:
-          type: string
-          enum:
-          - move
-          - copy
-        path:
-          type: string
-        from:
-          type: string
-      required:
-      - op
-      - path
-      - from
-    json-patch-remove:
-      type: object
-      additionalProperties: false
-      properties:
-        op:
-          type: string
-          const: remove
-        path:
-          type: string
-      required:
-      - op
-      - path
-    string-no-edge-spaces:
-      type: string
-      pattern: ^\S.*\S$|^\S$
-    error:
-      description: The error information.
-      allOf:
-      - $ref: '#/components/schemas/feedback'
-    metadata:
-      type: object
-      additionalProperties: true
-      minProperties: 1
-    json-patch-with-value:
-      type: object
-      additionalProperties: false
-      properties:
-        op:
-          type: string
-          enum:
-          - add
-          - replace
-          - test
-        path:
-          type: string
-        value:
-          oneOf:
-          - type: string
-          - type: number
-          - type: boolean
-          - type: object
-          - type: array
-          - type: 'null'
-      required:
-      - op
-      - path
-      - value
-    json-patch-operations:
-      description: An array of RFC 6902 JSON Patch operations.
-      type: array
-      minItems: 1
-      items:
-        type: object
-        discriminator:
-          propertyName: op
-          mapping:
-            add: '#/components/schemas/json-patch-with-value'
-            copy: '#/components/schemas/json-patch-with-from'
-            move: '#/components/schemas/json-patch-with-from'
-            remove: '#/components/schemas/json-patch-remove'
-            replace: '#/components/schemas/json-patch-with-value'
-            test: '#/components/schemas/json-patch-with-value'
-        oneOf:
-        - title: Add/Replace/Test
-          $ref: '#/components/schemas/json-patch-with-value'
-        - title: Move/Copy
-          $ref: '#/components/schemas/json-patch-with-from'
-        - title: Remove
-          $ref: '#/components/schemas/json-patch-remove'
-        required:
-        - op
-    subdivision-code-for-request:
-      type: string
-      pattern: ^[A-Z]{2}-[A-Z0-9]{1,3}$
-    country-code-for-request:
-      type: string
-      pattern: ^[A-Z]{2}$
-  headers:
-    metadata-etag:
-      description: The entity metadata revision.
-      schema:
-        type: string
-        pattern: ^"[A-Fa-f0-9]{64}"$
-      examples:
-        ETag:
-          value: '"9ff2666faa58fabfc282eb90016e7182fe785d37dcdb861c6469cccaec13c876"'
   securitySchemes:
     OAuth2:
       type: oauth2
