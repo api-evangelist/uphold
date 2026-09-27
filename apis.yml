@@ -12,17 +12,20 @@ description: >-
   Rule widgets, a Svix-backed webhook event surface, a full Sandbox with test helpers, a public Postman
   workspace, an llms.txt, an A2A agent card and a documentation MCP server.
 deliveryModel:
-  model: unknown
+  model: saas
+  license_evidence:
+    not_product:
+    - uphold/docs
   open_source: unknown
   commercial: true
   callable_host: true
-  label: Delivery model not determined — needs a product licence on record
+  label: Hosted service · you call their endpoint
   confidence: low
   source:
   - openapi
   - pricing
-  - repository-unlicensed
-  generated: '2026-08-28'
+  - repository-not-product
+  generated: '2026-09-25'
   method: derived
 accessModel:
   pricing: unknown
@@ -60,7 +63,8 @@ tags:
 - Embedded Finance
 - Travel Rule
 - Webhook
-- agent-native
+- Agent-Native
+- A2A
 tags_raw:
 - Company
 - cryptocurrency
@@ -76,6 +80,7 @@ tags_raw:
 - travel-rule
 - webhooks
 - agent-native
+- A2A
 apis:
 - name: Uphold Public API (v0)
   description: >-
@@ -106,7 +111,7 @@ apis:
   humanURL: https://developer.uphold.com/get-started/build-with-ai
   baseURL: https://developer.uphold.com/mcp
   tags:
-  - agent-native
+  - Agent-Native
   - MCP
   tags_raw:
   - agent-native
@@ -1167,3 +1172,10 @@ x-enrichment:
   status: enriched
   artifacts_added: 39
   pass: local-v1
+x-a2a:
+  verified: true
+  probed: '2026-09-26'
+  url: "https://developer.uphold.com/.well-known/agent-card.json"
+  grade: "conformant"
+  protocol_version: "0.3"
+  control: 404

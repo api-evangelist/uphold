@@ -41,6 +41,20 @@ paths:
           $ref: '#/components/responses/too-many-requests'
 components:
   schemas:
+    oauth2-error:
+      type: object
+      properties:
+        error:
+          description: A single error code.
+          type: string
+        error_description:
+          description: A human-readable description of the error.
+          type: string
+        error_uri:
+          description: A URI to a page with more information about the error.
+          type: string
+      required:
+      - error
     feedback:
       description: A feedback message with a code and human-readable description.
       type: object
@@ -75,20 +89,6 @@ components:
       description: The error information.
       allOf:
       - $ref: '#/components/schemas/feedback'
-    oauth2-error:
-      type: object
-      properties:
-        error:
-          description: A single error code.
-          type: string
-        error_description:
-          description: A human-readable description of the error.
-          type: string
-        error_uri:
-          description: A URI to a page with more information about the error.
-          type: string
-      required:
-      - error
     create-oauth2-token-refresh-token:
       type: object
       properties:
@@ -131,17 +131,22 @@ components:
       - token_type
       - expires_in
   responses:
-    too-many-requests:
-      description: Too Many Requests.
-      headers:
-        Retry-After:
-          description: The number of seconds to wait before making a new request.
+    create-oauth2-token-unauthorized-response:
+      description: Unauthorized.
+      content:
+        application/json:
           schema:
-            type: integer
-            format: int32
+            $ref: '#/components/schemas/oauth2-error'
           examples:
-            Retry After:
-              value: 60
+            Invalid Authorization Header:
+              value:
+                error: invalid_client
+                error_description: Client id and secret could not be extracted from Authorization header
+            Invalid Client:
+              value:
+                error: invalid_client
+                error_description: Client does not exist or secret is incorrect
+      headers:
         x-uphold-request-id:
           description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
           required: true
@@ -151,15 +156,6 @@ components:
           examples:
             Request ID:
               value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-          examples:
-            Too Many Requests:
-              value:
-                code: too_many_requests
-                message: Try again later
     create-oauth2-token-bad-request-response:
       description: Bad Request.
       content:
@@ -183,31 +179,6 @@ components:
               value:
                 error: invalid_scope
                 error_description: Requested scopes must be equal or narrower
-      headers:
-        x-uphold-request-id:
-          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
-          required: true
-          schema:
-            type: string
-            format: uuid
-          examples:
-            Request ID:
-              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-    create-oauth2-token-unauthorized-response:
-      description: Unauthorized.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/oauth2-error'
-          examples:
-            Invalid Authorization Header:
-              value:
-                error: invalid_client
-                error_description: Client id and secret could not be extracted from Authorization header
-            Invalid Client:
-              value:
-                error: invalid_client
-                error_description: Client does not exist or secret is incorrect
       headers:
         x-uphold-request-id:
           description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
@@ -246,6 +217,46 @@ components:
                 expires_in: 600
                 scope: users:* users.kyc:read
                 token_type: Bearer
+    too-many-requests:
+      description: Too Many Requests.
+      headers:
+        Retry-After:
+          description: The number of seconds to wait before making a new request.
+          schema:
+            type: integer
+            format: int32
+          examples:
+            Retry After:
+              value: 60
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Too Many Requests:
+              value:
+                code: too_many_requests
+                message: Try again later
+  parameters:
+    create-oauth2-token-authorization:
+      name: Authorization
+      description: Basic authentication credentials, in the format `Basic <base64(client_id:client_secret)>`.
+      in: header
+      required: false
+      schema:
+        type: string
+      examples:
+        Basic Authorization:
+          value: Basic aW52YWxpZDpzZWNyZXQ=
   requestBodies:
     create-oauth2-token-request-body:
       content:
@@ -269,17 +280,6 @@ components:
               value:
                 grant_type: client_credentials
                 scope: users:* users.kyc:read
-  parameters:
-    create-oauth2-token-authorization:
-      name: Authorization
-      description: Basic authentication credentials, in the format `Basic <base64(client_id:client_secret)>`.
-      in: header
-      required: false
-      schema:
-        type: string
-      examples:
-        Basic Authorization:
-          value: Basic aW52YWxpZDpzZWNyZXQ=
   securitySchemes:
     OAuth2:
       type: oauth2

@@ -102,79 +102,6 @@ paths:
           $ref: '#/components/responses/too-many-requests'
 components:
   responses:
-    create-kyc-sharing-session-not-found-response:
-      description: Resource not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-          examples:
-            User Not Found:
-              value:
-                code: entity_not_found
-                message: The user cannot be found
-                details:
-                  entity: user
-      headers:
-        x-uphold-request-id:
-          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
-          required: true
-          schema:
-            type: string
-            format: uuid
-          examples:
-            Request ID:
-              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-    create-kyc-sharing-session-completed-response:
-      description: KYC sharing already completed.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/kyc-sharing'
-          examples:
-            KYC Sharing Already Completed:
-              value:
-                kycSharing:
-                  processes: []
-      headers:
-        x-uphold-request-id:
-          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
-          required: true
-          schema:
-            type: string
-            format: uuid
-          examples:
-            Request ID:
-              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-    forbidden:
-      description: Forbidden.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-          examples:
-            Token Insufficient Scopes:
-              value:
-                code: token_insufficient_scopes
-                message: Authorization failed due to insufficient scopes
-                details:
-                  security:
-                  - scheme: OAuth
-                    schemeScopes:
-                    - required:scope_1
-                    - required:scope_2
-                    tokenScopes:
-                    - token:scope
-      headers:
-        x-uphold-request-id:
-          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
-          required: true
-          schema:
-            type: string
-            format: uuid
-          examples:
-            Request ID:
-              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
     bad-request:
       description: Bad Request.
       content:
@@ -195,86 +122,6 @@ components:
                     rule: type
                     ruleParams:
                       type: string
-      headers:
-        x-uphold-request-id:
-          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
-          required: true
-          schema:
-            type: string
-            format: uuid
-          examples:
-            Request ID:
-              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-    too-many-requests:
-      description: Too Many Requests.
-      headers:
-        Retry-After:
-          description: The number of seconds to wait before making a new request.
-          schema:
-            type: integer
-            format: int32
-          examples:
-            Retry After:
-              value: 60
-        x-uphold-request-id:
-          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
-          required: true
-          schema:
-            type: string
-            format: uuid
-          examples:
-            Request ID:
-              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-          examples:
-            Too Many Requests:
-              value:
-                code: too_many_requests
-                message: Try again later
-    identify-kyc-sharing-existing-user-response:
-      description: User identified.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/kyc-sharing-user'
-          examples:
-            Existing User Retrieved:
-              value:
-                user:
-                  id: cd21b26d-35d2-408a-9201-b8fdbef7a604
-                  email: john.doe@uphold.com
-      headers:
-        x-uphold-request-id:
-          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
-          required: true
-          schema:
-            type: string
-            format: uuid
-          examples:
-            Request ID:
-              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-    create-kyc-sharing-session-created-response:
-      description: KYC Sharing session created.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/kyc-sharing'
-          examples:
-            KYC Sharing Session Created:
-              value:
-                kycSharing:
-                  processes:
-                  - address
-                  - profile
-                  - phone
-                  userToken:
-                    access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJjbGllbnRfaWQiLCJvcmciOiIxOTRkNjJiYS1mNTg1LTQwZmYtODNkNy05Y2I5OWIxYzc3YzAiLCJzY29wZSI6InVzZXJzIGt5YyIsImlhdCI6MTcyMjUzMzA4NiwiZXhwIjoxNzIyNTMzNjg2fQ.yDFu9WgkEmvucg_38xS1qHEMq2Ku7SsMzHg8A39U2CM
-                    expires_in: 600
-                    token_type: Bearer
-                    scope: core.kyc.address:update core.kyc.profile:update core.kyc.phone:update
       headers:
         x-uphold-request-id:
           description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
@@ -338,6 +185,57 @@ components:
           examples:
             Request ID:
               value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    forbidden:
+      description: Forbidden.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Token Insufficient Scopes:
+              value:
+                code: token_insufficient_scopes
+                message: Authorization failed due to insufficient scopes
+                details:
+                  security:
+                  - scheme: OAuth
+                    schemeScopes:
+                    - required:scope_1
+                    - required:scope_2
+                    tokenScopes:
+                    - token:scope
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    identify-kyc-sharing-existing-user-response:
+      description: User identified.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/kyc-sharing-user'
+          examples:
+            Existing User Retrieved:
+              value:
+                user:
+                  id: cd21b26d-35d2-408a-9201-b8fdbef7a604
+                  email: john.doe@uphold.com
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
     identify-kyc-sharing-user-conflict-response:
       description: Business logic error.
       content:
@@ -380,6 +278,64 @@ components:
           examples:
             Request ID:
               value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    too-many-requests:
+      description: Too Many Requests.
+      headers:
+        Retry-After:
+          description: The number of seconds to wait before making a new request.
+          schema:
+            type: integer
+            format: int32
+          examples:
+            Retry After:
+              value: 60
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Too Many Requests:
+              value:
+                code: too_many_requests
+                message: Try again later
+    create-kyc-sharing-session-created-response:
+      description: KYC Sharing session created.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/kyc-sharing'
+          examples:
+            KYC Sharing Session Created:
+              value:
+                kycSharing:
+                  processes:
+                  - address
+                  - profile
+                  - phone
+                  userToken:
+                    access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJjbGllbnRfaWQiLCJvcmciOiIxOTRkNjJiYS1mNTg1LTQwZmYtODNkNy05Y2I5OWIxYzc3YzAiLCJzY29wZSI6InVzZXJzIGt5YyIsImlhdCI6MTcyMjUzMzA4NiwiZXhwIjoxNzIyNTMzNjg2fQ.yDFu9WgkEmvucg_38xS1qHEMq2Ku7SsMzHg8A39U2CM
+                    expires_in: 600
+                    token_type: Bearer
+                    scope: core.kyc.address:update core.kyc.profile:update core.kyc.phone:update
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
     identify-kyc-sharing-new-user-response:
       description: User created.
       content:
@@ -402,106 +358,60 @@ components:
           examples:
             Request ID:
               value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-  schemas:
-    feedback:
-      description: A feedback message with a code and human-readable description.
-      type: object
-      properties:
-        code:
-          description: A short string with a brief explanation about the code reported.
-          type: string
-        message:
-          description: A human-readable message providing more details.
-          type: string
-        details:
-          description: Additional information about the feedback reported.
-          type: object
-          additionalProperties: true
-      required:
-      - code
-      - message
-    country-code-for-request:
-      type: string
-      pattern: ^[A-Z]{2}$
-    string-no-edge-spaces:
-      type: string
-      pattern: ^\S.*\S$|^\S$
-    kyc-sharing:
-      type: object
-      properties:
-        kycSharing:
-          description: The KYC sharing session.
-          type: object
-          properties:
-            processes:
-              description: The missing KYC processes.
-              type: array
-              items:
-                type: string
-                enum:
-                - profile
-                - address
-                - email
-                - phone
-                - identity
-            userToken:
-              allOf:
-              - description: The user access token to update the missing KYC processes.
-              - $ref: '#/components/schemas/oauth2-token'
-          required:
-          - processes
-      required:
-      - kycSharing
-    oauth2-token:
-      type: object
-      properties:
-        access_token:
-          type: string
-          description: The access token string issued.
-        refresh_token:
-          type: string
-          description: The refresh token string issued (only applicable to certain grant types).
-        expires_in:
-          type: integer
-          description: The number of seconds until the token expires.
-        scope:
-          description: The list of scopes, delimited with spaces.
-          type: string
-        token_type:
-          type: string
-          enum:
-          - Bearer
-      required:
-      - access_token
-      - token_type
-      - expires_in
-    error:
-      description: The error information.
-      allOf:
-      - $ref: '#/components/schemas/feedback'
-    subdivision-code-for-request:
-      type: string
-      pattern: ^[A-Z]{2}-[A-Z0-9]{1,3}$
-    kyc-sharing-user:
-      type: object
-      properties:
-        user:
-          type: object
-          properties:
-            id:
-              description: The id of the user.
-              type: string
-              format: uuid
-            email:
-              description: The email address of the user.
-              type: string
-              format: email
-          required:
-          - id
-          - email
-      required:
-      - user
+    create-kyc-sharing-session-not-found-response:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            User Not Found:
+              value:
+                code: entity_not_found
+                message: The user cannot be found
+                details:
+                  entity: user
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    create-kyc-sharing-session-completed-response:
+      description: KYC sharing already completed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/kyc-sharing'
+          examples:
+            KYC Sharing Already Completed:
+              value:
+                kycSharing:
+                  processes: []
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
   parameters:
+    x-uphold-user-city:
+      name: X-Uphold-User-City
+      description: Contains the name of the city of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        User City:
+          value: San Francisco
     x-uphold-user-origin:
       name: X-Uphold-User-Origin
       description: Contains the origin of the request made by the end user.
@@ -511,6 +421,21 @@ components:
       examples:
         Origin:
           value: https://uphold.com
+    x-uphold-user-ip:
+      name: X-Uphold-User-Ip
+      description: Contains the IP of the end user that is requesting the operation.
+      in: header
+      schema:
+        oneOf:
+        - title: IPv4
+          type: string
+          format: ipv4
+        - title: IPv6
+          type: string
+          format: ipv6
+      examples:
+        User Ip:
+          value: 47.174.97.164
     x-uphold-user-subdivision:
       name: X-Uphold-User-Subdivision
       description: Contains the code of the subdivision of the end user that is requesting the operation.
@@ -538,30 +463,105 @@ components:
       examples:
         User Country:
           value: US
-    x-uphold-user-ip:
-      name: X-Uphold-User-Ip
-      description: Contains the IP of the end user that is requesting the operation.
-      in: header
-      schema:
-        oneOf:
-        - title: IPv4
+  schemas:
+    kyc-sharing-user:
+      type: object
+      properties:
+        user:
+          type: object
+          properties:
+            id:
+              description: The id of the user.
+              type: string
+              format: uuid
+            email:
+              description: The email address of the user.
+              type: string
+              format: email
+          required:
+          - id
+          - email
+      required:
+      - user
+    subdivision-code-for-request:
+      type: string
+      pattern: ^[A-Z]{2}-[A-Z0-9]{1,3}$
+    kyc-sharing:
+      type: object
+      properties:
+        kycSharing:
+          description: The KYC sharing session.
+          type: object
+          properties:
+            processes:
+              description: The missing KYC processes.
+              type: array
+              items:
+                type: string
+                enum:
+                - profile
+                - address
+                - email
+                - phone
+                - identity
+            userToken:
+              allOf:
+              - description: The user access token to update the missing KYC processes.
+              - $ref: '#/components/schemas/oauth2-token'
+          required:
+          - processes
+      required:
+      - kycSharing
+    feedback:
+      description: A feedback message with a code and human-readable description.
+      type: object
+      properties:
+        code:
+          description: A short string with a brief explanation about the code reported.
           type: string
-          format: ipv4
-        - title: IPv6
+        message:
+          description: A human-readable message providing more details.
           type: string
-          format: ipv6
-      examples:
-        User Ip:
-          value: 47.174.97.164
-    x-uphold-user-city:
-      name: X-Uphold-User-City
-      description: Contains the name of the city of the end user that is requesting the operation.
-      in: header
-      schema:
-        $ref: '#/components/schemas/string-no-edge-spaces'
-      examples:
-        User City:
-          value: San Francisco
+        details:
+          description: Additional information about the feedback reported.
+          type: object
+          additionalProperties: true
+      required:
+      - code
+      - message
+    string-no-edge-spaces:
+      type: string
+      pattern: ^\S.*\S$|^\S$
+    country-code-for-request:
+      type: string
+      pattern: ^[A-Z]{2}$
+    error:
+      description: The error information.
+      allOf:
+      - $ref: '#/components/schemas/feedback'
+    oauth2-token:
+      type: object
+      properties:
+        access_token:
+          type: string
+          description: The access token string issued.
+        refresh_token:
+          type: string
+          description: The refresh token string issued (only applicable to certain grant types).
+        expires_in:
+          type: integer
+          description: The number of seconds until the token expires.
+        scope:
+          description: The list of scopes, delimited with spaces.
+          type: string
+        token_type:
+          type: string
+          enum:
+          - Bearer
+      required:
+      - access_token
+      - token_type
+      - expires_in
   requestBodies:
     create-kyc-sharing-session-request-body:
       content:
