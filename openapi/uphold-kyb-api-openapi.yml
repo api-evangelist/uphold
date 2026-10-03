@@ -69,6 +69,37 @@ webhooks:
         '200':
           description: Return a 200 status to indicate that the data was received successfully.
 components:
+  parameters:
+    webhook-signature:
+      name: webhook-signature
+      description: The signature of the webhook.
+      in: header
+      required: true
+      schema:
+        type: string
+      examples:
+        Webhook Signature:
+          value: v1,Hw8/adTzfYtjPGhuBahfmGhUROG3AvEKH3mvkeK791Q=
+    webhook-id:
+      name: webhook-id
+      description: The unique identifier of the webhook.
+      in: header
+      required: true
+      schema:
+        type: string
+      examples:
+        Webhook ID:
+          value: msg_p5jXN8AQM9LWM0D4loKWxJek
+    webhook-timestamp:
+      name: webhook-timestamp
+      description: The timestamp of the webhook, in seconds after the Unix epoch.
+      in: header
+      required: true
+      schema:
+        type: integer
+      examples:
+        Webhook Timestamp:
+          value: 1614265330
   schemas:
     webhook-event:
       description: The webhook event information.
@@ -93,37 +124,6 @@ components:
       - type
       - createdAt
       - data
-  parameters:
-    webhook-signature:
-      name: webhook-signature
-      description: The signature of the webhook.
-      in: header
-      required: true
-      schema:
-        type: string
-      examples:
-        Webhook Signature:
-          value: v1,Hw8/adTzfYtjPGhuBahfmGhUROG3AvEKH3mvkeK791Q=
-    webhook-timestamp:
-      name: webhook-timestamp
-      description: The timestamp of the webhook, in seconds after the Unix epoch.
-      in: header
-      required: true
-      schema:
-        type: integer
-      examples:
-        Webhook Timestamp:
-          value: 1614265330
-    webhook-id:
-      name: webhook-id
-      description: The unique identifier of the webhook.
-      in: header
-      required: true
-      schema:
-        type: string
-      examples:
-        Webhook ID:
-          value: msg_p5jXN8AQM9LWM0D4loKWxJek
   securitySchemes:
     OAuth2:
       type: oauth2
