@@ -130,157 +130,188 @@ paths:
         '429':
           $ref: '#/components/responses/too-many-requests'
 components:
-  schemas:
-    error:
-      description: The error information.
-      allOf:
-      - $ref: '#/components/schemas/feedback'
-    file:
-      allOf:
-      - $ref: '#/components/schemas/file-base'
-      - type: object
-        properties:
-          download:
-            description: The download information of the file.
+  requestBodies:
+    create-file-request-body:
+      content:
+        application/json:
+          schema:
             type: object
             properties:
-              url:
-                description: The pre-signed URL to download the file.
+              category:
+                description: The category of the file.
                 type: string
-                format: uri
-              expiresAt:
-                description: The date and time when the download URL expires.
+                enum:
+                - document
+                - image
+                - video
+              contentType:
+                description: The content type of the file.
                 type: string
-                format: date-time
+                maxLength: 100
+              metadata:
+                description: Additional data for the file.
+                $ref: '#/components/schemas/metadata'
             required:
-            - url
-            - expiresAt
-    country-code-for-request:
-      type: string
-      pattern: ^[A-Z]{2}$
-    subdivision-code-for-request:
-      type: string
-      pattern: ^[A-Z]{2}-[A-Z0-9]{1,3}$
-    files-settings:
-      type: object
-      additionalProperties:
-        title: File category settings
-        type: object
-        properties:
-          allowedContentTypes:
-            description: The allowed content types.
-            type: array
-            items:
-              type: string
-          minFileSize:
-            description: The minimum file size in bytes.
-            type: integer
-            format: int64
-          maxFileSize:
-            description: The maximum file size in bytes.
-            type: integer
-            format: int64
-          expiresIn:
-            description: The expiration time in seconds.
-            type: integer
-            format: int64
-        required:
-        - allowedContentTypes
-        - minFileSize
-        - maxFileSize
-        - expiresIn
-    file-for-upload:
-      allOf:
-      - $ref: '#/components/schemas/file-base'
-      - type: object
-        properties:
-          upload:
-            description: The upload information of the file.
-            type: object
-            properties:
-              url:
-                description: The pre-signed URL to upload the file to.
-                type: string
-                format: uri
-              formData:
-                description: The form data to include when uploading the file.
-                type: object
-                additionalProperties:
-                  type: string
-              expiresAt:
-                description: The date and time when the upload URL expires.
-                type: string
-                format: date-time
-            required:
-            - url
-            - formData
-            - expiresAt
-        required:
-        - upload
-    file-base:
-      type: object
-      properties:
-        id:
-          description: The id of the file.
-          type: string
-          format: uuid
-        status:
-          description: The status of the file.
+            - category
+            - contentType
+          examples:
+            Create File:
+              value:
+                category: image
+                contentType: image/png
+                metadata:
+                  externalId: 123
+  parameters:
+    x-on-behalf-of:
+      name: X-On-Behalf-Of
+      description: The subject on whose behalf the operation is being performed.
+      in: header
+      schema:
+        type: string
+        pattern: ^(user|client)\s[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$
+      examples:
+        User Identifier:
+          value: user cd21b26d-35d2-408a-9201-b8fdbef7a604
+        Client Identifier:
+          value: client 3fa85f64-5717-4562-b3fc-2c963f66afa6
+    list-files-settings-file-category-filter:
+      name: category
+      in: query
+      description: Filter settings by file category (e.g., image).
+      explode: false
+      schema:
+        type: array
+        maxItems: 3
+        uniqueItems: true
+        items:
           type: string
           enum:
-          - pending
-          - uploaded
-        category:
-          description: The category of the file.
+          - document
+          - image
+          - video
+      examples:
+        Filter by Image:
+          value:
+          - image
+    x-uphold-user-subdivision:
+      name: X-Uphold-User-Subdivision
+      description: Contains the code of the subdivision of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/subdivision-code-for-request'
+      examples:
+        User Subdivision:
+          value: US-CA
+    x-uphold-user-ip:
+      name: X-Uphold-User-Ip
+      description: Contains the IP of the end user that is requesting the operation.
+      in: header
+      schema:
+        oneOf:
+        - title: IPv4
           type: string
-        contentType:
-          description: The content type of the file.
+          format: ipv4
+        - title: IPv6
           type: string
-      required:
-      - id
-      - status
-      - category
-      - contentType
-    feedback:
-      description: A feedback message with a code and human-readable description.
-      type: object
-      properties:
-        code:
-          description: A short string with a brief explanation about the code reported.
-          type: string
-        message:
-          description: A human-readable message providing more details.
-          type: string
-        details:
-          description: Additional information about the feedback reported.
-          type: object
-          additionalProperties: true
-      required:
-      - code
-      - message
-    metadata:
-      type: object
-      additionalProperties: true
-      minProperties: 1
-    string-no-edge-spaces:
-      type: string
-      pattern: ^\S.*\S$|^\S$
+          format: ipv6
+      examples:
+        User Ip:
+          value: 47.174.97.164
+    file-id:
+      name: fileId
+      description: The file id.
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      examples:
+        File ID:
+          value: 38cce774-b225-41ed-a9fd-f9c9777a13de
+    x-uphold-user-country:
+      name: X-Uphold-User-Country
+      description: Contains the code of the country of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/country-code-for-request'
+      examples:
+        User Country:
+          value: US
+    x-uphold-user-city:
+      name: X-Uphold-User-City
+      description: Contains the name of the city of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        User City:
+          value: San Francisco
+    x-uphold-user-agent:
+      name: X-Uphold-User-Agent
+      description: Contains the user agent of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        User Agent:
+          value: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36
+    x-uphold-user-origin:
+      name: X-Uphold-User-Origin
+      description: Contains the origin of the request made by the end user.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        Origin:
+          value: https://uphold.com
   responses:
-    create-file-conflict-response:
-      description: Business logic error.
+    get-files-settings-response:
+      description: File settings retrieved.
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/error'
+            type: object
+            properties:
+              settings:
+                $ref: '#/components/schemas/files-settings'
+            required:
+            - settings
           examples:
-            File Content Type Not Allowed:
+            Settings List Retrieved:
               value:
-                code: file_content_type_not_allowed
-                message: The file content type is not allowed for the specified category
-            Max Files Limit Exceeded:
+                settings:
+                  document:
+                    allowedContentTypes:
+                    - application/pdf
+                    - image/jpeg
+                    - image/png
+                    maxFileSize: 25000000
+                    minFileSize: 1
+                    expiresIn: 900
+                  image:
+                    allowedContentTypes:
+                    - image/jpeg
+                    - image/png
+                    maxFileSize: 15000000
+                    minFileSize: 1
+                    expiresIn: 900
+                  video:
+                    allowedContentTypes:
+                    - video/mp4
+                    - video/mpeg
+                    maxFileSize: 100000000
+                    minFileSize: 1
+                    expiresIn: 900
+            Image Settings Retrieved:
               value:
-                code: max_files_limit_exceeded
-                message: The maximum number of allowed files has been exceeded
+                settings:
+                  image:
+                    allowedContentTypes:
+                    - image/jpeg
+                    - image/png
+                    maxFileSize: 15000000
+                    minFileSize: 1
+                    expiresIn: 900
       headers:
         x-uphold-request-id:
           description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
@@ -291,17 +322,27 @@ components:
           examples:
             Request ID:
               value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-    too-many-requests:
-      description: Too Many Requests.
-      headers:
-        Retry-After:
-          description: The number of seconds to wait before making a new request.
+    bad-request:
+      description: Bad Request.
+      content:
+        application/json:
           schema:
-            type: integer
-            format: int32
+            $ref: '#/components/schemas/error'
           examples:
-            Retry After:
-              value: 60
+            Invalid Request:
+              value:
+                code: request_invalid
+                message: The request has missing or invalid parameters
+                details:
+                  context: <context>
+                  violations:
+                  - property: <property>
+                    rule: required
+                  - property: <property>
+                    rule: type
+                    ruleParams:
+                      type: string
+      headers:
         x-uphold-request-id:
           description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
           required: true
@@ -311,15 +352,35 @@ components:
           examples:
             Request ID:
               value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    forbidden:
+      description: Forbidden.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
           examples:
-            Too Many Requests:
+            Token Insufficient Scopes:
               value:
-                code: too_many_requests
-                message: Try again later
+                code: token_insufficient_scopes
+                message: Authorization failed due to insufficient scopes
+                details:
+                  security:
+                  - scheme: OAuth
+                    schemeScopes:
+                    - required:scope_1
+                    - required:scope_2
+                    tokenScopes:
+                    - token:scope
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
     create-file-response:
       description: File created.
       content:
@@ -394,65 +455,6 @@ components:
           examples:
             Request ID:
               value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-    bad-request:
-      description: Bad Request.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-          examples:
-            Invalid Request:
-              value:
-                code: request_invalid
-                message: The request has missing or invalid parameters
-                details:
-                  context: <context>
-                  violations:
-                  - property: <property>
-                    rule: required
-                  - property: <property>
-                    rule: type
-                    ruleParams:
-                      type: string
-      headers:
-        x-uphold-request-id:
-          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
-          required: true
-          schema:
-            type: string
-            format: uuid
-          examples:
-            Request ID:
-              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-    unauthorized:
-      description: Unauthorized.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-          examples:
-            Token Expired:
-              value:
-                code: token_expired
-                message: The access token has expired
-            Token Invalid:
-              value:
-                code: token_invalid
-                message: The access token is invalid
-            Token Revoked:
-              value:
-                code: token_revoked
-                message: The access token has been revoked
-      headers:
-        x-uphold-request-id:
-          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
-          required: true
-          schema:
-            type: string
-            format: uuid
-          examples:
-            Request ID:
-              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
     get-file-response:
       description: File retrieved.
       content:
@@ -492,82 +494,21 @@ components:
           examples:
             Request ID:
               value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-    get-files-settings-response:
-      description: File settings retrieved.
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              settings:
-                $ref: '#/components/schemas/files-settings'
-            required:
-            - settings
-          examples:
-            Settings List Retrieved:
-              value:
-                settings:
-                  document:
-                    allowedContentTypes:
-                    - application/pdf
-                    - image/jpeg
-                    - image/png
-                    maxFileSize: 25000000
-                    minFileSize: 1
-                    expiresIn: 900
-                  image:
-                    allowedContentTypes:
-                    - image/jpeg
-                    - image/png
-                    maxFileSize: 15000000
-                    minFileSize: 1
-                    expiresIn: 900
-                  video:
-                    allowedContentTypes:
-                    - video/mp4
-                    - video/mpeg
-                    maxFileSize: 100000000
-                    minFileSize: 1
-                    expiresIn: 900
-            Image Settings Retrieved:
-              value:
-                settings:
-                  image:
-                    allowedContentTypes:
-                    - image/jpeg
-                    - image/png
-                    maxFileSize: 15000000
-                    minFileSize: 1
-                    expiresIn: 900
-      headers:
-        x-uphold-request-id:
-          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
-          required: true
-          schema:
-            type: string
-            format: uuid
-          examples:
-            Request ID:
-              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-    forbidden:
-      description: Forbidden.
+    create-file-conflict-response:
+      description: Business logic error.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
           examples:
-            Token Insufficient Scopes:
+            File Content Type Not Allowed:
               value:
-                code: token_insufficient_scopes
-                message: Authorization failed due to insufficient scopes
-                details:
-                  security:
-                  - scheme: OAuth
-                    schemeScopes:
-                    - required:scope_1
-                    - required:scope_2
-                    tokenScopes:
-                    - token:scope
+                code: file_content_type_not_allowed
+                message: The file content type is not allowed for the specified category
+            Max Files Limit Exceeded:
+              value:
+                code: max_files_limit_exceeded
+                message: The maximum number of allowed files has been exceeded
       headers:
         x-uphold-request-id:
           description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
@@ -601,140 +542,199 @@ components:
           examples:
             Request ID:
               value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-  parameters:
-    x-on-behalf-of:
-      name: X-On-Behalf-Of
-      description: The subject on whose behalf the operation is being performed.
-      in: header
-      schema:
-        type: string
-        pattern: ^(user|client)\s[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$
-      examples:
-        User Identifier:
-          value: user cd21b26d-35d2-408a-9201-b8fdbef7a604
-        Client Identifier:
-          value: client 3fa85f64-5717-4562-b3fc-2c963f66afa6
-    x-uphold-user-agent:
-      name: X-Uphold-User-Agent
-      description: Contains the user agent of the end user that is requesting the operation.
-      in: header
-      schema:
-        $ref: '#/components/schemas/string-no-edge-spaces'
-      examples:
-        User Agent:
-          value: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36
-    x-uphold-user-origin:
-      name: X-Uphold-User-Origin
-      description: Contains the origin of the request made by the end user.
-      in: header
-      schema:
-        $ref: '#/components/schemas/string-no-edge-spaces'
-      examples:
-        Origin:
-          value: https://uphold.com
-    x-uphold-user-country:
-      name: X-Uphold-User-Country
-      description: Contains the code of the country of the end user that is requesting the operation.
-      in: header
-      schema:
-        $ref: '#/components/schemas/country-code-for-request'
-      examples:
-        User Country:
-          value: US
-    x-uphold-user-subdivision:
-      name: X-Uphold-User-Subdivision
-      description: Contains the code of the subdivision of the end user that is requesting the operation.
-      in: header
-      schema:
-        $ref: '#/components/schemas/subdivision-code-for-request'
-      examples:
-        User Subdivision:
-          value: US-CA
-    list-files-settings-file-category-filter:
-      name: category
-      in: query
-      description: Filter settings by file category (e.g., image).
-      explode: false
-      schema:
-        type: array
-        maxItems: 3
-        uniqueItems: true
-        items:
-          type: string
-          enum:
-          - document
-          - image
-          - video
-      examples:
-        Filter by Image:
-          value:
-          - image
-    x-uphold-user-city:
-      name: X-Uphold-User-City
-      description: Contains the name of the city of the end user that is requesting the operation.
-      in: header
-      schema:
-        $ref: '#/components/schemas/string-no-edge-spaces'
-      examples:
-        User City:
-          value: San Francisco
-    file-id:
-      name: fileId
-      description: The file id.
-      in: path
-      required: true
-      schema:
-        type: string
-        format: uuid
-      examples:
-        File ID:
-          value: 38cce774-b225-41ed-a9fd-f9c9777a13de
-    x-uphold-user-ip:
-      name: X-Uphold-User-Ip
-      description: Contains the IP of the end user that is requesting the operation.
-      in: header
-      schema:
-        oneOf:
-        - title: IPv4
-          type: string
-          format: ipv4
-        - title: IPv6
-          type: string
-          format: ipv6
-      examples:
-        User Ip:
-          value: 47.174.97.164
-  requestBodies:
-    create-file-request-body:
+    too-many-requests:
+      description: Too Many Requests.
+      headers:
+        Retry-After:
+          description: The number of seconds to wait before making a new request.
+          schema:
+            type: integer
+            format: int32
+          examples:
+            Retry After:
+              value: 60
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
       content:
         application/json:
           schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Too Many Requests:
+              value:
+                code: too_many_requests
+                message: Try again later
+    unauthorized:
+      description: Unauthorized.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Token Expired:
+              value:
+                code: token_expired
+                message: The access token has expired
+            Token Invalid:
+              value:
+                code: token_invalid
+                message: The access token is invalid
+            Token Revoked:
+              value:
+                code: token_revoked
+                message: The access token has been revoked
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+  schemas:
+    files-settings:
+      type: object
+      additionalProperties:
+        title: File category settings
+        type: object
+        properties:
+          allowedContentTypes:
+            description: The allowed content types.
+            type: array
+            items:
+              type: string
+          minFileSize:
+            description: The minimum file size in bytes.
+            type: integer
+            format: int64
+          maxFileSize:
+            description: The maximum file size in bytes.
+            type: integer
+            format: int64
+          expiresIn:
+            description: The expiration time in seconds.
+            type: integer
+            format: int64
+        required:
+        - allowedContentTypes
+        - minFileSize
+        - maxFileSize
+        - expiresIn
+    metadata:
+      type: object
+      additionalProperties: true
+      minProperties: 1
+    subdivision-code-for-request:
+      type: string
+      pattern: ^[A-Z]{2}-[A-Z0-9]{1,3}$
+    file-base:
+      type: object
+      properties:
+        id:
+          description: The id of the file.
+          type: string
+          format: uuid
+        status:
+          description: The status of the file.
+          type: string
+          enum:
+          - pending
+          - uploaded
+        category:
+          description: The category of the file.
+          type: string
+        contentType:
+          description: The content type of the file.
+          type: string
+      required:
+      - id
+      - status
+      - category
+      - contentType
+    country-code-for-request:
+      type: string
+      pattern: ^[A-Z]{2}$
+    file:
+      allOf:
+      - $ref: '#/components/schemas/file-base'
+      - type: object
+        properties:
+          download:
+            description: The download information of the file.
             type: object
             properties:
-              category:
-                description: The category of the file.
+              url:
+                description: The pre-signed URL to download the file.
                 type: string
-                enum:
-                - document
-                - image
-                - video
-              contentType:
-                description: The content type of the file.
+                format: uri
+              expiresAt:
+                description: The date and time when the download URL expires.
                 type: string
-                maxLength: 100
-              metadata:
-                description: Additional data for the file.
-                $ref: '#/components/schemas/metadata'
+                format: date-time
             required:
-            - category
-            - contentType
-          examples:
-            Create File:
-              value:
-                category: image
-                contentType: image/png
-                metadata:
-                  externalId: 123
+            - url
+            - expiresAt
+    file-for-upload:
+      allOf:
+      - $ref: '#/components/schemas/file-base'
+      - type: object
+        properties:
+          upload:
+            description: The upload information of the file.
+            type: object
+            properties:
+              url:
+                description: The pre-signed URL to upload the file to.
+                type: string
+                format: uri
+              formData:
+                description: The form data to include when uploading the file.
+                type: object
+                additionalProperties:
+                  type: string
+              expiresAt:
+                description: The date and time when the upload URL expires.
+                type: string
+                format: date-time
+            required:
+            - url
+            - formData
+            - expiresAt
+        required:
+        - upload
+    error:
+      description: The error information.
+      allOf:
+      - $ref: '#/components/schemas/feedback'
+    string-no-edge-spaces:
+      type: string
+      pattern: ^\S.*\S$|^\S$
+    feedback:
+      description: A feedback message with a code and human-readable description.
+      type: object
+      properties:
+        code:
+          description: A short string with a brief explanation about the code reported.
+          type: string
+        message:
+          description: A human-readable message providing more details.
+          type: string
+        details:
+          description: Additional information about the feedback reported.
+          type: object
+          additionalProperties: true
+      required:
+      - code
+      - message
   securitySchemes:
     OAuth2:
       type: oauth2

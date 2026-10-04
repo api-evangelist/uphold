@@ -102,25 +102,166 @@ paths:
         '429':
           $ref: '#/components/responses/too-many-requests'
 components:
+  parameters:
+    x-on-behalf-of:
+      name: X-On-Behalf-Of
+      description: The subject on whose behalf the operation is being performed.
+      in: header
+      schema:
+        type: string
+        pattern: ^(user|client)\s[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$
+      examples:
+        User Identifier:
+          value: user cd21b26d-35d2-408a-9201-b8fdbef7a604
+        Client Identifier:
+          value: client 3fa85f64-5717-4562-b3fc-2c963f66afa6
+    month:
+      name: month
+      description: The statement month.
+      in: query
+      required: true
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 12
+      examples:
+        Month:
+          value: 3
+    year:
+      name: year
+      description: The statement year.
+      in: query
+      required: true
+      schema:
+        type: integer
+        format: int32
+        minimum: 2010
+        maximum: 2100
+      examples:
+        Year:
+          value: 2026
+    period:
+      name: period
+      description: The statement period type.
+      in: query
+      required: true
+      schema:
+        type: string
+        enum:
+        - one-month
+      examples:
+        Period:
+          value: one-month
+    x-uphold-user-ip:
+      name: X-Uphold-User-Ip
+      description: Contains the IP of the end user that is requesting the operation.
+      in: header
+      schema:
+        oneOf:
+        - title: IPv4
+          type: string
+          format: ipv4
+        - title: IPv6
+          type: string
+          format: ipv6
+      examples:
+        User Ip:
+          value: 47.174.97.164
+    x-uphold-user-subdivision:
+      name: X-Uphold-User-Subdivision
+      description: Contains the code of the subdivision of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/subdivision-code-for-request'
+      examples:
+        User Subdivision:
+          value: US-CA
+    x-uphold-user-country:
+      name: X-Uphold-User-Country
+      description: Contains the code of the country of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/country-code-for-request'
+      examples:
+        User Country:
+          value: US
+    pagination-per-page:
+      name: perPage
+      description: The number of items per page.
+      in: query
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 100
+        default: 10
+      examples:
+        10 Items Per Page:
+          value: 10
+    denomination:
+      name: denomination
+      description: Specifies the asset code to use as the denomination for value conversion. If not provided, USD is used by default.
+      in: query
+      required: false
+      schema:
+        type: string
+        minLength: 1
+        default: USD
+      examples:
+        BTC Asset:
+          value: BTC
+    x-uphold-user-city:
+      name: X-Uphold-User-City
+      description: Contains the name of the city of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        User City:
+          value: San Francisco
+    x-uphold-user-agent:
+      name: X-Uphold-User-Agent
+      description: Contains the user agent of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        User Agent:
+          value: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36
+    x-uphold-user-origin:
+      name: X-Uphold-User-Origin
+      description: Contains the origin of the request made by the end user.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        Origin:
+          value: https://uphold.com
   schemas:
-    transaction-node-bank-address:
-      type: object
-      properties:
-        type:
-          description: The type of the node.
-          type: string
-          enum:
-          - bank-address
-        network:
-          description: The network of the bank transfer.
-          type: string
-      required:
-      - type
-      - network
-    error:
-      description: The error information.
-      allOf:
-      - $ref: '#/components/schemas/feedback'
+    transaction-status-reason:
+      description: The reason why the transaction failed.
+      type: string
+      enum:
+      - apm-account-holder-data-mismatch
+      - apm-authorization-failed
+      - apm-missing-account-holder-data
+      - apm-payment-method-declined
+      - bank-account-holder-name-mismatch
+      - beneficiary-country-restricted
+      - card-declined-by-bank
+      - card-expired
+      - card-permanently-declined-by-bank
+      - card-unauthorized
+      - card-unsupported
+      - card-withdrawals-unsupported
+      - insufficient-funds
+      - pending-requests-for-information
+      - provider-maximum-limit-exceeded
+      - screening-verification-failed
+      - travel-rule-verification-failed
+      - unspecified-error
+      - velocity
     transaction-origin-endpoint:
       type: object
       properties:
@@ -141,148 +282,6 @@ components:
       - amount
       - rate
       - node
-    transaction-denomination:
-      type: object
-      properties:
-        asset:
-          description: The asset in which the transaction is denominated.
-          type: string
-        amount:
-          description: The amount of the transaction.
-          type: string
-        rate:
-          description: The rate against the specified target (origin or destination).
-          type: string
-        target:
-          description: Whether this exact amount should be paid by the origin or received by the destination.
-          type: string
-          enum:
-          - origin
-          - destination
-      required:
-      - asset
-      - amount
-      - rate
-      - target
-    country-code-for-request:
-      type: string
-      pattern: ^[A-Z]{2}$
-    subdivision-code-for-request:
-      type: string
-      pattern: ^[A-Z]{2}-[A-Z0-9]{1,3}$
-    transactions-statement:
-      type: object
-      properties:
-        period:
-          $ref: '#/components/schemas/statement-period'
-        transactions:
-          type: array
-          items:
-            $ref: '#/components/schemas/transactions-statement-entry'
-      required:
-      - period
-      - transactions
-    transaction-node-crypto-address-execution-onchain:
-      type: object
-      properties:
-        mode:
-          description: The mode of execution.
-          type: string
-          enum:
-          - onchain
-        transactionHash:
-          description: The hash of the transaction in the blockchain.
-          $ref: '#/components/schemas/string-no-edge-spaces'
-      required:
-      - mode
-    transaction-destination-endpoint:
-      type: object
-      properties:
-        asset:
-          description: The asset of the endpoint.
-          type: string
-        amount:
-          description: The amount of the endpoint.
-          type: string
-        rate:
-          description: The rate of the endpoint against its counter-part (origin to destination and vice-versa).
-          type: string
-        node:
-          description: The node of the endpoint.
-          $ref: '#/components/schemas/transaction-destination-node'
-      required:
-      - asset
-      - amount
-      - rate
-      - node
-    transaction-node-crypto-address-execution-offchain:
-      type: object
-      properties:
-        mode:
-          description: The mode of execution.
-          type: string
-          enum:
-          - offchain
-        accountId:
-          description: The account id to which the off-chain transaction was made.
-          type: string
-          format: uuid
-        accountOwnerId:
-          description: The id of the user that owns the account to which the off-chain transaction was made.
-          type: string
-          format: uuid
-      required:
-      - mode
-    transaction-node-external-account:
-      type: object
-      properties:
-        type:
-          description: The type of the node.
-          type: string
-          enum:
-          - external-account
-        id:
-          description: The external account id.
-          type: string
-          format: uuid
-        confirmationUrl:
-          description: The URL to confirm the authorization using the external account (e.g., 3DS).
-          type: string
-          format: uri
-        ownerId:
-          description: The id of the user that owns the external account.
-          type: string
-          format: uuid
-        network:
-          description: The network used for the transaction with the external account.
-          type: string
-      required:
-      - type
-      - id
-      - ownerId
-    transaction-node-crypto-address:
-      type: object
-      properties:
-        type:
-          description: The type of the node.
-          type: string
-          enum:
-          - crypto-address
-        network:
-          description: The network that the crypto address is on.
-          $ref: '#/components/schemas/string-no-edge-spaces'
-        address:
-          description: The crypto address (may not be available for deposits).
-          $ref: '#/components/schemas/string-no-edge-spaces'
-        reference:
-          description: The additional identifier (e.g., destination tag, memo, or message) for the crypto address.
-          type: string
-        execution:
-          description: The execution details for the transaction.
-          $ref: '#/components/schemas/transaction-node-crypto-address-execution'
-      required:
-      - type
-      - network
     pagination:
       description: The pagination information.
       type: object
@@ -299,41 +298,118 @@ components:
           description: The URL to the next set of results.
           type: string
           format: uri
-    feedback:
-      description: A feedback message with a code and human-readable description.
+    transaction-node-crypto-address-execution:
+      type: object
+      discriminator:
+        propertyName: mode
+        mapping:
+          onchain: '#/components/schemas/transaction-node-crypto-address-execution-onchain'
+          offchain: '#/components/schemas/transaction-node-crypto-address-execution-offchain'
+          simulated: '#/components/schemas/transaction-node-crypto-address-execution-simulated'
+      oneOf:
+      - title: On-chain
+        $ref: '#/components/schemas/transaction-node-crypto-address-execution-onchain'
+      - title: Off-chain
+        $ref: '#/components/schemas/transaction-node-crypto-address-execution-offchain'
+      - title: Simulated
+        $ref: '#/components/schemas/transaction-node-crypto-address-execution-simulated'
+    transaction-fees:
+      type: array
+      items:
+        type: object
+        properties:
+          type:
+            description: The type of the fee.
+            type: string
+            enum:
+            - deposit
+            - exchange
+            - network
+            - withdrawal
+          code:
+            description: The code of the fee.
+            type: string
+          asset:
+            description: The asset in which the fee is denominated.
+            type: string
+          amount:
+            description: The amount of the fee.
+            type: string
+          percentage:
+            description: The percentage of the fee, if the amount was calculated from a percentage.
+            type: string
+        required:
+        - type
+        - code
+        - asset
+        - amount
+    transactions-statement-entry:
       type: object
       properties:
-        code:
-          description: A short string with a brief explanation about the code reported.
-          type: string
-        message:
-          description: A human-readable message providing more details.
-          type: string
-        details:
-          description: Additional information about the feedback reported.
+        rates:
           type: object
-          additionalProperties: true
+          description: Exchange rates keyed by asset-denomination pair (e.g. GBP-EUR, BTC-EUR).
+          additionalProperties:
+            type: string
+        transaction:
+          $ref: '#/components/schemas/transaction'
       required:
-      - code
-      - message
-    portfolio-statement:
+      - rates
+      - transaction
+    portfolio-statement-holding:
+      type: object
+      properties:
+        asset:
+          type: string
+          description: The asset code.
+        total:
+          type: string
+          description: The total amount held at the end of the period.
+      required:
+      - asset
+      - total
+    transactions-statement:
       type: object
       properties:
         period:
           $ref: '#/components/schemas/statement-period'
-        rates:
-          type: object
-          description: Exchange rates keyed by asset-denomination pair (e.g. BTC-USD, USD-EUR).
-          additionalProperties:
-            type: string
-        holdings:
+        transactions:
           type: array
           items:
-            $ref: '#/components/schemas/portfolio-statement-holding'
+            $ref: '#/components/schemas/transactions-statement-entry'
       required:
       - period
-      - rates
-      - holdings
+      - transactions
+    transaction-node-crypto-address-execution-simulated:
+      type: object
+      properties:
+        mode:
+          description: The mode of execution.
+          type: string
+          enum:
+          - simulated
+        transactionHash:
+          description: The simulated transaction hash.
+          $ref: '#/components/schemas/string-no-edge-spaces'
+      required:
+      - mode
+    transaction-node-apm:
+      type: object
+      properties:
+        type:
+          description: The type of the node.
+          type: string
+          enum:
+          - apm
+        method:
+          description: The alternative payment method to be used in the operation.
+          enum:
+          - apple-pay
+          - paypal
+          - venmo
+      required:
+      - type
+      - method
     transaction:
       type: object
       properties:
@@ -392,78 +468,134 @@ components:
       - createdAt
       - updatedAt
       - quotedAt
-    transaction-node-crypto-address-execution-simulated:
+    subdivision-code-for-request:
+      type: string
+      pattern: ^[A-Z]{2}-[A-Z0-9]{1,3}$
+    transaction-destination-endpoint:
       type: object
       properties:
-        mode:
-          description: The mode of execution.
+        asset:
+          description: The asset of the endpoint.
           type: string
-          enum:
-          - simulated
-        transactionHash:
-          description: The simulated transaction hash.
-          $ref: '#/components/schemas/string-no-edge-spaces'
+        amount:
+          description: The amount of the endpoint.
+          type: string
+        rate:
+          description: The rate of the endpoint against its counter-part (origin to destination and vice-versa).
+          type: string
+        node:
+          description: The node of the endpoint.
+          $ref: '#/components/schemas/transaction-destination-node'
       required:
-      - mode
-    transaction-node-apm:
+      - asset
+      - amount
+      - rate
+      - node
+    transaction-node-account:
       type: object
       properties:
         type:
           description: The type of the node.
           type: string
           enum:
-          - apm
-        method:
-          description: The alternative payment method to be used in the operation.
-          enum:
-          - apple-pay
-          - paypal
-          - venmo
+          - account
+        id:
+          description: The account id.
+          type: string
+          format: uuid
+        ownerId:
+          description: The id of the user that owns the account.
+          type: string
+          format: uuid
       required:
       - type
-      - method
-    portfolio-statement-holding:
+      - id
+      - ownerId
+    transaction-node-crypto-address-execution-offchain:
       type: object
       properties:
-        asset:
+        mode:
+          description: The mode of execution.
           type: string
-          description: The asset code.
-        total:
+          enum:
+          - offchain
+        accountId:
+          description: The account id to which the off-chain transaction was made.
           type: string
-          description: The total amount held at the end of the period.
+          format: uuid
+        accountOwnerId:
+          description: The id of the user that owns the account to which the off-chain transaction was made.
+          type: string
+          format: uuid
       required:
-      - asset
-      - total
-    transaction-fees:
-      type: array
-      items:
-        type: object
-        properties:
-          type:
-            description: The type of the fee.
-            type: string
-            enum:
-            - deposit
-            - exchange
-            - network
-            - withdrawal
-          code:
-            description: The code of the fee.
-            type: string
-          asset:
-            description: The asset in which the fee is denominated.
-            type: string
-          amount:
-            description: The amount of the fee.
-            type: string
-          percentage:
-            description: The percentage of the fee, if the amount was calculated from a percentage.
-            type: string
-        required:
-        - type
-        - code
-        - asset
-        - amount
+      - mode
+    transaction-node-external-account:
+      type: object
+      properties:
+        type:
+          description: The type of the node.
+          type: string
+          enum:
+          - external-account
+        id:
+          description: The external account id.
+          type: string
+          format: uuid
+        confirmationUrl:
+          description: The URL to confirm the authorization using the external account (e.g., 3DS).
+          type: string
+          format: uri
+        ownerId:
+          description: The id of the user that owns the external account.
+          type: string
+          format: uuid
+        network:
+          description: The network used for the transaction with the external account.
+          type: string
+      required:
+      - type
+      - id
+      - ownerId
+    statement-period:
+      type: object
+      properties:
+        from:
+          type: string
+          format: date-time
+          description: The start of the statement period.
+        to:
+          type: string
+          format: date-time
+          description: The end of the statement period.
+      required:
+      - from
+      - to
+    transaction-node-crypto-address:
+      type: object
+      properties:
+        type:
+          description: The type of the node.
+          type: string
+          enum:
+          - crypto-address
+        network:
+          description: The network that the crypto address is on.
+          $ref: '#/components/schemas/string-no-edge-spaces'
+        address:
+          description: The crypto address (may not be available for deposits).
+          $ref: '#/components/schemas/string-no-edge-spaces'
+        reference:
+          description: The additional identifier (e.g., destination tag, memo, or message) for the crypto address.
+          type: string
+        execution:
+          description: The execution details for the transaction.
+          $ref: '#/components/schemas/transaction-node-crypto-address-execution'
+      required:
+      - type
+      - network
+    country-code-for-request:
+      type: string
+      pattern: ^[A-Z]{2}$
     transaction-destination-node:
       type: object
       discriminator:
@@ -485,58 +617,43 @@ components:
         $ref: '#/components/schemas/transaction-node-apm'
       - title: Crypto address
         $ref: '#/components/schemas/transaction-node-crypto-address'
-    transaction-node-account:
+    transaction-denomination:
+      type: object
+      properties:
+        asset:
+          description: The asset in which the transaction is denominated.
+          type: string
+        amount:
+          description: The amount of the transaction.
+          type: string
+        rate:
+          description: The rate against the specified target (origin or destination).
+          type: string
+        target:
+          description: Whether this exact amount should be paid by the origin or received by the destination.
+          type: string
+          enum:
+          - origin
+          - destination
+      required:
+      - asset
+      - amount
+      - rate
+      - target
+    transaction-node-bank-address:
       type: object
       properties:
         type:
           description: The type of the node.
           type: string
           enum:
-          - account
-        id:
-          description: The account id.
+          - bank-address
+        network:
+          description: The network of the bank transfer.
           type: string
-          format: uuid
-        ownerId:
-          description: The id of the user that owns the account.
-          type: string
-          format: uuid
       required:
       - type
-      - id
-      - ownerId
-    string-no-edge-spaces:
-      type: string
-      pattern: ^\S.*\S$|^\S$
-    transaction-node-crypto-address-execution:
-      type: object
-      discriminator:
-        propertyName: mode
-        mapping:
-          onchain: '#/components/schemas/transaction-node-crypto-address-execution-onchain'
-          offchain: '#/components/schemas/transaction-node-crypto-address-execution-offchain'
-          simulated: '#/components/schemas/transaction-node-crypto-address-execution-simulated'
-      oneOf:
-      - title: On-chain
-        $ref: '#/components/schemas/transaction-node-crypto-address-execution-onchain'
-      - title: Off-chain
-        $ref: '#/components/schemas/transaction-node-crypto-address-execution-offchain'
-      - title: Simulated
-        $ref: '#/components/schemas/transaction-node-crypto-address-execution-simulated'
-    statement-period:
-      type: object
-      properties:
-        from:
-          type: string
-          format: date-time
-          description: The start of the statement period.
-        to:
-          type: string
-          format: date-time
-          description: The end of the statement period.
-      required:
-      - from
-      - to
+      - network
     transaction-origin-node:
       type: object
       discriminator:
@@ -558,212 +675,62 @@ components:
         $ref: '#/components/schemas/transaction-node-apm'
       - title: Crypto address
         $ref: '#/components/schemas/transaction-node-crypto-address'
-    transactions-statement-entry:
+    transaction-node-crypto-address-execution-onchain:
       type: object
       properties:
+        mode:
+          description: The mode of execution.
+          type: string
+          enum:
+          - onchain
+        transactionHash:
+          description: The hash of the transaction in the blockchain.
+          $ref: '#/components/schemas/string-no-edge-spaces'
+      required:
+      - mode
+    feedback:
+      description: A feedback message with a code and human-readable description.
+      type: object
+      properties:
+        code:
+          description: A short string with a brief explanation about the code reported.
+          type: string
+        message:
+          description: A human-readable message providing more details.
+          type: string
+        details:
+          description: Additional information about the feedback reported.
+          type: object
+          additionalProperties: true
+      required:
+      - code
+      - message
+    error:
+      description: The error information.
+      allOf:
+      - $ref: '#/components/schemas/feedback'
+    string-no-edge-spaces:
+      type: string
+      pattern: ^\S.*\S$|^\S$
+    portfolio-statement:
+      type: object
+      properties:
+        period:
+          $ref: '#/components/schemas/statement-period'
         rates:
           type: object
-          description: Exchange rates keyed by asset-denomination pair (e.g. GBP-EUR, BTC-EUR).
+          description: Exchange rates keyed by asset-denomination pair (e.g. BTC-USD, USD-EUR).
           additionalProperties:
             type: string
-        transaction:
-          $ref: '#/components/schemas/transaction'
+        holdings:
+          type: array
+          items:
+            $ref: '#/components/schemas/portfolio-statement-holding'
       required:
+      - period
       - rates
-      - transaction
-    transaction-status-reason:
-      description: The reason why the transaction failed.
-      type: string
-      enum:
-      - apm-account-holder-data-mismatch
-      - apm-authorization-failed
-      - apm-missing-account-holder-data
-      - apm-payment-method-declined
-      - bank-account-holder-name-mismatch
-      - beneficiary-country-restricted
-      - card-declined-by-bank
-      - card-expired
-      - card-permanently-declined-by-bank
-      - card-unauthorized
-      - card-unsupported
-      - card-withdrawals-unsupported
-      - insufficient-funds
-      - pending-requests-for-information
-      - provider-maximum-limit-exceeded
-      - screening-verification-failed
-      - travel-rule-verification-failed
-      - unspecified-error
-      - velocity
-  parameters:
-    denomination:
-      name: denomination
-      description: Specifies the asset code to use as the denomination for value conversion. If not provided, USD is used by default.
-      in: query
-      required: false
-      schema:
-        type: string
-        minLength: 1
-        default: USD
-      examples:
-        BTC Asset:
-          value: BTC
-    month:
-      name: month
-      description: The statement month.
-      in: query
-      required: true
-      schema:
-        type: integer
-        format: int32
-        minimum: 1
-        maximum: 12
-      examples:
-        Month:
-          value: 3
-    year:
-      name: year
-      description: The statement year.
-      in: query
-      required: true
-      schema:
-        type: integer
-        format: int32
-        minimum: 2010
-        maximum: 2100
-      examples:
-        Year:
-          value: 2026
-    x-on-behalf-of:
-      name: X-On-Behalf-Of
-      description: The subject on whose behalf the operation is being performed.
-      in: header
-      schema:
-        type: string
-        pattern: ^(user|client)\s[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$
-      examples:
-        User Identifier:
-          value: user cd21b26d-35d2-408a-9201-b8fdbef7a604
-        Client Identifier:
-          value: client 3fa85f64-5717-4562-b3fc-2c963f66afa6
-    x-uphold-user-agent:
-      name: X-Uphold-User-Agent
-      description: Contains the user agent of the end user that is requesting the operation.
-      in: header
-      schema:
-        $ref: '#/components/schemas/string-no-edge-spaces'
-      examples:
-        User Agent:
-          value: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36
-    pagination-per-page:
-      name: perPage
-      description: The number of items per page.
-      in: query
-      schema:
-        type: integer
-        format: int32
-        minimum: 1
-        maximum: 100
-        default: 10
-      examples:
-        10 Items Per Page:
-          value: 10
-    x-uphold-user-origin:
-      name: X-Uphold-User-Origin
-      description: Contains the origin of the request made by the end user.
-      in: header
-      schema:
-        $ref: '#/components/schemas/string-no-edge-spaces'
-      examples:
-        Origin:
-          value: https://uphold.com
-    x-uphold-user-country:
-      name: X-Uphold-User-Country
-      description: Contains the code of the country of the end user that is requesting the operation.
-      in: header
-      schema:
-        $ref: '#/components/schemas/country-code-for-request'
-      examples:
-        User Country:
-          value: US
-    x-uphold-user-subdivision:
-      name: X-Uphold-User-Subdivision
-      description: Contains the code of the subdivision of the end user that is requesting the operation.
-      in: header
-      schema:
-        $ref: '#/components/schemas/subdivision-code-for-request'
-      examples:
-        User Subdivision:
-          value: US-CA
-    x-uphold-user-city:
-      name: X-Uphold-User-City
-      description: Contains the name of the city of the end user that is requesting the operation.
-      in: header
-      schema:
-        $ref: '#/components/schemas/string-no-edge-spaces'
-      examples:
-        User City:
-          value: San Francisco
-    x-uphold-user-ip:
-      name: X-Uphold-User-Ip
-      description: Contains the IP of the end user that is requesting the operation.
-      in: header
-      schema:
-        oneOf:
-        - title: IPv4
-          type: string
-          format: ipv4
-        - title: IPv6
-          type: string
-          format: ipv6
-      examples:
-        User Ip:
-          value: 47.174.97.164
-    period:
-      name: period
-      description: The statement period type.
-      in: query
-      required: true
-      schema:
-        type: string
-        enum:
-        - one-month
-      examples:
-        Period:
-          value: one-month
+      - holdings
   responses:
-    get-portfolio-statement-response:
-      description: Portfolio statement retrieved.
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              statement:
-                $ref: '#/components/schemas/portfolio-statement'
-            required:
-            - statement
-          examples:
-            Portfolio Statement Retrieved:
-              value:
-                statement:
-                  period:
-                    from: '2026-03-01T00:00:00.000Z'
-                    to: '2026-03-31T23:59:59.999Z'
-                  rates:
-                    BTC-USD: '61728.00'
-                  holdings:
-                  - asset: BTC
-                    total: '0.02'
-      headers:
-        x-uphold-request-id:
-          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
-          required: true
-          schema:
-            type: string
-            format: uuid
-          examples:
-            Request ID:
-              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
     get-transactions-statement-response:
       description: Transactions statement retrieved.
       content:
@@ -836,7 +803,135 @@ components:
           examples:
             Request ID:
               value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    bad-request:
+      description: Bad Request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Invalid Request:
+              value:
+                code: request_invalid
+                message: The request has missing or invalid parameters
+                details:
+                  context: <context>
+                  violations:
+                  - property: <property>
+                    rule: required
+                  - property: <property>
+                    rule: type
+                    ruleParams:
+                      type: string
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-portfolio-statement-response:
+      description: Portfolio statement retrieved.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              statement:
+                $ref: '#/components/schemas/portfolio-statement'
+            required:
+            - statement
+          examples:
+            Portfolio Statement Retrieved:
+              value:
+                statement:
+                  period:
+                    from: '2026-03-01T00:00:00.000Z'
+                    to: '2026-03-31T23:59:59.999Z'
+                  rates:
+                    BTC-USD: '61728.00'
+                  holdings:
+                  - asset: BTC
+                    total: '0.02'
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    forbidden:
+      description: Forbidden.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Token Insufficient Scopes:
+              value:
+                code: token_insufficient_scopes
+                message: Authorization failed due to insufficient scopes
+                details:
+                  security:
+                  - scheme: OAuth
+                    schemeScopes:
+                    - required:scope_1
+                    - required:scope_2
+                    tokenScopes:
+                    - token:scope
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
     get-portfolio-statement-conflict-response:
+      description: Business logic error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Denomination Asset Not Supported:
+              value:
+                code: asset_not_supported
+                message: The denomination asset is not supported
+                details:
+                  context: query
+                  property: denomination
+            Statement Period Not Complete:
+              value:
+                code: date_invalid
+                message: The statement period is not yet complete
+                details:
+                  context: query
+            Statement Period Before User Creation:
+              value:
+                code: date_invalid
+                message: The statement period predates the user creation date
+                details:
+                  context: query
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    get-transactions-statement-conflict-response:
       description: Business logic error.
       content:
         application/json:
@@ -901,36 +996,6 @@ components:
               value:
                 code: too_many_requests
                 message: Try again later
-    bad-request:
-      description: Bad Request.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-          examples:
-            Invalid Request:
-              value:
-                code: request_invalid
-                message: The request has missing or invalid parameters
-                details:
-                  context: <context>
-                  violations:
-                  - property: <property>
-                    rule: required
-                  - property: <property>
-                    rule: type
-                    ruleParams:
-                      type: string
-      headers:
-        x-uphold-request-id:
-          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
-          required: true
-          schema:
-            type: string
-            format: uuid
-          examples:
-            Request ID:
-              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
     unauthorized:
       description: Unauthorized.
       content:
@@ -950,71 +1015,6 @@ components:
               value:
                 code: token_revoked
                 message: The access token has been revoked
-      headers:
-        x-uphold-request-id:
-          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
-          required: true
-          schema:
-            type: string
-            format: uuid
-          examples:
-            Request ID:
-              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-    get-transactions-statement-conflict-response:
-      description: Business logic error.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-          examples:
-            Denomination Asset Not Supported:
-              value:
-                code: asset_not_supported
-                message: The denomination asset is not supported
-                details:
-                  context: query
-                  property: denomination
-            Statement Period Not Complete:
-              value:
-                code: date_invalid
-                message: The statement period is not yet complete
-                details:
-                  context: query
-            Statement Period Before User Creation:
-              value:
-                code: date_invalid
-                message: The statement period predates the user creation date
-                details:
-                  context: query
-      headers:
-        x-uphold-request-id:
-          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
-          required: true
-          schema:
-            type: string
-            format: uuid
-          examples:
-            Request ID:
-              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-    forbidden:
-      description: Forbidden.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-          examples:
-            Token Insufficient Scopes:
-              value:
-                code: token_insufficient_scopes
-                message: Authorization failed due to insufficient scopes
-                details:
-                  security:
-                  - scheme: OAuth
-                    schemeScopes:
-                    - required:scope_1
-                    - required:scope_2
-                    tokenScopes:
-                    - token:scope
       headers:
         x-uphold-request-id:
           description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.

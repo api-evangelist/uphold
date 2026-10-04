@@ -348,173 +348,53 @@ webhooks:
         '200':
           description: Return a 200 status to indicate that the data was received successfully.
 components:
-  parameters:
-    webhook-timestamp:
-      name: webhook-timestamp
-      description: The timestamp of the webhook, in seconds after the Unix epoch.
-      in: header
-      required: true
-      schema:
-        type: integer
-      examples:
-        Webhook Timestamp:
-          value: 1614265330
-    external-account-id:
-      name: externalAccountId
-      description: The external account identifier.
-      in: path
-      required: true
-      schema:
-        type: string
-        format: uuid
-      examples:
-        External Account Identifier:
-          value: be37b37c-4c1f-4b87-b2eb-86a1ff469470
-    x-on-behalf-of:
-      name: X-On-Behalf-Of
-      description: The subject on whose behalf the operation is being performed.
-      in: header
-      schema:
-        type: string
-        pattern: ^(user|client)\s[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$
-      examples:
-        User Identifier:
-          value: user cd21b26d-35d2-408a-9201-b8fdbef7a604
-        Client Identifier:
-          value: client 3fa85f64-5717-4562-b3fc-2c963f66afa6
-    x-uphold-user-agent:
-      name: X-Uphold-User-Agent
-      description: Contains the user agent of the end user that is requesting the operation.
-      in: header
-      schema:
-        $ref: '#/components/schemas/string-no-edge-spaces'
-      examples:
-        User Agent:
-          value: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36
-    x-uphold-user-origin:
-      name: X-Uphold-User-Origin
-      description: Contains the origin of the request made by the end user.
-      in: header
-      schema:
-        $ref: '#/components/schemas/string-no-edge-spaces'
-      examples:
-        Origin:
-          value: https://uphold.com
-    x-uphold-user-country:
-      name: X-Uphold-User-Country
-      description: Contains the code of the country of the end user that is requesting the operation.
-      in: header
-      schema:
-        $ref: '#/components/schemas/country-code-for-request'
-      examples:
-        User Country:
-          value: US
-    x-uphold-user-subdivision:
-      name: X-Uphold-User-Subdivision
-      description: Contains the code of the subdivision of the end user that is requesting the operation.
-      in: header
-      schema:
-        $ref: '#/components/schemas/subdivision-code-for-request'
-      examples:
-        User Subdivision:
-          value: US-CA
-    x-uphold-user-city:
-      name: X-Uphold-User-City
-      description: Contains the name of the city of the end user that is requesting the operation.
-      in: header
-      schema:
-        $ref: '#/components/schemas/string-no-edge-spaces'
-      examples:
-        User City:
-          value: San Francisco
-    webhook-signature:
-      name: webhook-signature
-      description: The signature of the webhook.
-      in: header
-      required: true
-      schema:
-        type: string
-      examples:
-        Webhook Signature:
-          value: v1,Hw8/adTzfYtjPGhuBahfmGhUROG3AvEKH3mvkeK791Q=
-    x-uphold-user-ip:
-      name: X-Uphold-User-Ip
-      description: Contains the IP of the end user that is requesting the operation.
-      in: header
-      schema:
-        oneOf:
-        - title: IPv4
-          type: string
-          format: ipv4
-        - title: IPv6
-          type: string
-          format: ipv6
-      examples:
-        User Ip:
-          value: 47.174.97.164
-    webhook-id:
-      name: webhook-id
-      description: The unique identifier of the webhook.
-      in: header
-      required: true
-      schema:
-        type: string
-      examples:
-        Webhook ID:
-          value: msg_p5jXN8AQM9LWM0D4loKWxJek
   schemas:
-    create-external-account-card:
+    address:
+      description: The address information.
       type: object
       properties:
-        type:
+        country:
+          description: The country of the address.
           type: string
-          description: The type of the external account.
-          enum:
-          - card
-        label:
-          $ref: '#/components/schemas/external-account-label-for-request'
-        number:
+        subdivision:
+          description: The subdivision of the address.
           type: string
-          description: The number of the card.
-          pattern: ^[0-9]{12,19}$
-        securityCode:
+        city:
+          description: The city of the address.
           type: string
-          description: The security code of the card.
-          pattern: ^[0-9]{3,3}$
-        expiryDate:
-          type: object
-          properties:
-            month:
-              type: integer
-              description: The expiry month of the card.
-              minimum: 1
-              maximum: 12
-            year:
-              type: integer
-              description: The expiry year of the card.
-              minimum: 2000
-          required:
-          - month
-          - year
-        metadata:
-          description: Additional data for the external account.
-          $ref: '#/components/schemas/metadata'
-      required:
-      - type
-      - label
-      - number
-      - securityCode
-      - expiryDate
-    error:
-      description: The error information.
+        line1:
+          description: The first line of the address.
+          type: string
+        line2:
+          description: The second line of the address.
+          type: string
+        postalCode:
+          description: The postal code of the address.
+          type: string
+    external-account-status-reason:
+      description: The reason why the external account is in its current status.
+      type: string
+      enum:
+      - card-data-invalid
+      - card-declined-by-bank
+      - card-expired
+      - card-permanently-declined-by-bank
+      - card-unauthorized
+      - card-unsupported
+      - bank-account-holder-name-mismatch
+      - velocity
+      - under-review
+      - unspecified-error
+    external-account-label-for-request:
       allOf:
-      - $ref: '#/components/schemas/feedback'
-    country-code-for-request:
-      type: string
-      pattern: ^[A-Z]{2}$
-    subdivision-code-for-request:
-      type: string
-      pattern: ^[A-Z]{2}-[A-Z0-9]{1,3}$
+      - $ref: '#/components/schemas/string-no-edge-spaces'
+      - type: string
+        description: The label of the external account.
+        maxLength: 140
+    metadata:
+      type: object
+      additionalProperties: true
+      minProperties: 1
     webhook-event:
       description: The webhook event information.
       type: object
@@ -538,23 +418,6 @@ components:
       - type
       - createdAt
       - data
-    feedback:
-      description: A feedback message with a code and human-readable description.
-      type: object
-      properties:
-        code:
-          description: A short string with a brief explanation about the code reported.
-          type: string
-        message:
-          description: A human-readable message providing more details.
-          type: string
-        details:
-          description: Additional information about the feedback reported.
-          type: object
-          additionalProperties: true
-      required:
-      - code
-      - message
     external-account-details-bank-sepa:
       type: object
       properties:
@@ -683,28 +546,54 @@ components:
       - routingNumber
       - accountNumber
       - accountType
-    address:
+    address-for-request:
       description: The address information.
       type: object
       properties:
         country:
-          description: The country of the address.
-          type: string
+          allOf:
+          - $ref: '#/components/schemas/country-code-for-request'
+          - description: The country of the address.
         subdivision:
-          description: The subdivision of the address.
-          type: string
+          allOf:
+          - $ref: '#/components/schemas/subdivision-code-for-request'
+          - description: The subdivision of the address.
         city:
-          description: The city of the address.
-          type: string
+          allOf:
+          - $ref: '#/components/schemas/string-no-edge-spaces'
+          - description: The city of the address.
+            type: string
+            maxLength: 100
         line1:
-          description: The first line of the address.
-          type: string
+          allOf:
+          - $ref: '#/components/schemas/string-no-edge-spaces'
+          - description: The first line of the address.
+            type: string
+            maxLength: 150
         line2:
-          description: The second line of the address.
-          type: string
+          allOf:
+          - $ref: '#/components/schemas/string-no-edge-spaces'
+          - description: The second line of the address.
+            type: string
+            maxLength: 100
         postalCode:
-          description: The postal code of the address.
-          type: string
+          allOf:
+          - $ref: '#/components/schemas/string-no-edge-spaces'
+          - description: The postal code of the address.
+            type: string
+            maxLength: 20
+    external-account-webhook-event:
+      allOf:
+      - $ref: '#/components/schemas/webhook-event'
+      - type: object
+        properties:
+          data:
+            type: object
+            properties:
+              externalAccount:
+                $ref: '#/components/schemas/external-account'
+            required:
+            - externalAccount
     create-external-account-bank-ach:
       type: object
       properties:
@@ -762,101 +651,9 @@ components:
       - routingNumber
       - accountNumber
       - accountType
-    external-account-status-reason:
-      description: The reason why the external account is in its current status.
+    subdivision-code-for-request:
       type: string
-      enum:
-      - card-data-invalid
-      - card-declined-by-bank
-      - card-expired
-      - card-permanently-declined-by-bank
-      - card-unauthorized
-      - card-unsupported
-      - bank-account-holder-name-mismatch
-      - velocity
-      - under-review
-      - unspecified-error
-    external-account-webhook-event:
-      allOf:
-      - $ref: '#/components/schemas/webhook-event'
-      - type: object
-        properties:
-          data:
-            type: object
-            properties:
-              externalAccount:
-                $ref: '#/components/schemas/external-account'
-            required:
-            - externalAccount
-    metadata:
-      type: object
-      additionalProperties: true
-      minProperties: 1
-    external-account-details-bank-fps:
-      type: object
-      properties:
-        accountNumber:
-          description: The account number of the bank account.
-          type: string
-        sortCode:
-          description: The sort code of the bank account.
-          type: string
-      required:
-      - accountNumber
-      - sortCode
-    external-account-details-apm:
-      type: object
-      properties:
-        identifier:
-          description: The identifier of the payment method account.
-          type: string
-      required:
-      - identifier
-    address-for-request:
-      description: The address information.
-      type: object
-      properties:
-        country:
-          allOf:
-          - $ref: '#/components/schemas/country-code-for-request'
-          - description: The country of the address.
-        subdivision:
-          allOf:
-          - $ref: '#/components/schemas/subdivision-code-for-request'
-          - description: The subdivision of the address.
-        city:
-          allOf:
-          - $ref: '#/components/schemas/string-no-edge-spaces'
-          - description: The city of the address.
-            type: string
-            maxLength: 100
-        line1:
-          allOf:
-          - $ref: '#/components/schemas/string-no-edge-spaces'
-          - description: The first line of the address.
-            type: string
-            maxLength: 150
-        line2:
-          allOf:
-          - $ref: '#/components/schemas/string-no-edge-spaces'
-          - description: The second line of the address.
-            type: string
-            maxLength: 100
-        postalCode:
-          allOf:
-          - $ref: '#/components/schemas/string-no-edge-spaces'
-          - description: The postal code of the address.
-            type: string
-            maxLength: 20
-    string-no-edge-spaces:
-      type: string
-      pattern: ^\S.*\S$|^\S$
-    external-account-label-for-request:
-      allOf:
-      - $ref: '#/components/schemas/string-no-edge-spaces'
-      - type: string
-        description: The label of the external account.
-        maxLength: 140
+      pattern: ^[A-Z]{2}-[A-Z0-9]{1,3}$
     external-account-details-card:
       type: object
       properties:
@@ -894,54 +691,210 @@ components:
       - last4Digits
       - expiryDate
       - octSupport
+    country-code-for-request:
+      type: string
+      pattern: ^[A-Z]{2}$
+    external-account-details-bank-fps:
+      type: object
+      properties:
+        accountNumber:
+          description: The account number of the bank account.
+          type: string
+        sortCode:
+          description: The sort code of the bank account.
+          type: string
+      required:
+      - accountNumber
+      - sortCode
+    external-account-details-apm:
+      type: object
+      properties:
+        identifier:
+          description: The identifier of the payment method account.
+          type: string
+      required:
+      - identifier
+    create-external-account-card:
+      type: object
+      properties:
+        type:
+          type: string
+          description: The type of the external account.
+          enum:
+          - card
+        label:
+          $ref: '#/components/schemas/external-account-label-for-request'
+        number:
+          type: string
+          description: The number of the card.
+          pattern: ^[0-9]{12,19}$
+        securityCode:
+          type: string
+          description: The security code of the card.
+          pattern: ^[0-9]{3,3}$
+        expiryDate:
+          type: object
+          properties:
+            month:
+              type: integer
+              description: The expiry month of the card.
+              minimum: 1
+              maximum: 12
+            year:
+              type: integer
+              description: The expiry year of the card.
+              minimum: 2000
+          required:
+          - month
+          - year
+        metadata:
+          description: Additional data for the external account.
+          $ref: '#/components/schemas/metadata'
+      required:
+      - type
+      - label
+      - number
+      - securityCode
+      - expiryDate
+    error:
+      description: The error information.
+      allOf:
+      - $ref: '#/components/schemas/feedback'
+    string-no-edge-spaces:
+      type: string
+      pattern: ^\S.*\S$|^\S$
+    feedback:
+      description: A feedback message with a code and human-readable description.
+      type: object
+      properties:
+        code:
+          description: A short string with a brief explanation about the code reported.
+          type: string
+        message:
+          description: A human-readable message providing more details.
+          type: string
+        details:
+          description: Additional information about the feedback reported.
+          type: object
+          additionalProperties: true
+      required:
+      - code
+      - message
+  parameters:
+    x-on-behalf-of:
+      name: X-On-Behalf-Of
+      description: The subject on whose behalf the operation is being performed.
+      in: header
+      schema:
+        type: string
+        pattern: ^(user|client)\s[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$
+      examples:
+        User Identifier:
+          value: user cd21b26d-35d2-408a-9201-b8fdbef7a604
+        Client Identifier:
+          value: client 3fa85f64-5717-4562-b3fc-2c963f66afa6
+    x-uphold-user-subdivision:
+      name: X-Uphold-User-Subdivision
+      description: Contains the code of the subdivision of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/subdivision-code-for-request'
+      examples:
+        User Subdivision:
+          value: US-CA
+    x-uphold-user-ip:
+      name: X-Uphold-User-Ip
+      description: Contains the IP of the end user that is requesting the operation.
+      in: header
+      schema:
+        oneOf:
+        - title: IPv4
+          type: string
+          format: ipv4
+        - title: IPv6
+          type: string
+          format: ipv6
+      examples:
+        User Ip:
+          value: 47.174.97.164
+    webhook-timestamp:
+      name: webhook-timestamp
+      description: The timestamp of the webhook, in seconds after the Unix epoch.
+      in: header
+      required: true
+      schema:
+        type: integer
+      examples:
+        Webhook Timestamp:
+          value: 1614265330
+    x-uphold-user-country:
+      name: X-Uphold-User-Country
+      description: Contains the code of the country of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/country-code-for-request'
+      examples:
+        User Country:
+          value: US
+    x-uphold-user-city:
+      name: X-Uphold-User-City
+      description: Contains the name of the city of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        User City:
+          value: San Francisco
+    webhook-id:
+      name: webhook-id
+      description: The unique identifier of the webhook.
+      in: header
+      required: true
+      schema:
+        type: string
+      examples:
+        Webhook ID:
+          value: msg_p5jXN8AQM9LWM0D4loKWxJek
+    webhook-signature:
+      name: webhook-signature
+      description: The signature of the webhook.
+      in: header
+      required: true
+      schema:
+        type: string
+      examples:
+        Webhook Signature:
+          value: v1,Hw8/adTzfYtjPGhuBahfmGhUROG3AvEKH3mvkeK791Q=
+    x-uphold-user-agent:
+      name: X-Uphold-User-Agent
+      description: Contains the user agent of the end user that is requesting the operation.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        User Agent:
+          value: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36
+    external-account-id:
+      name: externalAccountId
+      description: The external account identifier.
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      examples:
+        External Account Identifier:
+          value: be37b37c-4c1f-4b87-b2eb-86a1ff469470
+    x-uphold-user-origin:
+      name: X-Uphold-User-Origin
+      description: Contains the origin of the request made by the end user.
+      in: header
+      schema:
+        $ref: '#/components/schemas/string-no-edge-spaces'
+      examples:
+        Origin:
+          value: https://uphold.com
   responses:
-    update-external-account-conflict-response:
-      description: Business logic error.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-          examples:
-            External Account Cannot Be Updated:
-              value:
-                code: operation_not_allowed
-                message: The external account cannot be updated
-                details:
-                  reasons:
-                  - permission-denied
-      headers:
-        x-uphold-request-id:
-          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
-          required: true
-          schema:
-            type: string
-            format: uuid
-          examples:
-            Request ID:
-              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-    get-external-account-not-found-response:
-      description: Resource not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-          examples:
-            External Account Not Found:
-              value:
-                code: entity_not_found
-                message: The external account cannot be found
-                details:
-                  entity: external-account
-      headers:
-        x-uphold-request-id:
-          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
-          required: true
-          schema:
-            type: string
-            format: uuid
-          examples:
-            Request ID:
-              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
     create-external-account-not-found-response:
       description: Resource not found.
       content:
@@ -965,17 +918,20 @@ components:
           examples:
             Request ID:
               value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-    too-many-requests:
-      description: Too Many Requests.
-      headers:
-        Retry-After:
-          description: The number of seconds to wait before making a new request.
+    delete-external-account-not-found-response:
+      description: Resource not found.
+      content:
+        application/json:
           schema:
-            type: integer
-            format: int32
+            $ref: '#/components/schemas/error'
           examples:
-            Retry After:
-              value: 60
+            Account Not Found:
+              value:
+                code: entity_not_found
+                message: The external account cannot be found
+                details:
+                  entity: external-account
+      headers:
         x-uphold-request-id:
           description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
           required: true
@@ -985,15 +941,6 @@ components:
           examples:
             Request ID:
               value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-          examples:
-            Too Many Requests:
-              value:
-                code: too_many_requests
-                message: Try again later
     list-external-accounts-response:
       description: External accounts retrieved.
       content:
@@ -1154,25 +1101,25 @@ components:
           examples:
             Request ID:
               value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-    unauthorized:
-      description: Unauthorized.
+    forbidden:
+      description: Forbidden.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
           examples:
-            Token Expired:
+            Token Insufficient Scopes:
               value:
-                code: token_expired
-                message: The access token has expired
-            Token Invalid:
-              value:
-                code: token_invalid
-                message: The access token is invalid
-            Token Revoked:
-              value:
-                code: token_revoked
-                message: The access token has been revoked
+                code: token_insufficient_scopes
+                message: Authorization failed due to insufficient scopes
+                details:
+                  security:
+                  - scheme: OAuth
+                    schemeScopes:
+                    - required:scope_1
+                    - required:scope_2
+                    tokenScopes:
+                    - token:scope
       headers:
         x-uphold-request-id:
           description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
@@ -1183,7 +1130,7 @@ components:
           examples:
             Request ID:
               value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-    update-external-account-not-found-response:
+    get-external-account-not-found-response:
       description: Resource not found.
       content:
         application/json:
@@ -1262,6 +1209,30 @@ components:
                     octSupport: supported
                   createdAt: '2024-06-01T00:00:00.000Z'
                   updatedAt: '2024-07-15T00:00:00.000Z'
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    update-external-account-conflict-response:
+      description: Business logic error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            External Account Cannot Be Updated:
+              value:
+                code: operation_not_allowed
+                message: The external account cannot be updated
+                details:
+                  reasons:
+                  - permission-denied
       headers:
         x-uphold-request-id:
           description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
@@ -1473,19 +1444,77 @@ components:
           examples:
             Request ID:
               value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-    delete-external-account-not-found-response:
+    too-many-requests:
+      description: Too Many Requests.
+      headers:
+        Retry-After:
+          description: The number of seconds to wait before making a new request.
+          schema:
+            type: integer
+            format: int32
+          examples:
+            Retry After:
+              value: 60
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Too Many Requests:
+              value:
+                code: too_many_requests
+                message: Try again later
+    update-external-account-not-found-response:
       description: Resource not found.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error'
           examples:
-            Account Not Found:
+            External Account Not Found:
               value:
                 code: entity_not_found
                 message: The external account cannot be found
                 details:
                   entity: external-account
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    unauthorized:
+      description: Unauthorized.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Token Expired:
+              value:
+                code: token_expired
+                message: The access token has expired
+            Token Invalid:
+              value:
+                code: token_invalid
+                message: The access token is invalid
+            Token Revoked:
+              value:
+                code: token_revoked
+                message: The access token has been revoked
       headers:
         x-uphold-request-id:
           description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
@@ -1590,35 +1619,6 @@ components:
                       threshold:
                         unit: characters
                         limit: 1024
-      headers:
-        x-uphold-request-id:
-          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
-          required: true
-          schema:
-            type: string
-            format: uuid
-          examples:
-            Request ID:
-              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-    forbidden:
-      description: Forbidden.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-          examples:
-            Token Insufficient Scopes:
-              value:
-                code: token_insufficient_scopes
-                message: Authorization failed due to insufficient scopes
-                details:
-                  security:
-                  - scheme: OAuth
-                    schemeScopes:
-                    - required:scope_1
-                    - required:scope_2
-                    tokenScopes:
-                    - token:scope
       headers:
         x-uphold-request-id:
           description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.

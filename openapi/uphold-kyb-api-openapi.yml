@@ -80,16 +80,6 @@ components:
       examples:
         Webhook Signature:
           value: v1,Hw8/adTzfYtjPGhuBahfmGhUROG3AvEKH3mvkeK791Q=
-    webhook-id:
-      name: webhook-id
-      description: The unique identifier of the webhook.
-      in: header
-      required: true
-      schema:
-        type: string
-      examples:
-        Webhook ID:
-          value: msg_p5jXN8AQM9LWM0D4loKWxJek
     webhook-timestamp:
       name: webhook-timestamp
       description: The timestamp of the webhook, in seconds after the Unix epoch.
@@ -100,6 +90,16 @@ components:
       examples:
         Webhook Timestamp:
           value: 1614265330
+    webhook-id:
+      name: webhook-id
+      description: The unique identifier of the webhook.
+      in: header
+      required: true
+      schema:
+        type: string
+      examples:
+        Webhook ID:
+          value: msg_p5jXN8AQM9LWM0D4loKWxJek
   schemas:
     webhook-event:
       description: The webhook event information.
