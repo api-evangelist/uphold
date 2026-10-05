@@ -1,0 +1,12 @@
+{
+ "url": "https://uphold.github.io/enterprise-docs/widgets-openapi.public.json",
+ "requested_url": "https://uphold.github.io/enterprise-docs/widgets-openapi.public.json",
+ "status": 200,
+ "content_type": "application/json; charset=utf-8",
+ "bytes": 49296,
+ "sha256": "838695df6f7bc03af192e2d3f58acfe08d0f287eebf93ed8998b6890852814fd",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "equivalent",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the provider's current document describes the same operations (Jaccard 1.0), but the bytes differ, so the archive is an earlier or reformatted copy."
+}

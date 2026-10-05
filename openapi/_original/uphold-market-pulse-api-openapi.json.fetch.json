@@ -1,0 +1,12 @@
+{
+ "url": "https://uphold.github.io/enterprise-docs/market-pulse-openapi.public.json",
+ "requested_url": "https://uphold.github.io/enterprise-docs/market-pulse-openapi.public.json",
+ "status": 200,
+ "content_type": "application/json; charset=utf-8",
+ "bytes": 32809,
+ "sha256": "fc5230cd3e2428cd4243c12b0afd17b76f75b671e0eb431e2206af57c36dbd13",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "byte-identical",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the archived file is byte-identical to what the provider serves."
+}

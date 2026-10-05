@@ -1,0 +1,12 @@
+{
+ "url": "https://uphold.github.io/enterprise-docs/kyc-connector-openapi.public.json",
+ "requested_url": "https://uphold.github.io/enterprise-docs/kyc-connector-openapi.public.json",
+ "status": 200,
+ "content_type": "application/json; charset=utf-8",
+ "bytes": 123031,
+ "sha256": "b81010df0d55f94fa8764ffe85b12d82c5562960e1d6da9fd1f59aa784c8de88",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "byte-identical",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the archived file is byte-identical to what the provider serves."
+}

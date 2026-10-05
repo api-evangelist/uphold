@@ -1,0 +1,12 @@
+{
+ "url": "https://uphold.github.io/enterprise-docs/topper-openapi.public.json",
+ "requested_url": "https://uphold.github.io/enterprise-docs/topper-openapi.public.json",
+ "status": 200,
+ "content_type": "application/json; charset=utf-8",
+ "bytes": 29187,
+ "sha256": "bef6fa2455637cbc5649a847d08cfec9bba873196d7fce5abdb7fa6ef2915c8d",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "byte-identical",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the archived file is byte-identical to what the provider serves."
+}
