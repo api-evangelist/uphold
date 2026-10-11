@@ -1,0 +1,418 @@
+generated: '2026-10-12'
+method: derived
+generator: derive-vocabulary.py
+source:
+- openapi/uphold-accounts-api-openapi.yml
+- openapi/uphold-assets-api-openapi.yml
+- openapi/uphold-authentication-api-openapi.yml
+- openapi/uphold-capabilities-api-openapi.yml
+- openapi/uphold-countries-api-openapi.yml
+vocabulary:
+  name: Uphold Domain Vocabulary
+  description: 'Terms declared by Uphold''s own API contract: its resource groups, objects and enumerations, with the contract''s definitions.
+    Derived, not authored.'
+  version: '2026-10-12'
+  terms:
+  - term: Accounts
+    definition: Accounts.
+    tags:
+    - Resource Group
+    source: openapi/uphold-accounts-api-openapi.yml
+  - term: Assets
+    definition: Assets, networks and rails.
+    tags:
+    - Resource Group
+    source: openapi/uphold-assets-api-openapi.yml
+  - term: Authentication
+    definition: Authentication.
+    tags:
+    - Resource Group
+    source: openapi/uphold-authentication-api-openapi.yml
+  - term: Capabilities
+    definition: User capabilities.
+    tags:
+    - Resource Group
+    source: openapi/uphold-capabilities-api-openapi.yml
+  - term: Countries
+    definition: Countries.
+    tags:
+    - Resource Group
+    source: openapi/uphold-countries-api-openapi.yml
+  - term: External Accounts
+    definition: External accounts.
+    tags:
+    - Resource Group
+    source: openapi/uphold-external-accounts-api-openapi.yml
+  - term: Files
+    definition: Files.
+    tags:
+    - Resource Group
+    source: openapi/uphold-files-api-openapi.yml
+  - term: General
+    definition: General.
+    tags:
+    - Resource Group
+    source: openapi/uphold-general-api-openapi.yml
+  - term: KYB
+    definition: Business User's KYB.
+    tags:
+    - Resource Group
+    source: openapi/uphold-kyb-api-openapi.yml
+  - term: KYC
+    definition: Individual User's KYC.
+    tags:
+    - Resource Group
+    source: openapi/uphold-kyc-api-openapi.yml
+  - term: KYC sharing
+    definition: KYC sharing.
+    tags:
+    - Resource Group
+    source: openapi/uphold-kyc-sharing-api-openapi.yml
+  - term: Metadata
+    definition: Metadata.
+    tags:
+    - Resource Group
+    source: openapi/uphold-metadata-api-openapi.yml
+  - term: Payment
+    definition: Payment.
+    tags:
+    - Resource Group
+    source: openapi/uphold-payment-api-openapi.yml
+  - term: Portfolio
+    definition: Portfolio.
+    tags:
+    - Resource Group
+    source: openapi/uphold-portfolio-api-openapi.yml
+  - term: Statements
+    definition: Statements.
+    tags:
+    - Resource Group
+    source: openapi/uphold-statements-api-openapi.yml
+  - term: Sumsub
+    definition: Sumsub KYC Connector.
+    tags:
+    - Resource Group
+    source: openapi/uphold-sumsub-api-openapi.yml
+  - term: Terms of Service
+    definition: User terms of service.
+    tags:
+    - Resource Group
+    source: openapi/uphold-terms-of-service-api-openapi.yml
+  - term: Transactions
+    definition: Transactions.
+    tags:
+    - Resource Group
+    source: openapi/uphold-transactions-api-openapi.yml
+  - term: Travel Rule
+    definition: Travel rule.
+    tags:
+    - Resource Group
+    source: openapi/uphold-travel-rule-api-openapi.yml
+  - term: Users
+    definition: Users.
+    tags:
+    - Resource Group
+    source: openapi/uphold-users-api-openapi.yml
+  - term: Veriff
+    definition: Veriff KYC Connector.
+    tags:
+    - Resource Group
+    source: openapi/uphold-veriff-api-openapi.yml
+  - term: Webhooks
+    definition: Webhooks.
+    tags:
+    - Resource Group
+    source: openapi/uphold-webhooks-api-openapi.yml
+  - term: pagination
+    definition: The pagination information.
+    tags:
+    - Object
+    source: openapi/uphold-accounts-api-openapi.yml#/components/schemas/pagination
+  - term: simulate-bank-deposit-fps
+    definition: 'Object declared by the contract with fields: network, sortCode, accountNumber, asset, amount, reference, remitter.'
+    tags:
+    - Object
+    source: openapi/uphold-accounts-api-openapi.yml#/components/schemas/simulate-bank-deposit-fps
+  - term: account-deposit-method-type
+    definition: 'Enumeration declared by the contract with values: crypto, bank.'
+    tags:
+    - Enumeration
+    source: openapi/uphold-accounts-api-openapi.yml#/components/schemas/account-deposit-method-type
+  - term: simulate-bank-deposit-wire-for-request
+    definition: 'Object declared by the contract with fields: network, accountNumber, amount, remitter.'
+    tags:
+    - Object
+    source: openapi/uphold-accounts-api-openapi.yml#/components/schemas/simulate-bank-deposit-wire-for-request
+  - term: simulate-bank-deposit-fednow-for-request
+    definition: 'Object declared by the contract with fields: network, accountNumber, amount, remitter.'
+    tags:
+    - Object
+    source: openapi/uphold-accounts-api-openapi.yml#/components/schemas/simulate-bank-deposit-fednow-for-request
+  - term: simulate-bank-deposit-fps-for-request
+    definition: 'Object declared by the contract with fields: network, sortCode, accountNumber, asset, amount, reference, remitter.'
+    tags:
+    - Object
+    source: openapi/uphold-accounts-api-openapi.yml#/components/schemas/simulate-bank-deposit-fps-for-request
+  - term: simulate-bank-deposit-rtp-for-request
+    definition: 'Object declared by the contract with fields: network, accountNumber, amount, remitter.'
+    tags:
+    - Object
+    source: openapi/uphold-accounts-api-openapi.yml#/components/schemas/simulate-bank-deposit-rtp-for-request
+  - term: simulate-bank-deposit-fednow
+    definition: 'Object declared by the contract with fields: network, accountNumber, asset, amount, remitter.'
+    tags:
+    - Object
+    source: openapi/uphold-accounts-api-openapi.yml#/components/schemas/simulate-bank-deposit-fednow
+  - term: simulate-bank-deposit-rtp
+    definition: 'Object declared by the contract with fields: network, accountNumber, asset, amount, remitter.'
+    tags:
+    - Object
+    source: openapi/uphold-accounts-api-openapi.yml#/components/schemas/simulate-bank-deposit-rtp
+  - term: simulate-bank-deposit-wire
+    definition: 'Object declared by the contract with fields: network, accountNumber, amount, asset, remitter.'
+    tags:
+    - Object
+    source: openapi/uphold-accounts-api-openapi.yml#/components/schemas/simulate-bank-deposit-wire
+  - term: account-deposit-method-details-bank-base
+    definition: 'Object declared by the contract with fields: network, asset, beneficiary, bankName, bankAddress.'
+    tags:
+    - Object
+    source: openapi/uphold-accounts-api-openapi.yml#/components/schemas/account-deposit-method-details-bank-base
+  - term: error
+    definition: The error information.
+    tags:
+    - Object
+    source: openapi/uphold-accounts-api-openapi.yml#/components/schemas/error
+  - term: account-deposit-method-details-crypto
+    definition: 'Object declared by the contract with fields: network, asset, address, addressFormats, reference.'
+    tags:
+    - Object
+    source: openapi/uphold-accounts-api-openapi.yml#/components/schemas/account-deposit-method-details-crypto
+  - term: feedback
+    definition: A feedback message with a code and human-readable description.
+    tags:
+    - Object
+    source: openapi/uphold-accounts-api-openapi.yml#/components/schemas/feedback
+  - term: account-deposit-method-detail-crypto-format
+    definition: 'Enumeration declared by the contract with values: native-segwit, wrapped-segwit, pubkey-hash.'
+    tags:
+    - Enumeration
+    source: openapi/uphold-accounts-api-openapi.yml#/components/schemas/account-deposit-method-detail-crypto-format
+  - term: webhook-event
+    definition: The webhook event information.
+    tags:
+    - Object
+    source: openapi/uphold-accounts-api-openapi.yml#/components/schemas/webhook-event
+  - term: account
+    definition: 'Object declared by the contract with fields: id, ownerId, label, asset, balance, createdAt, updatedAt.'
+    tags:
+    - Object
+    source: openapi/uphold-accounts-api-openapi.yml#/components/schemas/account
+  - term: simulate-bank-deposit-ach
+    definition: 'Object declared by the contract with fields: network, accountNumber, routingNumber, asset, amount, remitter.'
+    tags:
+    - Object
+    source: openapi/uphold-accounts-api-openapi.yml#/components/schemas/simulate-bank-deposit-ach
+  - term: account-deposit-method
+    definition: 'Object declared by the contract with fields: type, status, details.'
+    tags:
+    - Object
+    source: openapi/uphold-accounts-api-openapi.yml#/components/schemas/account-deposit-method
+  - term: simulate-bank-deposit-ach-for-request
+    definition: 'Object declared by the contract with fields: network, accountNumber, routingNumber, amount, remitter.'
+    tags:
+    - Object
+    source: openapi/uphold-accounts-api-openapi.yml#/components/schemas/simulate-bank-deposit-ach-for-request
+  - term: simulate-bank-deposit-sepa-for-request
+    definition: 'Object declared by the contract with fields: network, iban, asset, amount, reference, remitter.'
+    tags:
+    - Object
+    source: openapi/uphold-accounts-api-openapi.yml#/components/schemas/simulate-bank-deposit-sepa-for-request
+  - term: simulate-bank-deposit-sepa
+    definition: 'Object declared by the contract with fields: network, iban, asset, amount, reference, remitter.'
+    tags:
+    - Object
+    source: openapi/uphold-accounts-api-openapi.yml#/components/schemas/simulate-bank-deposit-sepa
+  - term: network-base
+    definition: 'Object declared by the contract with fields: code, name, type, logo.'
+    tags:
+    - Object
+    source: openapi/uphold-assets-api-openapi.yml#/components/schemas/network-base
+  - term: network-type
+    definition: The type of the network.
+    tags:
+    - Enumeration
+    source: openapi/uphold-assets-api-openapi.yml#/components/schemas/network-type
+  - term: asset-features
+    definition: 'Enumeration declared by the contract with values: buy, sell, transfer, withdraw, deposit.'
+    tags:
+    - Enumeration
+    source: openapi/uphold-assets-api-openapi.yml#/components/schemas/asset-features
+  - term: rail-base
+    definition: 'Object declared by the contract with fields: type, network, method, asset, decimals, features.'
+    tags:
+    - Object
+    source: openapi/uphold-assets-api-openapi.yml#/components/schemas/rail-base
+  - term: asset-type
+    definition: The type of the asset.
+    tags:
+    - Enumeration
+    source: openapi/uphold-assets-api-openapi.yml#/components/schemas/asset-type
+  - term: rail-method
+    definition: 'Enumeration declared by the contract with values: crypto-transaction, credit-card, debit-card, bank-transfer, apple-pay, paypal,
+      venmo.'
+    tags:
+    - Enumeration
+    source: openapi/uphold-assets-api-openapi.yml#/components/schemas/rail-method
+  - term: rail-type
+    definition: 'Enumeration declared by the contract with values: crypto, card, bank, apm.'
+    tags:
+    - Enumeration
+    source: openapi/uphold-assets-api-openapi.yml#/components/schemas/rail-type
+  - term: asset-historical-rate
+    definition: 'Object declared by the contract with fields: rate, timestamp.'
+    tags:
+    - Object
+    source: openapi/uphold-assets-api-openapi.yml#/components/schemas/asset-historical-rate
+  - term: rail-bank-constraint-allowed-deposit-accounts
+    definition: 'Object declared by the contract with fields: rule, allowed.'
+    tags:
+    - Object
+    source: openapi/uphold-assets-api-openapi.yml#/components/schemas/rail-bank-constraint-allowed-deposit-accounts
+  - term: asset
+    definition: 'Object declared by the contract with fields: type, code, name, symbol, decimals, logo, features, cooldowns.'
+    tags:
+    - Object
+    source: openapi/uphold-assets-api-openapi.yml#/components/schemas/asset
+  - term: asset-rate
+    definition: 'Object declared by the contract with fields: bid, ask, mid.'
+    tags:
+    - Object
+    source: openapi/uphold-assets-api-openapi.yml#/components/schemas/asset-rate
+  - term: asset-information
+    definition: Descriptive information about the asset.
+    tags:
+    - Object
+    source: openapi/uphold-assets-api-openapi.yml#/components/schemas/asset-information
+  - term: news-item
+    definition: 'Object declared by the contract with fields: title, publishedAt, source, url.'
+    tags:
+    - Object
+    source: openapi/uphold-assets-api-openapi.yml#/components/schemas/news-item
+  - term: asset-statistics
+    definition: 'Object declared by the contract with fields: circulatingSupply, marketCap, volume24h, allTimeHigh.'
+    tags:
+    - Object
+    source: openapi/uphold-assets-api-openapi.yml#/components/schemas/asset-statistics
+  - term: asset-information-response
+    definition: 'Object declared by the contract with fields: information.'
+    tags:
+    - Object
+    source: openapi/uphold-assets-api-openapi.yml#/components/schemas/asset-information-response
+  - term: create-oauth2-token-client-credentials
+    definition: 'Object declared by the contract with fields: grant_type, scope.'
+    tags:
+    - Object
+    source: openapi/uphold-authentication-api-openapi.yml#/components/schemas/create-oauth2-token-client-credentials
+  - term: create-oauth2-token-refresh-token
+    definition: 'Object declared by the contract with fields: grant_type, refresh_token, scope.'
+    tags:
+    - Object
+    source: openapi/uphold-authentication-api-openapi.yml#/components/schemas/create-oauth2-token-refresh-token
+  - term: oauth2-token
+    definition: 'Object declared by the contract with fields: access_token, refresh_token, expires_in, scope, token_type.'
+    tags:
+    - Object
+    source: openapi/uphold-authentication-api-openapi.yml#/components/schemas/oauth2-token
+  - term: oauth2-error
+    definition: 'Object declared by the contract with fields: error, error_description, error_uri.'
+    tags:
+    - Object
+    source: openapi/uphold-authentication-api-openapi.yml#/components/schemas/oauth2-error
+  - term: capability
+    definition: 'Object declared by the contract with fields: code, name, enabled, requirements, restrictions.'
+    tags:
+    - Object
+    source: openapi/uphold-capabilities-api-openapi.yml#/components/schemas/capability
+  - term: capability-code
+    definition: The code of the capability.
+    tags:
+    - Enumeration
+    source: openapi/uphold-capabilities-api-openapi.yml#/components/schemas/capability-code
+  - term: subdivision-restriction-scope
+    definition: The scope of the subdivision restriction.
+    tags:
+    - Enumeration
+    source: openapi/uphold-countries-api-openapi.yml#/components/schemas/subdivision-restriction-scope
+  - term: country-restriction-scope
+    definition: The scope of the country restriction.
+    tags:
+    - Enumeration
+    source: openapi/uphold-countries-api-openapi.yml#/components/schemas/country-restriction-scope
+  - term: country
+    definition: 'Object declared by the contract with fields: code, name, asset, restrictions, subdivisions.'
+    tags:
+    - Object
+    source: openapi/uphold-countries-api-openapi.yml#/components/schemas/country
+  - term: address
+    definition: The address information.
+    tags:
+    - Object
+    source: openapi/uphold-external-accounts-api-openapi.yml#/components/schemas/address
+  - term: external-account-status-reason
+    definition: The reason why the external account is in its current status.
+    tags:
+    - Enumeration
+    source: openapi/uphold-external-accounts-api-openapi.yml#/components/schemas/external-account-status-reason
+  - term: external-account-details-bank-sepa
+    definition: 'Object declared by the contract with fields: bic, iban.'
+    tags:
+    - Object
+    source: openapi/uphold-external-accounts-api-openapi.yml#/components/schemas/external-account-details-bank-sepa
+  - term: external-account
+    definition: 'Object declared by the contract with fields: id, ownerId, type, status, statusDetails, label, asset, network, features, details,
+      createdAt, updatedAt.'
+    tags:
+    - Object
+    source: openapi/uphold-external-accounts-api-openapi.yml#/components/schemas/external-account
+  - term: external-account-details-bank-ach
+    definition: 'Object declared by the contract with fields: address, routingNumber, accountNumber, accountType, secondaryNetworks.'
+    tags:
+    - Object
+    source: openapi/uphold-external-accounts-api-openapi.yml#/components/schemas/external-account-details-bank-ach
+  - term: address-for-request
+    definition: The address information.
+    tags:
+    - Object
+    source: openapi/uphold-external-accounts-api-openapi.yml#/components/schemas/address-for-request
+  - term: create-external-account-bank-ach
+    definition: 'Object declared by the contract with fields: type, asset, network, label, address, routingNumber, accountNumber, accountType,
+      metadata.'
+    tags:
+    - Object
+    source: openapi/uphold-external-accounts-api-openapi.yml#/components/schemas/create-external-account-bank-ach
+  - term: external-account-details-card
+    definition: 'Object declared by the contract with fields: type, last4Digits, expiryDate, octSupport.'
+    tags:
+    - Object
+    source: openapi/uphold-external-accounts-api-openapi.yml#/components/schemas/external-account-details-card
+  - term: external-account-details-bank-fps
+    definition: 'Object declared by the contract with fields: accountNumber, sortCode.'
+    tags:
+    - Object
+    source: openapi/uphold-external-accounts-api-openapi.yml#/components/schemas/external-account-details-bank-fps
+  - term: external-account-details-apm
+    definition: 'Object declared by the contract with fields: identifier.'
+    tags:
+    - Object
+    source: openapi/uphold-external-accounts-api-openapi.yml#/components/schemas/external-account-details-apm
+  - term: create-external-account-card
+    definition: 'Object declared by the contract with fields: type, label, number, securityCode, expiryDate, metadata.'
+    tags:
+    - Object
+    source: openapi/uphold-external-accounts-api-openapi.yml#/components/schemas/create-external-account-card
+  - term: file-base
+    definition: 'Object declared by the contract with fields: id, status, category, contentType.'
+    tags:
+    - Object
+    source: openapi/uphold-files-api-openapi.yml#/components/schemas/file-base

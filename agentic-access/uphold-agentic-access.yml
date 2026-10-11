@@ -1,0 +1,1357 @@
+generated: '2026-10-12'
+method: generated
+source: openapi/uphold-accounts-api-openapi.yml, openapi/uphold-assets-api-openapi.yml, openapi/uphold-authentication-api-openapi.yml,
+  openapi/uphold-capabilities-api-openapi.yml, openapi/uphold-countries-api-openapi.yml, openapi/uphold-external-accounts-api-openapi.yml,
+  openapi/uphold-files-api-openapi.yml, openapi/uphold-general-api-openapi.yml, openapi/uphold-kyc-api-openapi.yml,
+  openapi/uphold-kyc-sharing-api-openapi.yml, openapi/uphold-metadata-api-openapi.yml, openapi/uphold-payment-api-openapi.yml,
+  openapi/uphold-portfolio-api-openapi.yml, openapi/uphold-statements-api-openapi.yml, openapi/uphold-sumsub-api-openapi.yml,
+  openapi/uphold-terms-of-service-api-openapi.yml, openapi/uphold-transactions-api-openapi.yml,
+  openapi/uphold-travel-rule-api-openapi.yml, openapi/uphold-users-api-openapi.yml, openapi/uphold-veriff-api-openapi.yml,
+  openapi/uphold-webhooks-api-openapi.yml
+description: Recommended x-agentic-access execution contracts, classified heuristically from
+  the OpenAPI. A governance starting point for exposing this API to AI agents — review and bind
+  audience per deployment. See research/curity/agentic-governance/.
+summary:
+  operations: 92
+  by_action_class:
+    connected: 50
+    acting: 42
+  by_consequence:
+    read: 50
+    write: 38
+    physical: 4
+  human_in_the_loop_required: 0
+operations:
+- path: /core/accounts
+  method: get
+  operationId: core.list-accounts
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - core.accounts:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /core/accounts
+  method: post
+  operationId: core.create-account
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - core.accounts:create
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /core/accounts/defaults
+  method: get
+  operationId: core.list-default-accounts
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - core.accounts:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /core/accounts/{accountId}
+  method: get
+  operationId: core.get-account
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - core.accounts:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /core/accounts/{accountId}
+  method: patch
+  operationId: core.update-account
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - core.accounts:update
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /core/accounts/{accountId}
+  method: delete
+  operationId: core.archive-account
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - core.accounts:archive
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /core/accounts/{accountId}/deposit-method
+  method: get
+  operationId: core.get-account-deposit-method
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - core.accounts:deposit-method
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /core/accounts/{accountId}/deposit-method
+  method: put
+  operationId: core.setup-account-deposit-method
+  x-agentic-access:
+    action-class: acting
+    consequence: physical
+    subject: required
+    scope:
+    - core.accounts:deposit-method
+    audience: null
+    token:
+      max-ttl: 300
+      exchange: true
+      purpose-required: true
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /core/accounts/test-helpers/bank-deposits
+  method: post
+  operationId: core.simulate-bank-deposit
+  x-agentic-access:
+    action-class: acting
+    consequence: physical
+    subject: required
+    scope:
+    - core.accounts:use-test-helpers
+    audience: null
+    token:
+      max-ttl: 300
+      exchange: true
+      purpose-required: true
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /core/accounts/test-helpers/crypto-deposits
+  method: post
+  operationId: core.simulate-crypto-deposit
+  x-agentic-access:
+    action-class: acting
+    consequence: physical
+    subject: required
+    scope:
+    - core.accounts:use-test-helpers
+    audience: null
+    token:
+      max-ttl: 300
+      exchange: true
+      purpose-required: true
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /core/assets
+  method: get
+  operationId: core.list-assets
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /core/assets/_mget
+  method: post
+  operationId: core.get-many-assets
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /core/assets/{asset}
+  method: get
+  operationId: core.get-asset
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /core/assets/{asset}/rates
+  method: get
+  operationId: core.get-asset-rates
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /core/assets/{asset}/historical-rates
+  method: get
+  operationId: core.get-asset-historical-rates
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /core/networks
+  method: get
+  operationId: core.list-networks
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /core/networks/{network}
+  method: get
+  operationId: core.get-network
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /core/networks/{network}/validate-address
+  method: post
+  operationId: core.validate-network-address
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /core/rails
+  method: get
+  operationId: core.list-rails
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /core/assets/test-helpers/skip-assets-cooldowns
+  method: put
+  operationId: core.skip-assets-cooldowns
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - core.assets:use-test-helpers
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /market-pulse/assets/{assetCode}/news
+  method: get
+  operationId: market-pulse.list-asset-news
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - market-pulse.assets.news:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /market-pulse/assets/{assetCode}/statistics
+  method: get
+  operationId: market-pulse.get-asset-statistics
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - market-pulse.assets.statistics:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /market-pulse/assets/{assetCode}/information
+  method: get
+  operationId: market-pulse.get-asset-information
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - market-pulse.assets.information:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /core/oauth2/token
+  method: post
+  operationId: core.create-oauth2-token
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /core/capabilities
+  method: get
+  operationId: core.list-capabilities
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - core.capabilities:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /core/capabilities/{capability}
+  method: get
+  operationId: core.get-capability
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - core.capabilities:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /core/countries
+  method: get
+  operationId: core.list-countries
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /core/countries/{country}
+  method: get
+  operationId: core.get-country
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /core/external-accounts
+  method: post
+  operationId: core.create-external-account
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - core.external-accounts:create
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /core/external-accounts
+  method: get
+  operationId: core.list-external-accounts
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - core.external-accounts:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /core/external-accounts/{externalAccountId}
+  method: get
+  operationId: core.get-external-account
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - core.external-accounts:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /core/external-accounts/{externalAccountId}
+  method: patch
+  operationId: core.update-external-account
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - core.external-accounts:update
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /core/external-accounts/{externalAccountId}
+  method: delete
+  operationId: core.delete-external-account
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - core.external-accounts:delete
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /core/files
+  method: post
+  operationId: core.create-file
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - core.files:create
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /core/files/{fileId}
+  method: get
+  operationId: core.get-file
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - core.files:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /core/files/settings
+  method: get
+  operationId: core.list-files-settings
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - core.files:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /market-pulse/news
+  method: get
+  operationId: market-pulse.list-general-news
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - market-pulse.general.news:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /core/kyc
+  method: get
+  operationId: core.get-kyc-overview
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - core.kyc:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /core/kyc/processes/profile
+  method: patch
+  operationId: core.update-kyc-profile
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - core.kyc.profile:update
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /core/kyc/processes/address
+  method: patch
+  operationId: core.update-kyc-address
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - core.kyc.address:update
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /core/kyc/processes/email
+  method: patch
+  operationId: core.update-kyc-email
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - core.kyc.email:update
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /core/kyc/processes/phone
+  method: patch
+  operationId: core.update-kyc-phone
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - core.kyc.phone:update
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /core/kyc/processes/identity
+  method: patch
+  operationId: core.update-kyc-identity
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - core.kyc.identity:update
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /core/kyc/processes/proof-of-address
+  method: patch
+  operationId: core.update-kyc-proof-of-address
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - core.kyc.proof-of-address:update
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /core/kyc/processes/customer-due-diligence
+  method: patch
+  operationId: core.update-kyc-customer-due-diligence
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - core.kyc.customer-due-diligence:update
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /core/kyc/processes/enhanced-due-diligence
+  method: patch
+  operationId: core.update-kyc-enhanced-due-diligence
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - core.kyc.enhanced-due-diligence:update
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /core/kyc/processes/crypto-risk-assessment
+  method: patch
+  operationId: core.update-kyc-crypto-risk-assessment
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - core.kyc.crypto-risk-assessment:update
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /core/kyc/processes/self-categorization-statement
+  method: patch
+  operationId: core.update-kyc-self-categorization-statement
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - core.kyc.self-categorization-statement:update
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /core/kyc/processes/tax-details
+  method: patch
+  operationId: core.update-kyc-tax-details
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - core.kyc.tax-details:update
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /widgets/kyc/sessions
+  method: post
+  operationId: widgets.create-kyc-widget-session
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - widgets.kyc.sessions:create
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /topper/kyc-sharing/identify-user
+  method: post
+  operationId: topper.identify-kyc-sharing-user
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - topper.kyc-sharing:identify-user
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /topper/kyc-sharing/sessions
+  method: post
+  operationId: topper.create-kyc-sharing-session
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - topper.kyc-sharing:create-session
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /core/{entity}/{entityId}/metadata
+  method: get
+  operationId: core.get-metadata
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /core/{entity}/{entityId}/metadata
+  method: put
+  operationId: core.set-metadata
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /core/{entity}/{entityId}/metadata
+  method: patch
+  operationId: core.update-metadata
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /core/{entity}/{entityId}/metadata
+  method: delete
+  operationId: core.delete-metadata
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /widgets/payment/sessions
+  method: post
+  operationId: widgets.create-payment-widget-session
+  x-agentic-access:
+    action-class: acting
+    consequence: physical
+    subject: required
+    scope:
+    - widgets.payment.sessions:create
+    audience: null
+    token:
+      max-ttl: 300
+      exchange: true
+      purpose-required: true
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /core/portfolio
+  method: get
+  operationId: core.get-portfolio-overview
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - core.portfolio:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /core/portfolio/performance
+  method: get
+  operationId: core.get-portfolio-performance
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - core.portfolio:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /core/portfolio/historical-balance
+  method: get
+  operationId: core.get-portfolio-historical-balance
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - core.portfolio:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /core/portfolio/assets/{asset}/performance
+  method: get
+  operationId: core.get-portfolio-asset-performance
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - core.portfolio:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /core/portfolio/assets/_mget/performance
+  method: post
+  operationId: core.get-portfolio-many-assets-performance
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - core.portfolio:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /core/portfolio/assets/{asset}/historical-balance
+  method: get
+  operationId: core.get-portfolio-asset-historical-balance
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - core.portfolio:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /core/portfolio/accounts/{accountId}/performance
+  method: get
+  operationId: core.get-portfolio-account-performance
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - core.portfolio:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /core/portfolio/accounts/_mget/performance
+  method: post
+  operationId: core.get-portfolio-many-accounts-performance
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - core.portfolio:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /core/portfolio/accounts/{accountId}/historical-balance
+  method: get
+  operationId: core.get-portfolio-account-historical-balance
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - core.portfolio:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /core/statements/portfolio
+  method: get
+  operationId: core.get-portfolio-statement
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - core.statements:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /core/statements/transactions
+  method: get
+  operationId: core.get-transactions-statement
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - core.statements:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /kyc-connector/sumsub/ingestions
+  method: post
+  operationId: kyc-connector.create-sumsub-ingestion
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - kyc-connector.sumsub.ingestions:create
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /kyc-connector/sumsub/ingestions
+  method: get
+  operationId: kyc-connector.list-sumsub-ingestions
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - kyc-connector.sumsub.ingestions:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /kyc-connector/sumsub/ingestions/{ingestionId}
+  method: get
+  operationId: kyc-connector.get-sumsub-ingestion
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - kyc-connector.sumsub.ingestions:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /core/terms-of-service
+  method: get
+  operationId: core.list-terms-of-service
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - core.terms-of-service:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /core/terms-of-service/{termsOfService}
+  method: get
+  operationId: core.get-terms-of-service
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - core.terms-of-service:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /core/terms-of-service/{termsOfService}/accept
+  method: post
+  operationId: core.accept-terms-of-service
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - core.terms-of-service:accept
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /core/transactions/quote
+  method: post
+  operationId: core.create-quote
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - core.transactions:create
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /core/accounts/{accountId}/transactions
+  method: get
+  operationId: core.list-account-transactions
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - core.accounts:read
+    - core.transactions:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /core/transactions
+  method: get
+  operationId: core.list-transactions
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - core.transactions:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /core/transactions
+  method: post
+  operationId: core.create-transaction
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - core.transactions:create
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /core/transactions/{transactionId}
+  method: get
+  operationId: core.get-transaction
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - core.transactions:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /core/transactions/{transactionId}/requests-for-information
+  method: get
+  operationId: core.list-transaction-requests-for-information
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - core.transactions.requests-for-information:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /core/transactions/{transactionId}/requests-for-information/{requestForInformationId}
+  method: get
+  operationId: core.get-transaction-request-for-information
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - core.transactions.requests-for-information:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /core/transactions/{transactionId}/requests-for-information/{requestForInformationId}
+  method: put
+  operationId: core.update-transaction-request-for-information
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - core.transactions.requests-for-information:update
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /widgets/travel-rule/sessions
+  method: post
+  operationId: widgets.create-travel-rule-widget-session
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - widgets.travel-rule.sessions:create
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /core/users
+  method: post
+  operationId: core.create-user
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - core.users:create
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /core/users/me
+  method: get
+  operationId: core.get-user
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - core.users:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /core/users/me
+  method: delete
+  operationId: core.delete-user
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - core.users:delete
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /kyc-connector/veriff/ingestions
+  method: post
+  operationId: kyc-connector.create-veriff-ingestion
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - kyc-connector.veriff.ingestions:create
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /kyc-connector/veriff/ingestions
+  method: get
+  operationId: kyc-connector.list-veriff-ingestions
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - kyc-connector.veriff.ingestions:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /kyc-connector/veriff/ingestions/{ingestionId}
+  method: get
+  operationId: kyc-connector.get-veriff-ingestion
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - kyc-connector.veriff.ingestions:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /kyc-connector/veriff/config
+  method: put
+  operationId: kyc-connector.set-veriff-config
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - kyc-connector.veriff.config:write
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /kyc-connector/veriff/config
+  method: get
+  operationId: kyc-connector.get-veriff-config
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - kyc-connector.veriff.config:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /core/webhooks/management-link
+  method: post
+  operationId: core.create-webhook-management-link
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - core.webhooks:management-link
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required

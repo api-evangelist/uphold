@@ -1,22 +1,24 @@
 ---
-name: Onboard and verify an Uphold user
-description: Create an individual user on the Uphold Enterprise platform, drive the required KYC processes to `ok`, and confirm the user is allowed to transact before you attempt any money movement.
+name: onboard-and-verify-user
+description: Create an individual user on the Uphold Enterprise platform, drive the required KYC processes
+  to `ok`, and confirm the user is allowed to transact before you attempt any money movement.
 api: openapi/uphold-core-api-openapi.json
 operations:
-  - core.create-oauth2-token
-  - core.list-countries
-  - core.list-terms-of-service
-  - core.accept-terms-of-service
-  - core.create-user
-  - core.get-kyc-overview
-  - core.update-kyc-profile
-  - core.update-kyc-identity
-  - core.update-kyc-proof-of-address
-  - core.update-kyc-customer-due-diligence
-  - core.list-capabilities
+- core.create-oauth2-token
+- core.list-countries
+- core.list-terms-of-service
+- core.accept-terms-of-service
+- core.create-user
+- core.get-kyc-overview
+- core.update-kyc-profile
+- core.update-kyc-identity
+- core.update-kyc-proof-of-address
+- core.update-kyc-customer-due-diligence
+- core.list-capabilities
 generated: '2026-08-05'
 method: generated
 source: openapi/uphold-core-api-openapi.json + https://developer.uphold.com/developer-guides/user-onboarding/individual/via-api
+title: Onboard and verify an Uphold user
 ---
 
 # Onboard and verify an Uphold user

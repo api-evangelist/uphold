@@ -1,9 +1,13 @@
 ---
-name: Enterprise
-description: Use when building financial applications that require user onboarding, KYC verification, money movement (deposits, withdrawals, trades), account management, or transaction processing. Reach for this skill when integrating bank transfers, card payments, crypto transfers, or when you need to manage user capabilities and compliance workflows.
+name: enterprise-skill
+description: Use when building financial applications that require user onboarding, KYC verification,
+  money movement (deposits, withdrawals, trades), account management, or transaction processing. Reach
+  for this skill when integrating bank transfers, card payments, crypto transfers, or when you need to
+  manage user capabilities and compliance workflows.
 metadata:
-    mintlify-proj: enterprise
-    version: "1.0"
+  mintlify-proj: enterprise
+  version: '1.0'
+title: Enterprise
 ---
 
 # Uphold Enterprise API Suite

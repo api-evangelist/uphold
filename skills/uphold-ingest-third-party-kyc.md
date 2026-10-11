@@ -1,21 +1,24 @@
 ---
-name: Reuse a third-party KYC verification on Uphold
-description: Bring an existing Sumsub or Veriff verification into Uphold with the KYC Connector API so an already-verified user does not have to be re-verified, and watch the ingestion resolve into Uphold KYC processes.
+name: ingest-third-party-kyc
+description: Bring an existing Sumsub or Veriff verification into Uphold with the KYC Connector API so
+  an already-verified user does not have to be re-verified, and watch the ingestion resolve into Uphold
+  KYC processes.
 api: openapi/uphold-kyc-connector-api-openapi.json
 operations:
-  - kyc-connector.set-veriff-config
-  - kyc-connector.get-veriff-config
-  - kyc-connector.create-sumsub-ingestion
-  - kyc-connector.list-sumsub-ingestions
-  - kyc-connector.get-sumsub-ingestion
-  - kyc-connector.create-veriff-ingestion
-  - kyc-connector.list-veriff-ingestions
-  - kyc-connector.get-veriff-ingestion
-  - core.get-kyc-overview
-  - core.list-capabilities
+- kyc-connector.set-veriff-config
+- kyc-connector.get-veriff-config
+- kyc-connector.create-sumsub-ingestion
+- kyc-connector.list-sumsub-ingestions
+- kyc-connector.get-sumsub-ingestion
+- kyc-connector.create-veriff-ingestion
+- kyc-connector.list-veriff-ingestions
+- kyc-connector.get-veriff-ingestion
+- core.get-kyc-overview
+- core.list-capabilities
 generated: '2026-08-05'
 method: generated
 source: openapi/uphold-kyc-connector-api-openapi.json + https://developer.uphold.com/rest-apis/kyc-connector-api/introduction
+title: Reuse a third-party KYC verification on Uphold
 ---
 
 # Reuse a third-party KYC verification on Uphold

@@ -1,0 +1,653 @@
+{
+  "@context": {
+    "@vocab": "https://uphold.com/schema#",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "uphold": "https://uphold.com/schema#",
+    "pagination": "uphold:pagination",
+    "first": {
+      "@id": "uphold:first",
+      "@type": "@id"
+    },
+    "prev": {
+      "@id": "uphold:prev",
+      "@type": "@id"
+    },
+    "next": {
+      "@id": "uphold:next",
+      "@type": "@id"
+    },
+    "simulate-bank-deposit-fps": "uphold:simulate-bank-deposit-fps",
+    "network": {
+      "@id": "uphold:network",
+      "@type": "xsd:string"
+    },
+    "sortCode": {
+      "@id": "uphold:sortCode",
+      "@type": "xsd:string"
+    },
+    "accountNumber": {
+      "@id": "uphold:accountNumber",
+      "@type": "xsd:string"
+    },
+    "asset": {
+      "@id": "uphold:asset",
+      "@type": "xsd:string"
+    },
+    "amount": {
+      "@id": "uphold:amount",
+      "@type": "xsd:string"
+    },
+    "reference": {
+      "@id": "uphold:reference",
+      "@type": "xsd:string"
+    },
+    "remitter": {
+      "@id": "uphold:remitter"
+    },
+    "account-deposit-method-type": "uphold:account-deposit-method-type",
+    "simulate-bank-deposit-wire-for-request": "uphold:simulate-bank-deposit-wire-for-request",
+    "simulate-bank-deposit-fednow-for-request": "uphold:simulate-bank-deposit-fednow-for-request",
+    "simulate-bank-deposit-fps-for-request": "uphold:simulate-bank-deposit-fps-for-request",
+    "simulate-bank-deposit-rtp-for-request": "uphold:simulate-bank-deposit-rtp-for-request",
+    "simulate-bank-deposit-fednow": "uphold:simulate-bank-deposit-fednow",
+    "simulate-bank-deposit-rtp": "uphold:simulate-bank-deposit-rtp",
+    "simulate-bank-deposit-wire": "uphold:simulate-bank-deposit-wire",
+    "account-deposit-method-details-bank-base": "uphold:account-deposit-method-details-bank-base",
+    "beneficiary": {
+      "@id": "uphold:beneficiary",
+      "@type": "xsd:string"
+    },
+    "bankName": {
+      "@id": "uphold:bankName",
+      "@type": "xsd:string"
+    },
+    "bankAddress": {
+      "@id": "uphold:bankAddress"
+    },
+    "account-deposit-method-details-crypto": "uphold:account-deposit-method-details-crypto",
+    "address": {
+      "@id": "uphold:address",
+      "@type": "xsd:string"
+    },
+    "addressFormats": {
+      "@id": "uphold:addressFormats",
+      "@container": "@list"
+    },
+    "feedback": "uphold:feedback",
+    "code": {
+      "@id": "uphold:code",
+      "@type": "xsd:string"
+    },
+    "message": {
+      "@id": "uphold:message",
+      "@type": "xsd:string"
+    },
+    "details": {
+      "@id": "uphold:details"
+    },
+    "account-deposit-method-detail-crypto-format": "uphold:account-deposit-method-detail-crypto-format",
+    "webhook-event": "uphold:webhook-event",
+    "id": {
+      "@id": "uphold:id",
+      "@type": "xsd:string"
+    },
+    "type": {
+      "@id": "uphold:type",
+      "@type": "xsd:string"
+    },
+    "createdAt": {
+      "@id": "uphold:createdAt",
+      "@type": "xsd:dateTime"
+    },
+    "data": {
+      "@id": "uphold:data"
+    },
+    "account": "uphold:account",
+    "ownerId": {
+      "@id": "uphold:ownerId",
+      "@type": "xsd:string"
+    },
+    "label": {
+      "@id": "uphold:label",
+      "@type": "xsd:string"
+    },
+    "balance": {
+      "@id": "uphold:balance"
+    },
+    "updatedAt": {
+      "@id": "uphold:updatedAt",
+      "@type": "xsd:dateTime"
+    },
+    "simulate-bank-deposit-ach": "uphold:simulate-bank-deposit-ach",
+    "routingNumber": {
+      "@id": "uphold:routingNumber",
+      "@type": "xsd:string"
+    },
+    "account-deposit-method": "uphold:account-deposit-method",
+    "status": {
+      "@id": "uphold:status",
+      "@type": "xsd:string"
+    },
+    "simulate-bank-deposit-ach-for-request": "uphold:simulate-bank-deposit-ach-for-request",
+    "simulate-bank-deposit-sepa-for-request": "uphold:simulate-bank-deposit-sepa-for-request",
+    "iban": {
+      "@id": "uphold:iban"
+    },
+    "simulate-bank-deposit-sepa": "uphold:simulate-bank-deposit-sepa",
+    "network-base": "uphold:network-base",
+    "name": {
+      "@id": "uphold:name",
+      "@type": "xsd:string"
+    },
+    "logo": {
+      "@id": "uphold:logo",
+      "@type": "@id"
+    },
+    "network-type": "uphold:network-type",
+    "asset-features": "uphold:asset-features",
+    "rail-base": "uphold:rail-base",
+    "method": {
+      "@id": "uphold:method"
+    },
+    "decimals": {
+      "@id": "uphold:decimals",
+      "@type": "xsd:integer"
+    },
+    "features": {
+      "@id": "uphold:features",
+      "@container": "@list"
+    },
+    "asset-type": "uphold:asset-type",
+    "rail-method": "uphold:rail-method",
+    "rail-type": "uphold:rail-type",
+    "asset-historical-rate": "uphold:asset-historical-rate",
+    "rate": {
+      "@id": "uphold:rate"
+    },
+    "timestamp": {
+      "@id": "uphold:timestamp",
+      "@type": "xsd:dateTime"
+    },
+    "rail-bank-constraint-allowed-deposit-accounts": "uphold:rail-bank-constraint-allowed-deposit-accounts",
+    "rule": {
+      "@id": "uphold:rule",
+      "@type": "xsd:string"
+    },
+    "allowed": {
+      "@id": "uphold:allowed",
+      "@type": "xsd:string"
+    },
+    "asset-rate": "uphold:asset-rate",
+    "bid": {
+      "@id": "uphold:bid",
+      "@type": "xsd:string"
+    },
+    "ask": {
+      "@id": "uphold:ask",
+      "@type": "xsd:string"
+    },
+    "mid": {
+      "@id": "uphold:mid",
+      "@type": "xsd:string"
+    },
+    "news-item": "uphold:news-item",
+    "title": {
+      "@id": "uphold:title",
+      "@type": "xsd:string"
+    },
+    "publishedAt": {
+      "@id": "uphold:publishedAt",
+      "@type": "xsd:dateTime"
+    },
+    "source": {
+      "@id": "uphold:source",
+      "@type": "xsd:string"
+    },
+    "url": {
+      "@id": "uphold:url",
+      "@type": "@id"
+    },
+    "asset-statistics": "uphold:asset-statistics",
+    "circulatingSupply": {
+      "@id": "uphold:circulatingSupply",
+      "@type": "xsd:decimal"
+    },
+    "marketCap": {
+      "@id": "uphold:marketCap",
+      "@type": "xsd:decimal"
+    },
+    "volume24h": {
+      "@id": "uphold:volume24h",
+      "@type": "xsd:decimal"
+    },
+    "allTimeHigh": {
+      "@id": "uphold:allTimeHigh",
+      "@type": "xsd:decimal"
+    },
+    "asset-information-response": "uphold:asset-information-response",
+    "information": {
+      "@id": "uphold:information",
+      "@type": "@id"
+    },
+    "create-oauth2-token-client-credentials": "uphold:create-oauth2-token-client-credentials",
+    "grant_type": {
+      "@id": "uphold:grant_type",
+      "@type": "xsd:string"
+    },
+    "scope": {
+      "@id": "uphold:scope",
+      "@type": "xsd:string"
+    },
+    "create-oauth2-token-refresh-token": "uphold:create-oauth2-token-refresh-token",
+    "refresh_token": {
+      "@id": "uphold:refresh_token",
+      "@type": "xsd:string"
+    },
+    "oauth2-token": "uphold:oauth2-token",
+    "access_token": {
+      "@id": "uphold:access_token",
+      "@type": "xsd:string"
+    },
+    "expires_in": {
+      "@id": "uphold:expires_in",
+      "@type": "xsd:integer"
+    },
+    "token_type": {
+      "@id": "uphold:token_type",
+      "@type": "xsd:string"
+    },
+    "oauth2-error": "uphold:oauth2-error",
+    "error": {
+      "@id": "uphold:error",
+      "@type": "xsd:string"
+    },
+    "error_description": {
+      "@id": "uphold:error_description",
+      "@type": "xsd:string"
+    },
+    "error_uri": {
+      "@id": "uphold:error_uri",
+      "@type": "xsd:string"
+    },
+    "capability": "uphold:capability",
+    "enabled": {
+      "@id": "uphold:enabled",
+      "@type": "xsd:boolean"
+    },
+    "requirements": {
+      "@id": "uphold:requirements",
+      "@container": "@list"
+    },
+    "restrictions": {
+      "@id": "uphold:restrictions",
+      "@container": "@list"
+    },
+    "capability-code": "uphold:capability-code",
+    "subdivision-restriction-scope": "uphold:subdivision-restriction-scope",
+    "country-restriction-scope": "uphold:country-restriction-scope",
+    "country": "uphold:country",
+    "subdivisions": {
+      "@id": "uphold:subdivisions",
+      "@container": "@list"
+    },
+    "external-account-status-reason": "uphold:external-account-status-reason",
+    "external-account-details-bank-sepa": "uphold:external-account-details-bank-sepa",
+    "bic": {
+      "@id": "uphold:bic",
+      "@type": "xsd:string"
+    },
+    "external-account": "uphold:external-account",
+    "statusDetails": {
+      "@id": "uphold:statusDetails"
+    },
+    "external-account-details-bank-ach": "uphold:external-account-details-bank-ach",
+    "accountType": {
+      "@id": "uphold:accountType",
+      "@type": "xsd:string"
+    },
+    "secondaryNetworks": {
+      "@id": "uphold:secondaryNetworks"
+    },
+    "address-for-request": "uphold:address-for-request",
+    "subdivision": {
+      "@id": "uphold:subdivision"
+    },
+    "city": {
+      "@id": "uphold:city"
+    },
+    "line1": {
+      "@id": "uphold:line1"
+    },
+    "line2": {
+      "@id": "uphold:line2"
+    },
+    "postalCode": {
+      "@id": "uphold:postalCode"
+    },
+    "create-external-account-bank-ach": "uphold:create-external-account-bank-ach",
+    "metadata": {
+      "@id": "uphold:metadata",
+      "@type": "@id"
+    },
+    "external-account-details-card": "uphold:external-account-details-card",
+    "last4Digits": {
+      "@id": "uphold:last4Digits",
+      "@type": "xsd:string"
+    },
+    "expiryDate": {
+      "@id": "uphold:expiryDate"
+    },
+    "octSupport": {
+      "@id": "uphold:octSupport",
+      "@type": "xsd:string"
+    },
+    "external-account-details-bank-fps": "uphold:external-account-details-bank-fps",
+    "external-account-details-apm": "uphold:external-account-details-apm",
+    "identifier": {
+      "@id": "uphold:identifier",
+      "@type": "xsd:string"
+    },
+    "create-external-account-card": "uphold:create-external-account-card",
+    "number": {
+      "@id": "uphold:number",
+      "@type": "xsd:string"
+    },
+    "securityCode": {
+      "@id": "uphold:securityCode",
+      "@type": "xsd:string"
+    },
+    "file-base": "uphold:file-base",
+    "category": {
+      "@id": "uphold:category",
+      "@type": "xsd:string"
+    },
+    "contentType": {
+      "@id": "uphold:contentType",
+      "@type": "xsd:string"
+    },
+    "veriff-ingestion-process": "uphold:veriff-ingestion-process",
+    "ingestion": "uphold:ingestion",
+    "userId": {
+      "@id": "uphold:userId",
+      "@type": "xsd:string"
+    },
+    "processes": {
+      "@id": "uphold:processes",
+      "@container": "@list"
+    },
+    "provider": {
+      "@id": "uphold:provider",
+      "@type": "xsd:string"
+    },
+    "parameters": {
+      "@id": "uphold:parameters"
+    },
+    "result": {
+      "@id": "uphold:result"
+    },
+    "startedAt": {
+      "@id": "uphold:startedAt",
+      "@type": "xsd:dateTime"
+    },
+    "finishedAt": {
+      "@id": "uphold:finishedAt",
+      "@type": "xsd:dateTime"
+    },
+    "ingestion-result-identity-data": "uphold:ingestion-result-identity-data",
+    "document": {
+      "@id": "uphold:document"
+    },
+    "person": {
+      "@id": "uphold:person"
+    },
+    "verifiedAt": {
+      "@id": "uphold:verifiedAt",
+      "@type": "xsd:dateTime"
+    },
+    "ingestion-result-process-status": "uphold:ingestion-result-process-status",
+    "sumsub-ingestion-process": "uphold:sumsub-ingestion-process",
+    "ingestion-result-process-error": "uphold:ingestion-result-process-error",
+    "hint": {
+      "@id": "uphold:hint",
+      "@type": "xsd:string"
+    },
+    "step": {
+      "@id": "uphold:step",
+      "@type": "xsd:string"
+    },
+    "ingestion-result-profile-data": "uphold:ingestion-result-profile-data",
+    "fullName": {
+      "@id": "uphold:fullName",
+      "@type": "xsd:string"
+    },
+    "birthdate": {
+      "@id": "uphold:birthdate",
+      "@type": "xsd:date"
+    },
+    "birthplace": {
+      "@id": "uphold:birthplace"
+    },
+    "primaryCitizenship": {
+      "@id": "uphold:primaryCitizenship",
+      "@type": "xsd:string"
+    },
+    "veriff-session": "uphold:veriff-session",
+    "sessionId": {
+      "@id": "uphold:sessionId",
+      "@type": "xsd:string"
+    },
+    "integrationName": {
+      "@id": "uphold:integrationName",
+      "@type": "xsd:string"
+    },
+    "ingestion-result-proof-of-address-data": "uphold:ingestion-result-proof-of-address-data",
+    "kyc-proof-of-address-none": "uphold:kyc-proof-of-address-none",
+    "verification": {
+      "@id": "uphold:verification"
+    },
+    "update-kyc-proof-of-address-document-submission": "uphold:update-kyc-proof-of-address-document-submission",
+    "input": {
+      "@id": "uphold:input"
+    },
+    "output": {
+      "@id": "uphold:output"
+    },
+    "kyc-customer-due-diligence": "uphold:kyc-customer-due-diligence",
+    "kyc-overview": "uphold:kyc-overview",
+    "summary": {
+      "@id": "uphold:summary"
+    },
+    "update-kyc-identity-document-submission": "uphold:update-kyc-identity-document-submission",
+    "kyc-profile": "uphold:kyc-profile",
+    "update-kyc-tax-details-request-body-output": "uphold:update-kyc-tax-details-request-body-output",
+    "process-verification-rule": "uphold:process-verification-rule",
+    "presence": {
+      "@id": "uphold:presence",
+      "@type": "xsd:string"
+    },
+    "editable": {
+      "@id": "uphold:editable",
+      "@type": "xsd:boolean"
+    },
+    "kyc-phone": "uphold:kyc-phone",
+    "kyc-identity-electronic-verification": "uphold:kyc-identity-electronic-verification",
+    "kyc-email": "uphold:kyc-email",
+    "kyc-crypto-risk-assessment": "uphold:kyc-crypto-risk-assessment",
+    "kyc-risk": "uphold:kyc-risk",
+    "kyc-process-input-form": "uphold:kyc-process-input-form",
+    "formId": {
+      "@id": "uphold:formId",
+      "@type": "xsd:string"
+    },
+    "answers": {
+      "@id": "uphold:answers"
+    },
+    "update-kyc-proof-of-address-electronic-verification": "uphold:update-kyc-proof-of-address-electronic-verification",
+    "kyc-process-input-form-for-request": "uphold:kyc-process-input-form-for-request",
+    "kyc-identity-none": "uphold:kyc-identity-none",
+    "kyc-enhanced-due-diligence": "uphold:kyc-enhanced-due-diligence",
+    "kyc-process-status": "uphold:kyc-process-status",
+    "kyc-proof-of-address-electronic-verification": "uphold:kyc-proof-of-address-electronic-verification",
+    "kyc-screening": "uphold:kyc-screening",
+    "kyc-tax-details": "uphold:kyc-tax-details",
+    "kyc-proof-of-address-from-identity": "uphold:kyc-proof-of-address-from-identity",
+    "kyc-self-categorization-statement": "uphold:kyc-self-categorization-statement",
+    "kyc-address": "uphold:kyc-address",
+    "kyc-proof-of-address-document-submission": "uphold:kyc-proof-of-address-document-submission",
+    "update-kyc-identity-electronic-verification": "uphold:update-kyc-identity-electronic-verification",
+    "kyc-process-hint-form": "uphold:kyc-process-hint-form",
+    "uiSchema": {
+      "@id": "uphold:uiSchema"
+    },
+    "kyc-process-verification": "uphold:kyc-process-verification",
+    "model": {
+      "@id": "uphold:model",
+      "@type": "xsd:string"
+    },
+    "triggers": {
+      "@id": "uphold:triggers",
+      "@container": "@list"
+    },
+    "dependencies": {
+      "@id": "uphold:dependencies",
+      "@type": "@id"
+    },
+    "kyc-identity-document-submission": "uphold:kyc-identity-document-submission",
+    "kyc-widget-session": "uphold:kyc-widget-session",
+    "flow": {
+      "@id": "uphold:flow",
+      "@type": "xsd:string"
+    },
+    "token": {
+      "@id": "uphold:token",
+      "@type": "xsd:string"
+    },
+    "create-kyc-widget-session-verify-flow": "uphold:create-kyc-widget-session-verify-flow",
+    "kyc-sharing-user": "uphold:kyc-sharing-user",
+    "user": {
+      "@id": "uphold:user"
+    },
+    "kyc-sharing": "uphold:kyc-sharing",
+    "kycSharing": {
+      "@id": "uphold:kycSharing"
+    },
+    "json-patch-with-from": "uphold:json-patch-with-from",
+    "op": {
+      "@id": "uphold:op",
+      "@type": "xsd:string"
+    },
+    "path": {
+      "@id": "uphold:path",
+      "@type": "xsd:string"
+    },
+    "from": {
+      "@id": "uphold:from",
+      "@type": "xsd:string"
+    },
+    "json-patch-remove": "uphold:json-patch-remove",
+    "json-patch-with-value": "uphold:json-patch-with-value",
+    "value": {
+      "@id": "uphold:value"
+    },
+    "payment-widget-session": "uphold:payment-widget-session",
+    "create-payment-widget-session-select-for-deposit-flow": "uphold:create-payment-widget-session-select-for-deposit-flow",
+    "create-payment-widget-session-authorize-flow": "uphold:create-payment-widget-session-authorize-flow",
+    "create-payment-widget-session-select-for-withdrawal-flow": "uphold:create-payment-widget-session-select-for-withdrawal-flow",
+    "portfolio-historical-balance": "uphold:portfolio-historical-balance",
+    "portfolio-performance-overview": "uphold:portfolio-performance-overview",
+    "totalInvested": {
+      "@id": "uphold:totalInvested",
+      "@type": "xsd:string"
+    },
+    "unrealizedGains": {
+      "@id": "uphold:unrealizedGains",
+      "@type": "xsd:string"
+    },
+    "portfolio-historical-balance-overview": "uphold:portfolio-historical-balance-overview",
+    "portfolio-holding": "uphold:portfolio-holding",
+    "total": {
+      "@id": "uphold:total",
+      "@type": "xsd:string"
+    },
+    "available": {
+      "@id": "uphold:available",
+      "@type": "xsd:string"
+    },
+    "baseTotal": {
+      "@id": "uphold:baseTotal",
+      "@type": "xsd:string"
+    },
+    "baseAvailable": {
+      "@id": "uphold:baseAvailable",
+      "@type": "xsd:string"
+    },
+    "portfolio-performance": "uphold:portfolio-performance",
+    "averagePricePaid": {
+      "@id": "uphold:averagePricePaid",
+      "@type": "xsd:string"
+    },
+    "portfolio-overview": "uphold:portfolio-overview",
+    "holdings": {
+      "@id": "uphold:holdings",
+      "@container": "@list"
+    },
+    "transaction-status-reason": "uphold:transaction-status-reason",
+    "transaction-origin-endpoint": "uphold:transaction-origin-endpoint",
+    "node": {
+      "@id": "uphold:node",
+      "@type": "@id"
+    },
+    "transactions-statement-entry": "uphold:transactions-statement-entry",
+    "rates": {
+      "@id": "uphold:rates"
+    },
+    "transaction": {
+      "@id": "uphold:transaction",
+      "@type": "@id"
+    },
+    "portfolio-statement-holding": "uphold:portfolio-statement-holding",
+    "transactions-statement": "uphold:transactions-statement",
+    "period": {
+      "@id": "uphold:period",
+      "@type": "@id"
+    },
+    "transactions": {
+      "@id": "uphold:transactions",
+      "@container": "@list"
+    },
+    "transaction-node-crypto-address-execution-simulated": "uphold:transaction-node-crypto-address-execution-simulated",
+    "mode": {
+      "@id": "uphold:mode",
+      "@type": "xsd:string"
+    },
+    "transactionHash": {
+      "@id": "uphold:transactionHash",
+      "@type": "@id"
+    },
+    "transaction-node-apm": "uphold:transaction-node-apm",
+    "transaction-destination-endpoint": "uphold:transaction-destination-endpoint",
+    "transaction-node-account": "uphold:transaction-node-account",
+    "transaction-node-crypto-address-execution-offchain": "uphold:transaction-node-crypto-address-execution-offchain",
+    "accountId": {
+      "@id": "uphold:accountId",
+      "@type": "xsd:string"
+    },
+    "accountOwnerId": {
+      "@id": "uphold:accountOwnerId",
+      "@type": "xsd:string"
+    }
+  },
+  "@type": "schema:Dataset",
+  "schema:name": "Uphold API JSON-LD context",
+  "schema:description": "A JSON-LD @context for the objects Uphold's own API contract declares: one class per component schema, one property per declared field, typed from the contract. Derived by script (derive-json-ld.py, 2026-10-12) from openapi/uphold-accounts-api-openapi.yml, openapi/uphold-assets-api-openapi.yml, openapi/uphold-authentication-api-openapi.yml.",
+  "dcterms:created": "2026-10-12",
+  "dcterms:source": [
+    "openapi/uphold-accounts-api-openapi.yml",
+    "openapi/uphold-assets-api-openapi.yml",
+    "openapi/uphold-authentication-api-openapi.yml",
+    "openapi/uphold-capabilities-api-openapi.yml",
+    "openapi/uphold-countries-api-openapi.yml"
+  ]
+}

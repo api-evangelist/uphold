@@ -1,25 +1,27 @@
 ---
-name: Quote and execute an Uphold transaction
-description: Move value on Uphold using the quote-then-commit model — deposits, withdrawals, trades and sends — including requirements handling, on-hold requests for information, and settlement monitoring.
+name: quote-and-execute-transaction
+description: Move value on Uphold using the quote-then-commit model — deposits, withdrawals, trades and
+  sends — including requirements handling, on-hold requests for information, and settlement monitoring.
 api: openapi/uphold-core-api-openapi.json
 operations:
-  - core.create-oauth2-token
-  - core.list-accounts
-  - core.create-account
-  - core.list-default-accounts
-  - core.get-account-deposit-method
-  - core.setup-account-deposit-method
-  - core.create-external-account
-  - core.list-external-accounts
-  - core.create-quote
-  - core.create-transaction
-  - core.get-transaction
-  - core.list-transactions
-  - core.list-transaction-requests-for-information
-  - core.update-transaction-request-for-information
+- core.create-oauth2-token
+- core.list-accounts
+- core.create-account
+- core.list-default-accounts
+- core.get-account-deposit-method
+- core.setup-account-deposit-method
+- core.create-external-account
+- core.list-external-accounts
+- core.create-quote
+- core.create-transaction
+- core.get-transaction
+- core.list-transactions
+- core.list-transaction-requests-for-information
+- core.update-transaction-request-for-information
 generated: '2026-08-05'
 method: generated
 source: openapi/uphold-core-api-openapi.json + https://developer.uphold.com/rest-apis/core-api/transactions/introduction
+title: Quote and execute an Uphold transaction
 ---
 
 # Quote and execute an Uphold transaction

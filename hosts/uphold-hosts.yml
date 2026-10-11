@@ -1,0 +1,132 @@
+generated: '2026-10-12'
+method: derived
+source: the pre-flight dossier, apis.yml pointers, spec servers, well-known, vendors -- nothing fetched here
+generator: derive-hosts.py
+summary:
+  hosts: 9
+  own: 7
+  other_domain: 0
+  platform: 2
+  roles:
+  - api
+  - collections
+  - identity
+  - portal
+  - source
+  - status
+  - support
+  - website
+hosts:
+- host: api.enterprise.uphold.com
+  found_by:
+  - apis[]
+  types: []
+  serves:
+  - api
+  registrable_domain: uphold.com
+  role: api
+  relation: own
+- host: api.uphold.com
+  found_by:
+  - apis[]
+  types: []
+  serves:
+  - api
+  registrable_domain: uphold.com
+  role: api
+  relation: own
+- host: developer.uphold.com
+  found_by:
+  - pointer
+  - apis[]
+  - vendor-detect
+  types:
+  - DeveloperPortal
+  - Documentation
+  - APIReference
+  - GettingStarted
+  - Quickstart
+  - Deprecation
+  serves:
+  - api
+  - docs
+  - hosting
+  vendor: vercel
+  registrable_domain: uphold.com
+  role: portal
+  relation: own
+- host: github.com
+  found_by:
+  - pointer
+  types:
+  - IssueTracker
+  - Releases
+  - GitHubOrganization
+  serves: []
+  registrable_domain: github.com
+  role: source
+  relation: platform
+- host: portal.enterprise.uphold.com
+  found_by:
+  - pointer
+  types:
+  - SignUp
+  - Login
+  serves: []
+  registrable_domain: uphold.com
+  role: identity
+  relation: own
+- host: status.uphold.com
+  found_by:
+  - pointer
+  types:
+  - StatusPage
+  serves: []
+  registrable_domain: uphold.com
+  role: status
+  relation: own
+- host: support.uphold.com
+  found_by:
+  - pointer
+  - vendor-detect
+  types:
+  - Support
+  serves:
+  - support
+  vendor: zendesk
+  registrable_domain: uphold.com
+  role: support
+  relation: own
+- host: uphold.com
+  found_by:
+  - pointer
+  - apis[]
+  - vendor-detect
+  types:
+  - Website
+  - Blog
+  - Pricing
+  - DeveloperAgreement
+  - TermsOfService
+  - PrivacyPolicy
+  - Security
+  - Compliance
+  serves:
+  - docs
+  - cdn
+  vendor: cloudflare
+  registrable_domain: uphold.com
+  role: website
+  relation: own
+- host: www.postman.com
+  found_by:
+  - pointer
+  - vendor-detect
+  types:
+  - Postman
+  serves:
+  - api-collections
+  vendor: postman
+  registrable_domain: postman.com
+  role: collections
+  relation: platform

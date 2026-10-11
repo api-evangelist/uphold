@@ -1,0 +1,21 @@
+name: Uphold Enterprise API Rate Limits
+generated: '2026-10-12'
+method: searched
+source: https://developer.uphold.com/rest-apis/rate-limits.md
+docs: https://developer.uphold.com/rest-apis/rate-limits
+limit_count: 3
+note: Uphold publishes the three limit types and the 429 signal but no numbers; "The exact limits may vary per partner and contract. You will receive detailed rate limit information for your integration during onboarding."
+exhaustion_status: 429
+headers:
+- name: Reset-After
+  description: "When you receive a `429 Too Many Requests` response, you also receive a `Reset-After` header with the amount of time in seconds you should wait before making another request."
+limits:
+- name: Global rate limits
+  scope: per-integration
+  limit_text: "These limits apply globally and cap the total number of requests your integration can make within a specific time period."
+- name: Specific endpoint rate limits
+  scope: per-endpoint
+  limit_text: "These limits apply to certain endpoints and cap the total number of requests made to that endpoint within a specific time period."
+- name: User rate limits
+  scope: per-user
+  limit_text: "These limits apply to requests made on behalf of a user and cap the total number of requests made by that user within a specific time period."
