@@ -40,7 +40,140 @@ paths:
         '429':
           $ref: '#/components/responses/too-many-requests'
 components:
+  responses:
+    too-many-requests:
+      description: Too Many Requests.
+      headers:
+        Retry-After:
+          description: The number of seconds to wait before making a new request.
+          schema:
+            type: integer
+            format: int32
+          examples:
+            Retry After:
+              value: 60
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            Too Many Requests:
+              value:
+                code: too_many_requests
+                message: Try again later
+    create-oauth2-token-unauthorized-response:
+      description: Unauthorized.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/oauth2-error'
+          examples:
+            Invalid Authorization Header:
+              value:
+                error: invalid_client
+                error_description: Client id and secret could not be extracted from Authorization header
+            Invalid Client:
+              value:
+                error: invalid_client
+                error_description: Client does not exist or secret is incorrect
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+    create-oauth2-token-response:
+      description: Token created successfully.
+      headers:
+        x-uphold-organization-id:
+          description: The organization id of the associated token.
+          schema:
+            type: string
+            format: uuid
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/oauth2-token'
+          examples:
+            OK:
+              value:
+                access_token: eyJhbGciOiJIUzI1NiIsI...
+                expires_in: 600
+                scope: users:* users.kyc:read
+                token_type: Bearer
+    create-oauth2-token-bad-request-response:
+      description: Bad Request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/oauth2-error'
+          examples:
+            Invalid Request:
+              value:
+                error: invalid_request
+                error_description: Body must have required property 'grant_type'
+            Unsupported Grant Type:
+              value:
+                error: unsupported_grant_type
+                error_description: Grant type not supported
+            Invalid Grant:
+              value:
+                error: invalid_grant
+                error_description: Token expired
+            Invalid Scope:
+              value:
+                error: invalid_scope
+                error_description: Requested scopes must be equal or narrower
+      headers:
+        x-uphold-request-id:
+          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          examples:
+            Request ID:
+              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
   schemas:
+    feedback:
+      description: A feedback message with a code and human-readable description.
+      type: object
+      properties:
+        code:
+          description: A short string with a brief explanation about the code reported.
+          type: string
+        message:
+          description: A human-readable message providing more details.
+          type: string
+        details:
+          description: Additional information about the feedback reported.
+          type: object
+          additionalProperties: true
+      required:
+      - code
+      - message
     create-oauth2-token-client-credentials:
       type: object
       properties:
@@ -54,24 +187,6 @@ components:
           maxLength: 4096
       required:
       - grant_type
-    create-oauth2-token-refresh-token:
-      type: object
-      properties:
-        grant_type:
-          type: string
-          enum:
-          - refresh_token
-        refresh_token:
-          description: The refresh token string.
-          type: string
-          maxLength: 8192
-        scope:
-          description: The list of scopes, delimited with spaces.
-          type: string
-          maxLength: 4096
-      required:
-      - grant_type
-      - refresh_token
     oauth2-token:
       type: object
       properties:
@@ -95,6 +210,10 @@ components:
       - access_token
       - token_type
       - expires_in
+    error:
+      description: The error information.
+      allOf:
+      - $ref: '#/components/schemas/feedback'
     oauth2-error:
       type: object
       properties:
@@ -109,27 +228,24 @@ components:
           type: string
       required:
       - error
-    error:
-      description: The error information.
-      allOf:
-      - $ref: '#/components/schemas/feedback'
-    feedback:
-      description: A feedback message with a code and human-readable description.
+    create-oauth2-token-refresh-token:
       type: object
       properties:
-        code:
-          description: A short string with a brief explanation about the code reported.
+        grant_type:
           type: string
-        message:
-          description: A human-readable message providing more details.
+          enum:
+          - refresh_token
+        refresh_token:
+          description: The refresh token string.
           type: string
-        details:
-          description: Additional information about the feedback reported.
-          type: object
-          additionalProperties: true
+          maxLength: 8192
+        scope:
+          description: The list of scopes, delimited with spaces.
+          type: string
+          maxLength: 4096
       required:
-      - code
-      - message
+      - grant_type
+      - refresh_token
   requestBodies:
     create-oauth2-token-request-body:
       content:
@@ -164,122 +280,6 @@ components:
       examples:
         Basic Authorization:
           value: Basic aW52YWxpZDpzZWNyZXQ=
-  responses:
-    create-oauth2-token-bad-request-response:
-      description: Bad Request.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/oauth2-error'
-          examples:
-            Invalid Request:
-              value:
-                error: invalid_request
-                error_description: Body must have required property 'grant_type'
-            Unsupported Grant Type:
-              value:
-                error: unsupported_grant_type
-                error_description: Grant type not supported
-            Invalid Grant:
-              value:
-                error: invalid_grant
-                error_description: Token expired
-            Invalid Scope:
-              value:
-                error: invalid_scope
-                error_description: Requested scopes must be equal or narrower
-      headers:
-        x-uphold-request-id:
-          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
-          required: true
-          schema:
-            type: string
-            format: uuid
-          examples:
-            Request ID:
-              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-    too-many-requests:
-      description: Too Many Requests.
-      headers:
-        Retry-After:
-          description: The number of seconds to wait before making a new request.
-          schema:
-            type: integer
-            format: int32
-          examples:
-            Retry After:
-              value: 60
-        x-uphold-request-id:
-          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
-          required: true
-          schema:
-            type: string
-            format: uuid
-          examples:
-            Request ID:
-              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-          examples:
-            Too Many Requests:
-              value:
-                code: too_many_requests
-                message: Try again later
-    create-oauth2-token-response:
-      description: Token created successfully.
-      headers:
-        x-uphold-organization-id:
-          description: The organization id of the associated token.
-          schema:
-            type: string
-            format: uuid
-        x-uphold-request-id:
-          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
-          required: true
-          schema:
-            type: string
-            format: uuid
-          examples:
-            Request ID:
-              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/oauth2-token'
-          examples:
-            OK:
-              value:
-                access_token: eyJhbGciOiJIUzI1NiIsI...
-                expires_in: 600
-                scope: users:* users.kyc:read
-                token_type: Bearer
-    create-oauth2-token-unauthorized-response:
-      description: Unauthorized.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/oauth2-error'
-          examples:
-            Invalid Authorization Header:
-              value:
-                error: invalid_client
-                error_description: Client id and secret could not be extracted from Authorization header
-            Invalid Client:
-              value:
-                error: invalid_client
-                error_description: Client does not exist or secret is incorrect
-      headers:
-        x-uphold-request-id:
-          description: A unique identifier for the request that can be shared with Uphold for troubleshooting purposes.
-          required: true
-          schema:
-            type: string
-            format: uuid
-          examples:
-            Request ID:
-              value: 9092ee4d-f0fb-42e9-8787-b668dbcec531
   securitySchemes:
     OAuth2:
       type: oauth2
