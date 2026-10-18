@@ -60,14 +60,14 @@ rate_limit_statements:
 - Any deposit below the value of USD 0.0095 (calculated at the moment the transaction occurs) will not
   be processed or credited to your account.
 - We hold each price open for 18 seconds.
+delivery:
+  delivery: managed
 x-canonical:
-  generated: '2026-10-08'
+  generated: '2026-10-18'
   vocabulary: all/0-working/economics/plans-canonical.yml
   models:
-  - metered
   - subscription
-  units:
-  - transaction
+  units: []
   plans:
   - name: Most Stablecoins trading
     access: other
@@ -111,7 +111,7 @@ x-canonical:
     - other
   - name: Boosted Staking commission
     access: other
-    model: unstated
+    model: subscription
     model_how: derived
     units:
     - other
@@ -125,69 +125,3 @@ x-canonical:
     - other
     periods:
     - other
-  - name: Debit/credit card | Apple/Google/Samsung Pay deposit
-    access: other
-    model: subscription
-    model_how: derived
-    units:
-    - other
-    periods:
-    - other
-  - name: PayPal deposit
-    access: other
-    model: subscription
-    model_how: derived
-    units:
-    - other
-    periods:
-    - other
-  - name: Venmo deposit
-    access: other
-    model: subscription
-    model_how: derived
-    units:
-    - other
-    periods:
-    - other
-  - name: Instant ACH/debit card withdrawal
-    access: other
-    model: unstated
-    model_how: derived
-    units:
-    - other
-    periods:
-    - other
-  - name: Standard ACH withdrawal
-    access: other
-    model: unstated
-    model_how: derived
-    units:
-    - other
-    periods:
-    - other
-  - name: Wire deposit/withdrawal under $2,000
-    access: other
-    model: unstated
-    model_how: derived
-    units:
-    - other
-    periods:
-    - other
-  - name: Crypto withdrawal fee
-    access: other
-    model: subscription
-    model_how: derived
-    units:
-    - other
-    periods:
-    - other
-  - name: Smaller Trades Fee
-    access: other
-    model: metered
-    model_how: derived
-    units:
-    - transaction
-    periods:
-    - other
-delivery:
-  delivery: managed
