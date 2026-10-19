@@ -7,9 +7,16 @@ source:
 - https://monid.ai/tools/uphold
 checked:
 - https://a2aregistry.org/api/agents
+- https://api.nuget.org/v3
 - https://composio.dev/toolkits/uphold
+- https://crates.io/api/v1
 - https://monid.ai/tools/uphold
 - https://n8n.io/integrations/uphold/
+- https://proxy.golang.org
+- https://pypi.org/pypi
+- https://registry.npmjs.org
+- https://repo1.maven.org/maven2
+- https://rubygems.org/api/v1
 - https://zapier.com/apps/uphold/integrations
 summary: null
 marketplace_apps: []
@@ -47,4 +54,70 @@ edges:
     detected: '2026-10-15'
   detected_by: sweep-ai-agents.py
   first_seen: '2026-10-15'
+- partner_name: npm registry
+  partner: npm
+  partner_match: register
+  type: register
+  direction: provider-built
+  category: official SDK (JavaScript/TypeScript)
+  evidence: https://www.npmjs.com/package/@uphold/enterprise-kyc-widget-web-sdk
+  channel: package-registry
+  relationship: distribution-channel
+  contract_reference:
+    register: npm registry (public registry JSON)
+    spec_file: null
+    language: JavaScript/TypeScript
+    packages:
+    - name: '@uphold/enterprise-kyc-widget-web-sdk'
+      version: 0.4.0
+      released: '2026-10-01'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@uphold/enterprise-kyc-widget-web-sdk
+      repo_leg: github-org:uphold
+      publisher_leg: email:uphold.com
+      matched_by: domain
+    - name: '@uphold/enterprise-payment-widget-web-sdk'
+      version: 0.17.0
+      released: '2026-10-13'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@uphold/enterprise-payment-widget-web-sdk
+      repo_leg: github-org:uphold
+      publisher_leg: email:uphold.com
+      matched_by: domain
+    - name: '@uphold/enterprise-travel-rule-widget-web-sdk'
+      version: 0.9.0
+      released: '2026-10-01'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@uphold/enterprise-travel-rule-widget-web-sdk
+      repo_leg: github-org:uphold
+      publisher_leg: email:uphold.com
+      matched_by: domain
+    - name: '@uphold/topper-web-sdk'
+      version: 1.0.0
+      released: '2026-06-01'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@uphold/topper-web-sdk
+      repo_leg: github-org:uphold
+      publisher_leg: email:uphold.com
+      matched_by: domain
+    - name: '@uphold/uphold-sdk-javascript'
+      version: 2.4.0
+      released: '2022-06-13'
+      released_field: modified
+      lapsed: true
+      page: https://www.npmjs.com/package/@uphold/uphold-sdk-javascript
+      repo_leg: github-org:uphold
+      publisher_leg: email:uphold.com
+      matched_by: domain
+    current: true
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-official-sdks.py
+    detected: '2026-10-18'
+  detected_by: sweep-official-sdks.py
+  first_seen: '2026-10-18'
 templates: []
