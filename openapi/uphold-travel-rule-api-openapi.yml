@@ -573,3 +573,9 @@ components:
             widgets.payment.sessions:create: Grants access to create payment widget sessions.
             widgets.travel-rule.sessions:create: Grants access to create Travel Rule widget sessions.
             widgets.kyc.sessions:create: Grants access to create KYC widget sessions.
+x-provenance:
+  method: harvested
+  publisher: Uphold
+  source: https://uphold.github.io/enterprise-docs/widgets-openapi.public.json
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)

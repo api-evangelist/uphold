@@ -612,3 +612,9 @@ components:
           scopes:
             topper.kyc-sharing:identify-user: Grants access to identify a user for KYC sharing.
             topper.kyc-sharing:create-session: Grants access to create a KYC sharing session.
+x-provenance:
+  method: harvested
+  publisher: Uphold
+  source: https://uphold.github.io/enterprise-docs/topper-openapi.public.json
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)

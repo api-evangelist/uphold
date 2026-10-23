@@ -1150,3 +1150,9 @@ components:
             kyc-connector.veriff.ingestions:read: Grants access to view Veriff ingestions.
             kyc-connector.veriff.config:read: Grants access to view the Veriff provider configuration.
             kyc-connector.veriff.config:write: Grants access to create or update the Veriff provider configuration.
+x-provenance:
+  method: harvested
+  publisher: Uphold
+  source: https://uphold.github.io/enterprise-docs/kyc-connector-openapi.public.json
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)
